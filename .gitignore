@@ -1,0 +1,14 @@
+aula/settings_local.py
+aula/settings_local*
+aula/settings/local.pyc
+uploads/
+media/
+*pyc
+*.egg-info
+.idea/*
+*.sublime-project
+*.sublime-workspace
+*.sublime*
+static/*
+__pycache__/
+
