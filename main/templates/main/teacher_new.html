@@ -1,0 +1,19 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}Crear professor{% endblock %}
+
+{% block main %}
+<div class="col-xs-12" style="height:50px;"></div>
+<div class="container">
+    <h2>Creant nou usuari per mestre:</h2>
+    <div class="col-xs-12" style="height:50px;"></div>
+    <form class="form" action="{% url 'teacher_new' %}" method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <input role="button" class="btn btn-success mt-2" type="submit" value="Desar" />
+    </form>
+</div>
+
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}Espai professorat{% endblock %}
+
+{% block main %}
+<!-- Main jumbotron for a primary marketing message or call to action -->
+<div class="col-xs-12" style="height:50px;"></div>
+<div class="container">
+  <div class="card-deck mb-3 text-center">
+    <div class="card mb-4 box-shadow">
+      <div class="card-body">
+        <h5 class="card-title">Crear alumne</h5>
+        <p class="card-text">Crea un usuari per què un alumne pugui accedir a la plataforma.</p>
+        <a href="#" class="btn btn-primary">Alumnes</a>
+      </div>
+    </div>
+    <div class="card mb-4 box-shadow">
+      <div class="card-body">
+        <h5 class="card-title">Crear grup d'alumnes</h5>
+        <p class="card-text">Crea grups a partir d'alumnes individuals.</p>
+        <a href="#" class="btn btn-primary">Grups</a>
+      </div>
+    </div>
+    <div class="card mb-4 box-shadow">
+      <div class="card-body">
+        <h5 class="card-title">Veure solucions</h5>
+        <p class="card-text">Veure el progrés d'alumnes i grups.</p>
+        <a href="#" class="btn btn-primary">Progrés</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block extra_css %}
+<link href="{% static 'main/select2/select2.min.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block title %}Editar alumne{% endblock %}
+
+{% block main %}
+<div class="col-xs-12" style="height:50px;"></div>
+<div class="container">
+    <h2>Editant alumne:</h2>
+    <div class="col-xs-12" style="height:50px;"></div>
+    <form id="alum_form" class="form" action="{% url 'alum_update' alum_id %}" method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <div id="grups_select" class="form-group">
+            <label class="" for="id_select_group">Grups</label>
+            <select id="id_select_group" name="groups" class="form-control js-data-example-ajax" multiple="multiple"></select>
+        </div>
+        <input id="group_ids" type="hidden" name="group_ids" value="{{ group_ids }}">
+        <input role="button" class="btn btn-success mt-2" type="submit" value="Desar" />
+    </form>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+    var init_data = [];
+    {% for d in groups_data %}
+    init_data.push({'id':'{{ d.id }}','text':'{{ d.profile.group_public_name }}'});
+    {% endfor %}
+    var selected_tutor = -1;
+    {% if tutor %} selected_tutor = {{ tutor.id }}; {% endif %}
+</script>
+<script src="{% static 'main/select2/select2.min.js' %}"></script>
+<script src="{% static 'main/javascript/alum_edit.js' %}"></script>
+{% endblock %}

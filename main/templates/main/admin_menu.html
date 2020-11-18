@@ -1,0 +1,66 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}Espai administradors{% endblock %}
+
+{% block main %}
+<!-- Main jumbotron for a primary marketing message or call to action -->
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-2">
+            <img src="{% static 'main/icons/noun_admin_3323392.svg' %}">
+        </div>
+    </div>
+    <div class="card-deck mb-3 text-center">
+        <div class="card mb-4 box-shadow">
+            <div class="card-body">
+                <h5 class="card-title">Centres</h5>
+                <img src="{% static 'main/icons/noun_School_1443077.svg' %}" width="25%">
+                <p class="card-text">Permet entrar els centres en què els professors imparteixen classe</p>
+                <a href="{% url 'center_new' %}" class="btn btn-primary"><i class="fas fa-plus"></i></a>
+                <a href="{% url 'center_list' %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+            </div>
+        </div>
+        <div class="card mb-4 box-shadow">
+            <div class="card-body">
+                <h5 class="card-title">Professors</h5>
+                <img src="{% static 'main/icons/noun_Teacher_36665.svg' %}" width="25%">
+                <p class="card-text">Permet crear un usuari per a un professor.</p>
+                <a href="{% url 'teacher_new' %}" class="btn btn-primary"><i class="fas fa-plus"></i></a>
+                <a href="{% url 'teacher_list' %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+            </div>
+        </div>
+    </div>
+    <div class="card-deck mb-3 text-center">
+        <div class="card mb-4 box-shadow">
+            <div class="card-body">
+                <h5 class="card-title">Alumnes</h5>
+                <img src="{% static 'main/icons/noun_graduate_66572.svg' %}" width="25%">
+                <p class="card-text">Permet crear un usuari per un alumne.</p>
+                <a href="{% url 'alum_new' %}" class="btn btn-primary"><i class="fas fa-plus"></i></a>
+                <a href="{% url 'alum_list' %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+            </div>
+        </div>
+        <div class="card mb-4 box-shadow">
+            <div class="card-body">
+                <h5 class="card-title">Grups d'alumnes</h5>
+                <img src="{% static 'main/icons/noun_group_737669.svg' %}" width="25%">
+                <p class="card-text">Permet crear un grup a partir de varis alumnes</p>
+                <a href="{% url 'group_new' %}" class="btn btn-primary"><i class="fas fa-plus"></i></a>
+                <a href="{% url 'group_list' %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+            </div>
+        </div>
+    </div>
+    <div class="card-deck mb-3 text-center">
+        <div class="card mb-4 box-shadow">
+            <div class="card-body">
+                <h5 class="card-title">Proves</h5>
+                <p class="card-text">Crea una prova.</p>
+                <a href="{% url 'quiz_new' %}" class="btn btn-primary"><i class="fas fa-plus"></i></a>
+                <a href="#" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

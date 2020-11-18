@@ -1,0 +1,67 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block extra_css %}
+<link href="{% static 'main/leaflet/leaflet.css' %}" rel="stylesheet">
+<link href="{% static 'main/Leaflet.Draw.static/src/leaflet.draw.css' %}" rel="stylesheet">
+<style>
+    #map{
+        height: 400px;
+    }
+</style>
+{% endblock %}
+{% block title %}Editar centre{% endblock %}
+
+{% block main %}
+<div class="col-xs-12" style="height:50px;"></div>
+<div class="container">
+    <h2>Editant centre:</h2>
+    <div class="col-xs-12" style="height:50px;"></div>
+    <form class="form" action="{% url 'center_update' center_id %}" method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <div id="div_map" class="form-group">
+            <label class="" for="map">Ubicació (afegeix un punt al mapa)</label>
+            <div id="map"></div>
+        </div>
+        <input role="button" class="btn btn-success mt-2" type="submit" value="Desar" />
+    </form>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+    var geom = {% if geom %} JSON.parse('{{ geom | safe }}') {% else %} null {% endif %};
+</script>
+<script src="{% static 'main/leaflet/leaflet.js' %}"></script>
+<script src="{% static 'main/Leaflet.Draw.static/src/Leaflet.draw.js' %}"></script>
+<script src="{% static 'main/Leaflet.Draw.static/src/Leaflet.Draw.Event.js' %}"></script>
+<script src="{% static 'main/Leaflet.Draw.static/src/Toolbar.js' %}"></script>
+<script src="{% static 'main/Leaflet.Draw.static/src/Tooltip.js' %}"></script>
+<script src="{% static 'main/Leaflet.Draw.static/src/ext/GeometryUtil.js' %}"></script>
+<script src="{% static 'main/Leaflet.Draw.static/src/ext/LatLngUtil.js' %}"></script>
+<script src="{% static 'main/Leaflet.Draw.static/src/ext/LineUtil.Intersect.js' %}"></script>
+<script src="{% static 'main/Leaflet.Draw.static/src/ext/Polygon.Intersect.js' %}"></script>
+<script src="{% static 'main/Leaflet.Draw.static/src/ext/Polyline.Intersect.js' %}"></script>
+<script src="{% static 'main/Leaflet.Draw.static/src/ext/TouchEvents.js' %}"></script>
+<script src="{% static 'main/Leaflet.Draw.static/src/draw/DrawToolbar.js' %}"></script>
+<script src="{% static 'main/Leaflet.Draw.static/src/draw/handler/Draw.Feature.js' %}"></script>
+<script src="{% static 'main/Leaflet.Draw.static/src/draw/handler/Draw.SimpleShape.js' %}"></script>
+<script src="{% static 'main/Leaflet.Draw.static/src/draw/handler/Draw.Polyline.js' %}"></script>
+<script src="{% static 'main/Leaflet.Draw.static/src/draw/handler/Draw.Marker.js' %}"></script>
+<script src="{% static 'main/Leaflet.Draw.static/src/draw/handler/Draw.Circle.js' %}"></script>
+<script src="{% static 'main/Leaflet.Draw.static/src/draw/handler/Draw.CircleMarker.js' %}"></script>
+<script src="{% static 'main/Leaflet.Draw.static/src/draw/handler/Draw.Polygon.js' %}"></script>
+<script src="{% static 'main/Leaflet.Draw.static/src/draw/handler/Draw.Rectangle.js' %}"></script>
+<script src="{% static 'main/Leaflet.Draw.static/src/edit/EditToolbar.js' %}"></script>
+<script src="{% static 'main/Leaflet.Draw.static/src/edit/handler/EditToolbar.Edit.js' %}"></script>
+<script src="{% static 'main/Leaflet.Draw.static/src/edit/handler/EditToolbar.Delete.js' %}"></script>
+<script src="{% static 'main/Leaflet.Draw.static/src/Control.Draw.js' %}"></script>
+<script src="{% static 'main/Leaflet.Draw.static/src/edit/handler/Edit.Poly.js' %}"></script>
+<script src="{% static 'main/Leaflet.Draw.static/src/edit/handler/Edit.SimpleShape.js' %}"></script>
+<script src="{% static 'main/Leaflet.Draw.static/src/edit/handler/Edit.Rectangle.js' %}"></script>
+<script src="{% static 'main/Leaflet.Draw.static/src/edit/handler/Edit.Marker.js' %}"></script>
+<script src="{% static 'main/Leaflet.Draw.static/src/edit/handler/Edit.CircleMarker.js' %}"></script>
+<script src="{% static 'main/Leaflet.Draw.static/src/edit/handler/Edit.Circle.js' %}"></script>
+<script src="{% static 'main/javascript/center_edit.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block extra_css %}
+<link href="//cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css" rel="stylesheet">
+<style>
+    tr.row-disabled{
+        color: gray !important;
+    }
+</style>
+{% endblock %}
+{% block title %}Llistar/Editar/Esborrar alumnes{% endblock %}
+
+{% block main %}
+<div class="col-xs-12" style="height:50px;"></div>
+<div class="container">
+    <h2>Llista d'alumnes:</h2>
+</div>
+<div class="container">
+    <table class="table table-striped table-bordered" id="alum_list" style="width:100%;"></table>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="//cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+<script src="{% static 'main/javascript/datatable_language_options.js' %}"></script>
+<script>
+    {% get_current_language as LANGUAGE_CODE %}
+    var table_language = {% if LANGUAGE_CODE == 'ca' %} table_ca {% else %} table_es {% endif %};
+    var _alum_list_url = '{% url 'alum_datatable_list' %}';
+    var _alum_update_url = '{% url 'alum_update_no_id' %}';
+</script>
+<script src="{% static 'main/csrf_utils.js' %}"></script>
+<script src="{% static 'main/cookies.js' %}"></script>
+<script src="{% static 'main/javascript/alum_list.js' %}"></script>
+{% endblock %}
