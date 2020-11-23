@@ -21,6 +21,33 @@ $(document).ready(function() {
         });
     };
 
+    var load_tutors = function(center_id){
+        $('#tutor').attr("disabled",true);
+        $.ajax({
+            url: '/api/tutor_combo/',
+            data: { 'center_id': parseInt(center_id) },
+            method: 'GET',
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type)) {
+                    var csrftoken = getCookie('csrftoken');
+                    xhr.setRequestHeader('X-CSRFToken', csrftoken);
+                }
+            },
+            success: function( data, textStatus, jqXHR ) {
+                $('#tutor').attr("disabled",false);
+                var options = ['<option value="-1">Select tutor...</option>'];
+                for(var i = 0; i < data.length; i++){
+                    options.push('<option value="' + data[i].id + '">' + data[i].username + '</option>')
+                }
+                $('#tutor').html(options.join());
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                toastr.error('Error recuperant llista de tutors per centre');
+                $('#tutor').attr("disabled",false);
+            }
+        });
+    };
+
     /*
     $( "p" ).focusout(function() {
         focus++;
@@ -78,5 +105,52 @@ $(document).ready(function() {
     $(document).on('click', '.suggest-fields', function() {
         $('#id_password1').val(utils.generate_random_password_4());
         load_group_names();
+    });
+
+    $('#center').change(function(){
+        var selected_value = $(this).val()
+        load_tutors(selected_value);
+    });
+
+    $('#tutor').change(function(){
+        var selected_value = $(this).val();
+        $('#id_select_alum').empty().trigger("change");
+        if(selected_value!="-1"){
+            $('#id_select_alum').attr("disabled",false);
+        }else{
+            $('#id_select_alum').attr("disabled",true);
+        }
+        console.log(selected_value);
+    });
+
+    $('#id_select_alum').select2({
+      ajax: {
+        url: '/alum/search/',
+        dataType: 'json',
+        delay: 250,
+        processResults: function (data) {
+            return {
+                results: data
+            };
+        },
+        data: function(term,page){
+            return {
+                q: term,
+                tutor_id: $("#tutor").val()
+            };
+        }
+      }
+    });
+
+    $('#id_select_alum').attr("disabled",true);
+
+    $('#group_form').submit(function() {
+        $('#alum_ids').val('');
+        var alum_ids = $("#id_select_alum").select2('data');
+        var ids = [];
+        for(var i = 0; i < alum_ids.length; i++){
+            ids.push( alum_ids[i].id );
+        }
+        $('#alum_ids').val( ids.join(',') );
     });
 });

@@ -16,11 +16,13 @@
     <form id="alum_form" class="form" action="{% url 'alum_new' %}" method="post">
         {% csrf_token %}
         {{ form|crispy }}
+        <!--
         <div id="grups_select" class="form-group">
             <label class="" for="id_select_group">Grups</label>
             <select id="id_select_group" name="groups" class="form-control js-data-example-ajax" multiple="multiple"></select>
         </div>
         <input id="group_ids" type="hidden" name="group_ids" value="{{ group_ids }}">
+        -->
         <input role="button" class="btn btn-success mt-2" type="submit" value="Desar" />
     </form>
 </div>

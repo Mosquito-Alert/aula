@@ -7,6 +7,7 @@
 <link href="{% static 'main/jQuery-File-Upload-9.28.0/css/jquery.fileupload.css' %}" rel="stylesheet">
 <link href="{% static 'main/jQuery-File-Upload-9.28.0/css/style.css' %}" rel="stylesheet">
 <link href="{% static 'main/jQuery-File-Upload-9.28.0/css/github/blueimp-gallery.min.css' %}" rel="stylesheet">
+<link href="{% static 'main/select2/select2.min.css' %}" rel="stylesheet">
 {% endblock %}
 {% block title %}Editar grup{% endblock %}
 
@@ -15,7 +16,7 @@
 <div class="container">
     <h2>Editant grup:</h2>
     <div class="col-xs-12" style="height:50px;"></div>
-    <form class="form" action="{% url 'group_update' group_id %}" method="post">
+    <form id="group_form" class="form" action="{% url 'group_update' group_id %}" method="post">
         {% csrf_token %}
         {{ form.username|as_crispy_field }}
         <div id="div_id_password1" class="form-group">
@@ -56,15 +57,48 @@
             </button>
         </div>
         <input id="id_photo_path" type="hidden" name="photo_path" value="{{ photo_path }}">
+        <div class="row">
+            <div class="col">
+                <label for="center">Centre:</label>
+                <select id="center" class="form-control">
+                    <option value="-1" selected>Choose...</option>
+                    {% for center in centers %}
+                    <option value="{{ center.id }}">{{ center.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col">
+                <label for="tutor">Tutor:</label>
+                <select id="tutor" class="form-control">
+                    <option selected>Select center...</option>
+                </select>
+            </div>
+            <div class="col">
+                <label for="id_select_alum">Alumnes:</label>
+                <select id="id_select_alum" name="alums" class="form-control" multiple="multiple"></select>
+            </div>
+            <input id="alum_ids" type="hidden" name="alum_ids" value="{{ alum_ids }}">
+        </div>
         <input role="button" class="btn btn-success mt-2" type="submit" value="Desar" />
     </form>
 </div>
 {% endblock %}
 {% block extra_js %}
+<script>
+    var init_data = [];
+    {% for d in alum_data %}
+    init_data.push({'id':'{{ d.id }}','text':'{{ d.username }}'});
+    {% endfor %}
+    var selected_center = -1;
+    {% if center %} selected_center = {{ center.id }}; {% endif %}
+    var selected_tutor = -1;
+    {% if tutor %} selected_tutor = {{ tutor.id }}; {% endif %}
+</script>
 <script src="{% static 'main/javascript/utils.js' %}"></script>
 <script src="{% static 'main/csrf_utils.js' %}"></script>
 <script src="{% static 'main/jQuery-File-Upload-9.28.0/js/vendor/jquery.ui.widget.js' %}"></script>
 <script src="{% static 'main/jQuery-File-Upload-9.28.0/js/jquery.iframe-transport.js' %}"></script>
 <script src="{% static 'main/jQuery-File-Upload-9.28.0/js/jquery.fileupload.js' %}"></script>
+<script src="{% static 'main/select2/select2.min.js' %}"></script>
 <script src="{% static 'main/javascript/group_edit.js' %}"></script>
 {% endblock %}

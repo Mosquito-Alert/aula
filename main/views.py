@@ -14,7 +14,7 @@ import functools
 from rest_framework.response import Response
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import operator
-from main.serializers import EducationCenterSerializer, TeacherSerializer, UserSerializer, AlumSerializer, GroupSerializer, GroupSearchSerializer
+from main.serializers import EducationCenterSerializer, TeacherSerializer, UserSerializer, AlumSerializer, GroupSerializer, GroupSearchSerializer, TeacherComboSerializer, AlumSearchSerializer
 from rest_framework import status,viewsets, generics
 from django.db.models import Q
 from rest_framework.generics import GenericAPIView
@@ -134,90 +134,39 @@ def quiz_new(request):
     return render(request, 'main/quiz_new.html', {'form': form})
 
 @login_required
-def group_new(request):
-    # if this is a POST request we need to process the form data
-    photo_path = None
-    if request.method == 'POST':
-        # create a form instance and populate it with data from the request:
-        form = SimplifiedGroupForm(request.POST)
-        photo_path = request.POST.get('photo_path')
-        # check whether it's valid:
-        if form.is_valid():
-            user = form.save()
-            user.profile.is_group = True
-            user.profile.group_password = form.cleaned_data.get('password1')
-            user.profile.group_public_name = form.cleaned_data.get('group_public_name')
-            if photo_path != '':
-                copy( str(settings.BASE_DIR) + photo_path, settings.MEDIA_ROOT + "/group_pics/" )
-                user.profile.group_picture = 'group_pics/' + os.path.basename(photo_path)
-            user.save()
-            # process the data in form.cleaned_data as required
-            # ...
-            # redirect to a new URL:
-            return HttpResponseRedirect('/admin_menu')
-
-    # if a GET (or any other method) we'll create a blank form
-    else:
-        form = SimplifiedGroupForm()
-
-    return render(request, 'main/group_new.html', {'form': form, 'photo_path': photo_path})
-
-
-@login_required
 def alum_update(request, pk=None):
-    groups_data = None
     tutor = None
     if pk:
         alum = get_object_or_404(User, pk=pk)
         tutor = alum.profile.alum_teacher
-        groups_data = alum.profile.alum_in_group.all().order_by('profile__group_public_name')
     else:
         raise forms.ValidationError("No existeix aquest alumne")
     form = AlumUpdateForm(request.POST or None, instance=alum)
     if request.POST and form.is_valid():
         user = form.save(commit=False)
         user.profile.alum_teacher = form.cleaned_data.get('teacher')
-        group_ids = request.POST.get('group_ids', '')
-        if group_ids == '':
-            ids = []
-        else:
-            ids = group_ids.split(',')
-        user.profile.alum_in_group.clear()
-        for id in ids:
-            group = User.objects.get(pk=int(id))
-            user.profile.alum_in_group.add(group)
         user.save()
         return HttpResponseRedirect('/alum/list/')
-    return render(request, 'main/alum_edit.html', {'form': form, 'alum_id' : pk, 'groups_data': groups_data, 'tutor': tutor})
+    return render(request, 'main/alum_edit.html',
+                  {
+                      'form': form,
+                      'alum_id' : pk,
+                      #'groups_data': groups_data,
+                      'tutor': tutor})
 
 
 @login_required
 def alum_new(request):
-    # if this is a POST request we need to process the form data
     groups_data = []
     if request.method == 'POST':
-        # create a form instance and populate it with data from the request:
         form = SimplifiedAlumForm(request.POST)
-        # check whether it's valid:
-        group_ids = request.POST.get('group_ids', '')
-        ids = group_ids.split(',')
-        for id in ids:
-            group = User.objects.get(pk=int(id))
-            groups_data.append(group)
         if form.is_valid():
             user = form.save()
             teacher = form.cleaned_data.get('teacher')
             user.profile.is_alum = True
             user.profile.alum_teacher = teacher
-            for group in groups_data:
-                user.profile.alum_in_group.add(group)
             user.save()
-            # process the data in form.cleaned_data as required
-            # ...
-            # redirect to a new URL:
             return HttpResponseRedirect('/admin_menu')
-
-    # if a GET (or any other method) we'll create a blank form
     else:
         form = SimplifiedAlumForm()
 
@@ -333,12 +282,21 @@ def group_update(request, pk=None):
     group_password = None
     group_public_name = None
     username = None
+    center = None
+    tutor = None
+    centers = EducationCenter.objects.all().order_by('name')
+    alum_data = []
     if pk:
         group = get_object_or_404(User,pk=pk)
         if group.profile and group.profile.group_picture:
             photo_path = group.profile.group_picture.url
         group_password = group.profile.group_password
         group_public_name = group.profile.group_public_name
+        alums = group.alum_groups.all()
+        for a in alums:
+            alum_data.append(a.user)
+            tutor = a.alum_teacher
+            center = tutor.profile.teacher_belongs_to
         username = group.username
     else:
         raise forms.ValidationError("No existeix aquest grup")
@@ -348,16 +306,67 @@ def group_update(request, pk=None):
         user.profile.group_password = form.cleaned_data.get('password1')
         user.profile.group_public_name = form.cleaned_data.get('group_public_name')
         photo_path = form.cleaned_data.get('photo_path')
-        if photo_path and photo_path != '':
+        alum_ids = request.POST.get('alum_ids', '')
+        ids = alum_ids.split(',')
+        if len(ids) > 0:
+            alum_data = []
+            for id in ids:
+                if id != '':
+                    alum = User.objects.get(pk=int(id))
+                    alum_data.append(alum)
+        if photo_path and photo_path != '' and photo_path != 'None':
             if str(settings.BASE_DIR) + photo_path != settings.MEDIA_ROOT + "/group_pics/" + os.path.basename(photo_path):
                 copy(str(settings.BASE_DIR) + photo_path, settings.MEDIA_ROOT + "/group_pics/")
                 user.profile.group_picture = 'group_pics/' + os.path.basename(photo_path)
         else:
             user.profile.group_picture = None
         user.save()
+        user.alum_groups.clear()
+        for alum in alum_data:
+            alum.profile.alum_in_group.add(user)
+            alum.save()
         return HttpResponseRedirect('/group/list/')
-    return render(request, 'main/group_edit.html', {'form': form, 'group_id' : pk, 'photo_path': photo_path, 'group_password': group_password, 'group_public_name': group_public_name, 'username': username})
+    return render(request, 'main/group_edit.html', {'form': form, 'group_id' : pk, 'photo_path': photo_path, 'group_password': group_password, 'group_public_name': group_public_name, 'username': username, 'centers':centers, 'tutor': tutor, 'center':center, 'alum_data':alum_data})
 
+@login_required
+def group_new(request):
+    # if this is a POST request we need to process the form data
+    photo_path = None
+    alum_data = []
+    centers = EducationCenter.objects.all().order_by('name')
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = SimplifiedGroupForm(request.POST)
+        photo_path = request.POST.get('photo_path')
+        alum_ids = request.POST.get('alum_ids', '')
+        ids = alum_ids.split(',')
+        if len(ids) > 0:
+            for id in ids:
+                if id != '':
+                    alum = User.objects.get(pk=int(id))
+                    alum_data.append(alum)
+        if form.is_valid():
+            user = form.save()
+            user.profile.is_group = True
+            user.profile.group_password = form.cleaned_data.get('password1')
+            user.profile.group_public_name = form.cleaned_data.get('group_public_name')
+            if photo_path != '':
+                copy( str(settings.BASE_DIR) + photo_path, settings.MEDIA_ROOT + "/group_pics/" )
+                user.profile.group_picture = 'group_pics/' + os.path.basename(photo_path)
+            user.save()
+            for alum in alum_data:
+                alum.profile.alum_in_group.add(user)
+                alum.save()
+            # process the data in form.cleaned_data as required
+            # ...
+            # redirect to a new URL:
+            return HttpResponseRedirect('/admin_menu')
+
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        form = SimplifiedGroupForm()
+
+    return render(request, 'main/group_new.html', {'form': form, 'photo_path': photo_path, 'centers': centers, 'alum_data': alum_data})
 
 @login_required
 def teacher_update(request, pk=None):
@@ -485,6 +494,31 @@ def group_search(request):
         serializer = GroupSearchSerializer(queryset, many=True)
         return Response(serializer.data)
 
+
+@api_view(['GET'])
+def alum_search(request):
+    if request.method == 'GET':
+        q = request.query_params.get('q', '')
+        tutor_id = request.query_params.get('tutor_id', '-1')
+        t_id = int(tutor_id)
+        if q != '':
+            queryset = User.objects.filter(profile__is_alum=True).filter(username__icontains=q).filter(profile__alum_teacher__id=t_id).order_by('username')
+        else:
+            queryset = User.objects.filter(profile__is_alum=True).filter(profile__alum_teacher__id=t_id).order_by('username')
+        serializer = AlumSearchSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+
+@api_view(['GET'])
+def tutor_combo(request):
+    if request.method == 'GET':
+        q = request.query_params.get('center_id','')
+        if q != '':
+            queryset = User.objects.filter(profile__is_teacher=True).filter(profile__teacher_belongs_to__id=q).order_by('username')
+        else:
+            queryset = User.objects.filter(profile__is_teacher=True).order_by('username')
+        serializer = TeacherComboSerializer(queryset, many=True)
+        return Response(serializer.data)
 
 @login_required
 def uploadpic(request):

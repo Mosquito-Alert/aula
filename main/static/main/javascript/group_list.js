@@ -1,3 +1,11 @@
+var colors = [
+  ['#264653ff','#26b9ac00'],
+  ['#2a9d8fff','#2a627000'],
+  ['#e9c46aff','#e93b9500'],
+  ['#f4a261ff','#f45d9e00'],
+  ['#e76f51ff','#e790ae00']
+];
+
 $(document).ready( function () {
 
     var delete_group = function(id, to_state){
@@ -116,7 +124,24 @@ $(document).ready( function () {
             },
             {
                 'targets':4,
-                'title': 'Alumnes'
+                'title': 'Alumnes',
+                'render': function(value){
+                    if(value != null){
+                        var alums = value.split(',');
+                        var badges = [];
+                        for(var i = 0; i < alums.length; i++){
+                            var index = i % 5;
+                            badges.push('<span style="color:white;background-color:' + colors[0][0] + ';" class="badge badge-pill">' + alums[i] + '</span>');
+                        }
+                        if(badges.length == 0){
+                            return '';
+                        }else{
+                            return badges.join(' ');
+                        }
+                    }else{
+                        return ''
+                    }
+                }
             },
             {
                 'targets':5,

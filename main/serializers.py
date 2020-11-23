@@ -60,6 +60,16 @@ class GroupSearchSerializer(serializers.ModelSerializer):
         return obj.profile.group_public_name
 
 
+class AlumSearchSerializer(serializers.ModelSerializer):
+    text = serializers.SerializerMethodField('get_text')
+    class Meta:
+        model = User
+        fields = ['id','text']
+
+    def get_text(self, obj):
+        return obj.username
+
+
 class GroupSerializer(serializers.ModelSerializer):
     group_password = serializers.SerializerMethodField('get_group_password')
     group_public_name = serializers.SerializerMethodField('get_group_public_name')
@@ -78,16 +88,29 @@ class GroupSerializer(serializers.ModelSerializer):
         return obj.profile.group_public_name
 
     def get_group_center(self,obj):
-        return 'to_do'
+        alum = obj.alum_groups.first()
+        if alum:
+            return alum.center_string
+        else:
+            return ''
 
     def get_group_alums(self,obj):
-        return 'to_do_also'
+        alums = []
+        for alum in obj.alum_groups.all():
+            alums.append(alum.user.username)
+        return ','.join(alums)
 
     def get_group_picture(self,obj):
         if obj.profile:
             if obj.profile.group_picture:
                 return obj.profile.group_picture.url
         return ''
+
+
+class TeacherComboSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id','username']
 
 
 class TeacherSerializer(serializers.ModelSerializer):

@@ -73,6 +73,7 @@ class Profile(models.Model):
     group_public_name = models.CharField(max_length=255, null=True)
     group_picture = models.ImageField(upload_to='media/group_pics/', null=True)
     groups_string = models.CharField(max_length=1000, null=True, blank=True)
+    center_string = models.CharField(max_length=1000, null=True, blank=True)
 
     @property
     def groups_list(self):
@@ -96,6 +97,11 @@ def create_user_profile(sender, instance, created, **kwargs):
 
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
-    group_string = get_string_from_groups(instance.profile)
-    instance.profile.groups_string = group_string
+    if instance.profile.is_alum:
+        group_string = get_string_from_groups(instance.profile)
+        center_string = None
+        if instance.profile.alum_teacher and instance.profile.alum_teacher.profile.teacher_belongs_to:
+            center_string = instance.profile.alum_teacher.profile.teacher_belongs_to.name
+        instance.profile.center_string = center_string
+        instance.profile.groups_string = group_string
     instance.profile.save()

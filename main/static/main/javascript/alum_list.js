@@ -140,16 +140,20 @@ var table = $('#alum_list').DataTable( {
             'targets':2,
             'title': 'Grups',
             'render': function(value){
-                var groups = value.split(',');
-                var badges = [];
-                for(var i = 0; i < groups.length; i++){
-                    var index = i % 5;
-                    badges.push('<span style="color:white;background-color:' + colors[index][0] + ';" class="badge badge-pill">' + groups[i] + '</span>');
-                }
-                if(badges.length == 0){
-                    return '';
+                if(value != null){
+                    var groups = value.split(',');
+                    var badges = [];
+                    for(var i = 0; i < groups.length; i++){
+                        var index = i % 5;
+                        badges.push('<span style="color:white;background-color:' + colors[0][0] + ';" class="badge badge-pill">' + groups[i] + '</span>');
+                    }
+                    if(badges.length == 0){
+                        return '';
+                    }else{
+                        return badges.join(' ');
+                    }
                 }else{
-                    return badges.join(' ');
+                    return '';
                 }
             }
         },

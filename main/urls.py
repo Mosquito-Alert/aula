@@ -28,6 +28,7 @@ urlpatterns = [
     path('alum/list/', views.alum_list, name='alum_list'),
     path('alum/update/<int:pk>/', views.alum_update, name='alum_update'),
     path('alum/update/', views.alum_update, name='alum_update_no_id'),
+    path('alum/search/', views.alum_search, name='alum_search'),
     path('alum/datatablelist/', views.alum_datatable_list, name='alum_datatable_list'),
     path('group/new/', views.group_new, name='group_new'),
     path('group/list/', views.group_list, name='group_list'),
@@ -41,4 +42,5 @@ urlpatterns = [
     path('user/password/change/<int:user_id>/', views.change_password, name='change_password'),
     path('api/group_name/', views.get_random_group_name, name='get_random_group_name'),
     path('uploadpic', views.uploadpic, name="uploadpic"),
+    path('api/tutor_combo/', views.tutor_combo, name="tutor_combo"),
 ]
