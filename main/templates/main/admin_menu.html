@@ -6,7 +6,7 @@
 {% block main %}
 <!-- Main jumbotron for a primary marketing message or call to action -->
 <div class="container">
-    <div class="row justify-content-center">
+    <div class="row justify-content-left">
         <div class="col-2">
             <img src="{% static 'main/icons/noun_admin_3323392.svg' %}">
         </div>
@@ -30,8 +30,6 @@
                 <a href="{% url 'teacher_list' %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
             </div>
         </div>
-    </div>
-    <div class="card-deck mb-3 text-center">
         <div class="card mb-4 box-shadow">
             <div class="card-body">
                 <h5 class="card-title">Alumnes</h5>
@@ -41,6 +39,8 @@
                 <a href="{% url 'alum_list' %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
             </div>
         </div>
+    </div>
+    <div class="card-deck mb-3 text-center">
         <div class="card mb-4 box-shadow">
             <div class="card-body">
                 <h5 class="card-title">Grups d'alumnes</h5>
@@ -50,11 +50,10 @@
                 <a href="{% url 'group_list' %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
             </div>
         </div>
-    </div>
-    <div class="card-deck mb-3 text-center">
         <div class="card mb-4 box-shadow">
             <div class="card-body">
                 <h5 class="card-title">Proves</h5>
+                <img src="{% static 'main/icons/noun_test_3271143.svg' %}" width="25%">
                 <p class="card-text">Crea una prova.</p>
                 <a href="{% url 'quiz_new' %}" class="btn btn-primary"><i class="fas fa-plus"></i></a>
                 <a href="#" class="btn btn-primary"><i class="fas fa-edit"></i></a>

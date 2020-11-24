@@ -281,3 +281,12 @@ class ChangePasswordForm(forms.Form):
         if password_1 != password_2:
             raise forms.ValidationError('Els passwords són diferents! Si us plau torna a escriure\'ls')
         return password_2
+
+
+class QuestionForm(forms.ModelForm):
+    text = forms.CharField(label="Text de la pregunta", widget=forms.Textarea(attrs={'class': 'form-control','rows':5}), required=True)
+    answers_json = forms.CharField(widget=forms.HiddenInput())
+
+    class Meta:
+        model = Question
+        fields = ("text","answers_json")

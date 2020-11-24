@@ -4,8 +4,8 @@ from django.http import HttpResponseRedirect
 from main.forms import QuizForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
-from main.models import EducationCenter, Word
-from main.forms import TeacherForm, SimplifiedTeacherForm, EducationCenterForm, TeacherUpdateForm, ChangePasswordForm, SimplifiedAlumForm, SimplifiedGroupForm, AlumUpdateForm
+from main.models import EducationCenter, Word, Quiz
+from main.forms import TeacherForm, SimplifiedTeacherForm, EducationCenterForm, TeacherUpdateForm, ChangePasswordForm, SimplifiedAlumForm, SimplifiedGroupForm, AlumUpdateForm, QuestionForm
 from django.contrib.gis.geos import GEOSGeometry
 from rest_framework.decorators import api_view, permission_classes
 from querystring_parser import parser
@@ -132,6 +132,29 @@ def quiz_new(request):
         form = QuizForm()
 
     return render(request, 'main/quiz_new.html', {'form': form})
+
+@login_required
+def question_new(request, quiz_id=None):
+    quiz = None
+    if quiz_id:
+        quiz = get_object_or_404(Quiz, pk=quiz_id)
+    else:
+        raise forms.ValidationError("No existeix aquesta prova")
+    if request.method == 'POST':
+        form = QuestionForm(request.POST)
+        if form.is_valid():
+            question = form.save()
+            question.quiz = quiz
+            question.save()
+            return HttpResponseRedirect('/admin_menu')
+    else:
+        form = QuestionForm()
+    return render(request, 'main/question_new.html', {'form': form, 'quiz': quiz})
+
+@login_required
+def quiz_update(request, pk=None):
+    pass
+
 
 @login_required
 def alum_update(request, pk=None):
