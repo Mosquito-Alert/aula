@@ -9,6 +9,7 @@
     <form class="form" action="{% url 'quiz_new' %}" method="post">
         {% csrf_token %}
         <div class="form-group mb-3">
+            <img src="{% static 'main/icons/noun_test_3271143.svg' %}" width="10%">
             <label for="{{ form.name.id_for_label }}">Nom de la prova:</label>
             {{ form.name }}
             {{ form.name.errors }}

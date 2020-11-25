@@ -14,8 +14,7 @@
 {% block main %}
 <div class="col-xs-12" style="height:50px;"></div>
 <div class="container">
-    <h2>Creant nou grup:</h2>
-    <div class="col-xs-12" style="height:50px;"></div>
+    <h2><img src="{% static 'main/icons/noun_group_737669.svg' %}" width="10%"> Creant nou grup:</h2>
     <button type="button" class="btn btn-primary suggest-fields">Suggerir camps <i class="fas fa-bolt"></i></button>
     <div class="col-xs-12" style="height:50px;"></div>
     <form id="group_form" class="form" action="{% url 'group_new' %}" method="post">
@@ -44,6 +43,7 @@
         </div>
         <div class="row">
             <div class="col">
+                <img src="{% static 'main/icons/noun_School_1443077.svg' %}" width="10%">
                 <label for="center">Centre:</label>
                 <select id="center" class="form-control">
                     <option value="-1" selected>Choose...</option>
@@ -53,12 +53,14 @@
                 </select>
             </div>
             <div class="col">
+                <img src="{% static 'main/icons/noun_Teacher_36665.svg' %}" width="10%">
                 <label for="tutor">Tutor:</label>
                 <select id="tutor" class="form-control">
-                    <option selected>Select center...</option>
+                    <option selected>Select center first...</option>
                 </select>
             </div>
             <div class="col">
+                <img src="{% static 'main/icons/noun_graduate_66572.svg' %}" width="10%">
                 <label for="id_select_alum">Alumnes:</label>
                 <select id="id_select_alum" name="alums" class="form-control" multiple="multiple"></select>
             </div>

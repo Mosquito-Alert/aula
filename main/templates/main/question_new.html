@@ -11,7 +11,7 @@
         {% csrf_token %}
         <h2>Nom de la prova:</h2>
         <p>{{ quiz.name }}</p>
-        <h3>Pregunta:</h3>
+        <h3><img src="{% static 'main/icons/noun_Question_3611223.svg' %}" width="5%"> Pregunta:</h3>
         <div class="form-row">
           <div class="form-group col-md-3 mb-0">
             {{ form.question_order|as_crispy_field }}
@@ -21,7 +21,7 @@
           </div>
         </div>
         {{ form.answers_json }}
-        <h3>Respostes:</h3>
+        <h3><img src="{% static 'main/icons/noun_Response Message_356176.svg' %}" width="5%"> Respostes:</h3>
         <div id="answers">
         </div>
         <div id="general_errors"></div>

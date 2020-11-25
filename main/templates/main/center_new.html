@@ -16,8 +16,7 @@
 {% block main %}
 <div class="col-xs-12" style="height:50px;"></div>
 <div class="container">
-    <h2>Creant nou centre:</h2>
-    <div class="col-xs-12" style="height:50px;"></div>
+    <h2><img src="{% static 'main/icons/noun_School_1443077.svg' %}" width="10%"> Creant nou centre:</h2>
     <form class="form" action="{% url 'center_new' %}" method="post">
         {% csrf_token %}
         {{ form|crispy }}
