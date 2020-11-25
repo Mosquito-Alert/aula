@@ -25,6 +25,10 @@ class Quiz(models.Model):
     def __str__(self):
         return self.name
 
+    @property
+    def sorted_questions_set(self):
+        return self.questions.all().order_by('question_order')
+
 
 class TakenQuiz(models.Model):
     taken_by = models.ForeignKey(User, null=True, on_delete=models.CASCADE, related_name='taken_quizzes')
@@ -36,13 +40,19 @@ class TakenQuiz(models.Model):
 class Question(models.Model):
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name='questions')
     text = models.CharField('Question', max_length=255)
+    question_order = models.IntegerField('Question order inside the quiz')
 
     def __str__(self):
         return self.text
 
+    @property
+    def sorted_answers_set(self):
+        return self.answers.all().order_by('label')
+
 
 class Answer(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='answers')
+    label = models.CharField('Label', max_length=10)
     text = models.CharField('Answer', max_length=255)
     is_correct = models.BooleanField('Correct answer', default=False)
 

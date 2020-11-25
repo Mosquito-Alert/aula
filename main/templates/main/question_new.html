@@ -7,53 +7,73 @@
 {% block main %}
 <div class="col-xs-12" style="height:50px;"></div>
 <div class="container">
-    <br class="form" action="{% url 'question_new' quiz.id %}" method="post">
+    <form id="question_form" action="{% url 'question_new' quiz.id %}" method="post">
         {% csrf_token %}
         <h2>Nom de la prova:</h2>
         <p>{{ quiz.name }}</p>
         <h3>Pregunta:</h3>
         <div class="form-row">
-            <label for="num_question">Número de pregunta</label>
-            <input class="form-control" id="num_question" placeholder="Ordre de la pregunta dins la prova">
+          <div class="form-group col-md-3 mb-0">
+            {{ form.question_order|as_crispy_field }}
+          </div>
+          <div class="form-group col-md-9 mb-0">
+            {{ form.text|as_crispy_field }}
+          </div>
         </div>
-        <div class="form-row">
-            {{ form|crispy }}
-        </div>
+        {{ form.answers_json }}
         <h3>Respostes:</h3>
         <div id="answers">
         </div>
-        <button id="add_resposta" class="btn btn-info mt-2"><i class="fas fa-plus"></i></button><br/>
-        <input role="button" class="btn btn-success mt-2" type="submit" value="Desar" />
+        <div id="general_errors"></div>
+        <input type="hidden" name="quiz_id" value="{{ quiz.id }}">
+        <button type="button" id="add_resposta" class="btn btn-info mt-2"><i class="fas fa-plus"></i></button><br>
+        <input role="button" class="btn btn-success mt-2" type="submit" value="Desar"/>
     </form>
 </div>
 {% endblock %}
 {% block extra_js %}
 <script src="{% static 'main/mustache/mustache.js' %}"></script>
 <script id="row_template" type="text/template">
-    <div id="{% verbatim %}{{ row_id }}{% endverbatim %}" class="form-inline answer-row" style="margin-top:10px;">
-        <div class="input-group mb-2 mr-sm-2">
-            <div class="input-group-prepend">
-                <span class="input-group-text">Etiqueta</span>
-            </div>
-            <input id="{% verbatim %}label_{{ row_id }}{% endverbatim %}" class="form-control answer_label">
-        </div>
+    <div id="{% verbatim %}{{ row_id }}{% endverbatim %}" class="form answer-row" style="margin-top:10px;">
+        <div class="row">
+            <div class="col-md-10">
+                <div class="input-group mb-2 mr-sm-2">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Etiqueta</span>
+                    </div>
+                    <input id="{% verbatim %}label_{{ row_id }}{% endverbatim %}" class="form-control answer_label">
+                </div>
 
-        <div class="input-group mb-2 mr-sm-2">
-            <div class="input-group-prepend">
-                <span class="input-group-text">Text de la resposta</span>
-            </div>
-            <textarea id="{% verbatim %}text_{{ row_id }}{% endverbatim %}" rows=5 class="form-control answer_text" aria-label="Text de la resposta"></textarea>
-        </div>
+                <div class="input-group mb-2 mr-sm-2">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Text de la resposta</span>
+                    </div>
+                    <textarea id="{% verbatim %}text_{{ row_id }}{% endverbatim %}" rows=4 class="form-control answer_text" aria-label="Text de la resposta"></textarea>
+                </div>
 
-        <div class="form-check mb-2 mr-sm-2">
-            <input id="{% verbatim %}correct_{{ row_id }}{% endverbatim %}" class="form-check-input answer_correct" type="checkbox">
-            <label class="form-check-label">Resposta correcta?</label>
+                <div class="form-check mb-2 mr-sm-2">
+                    <input id="{% verbatim %}correct_{{ row_id }}{% endverbatim %}" class="form-check-input answer_correct" type="checkbox">
+                    <label class="form-check-label">Resposta correcta?</label>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="input-group mb-2 mr-sm-2">
+                    <button id="{% verbatim %}delete_{{ row_id }}{% endverbatim %}" class="answer_delete btn btn-danger"><i class="fas fa-backspace"></i></button>
+                </div>
+            </div>
         </div>
-        <div class="input-group mb-2 mr-sm-2">
-            <button id="{% verbatim %}delete_{{ row_id }}{% endverbatim %}" class="answer_delete btn btn-danger"><i class="fas fa-backspace"></i></button>
-        </div>
+        <hr>
     </div>
+</script>
+<script>
+    var init_answers_text = '{{ json_answers|safe }}';
+    try{
+        init_answers = JSON.parse(init_answers_text);
+    }catch(error){
+        init_answers = [];
+    }
 </script>
 <script src="{% static 'main/javascript/question_editor.js' %}"></script>
 <script src="{% static 'main/javascript/question_new.js' %}"></script>
 {% endblock %}
+

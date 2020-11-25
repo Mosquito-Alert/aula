@@ -6,15 +6,54 @@
 {% block main %}
 <div class="col-xs-12" style="height:50px;"></div>
 <div class="container">
-    <form class="form" action="{% url 'quiz_edit' %}" method="post">
+    <form class="form" action="{% url 'quiz_update' quiz.id %}" method="post">
         {% csrf_token %}
         <div class="form-group mb-3">
             <label for="{{ form.name.id_for_label }}">Nom de la prova:</label>
             {{ form.name }}
             {{ form.name.errors }}
-            <input role="button" class="btn btn-success mt-2" type="submit" value="Desar" />
+            <input role="button" class="btn btn-success mt-2" type="submit" value="Desar" /><br>
+            <button type="button" id="add_question" title="Afegir pregunta" class="btn btn-info mt-2"><i class="fas fa-plus"></i></button>
         </div>
     </form>
-</div>
 
+</div>
+{% if quiz.sorted_questions_set %}
+<div class="container">
+    <hr>
+</div>
+<div class="container">
+    {% for question in quiz.sorted_questions_set %}
+    <div class="row">
+        <div class="col-md-12">
+            <div>
+                <p><strong>{{ question.question_order }}.</strong> <i>{{ question.text }}</i> <button title="Editar pregunta i respostes" type="button" class="btn btn-primary"><i class="fas fa-edit"></i></button> <button title="Eliminar pregunta" class="delete_button btn btn-danger"><i class="fas fa-backspace"></i></button> </p>
+            </div>
+        </div>
+    </div>
+    {% for answer in question.sorted_answers_set %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="ml-5">
+                {% if answer.is_correct %}
+                    <p style="color:green;">{{ answer.label }}) {{ answer.text }} <i class="far fa-thumbs-up"></i></p>
+                {% else %}
+                    <p>{{ answer.label }}) {{ answer.text }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% endfor %}
+</div>
+{% endif %}
+{% endblock %}
+{% block extra_js %}
+<script>
+    var quiz_id = '{{ quiz.id }}';
+    var _question_new_url = '{% url 'question_new' %}';
+</script>
+<script src="{% static 'main/csrf_utils.js' %}"></script>
+<script src="{% static 'main/cookies.js' %}"></script>
+<script src="{% static 'main/javascript/quiz_edit.js' %}"></script>
 {% endblock %}

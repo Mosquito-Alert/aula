@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from main.models import EducationCenter
+from main.models import EducationCenter, Quiz
 from django.contrib.auth.models import User
 
 
@@ -29,6 +29,12 @@ class EducationCenterSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
+        fields = '__all__'
+
+
+class QuizSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Quiz
         fields = '__all__'
 
 

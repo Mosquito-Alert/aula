@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect
 from main.forms import QuizForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
-from main.models import EducationCenter, Word, Quiz
+from main.models import EducationCenter, Word, Quiz, Answer
 from main.forms import TeacherForm, SimplifiedTeacherForm, EducationCenterForm, TeacherUpdateForm, ChangePasswordForm, SimplifiedAlumForm, SimplifiedGroupForm, AlumUpdateForm, QuestionForm
 from django.contrib.gis.geos import GEOSGeometry
 from rest_framework.decorators import api_view, permission_classes
@@ -14,7 +14,7 @@ import functools
 from rest_framework.response import Response
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import operator
-from main.serializers import EducationCenterSerializer, TeacherSerializer, UserSerializer, AlumSerializer, GroupSerializer, GroupSearchSerializer, TeacherComboSerializer, AlumSearchSerializer
+from main.serializers import EducationCenterSerializer, TeacherSerializer, UserSerializer, AlumSerializer, GroupSerializer, GroupSearchSerializer, TeacherComboSerializer, AlumSearchSerializer, QuizSerializer
 from rest_framework import status,viewsets, generics
 from django.db.models import Q
 from rest_framework.generics import GenericAPIView
@@ -125,7 +125,7 @@ def quiz_new(request):
             # process the data in form.cleaned_data as required
             # ...
             # redirect to a new URL:
-            return HttpResponseRedirect('/admin_menu')
+            return HttpResponseRedirect('/quiz/update/' + str(pre_quiz.id) + '/')
 
     # if a GET (or any other method) we'll create a blank form
     else:
@@ -136,24 +136,47 @@ def quiz_new(request):
 @login_required
 def question_new(request, quiz_id=None):
     quiz = None
+    json_answers = None
     if quiz_id:
         quiz = get_object_or_404(Quiz, pk=quiz_id)
     else:
         raise forms.ValidationError("No existeix aquesta prova")
     if request.method == 'POST':
         form = QuestionForm(request.POST)
+        json_answers = request.POST.get('answers_json','')
         if form.is_valid():
-            question = form.save()
+            question = form.save(commit=False)
             question.quiz = quiz
             question.save()
-            return HttpResponseRedirect('/admin_menu')
+            if json_answers != '':
+                answers_data = json.loads(json_answers)
+                for a in answers_data:
+                    new_answer = Answer(
+                        question=question,
+                        label=a['label'],
+                        text=a['text'],
+                        is_correct=a['is_correct']
+                    )
+                    new_answer.save()
+            return HttpResponseRedirect('/quiz/update/' + str(quiz_id) + '/')
     else:
         form = QuestionForm()
-    return render(request, 'main/question_new.html', {'form': form, 'quiz': quiz})
+    return render(request, 'main/question_new.html', {'form': form, 'quiz': quiz, 'json_answers': json_answers})
+
 
 @login_required
 def quiz_update(request, pk=None):
-    pass
+    quiz = None
+    if pk:
+        quiz = get_object_or_404(Quiz, pk=pk)
+    else:
+        raise forms.ValidationError("No existeix aquesta prova")
+    form = QuizForm(request.POST or None, instance=quiz)
+    if request.POST and form.is_valid():
+        user = form.save(commit=False)
+        user.save()
+        return HttpResponseRedirect('/quiz/list/')
+    return render(request, 'main/quiz_edit.html', {'form': form, 'quiz': quiz} )
 
 
 @login_required
@@ -411,6 +434,7 @@ def teacher_update(request, pk=None):
 def group_list(request):
     return render(request, 'main/group_list.html')
 
+
 @login_required
 def center_list(request):
     return render(request, 'main/center_list.html')
@@ -419,6 +443,11 @@ def center_list(request):
 @login_required
 def teacher_list(request):
     return render(request, 'main/teacher_list.html')
+
+
+@login_required
+def quiz_list(request):
+    return render(request, 'main/quiz_list.html')
 
 
 @login_required
@@ -473,6 +502,15 @@ def get_random_group_name(request):
             n = get_max_index_plus_one(slug,numerals)
             name_struct['group_slug'] = slug + str(n)
         return Response(name_struct)
+
+
+@api_view(['GET'])
+def quiz_datatable_list(request):
+    if request.method == 'GET':
+        search_field_list = ('name',)
+        queryset = Quiz.objects.all()
+        response = generic_datatable_list_endpoint(request, search_field_list, queryset, QuizSerializer)
+        return response
 
 
 @api_view(['GET'])

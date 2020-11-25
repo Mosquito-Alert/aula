@@ -284,9 +284,20 @@ class ChangePasswordForm(forms.Form):
 
 
 class QuestionForm(forms.ModelForm):
-    text = forms.CharField(label="Text de la pregunta", widget=forms.Textarea(attrs={'class': 'form-control','rows':5}), required=True)
-    answers_json = forms.CharField(widget=forms.HiddenInput())
+    question_order = forms.IntegerField(label="Ordre de la pregunta dins la prova", required=True)
+    text = forms.CharField(label="Text de la pregunta", widget=forms.Textarea(attrs={'class': 'form-control','rows':4}), required=True)
+    answers_json = forms.CharField(widget=forms.HiddenInput(), required=False)
 
     class Meta:
         model = Question
-        fields = ("text","answers_json")
+        fields = ("question_order","text","answers_json")
+
+    def clean_question_order(self):
+        cleaned_data = self.cleaned_data.get('question_order')
+        quiz_id = self.data.get('quiz_id',-1)
+        if quiz_id != -1:
+            questions = Question.objects.filter(quiz__id=int(quiz_id))
+            for q in questions:
+                if q.question_order == cleaned_data:
+                    raise forms.ValidationError('Ja hi ha una pregunta amb aquest número d\'ordre per aquesta prova. Tria un número diferent')
+        return cleaned_data

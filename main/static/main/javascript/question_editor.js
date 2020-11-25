@@ -41,12 +41,17 @@
         return AEditor;
     }
 
-    AEditor.addAnswer = function(label, text, is_correct){
-        var id = AEditor.getId();
+    AEditor.addAnswer = function(label, text, is_correct, id){
+        if(id == null){
+            id = AEditor.getId();
+        }
         AEditor.data.push({ 'id': id, 'label':label, 'text':text, 'is_correct':is_correct });
         var template = $('#' + AEditor.template_id).html();
         var data = {'row_id': id};
         AEditor.domElem.append(Mustache.render(template,data));
+        $('#correct_' + id).prop( "checked", is_correct );
+        $('#label_' + id).val(label);
+        $('#text_' + id).val(text);
     }
 
     AEditor.removeAnswer = function(id){
@@ -72,10 +77,71 @@
         console.log(AEditor.data);
     }
 
+    AEditor.setData = function(data){
+        for(var i = 0; i < data.length; i++){
+            AEditor.addAnswer(data[i].label,data[i].text,data[i].is_correct,data[i].id);
+        }
+    }
+
+    AEditor.validate = function(){
+        // validation
+        // All labels must be different
+        // All labels must be non-empty
+        // All texts must be non-empty
+        // There must be at least a correct answer
+        labels = [];
+        errors = {};
+        $('.answer-error').remove();
+        var one_correct = false;
+        for(var i = 0; i < AEditor.data.length; i++){
+            row = AEditor.data[i];
+            if(row.label == null || row.label == ''){
+                if ( errors['label_' + row.id] == null ){
+                    errors['label_' + row.id] = [];
+                }
+                errors['label_' + row.id].push("L\'etiqueta de la pregunta no pot estar en blanc");
+            }
+            if(row.text == null || row.text == ''){
+                if( errors['text_' + row.id] == null ){
+                    errors['text_' + row.id] = [];
+                }
+                errors['text_' + row.id].push("El text de la pregunta no pot estar en blanc");
+            }
+            if(row.is_correct == true){
+                one_correct = true;
+            }
+            if(labels.includes(row.label)){
+                if(errors['label_' + row.id] == null){
+                    errors['label_' + row.id] = [];
+                }
+                errors['label_' + row.id].push("L\'etiqueta està repetida, ha de ser única");
+            }
+            labels.push(row.label);
+        }
+        for(var dom_id in errors){
+            for(var i = 0; i < errors[dom_id].length; i++){
+                $('#' + dom_id).after('<span><small class="text-danger answer-error"><strong>' + errors[dom_id] + '</strong></small></span>');
+            }
+        }
+        if(!one_correct){
+            $('#general_errors').html('<span><small class="text-danger answer-error"><strong>Cal marcar com a mínim una resposta com a correcta.</strong></small></span>')
+        }
+
+        if (!one_correct || Object.keys(errors) > 0){
+            return false;
+        }
+
+        return true;
+    }
+
     $("#answers").on("click", "button.answer_delete", function(event){
-        var button_id = $(this).attr('id');
-        var row_id = button_id.split('_')[1];
-        AEditor.removeAnswer(row_id);
+        if(confirm("S'esborrarà la pregunta! Segur?") == true){
+            var button_id = $(this).attr('id');
+            var row_id = button_id.split('_')[1];
+            AEditor.removeAnswer(row_id);
+        }else{
+            return false;
+        }
     });
 
     $("#answers").on("focusout", "input.answer_label", function(event){
