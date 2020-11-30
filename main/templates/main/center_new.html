@@ -1,5 +1,6 @@
 {% extends "main/base.html" %}
 {% load static %}
+{% load i18n %}
 {% load crispy_forms_tags %}
 
 {% block extra_css %}
@@ -11,20 +12,20 @@
     }
 </style>
 {% endblock %}
-{% block title %}Crear centre{% endblock %}
+{% block title %}{% trans 'Crear centre' %}{% endblock %}
 
 {% block main %}
 <div class="col-xs-12" style="height:50px;"></div>
 <div class="container">
-    <h2><img src="{% static 'main/icons/noun_School_1443077.svg' %}" width="10%"> Creant nou centre:</h2>
+    <h2><img src="{% static 'main/icons/noun_School_1443077.svg' %}" width="10%"> {% trans 'Creant nou centre' %}:</h2>
     <form class="form" action="{% url 'center_new' %}" method="post">
         {% csrf_token %}
         {{ form|crispy }}
         <div id="div_map" class="form-group">
-            <label class="" for="map">Ubicació (afegeix un punt al mapa)</label>
+            <label class="" for="map">{% trans 'Ubicació (afegeix un punt al mapa)' %}</label>
             <div id="map"></div>
         </div>
-        <input role="button" class="btn btn-success mt-2" type="submit" value="Desar" />
+        <input role="button" class="btn btn-success mt-2" type="submit" value="{% trans 'Desar' %}" />
     </form>
 </div>
 {% endblock %}

@@ -1,17 +1,18 @@
 {% extends "main/base.html" %}
 {% load static %}
+{% load i18n %}
 {% load crispy_forms_tags %}
 
 {% block extra_css %}
 <link href="{% static 'main/select2/select2.min.css' %}" rel="stylesheet">
 {% endblock %}
 
-{% block title %}Crear alumne{% endblock %}
+{% block title %}{% trans 'Crear alumne' %}{% endblock %}
 
 {% block main %}
 <div class="col-xs-12" style="height:50px;"></div>
 <div class="container">
-    <h2><img src="{% static 'main/icons/noun_graduate_66572.svg' %}" width="10%"> Creant nou usuari per alumne:</h2>
+    <h2><img src="{% static 'main/icons/noun_graduate_66572.svg' %}" width="10%"> {% trans 'Creant nou usuari per alumne' %}:</h2>
     <form id="alum_form" class="form" action="{% url 'alum_new' %}" method="post">
         {% csrf_token %}
         {{ form|crispy }}
@@ -22,7 +23,7 @@
         </div>
         <input id="group_ids" type="hidden" name="group_ids" value="{{ group_ids }}">
         -->
-        <input role="button" class="btn btn-success mt-2" type="submit" value="Desar" />
+        <input role="button" class="btn btn-success mt-2" type="submit" value="{% trans 'Desar' %}" />
     </form>
 </div>
 {% endblock %}

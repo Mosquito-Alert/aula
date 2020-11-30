@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect
 from main.forms import QuizForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
-from main.models import EducationCenter, Word, Quiz, Answer
+from main.models import EducationCenter, Word, Quiz, Answer, Question, QuizSolution
 from main.forms import TeacherForm, SimplifiedTeacherForm, EducationCenterForm, TeacherUpdateForm, ChangePasswordForm, SimplifiedAlumForm, SimplifiedGroupForm, AlumUpdateForm, QuestionForm
 from django.contrib.gis.geos import GEOSGeometry
 from rest_framework.decorators import api_view, permission_classes
@@ -14,7 +14,7 @@ import functools
 from rest_framework.response import Response
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import operator
-from main.serializers import EducationCenterSerializer, TeacherSerializer, UserSerializer, AlumSerializer, GroupSerializer, GroupSearchSerializer, TeacherComboSerializer, AlumSearchSerializer, QuizSerializer
+from main.serializers import EducationCenterSerializer, TeacherSerializer, UserSerializer, AlumSerializer, GroupSerializer, GroupSearchSerializer, TeacherComboSerializer, AlumSearchSerializer, QuizSerializer, QuestionSerializer
 from rest_framework import status,viewsets, generics
 from django.db.models import Q
 from rest_framework.generics import GenericAPIView
@@ -115,12 +115,14 @@ def admin_menu(request):
 @login_required
 def quiz_new(request):
     # if this is a POST request we need to process the form data
+    this_user = request.user
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
         form = QuizForm(request.POST)
         # check whether it's valid:
         if form.is_valid():
             pre_quiz = form.save(commit=False)
+            pre_quiz.author = this_user
             pre_quiz.save()
             # process the data in form.cleaned_data as required
             # ...
@@ -165,10 +167,79 @@ def question_new(request, quiz_id=None):
 
 
 @login_required
-def quiz_update(request, pk=None):
+def question_update(request, pk=None):
+    question = None
+    if pk:
+        question = get_object_or_404(Question, pk=pk)
+        answers = question.sorted_answers_set
+        json_answers = json.dumps([{'id': a.id, 'label': a.label, 'text': a.text, 'is_correct': a.is_correct} for a in answers])
+    form = QuestionForm(request.POST or None, instance=question)
+    if request.POST:
+        json_answers = request.POST.get('answers_json', '')
+        if form.is_valid():
+            question = form.save(commit=False)
+            question.answers.all().delete()
+            question.save()
+            answers_obj = json.loads(json_answers)
+            for a in answers_obj:
+                new_answer = Answer(
+                    question=question,
+                    label=a['label'],
+                    text=a['text'],
+                    is_correct=a['is_correct']
+                )
+                new_answer.save()
+            return HttpResponseRedirect('/quiz/update/' + str(question.quiz.id) + '/')
+    return render(request, 'main/question_edit.html', {'form': form, 'question': question, 'json_answers': json_answers})
+
+
+@login_required
+def quiz_take(request, quiz_id=None, question_number=1):
     quiz = None
+    question = None
+    previous_question = None
+    next_question = None
+    questions_total = None
+    current_progress = 0
+    if quiz_id:
+        quiz = get_object_or_404(Quiz, pk=quiz_id)
+        question = Question.objects.get(quiz=quiz,question_order=question_number)
+        questions_total = quiz.questions.all().count()
+        current_progress = question_number/questions_total
+        try:
+            previous_question = Question.objects.get(quiz=quiz,question_order=question_number - 1)
+        except Question.DoesNotExist:
+            pass
+        try:
+            next_question = Question.objects.get(quiz=quiz,question_order=question_number + 1)
+        except Question.DoesNotExist:
+            pass
+    else:
+        raise forms.ValidationError("No existeix aquesta prova")
+    return render(request, 'main/quiz_take.html',{'quiz': quiz, 'question': question, 'previous_question':previous_question, 'next_question': next_question, 'current_progress': str(current_progress*100), 'questions_total': questions_total})
+
+
+@login_required
+def quiz_start(request, pk=None):
+    quiz = None
+    questions_total = None
+    questions_answered = None
+    this_user = request.user
     if pk:
         quiz = get_object_or_404(Quiz, pk=pk)
+        questions_total = quiz.questions.all().count()
+        questions_answered = QuizSolution.objects.filter(question__quiz=quiz).filter(answered_by=this_user).count()
+    else:
+        raise forms.ValidationError("No existeix aquesta prova")
+    return render(request, 'main/quiz_take_splash.html', {'quiz': quiz, 'questions_total': questions_total, 'questions_answered': questions_answered} )
+
+@login_required
+def quiz_update(request, pk=None):
+    quiz = None
+    suggested_new_order = 1
+    if pk:
+        quiz = get_object_or_404(Quiz, pk=pk)
+        suggested_new_order = quiz.get_next_question_number
     else:
         raise forms.ValidationError("No existeix aquesta prova")
     form = QuizForm(request.POST or None, instance=quiz)
@@ -176,7 +247,7 @@ def quiz_update(request, pk=None):
         user = form.save(commit=False)
         user.save()
         return HttpResponseRedirect('/quiz/list/')
-    return render(request, 'main/quiz_edit.html', {'form': form, 'quiz': quiz} )
+    return render(request, 'main/quiz_edit.html', {'form': form, 'quiz': quiz, 'new_order': suggested_new_order} )
 
 
 @login_required
@@ -507,9 +578,11 @@ def get_random_group_name(request):
 @api_view(['GET'])
 def quiz_datatable_list(request):
     if request.method == 'GET':
-        search_field_list = ('name',)
-        queryset = Quiz.objects.all()
-        response = generic_datatable_list_endpoint(request, search_field_list, queryset, QuizSerializer)
+        search_field_list = ('name','author.username')
+        field_translation_list = {'name': 'name', 'author.username': 'author__username', 'education_center': 'author__profile__teacher_belongs_to__name'}
+        sort_translation_list = {'name': 'name', 'author.username': 'author__username', 'education_center': 'author__profile__teacher_belongs_to__name' }
+        queryset = Quiz.objects.select_related('author').all()
+        response = generic_datatable_list_endpoint(request, search_field_list, queryset, QuizSerializer, field_translation_list, sort_translation_list)
         return response
 
 
@@ -604,6 +677,11 @@ def uploadpic(request):
 class CentersViewSet(viewsets.ModelViewSet):
     queryset = EducationCenter.objects.all()
     serializer_class = EducationCenterSerializer
+
+
+class QuestionsViewSet(viewsets.ModelViewSet):
+    queryset = Question.objects.all()
+    serializer_class = QuestionSerializer
 
 
 class UserPartialUpdateView(GenericAPIView, UpdateModelMixin):

@@ -1,6 +1,6 @@
 {% extends "main/base.html" %}
 {% load static %}
-
+{% load i18n %}
 {% block title %}Index Aula{% endblock %}
 
 {% block main %}
@@ -22,7 +22,7 @@
             <img src="{% static 'main/icons/noun_Teacher_36665.svg' %}">
         </div>
         <div class="col-md-10">
-            <h2>Espai professorat</h2>
+            <h2>{% trans 'Espai professorat' %}</h2>
             <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris
                 condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis
                 euismod. Donec sed odio dui. </p>
@@ -32,7 +32,7 @@
             <img src="{% static 'main/icons/noun_graduate_66572.svg' %}">
         </div>
         <div class="col-md-10">
-            <h2>Espai alumnes</h2>
+            <h2>{% trans 'Espai alumnes' %}</h2>
             <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris
                 condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis
                 euismod. Donec sed odio dui. </p>
@@ -42,7 +42,7 @@
             <img src="{% static 'main/icons/noun_admin_3323392.svg' %}">
         </div>
         <div class="col-md-10">
-            <h2>Espai administradors</h2>
+            <h2>{% trans 'Espai administradors' %}</h2>
             <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris
                 condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis
                 euismod. Donec sed odio dui. </p>

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from main.models import EducationCenter, Quiz
+from main.models import EducationCenter, Quiz, Question
 from django.contrib.auth.models import User
 
 
@@ -26,16 +26,37 @@ class EducationCenterSerializer(serializers.ModelSerializer):
             return geom.x
 
 
+class QuestionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Question
+        fields = '__all__'
+
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = '__all__'
 
 
+class ShortUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username']
+
+
 class QuizSerializer(serializers.ModelSerializer):
+
+    education_center = serializers.SerializerMethodField('get_quiz_center')
+    author = ShortUserSerializer()
+
     class Meta:
         model = Quiz
         fields = '__all__'
+
+    def get_quiz_center(self,obj):
+        if obj.author and obj.author.profile and obj.author.profile.is_teacher:
+            return obj.author.profile.teacher_belongs_to.name
+        return None
 
 
 class AlumSerializer(serializers.ModelSerializer):

@@ -11,12 +11,12 @@
     }
 </style>
 {% endblock %}
-{% block title %}Llistar/Editar/Esborrar centres{% endblock %}
+{% block title %}{% trans 'Llistar/Editar/Esborrar centres' %}{% endblock %}
 
 {% block main %}
 <div class="col-xs-12" style="height:50px;"></div>
 <div class="container">
-    <h2><img src="{% static 'main/icons/noun_School_1443077.svg' %}" width="10%"> Llista de centres:</h2>
+    <h2><img src="{% static 'main/icons/noun_School_1443077.svg' %}" width="10%"> {% trans 'Llista de centres' %}:</h2>
 </div>
 <div class="container">
     <table class="table table-striped table-bordered" id="center_list" style="width:100%;"></table>

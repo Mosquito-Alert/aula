@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import os
+from django.utils.translation import ugettext_lazy as _
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
@@ -143,6 +144,24 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+LANGUAGES = (
+    ('es', _('Spanish')),
+    ('ca', _('Catalan')),
+    ('en', _('English')),
+    ('nl', _('Dutch')),
+)
+
+# generate locale files
+# ./manage.py makemessages -l en
+# ./manage.py makemessages -l ca
+# ./manage.py makemessages -l es
+# ./manage.py makemessages -l nl
+# ./manage.py makemessages -d djangojs -l en
+# ./manage.py makemessages -d djangojs -l ca
+# ./manage.py makemessages -d djangojs -l es
+# ./manage.py makemessages -d djangojs -l nl
+# ./manage.py compilemessages
 
 
 # Static files (CSS, JavaScript, Images)

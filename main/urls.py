@@ -6,6 +6,7 @@ from . import views
 
 router = routers.DefaultRouter()
 router.register(r'centers', views.CentersViewSet)
+router.register(r'questions', views.QuestionsViewSet, basename="questions")
 
 urlpatterns = [
     path('', views.index, name='index'),
@@ -17,8 +18,12 @@ urlpatterns = [
     path('quiz/update/', views.quiz_update, name='quiz_update_no_id'),
     path('quiz/update/<int:pk>/', views.quiz_update, name='quiz_update'),
     path('quiz/datatablelist/', views.quiz_datatable_list, name='quiz_datatable_list'),
+    path('quiz/start/<int:pk>/', views.quiz_start, name='quiz_take_splash'),
+    path('quiz/take/<int:quiz_id>/<int:question_number>/', views.quiz_take, name='quiz_take'),
     path('question/new/<int:quiz_id>/', views.question_new, name='question_new'),
     path('question/new/', views.question_new, name='question_new'),
+    path('question/update/', views.question_update, name='question_update_no_id'),
+    path('question/update/<int:pk>/', views.question_update, name='question_update'),
     path('teacher/new/', views.teacher_new, name='teacher_new'),
     path('teacher/list/', views.teacher_list, name='teacher_list'),
     path('teacher/update/<int:pk>/', views.teacher_update, name='teacher_update'),

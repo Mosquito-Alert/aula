@@ -1,4 +1,5 @@
 {% load static %}
+{% load i18n %}
 
 <!DOCTYPE html>
 <html>
@@ -17,7 +18,7 @@
     <link href="{% static 'main/toastr/toastr.min.css' %}" rel="stylesheet">
     {% block extra_css %}
     {% endblock %}
-    <title>{% block title %}Aula{% endblock %}</title>
+    <title>{% block title %}{% trans 'Aula' %}{% endblock %}</title>
     {% load bootstrap4 %}
     {# CSS Bootstrap #}
     {% bootstrap_css %}
@@ -32,16 +33,16 @@
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="{% url 'index' %}">Inici <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="{% url 'index' %}">{% trans 'Inici' %} <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'teacher_menu' %}">Espai professorat</a>
+                <a class="nav-link" href="{% url 'teacher_menu' %}">{% trans 'Espai professorat' %}</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Espai alumnes</a>
+                <a class="nav-link" href="#">{% trans 'Espai alumnes' %}</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'admin_menu' %}">Espai administradors</a>
+                <a class="nav-link" href="{% url 'admin_menu' %}">{% trans 'Espai administradors' %}</a>
             </li>
             <!--<li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown"

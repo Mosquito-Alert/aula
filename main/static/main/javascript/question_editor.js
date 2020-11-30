@@ -93,6 +93,10 @@
         errors = {};
         $('.answer-error').remove();
         var one_correct = false;
+        if(AEditor.data.length == 0){
+            $('#general_errors').html('<span><small class="text-danger answer-error"><strong>No has afegit cap resposta per la pregunta.</strong></small></span>');
+            return false;
+        }
         for(var i = 0; i < AEditor.data.length; i++){
             row = AEditor.data[i];
             if(row.label == null || row.label == ''){

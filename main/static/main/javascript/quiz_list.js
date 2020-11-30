@@ -35,7 +35,9 @@ $(document).ready( function () {
             return JSON.parse( localStorage.getItem( 'DataTables_' + settings.sInstance ) );
         },
         'columns': [
-            { 'data': 'name' }
+            { 'data': 'name' },
+            { 'data': 'author.username' },
+            { 'data': 'education_center' },
         ],
         'columnDefs': [
             {
@@ -43,7 +45,15 @@ $(document).ready( function () {
                 'title': 'Nom de la prova'
             },
             {
-                'targets': 1,
+                'targets':1,
+                'title': 'Autor'
+            },
+            {
+                'targets':2,
+                'title': 'Centre'
+            },
+            {
+                'targets': 3,
                 'sortable': false,
                 'render': function(value){
                     return '<button title="Editar" class="edit_button btn btn-info"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>';
@@ -58,8 +68,6 @@ $(document).ready( function () {
         var id = row.data().id
         window.location.href = _quiz_update_url + id + '/';
     });
-
-    $('#')
 
     /*
     var delete_group = function(id, to_state){

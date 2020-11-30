@@ -1,5 +1,6 @@
 {% extends "main/base.html" %}
 {% load static %}
+{% load i18n %}
 {% load crispy_forms_tags %}
 
 {% block extra_css %}
@@ -9,19 +10,19 @@
 <link href="{% static 'main/jQuery-File-Upload-9.28.0/css/github/blueimp-gallery.min.css' %}" rel="stylesheet">
 <link href="{% static 'main/select2/select2.min.css' %}" rel="stylesheet">
 {% endblock %}
-{% block title %}Crear grup{% endblock %}
+{% block title %}{% trans 'Crear grup' %}{% endblock %}
 
 {% block main %}
 <div class="col-xs-12" style="height:50px;"></div>
 <div class="container">
-    <h2><img src="{% static 'main/icons/noun_group_737669.svg' %}" width="10%"> Creant nou grup:</h2>
+    <h2><img src="{% static 'main/icons/noun_group_737669.svg' %}" width="10%"> {% trans 'Creant nou grup' %}:</h2>
     <button type="button" class="btn btn-primary suggest-fields">Suggerir camps <i class="fas fa-bolt"></i></button>
     <div class="col-xs-12" style="height:50px;"></div>
     <form id="group_form" class="form" action="{% url 'group_new' %}" method="post">
         {% csrf_token %}
         {{ form|crispy }}
         <div id="file_upload_div" class="form-group">
-            <label>Imatge del grup:</label>
+            <label>{% trans 'Imatge del grup' %}:</label>
             <input id="fileupload" type="file" name="camp_foto" style="display: none" data-url="{% url 'uploadpic' %}" data-form-data='{"csrfmiddlewaretoken": "{{ csrf_token }}"}'>
             <table id="gallery" class="table table-bordered" style="margin-top: 15px;">
                 <tbody>
@@ -31,22 +32,22 @@
                             <a target="_blank" href="{{ photo_path }}"><img style="height: 150px;" src="{{ photo_path }}"></a>
                           </td>
                           <td>
-                            <a href="#" class="btn btn-danger btn-sm btn-del btn-del-img imatgeRodal deleteFoto">Eliminar</a>
+                            <a href="#" class="btn btn-danger btn-sm btn-del btn-del-img imatgeRodal deleteFoto">{% trans 'Eliminar' %}</a>
                           </td>
                       </tr>
                     {% endif %}
                 </tbody>
             </table>
             <button type="button" class="btn btn-primary js-upload-photos">
-                <span class="glyphicon glyphicon-cloud-upload"></span>Afegir foto
+                <span class="glyphicon glyphicon-cloud-upload"></span>{% trans 'Afegir foto' %}
             </button>
         </div>
         <div class="row">
             <div class="col">
                 <img src="{% static 'main/icons/noun_School_1443077.svg' %}" width="10%">
-                <label for="center">Centre:</label>
+                <label for="center">{% trans 'Centre' %}:</label>
                 <select id="center" class="form-control">
-                    <option value="-1" selected>Choose...</option>
+                    <option value="-1" selected>{% trans 'Tria' %}...</option>
                     {% for center in centers %}
                     <option value="{{ center.id }}">{{ center.name }}</option>
                     {% endfor %}
@@ -54,19 +55,19 @@
             </div>
             <div class="col">
                 <img src="{% static 'main/icons/noun_Teacher_36665.svg' %}" width="10%">
-                <label for="tutor">Tutor:</label>
+                <label for="tutor">{% trans 'Tutor' %}:</label>
                 <select id="tutor" class="form-control">
-                    <option selected>Select center first...</option>
+                    <option selected>{% trans 'Tria primer un centre' %}...</option>
                 </select>
             </div>
             <div class="col">
                 <img src="{% static 'main/icons/noun_graduate_66572.svg' %}" width="10%">
-                <label for="id_select_alum">Alumnes:</label>
+                <label for="id_select_alum">{% trans 'Alumnes' %}:</label>
                 <select id="id_select_alum" name="alums" class="form-control" multiple="multiple"></select>
             </div>
             <input id="alum_ids" type="hidden" name="alum_ids" value="{{ alum_ids }}">
         </div>
-        <input role="button" class="btn btn-success mt-2" type="submit" value="Desar" />
+        <input role="button" class="btn btn-success mt-2" type="submit" value="{% trans 'Desar' %}" />
     </form>
 </div>
 {% endblock %}

@@ -29,6 +29,16 @@ class Quiz(models.Model):
     def sorted_questions_set(self):
         return self.questions.all().order_by('question_order')
 
+    @property
+    def get_next_question_number(self):
+        number = 1
+        question_numbers = [ q.question_order for q in self.questions.all() ]
+        try:
+            number = max(question_numbers) + 1
+        except:
+            pass
+        return number
+
 
 class TakenQuiz(models.Model):
     taken_by = models.ForeignKey(User, null=True, on_delete=models.CASCADE, related_name='taken_quizzes')
@@ -58,6 +68,12 @@ class Answer(models.Model):
 
     def __str__(self):
         return self.text
+
+
+class QuizSolution(models.Model):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='answered_questions')
+    alum_answered = models.ForeignKey(Answer, on_delete=models.CASCADE, related_name='responses', null=True, blank=True)
+    answered_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='alum_answers' )
 
 
 class GroupAnswer(models.Model):

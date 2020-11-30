@@ -3,12 +3,12 @@
 {% load i18n %}
 {% load crispy_forms_tags %}
 
-{% block title %}{% trans 'Afegir preguntes a una prova' %}{% endblock %}
+{% block title %}{% trans 'Editar les preguntes i respostes d\'una prova' %}{% endblock %}
 
 {% block main %}
 <div class="col-xs-12" style="height:50px;"></div>
 <div class="container">
-    <form id="question_form" action="{% url 'question_new' quiz.id %}" method="post">
+    <form id="question_form" action="{% url 'question_update' question.id %}" method="post">
         {% csrf_token %}
         <h2>{% trans 'Nom de la prova' %}:</h2>
         <p>{{ quiz.name }}</p>
@@ -26,7 +26,7 @@
         <div id="answers">
         </div>
         <div id="general_errors"></div>
-        <input type="hidden" name="quiz_id" value="{{ quiz.id }}">
+        <input type="hidden" name="question_id" value="{{ question.id }}">
         <button type="button" id="add_resposta" class="btn btn-info mt-2"><i class="fas fa-plus"></i></button><br>
         <input role="button" class="btn btn-success mt-2" type="submit" value="{% trans 'Desar' %}"/>
     </form>
@@ -75,6 +75,6 @@
     }
 </script>
 <script src="{% static 'main/javascript/question_editor.js' %}"></script>
-<script src="{% static 'main/javascript/question_new.js' %}"></script>
+<script src="{% static 'main/javascript/question_edit.js' %}"></script>
 {% endblock %}
 

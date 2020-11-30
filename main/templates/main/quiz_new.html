@@ -1,7 +1,7 @@
 {% extends "main/base.html" %}
 {% load static %}
-
-{% block title %}Crear prova{% endblock %}
+{% load i18n %}
+{% block title %}{% trans 'Crear prova' %}{% endblock %}
 
 {% block main %}
 <div class="col-xs-12" style="height:50px;"></div>
@@ -10,10 +10,10 @@
         {% csrf_token %}
         <div class="form-group mb-3">
             <img src="{% static 'main/icons/noun_test_3271143.svg' %}" width="10%">
-            <label for="{{ form.name.id_for_label }}">Nom de la prova:</label>
+            <label for="{{ form.name.id_for_label }}">{% trans 'Nom de la prova' %}:</label>
             {{ form.name }}
             {{ form.name.errors }}
-            <input role="button" class="btn btn-success mt-2" type="submit" value="Desar" />
+            <input role="button" class="btn btn-success mt-2" type="submit" value="{% trans 'Desar' %}" />
         </div>
     </form>
 </div>

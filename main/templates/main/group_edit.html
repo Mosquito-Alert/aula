@@ -1,5 +1,6 @@
 {% extends "main/base.html" %}
 {% load static %}
+{% load i18n %}
 {% load crispy_forms_tags %}
 
 {% block extra_css %}
@@ -9,18 +10,18 @@
 <link href="{% static 'main/jQuery-File-Upload-9.28.0/css/github/blueimp-gallery.min.css' %}" rel="stylesheet">
 <link href="{% static 'main/select2/select2.min.css' %}" rel="stylesheet">
 {% endblock %}
-{% block title %}Editar grup{% endblock %}
+{% block title %}{% trans 'Editar grup' %}{% endblock %}
 
 {% block main %}
 <div class="col-xs-12" style="height:50px;"></div>
 <div class="container">
-    <h2><img src="{% static 'main/icons/noun_group_737669.svg' %}" width="10%"> Editant grup:</h2>
+    <h2><img src="{% static 'main/icons/noun_group_737669.svg' %}" width="10%"> {% trans 'Editant grup' %}:</h2>
     <form id="group_form" class="form" action="{% url 'group_update' group_id %}" method="post">
         {% csrf_token %}
         {{ form.username|as_crispy_field }}
         <div id="div_id_password1" class="form-group">
           <label for="id_password1" class=" requiredField">
-              Password (Es recomana un password curt, de 4 caràcters:)<span class="asteriskField">*</span>
+              {% trans 'Password (Es recomana un password curt, de 4 caràcters)' %}<span class="asteriskField">*</span>
           </label>
           <div class="">
             <input type="text" name="password1" value="{{ group_password }}" autocomplete="new-password" class="form-control textinput textInput form-control" maxlength="4" required id="id_password1">
@@ -28,14 +29,14 @@
         </div>
         <div id="div_id_group_public_name" class="form-group">
           <label for="id_group_public_name" class=" requiredField">
-              Nom públic del grup<span class="asteriskField">*</span>
+              {% trans 'Nom públic del grup' %}<span class="asteriskField">*</span>
           </label>
           <div class="">
             <input type="text" name="group_public_name" value="{{ group_public_name }}" class="form-control textinput textInput form-control" maxlength="150" required id="id_group_public_name">
           </div>
         </div>
         <div id="file_upload_div" class="form-group">
-            <label>Imatge del grup:</label>
+            <label>{% trans 'Imatge del grup' %}:</label>
             <input id="fileupload" type="file" name="camp_foto" style="display: none" data-url="{% url 'uploadpic' %}" data-form-data='{"csrfmiddlewaretoken": "{{ csrf_token }}"}'>
             <table id="gallery" class="table table-bordered" style="margin-top: 15px;">
                 <tbody>
@@ -45,40 +46,40 @@
                             <a target="_blank" href="{{ photo_path }}"><img style="height: 150px;" src="{{ photo_path }}"></a>
                           </td>
                           <td>
-                            <a href="#" class="btn btn-danger btn-sm btn-del btn-del-img imatgeRodal deleteFoto">Eliminar</a>
+                            <a href="#" class="btn btn-danger btn-sm btn-del btn-del-img imatgeRodal deleteFoto">{% trans 'Eliminar' %}</a>
                           </td>
                       </tr>
                     {% endif %}
                 </tbody>
             </table>
             <button type="button" class="btn btn-primary js-upload-photos">
-                <span class="glyphicon glyphicon-cloud-upload"></span>Afegir foto
+                <span class="glyphicon glyphicon-cloud-upload"></span>{% trans 'Afegir foto' %}
             </button>
         </div>
         <input id="id_photo_path" type="hidden" name="photo_path" value="{{ photo_path }}">
         <div class="row">
             <div class="col">
-                <label for="center">Centre:</label>
+                <label for="center">{% trans 'Centre' %}:</label>
                 <select id="center" class="form-control">
-                    <option value="-1" selected>Choose...</option>
+                    <option value="-1" selected>{% trans 'Tria' %}...</option>
                     {% for center in centers %}
                     <option value="{{ center.id }}">{{ center.name }}</option>
                     {% endfor %}
                 </select>
             </div>
             <div class="col">
-                <label for="tutor">Tutor:</label>
+                <label for="tutor">{% trans 'Tutor' %}:</label>
                 <select id="tutor" class="form-control">
-                    <option selected>Select center...</option>
+                    <option selected>{% trans 'Tria centre' %}...</option>
                 </select>
             </div>
             <div class="col">
-                <label for="id_select_alum">Alumnes:</label>
+                <label for="id_select_alum">{% trans 'Alumnes' %}:</label>
                 <select id="id_select_alum" name="alums" class="form-control" multiple="multiple"></select>
             </div>
             <input id="alum_ids" type="hidden" name="alum_ids" value="{{ alum_ids }}">
         </div>
-        <input role="button" class="btn btn-success mt-2" type="submit" value="Desar" />
+        <input role="button" class="btn btn-success mt-2" type="submit" value="{% trans 'Desar' %}" />
     </form>
 </div>
 {% endblock %}

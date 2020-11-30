@@ -1,0 +1,27 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% load i18n %}
+{% block title %}{% trans 'Realitzar prova' %}{% endblock %}
+
+{% block main %}
+<div class="col-xs-12" style="height:50px;"></div>
+<div class="container">
+    <div class="row mb-3">
+        <div class="col-md-12">
+            <h2 class="mb-3">{% trans 'Inici de prova' %} - <strong>{{ quiz.name }}</strong></h2>
+            <ul>
+                <li><p>{% trans 'Total de preguntes de la prova' %}: <strong>{{ questions_total }}</strong></p></li>
+                <li>{% trans 'Preguntes respostes' %}: <strong>{{ questions_answered }} de {{ questions_total }}</strong></li>
+            </ul>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-5">
+            <img src="{% static 'main/icons/noun_starting_1512102.svg' %}">
+        </div>
+        <div class="col-md-7 my-auto">
+            <a href="{% url 'quiz_take' quiz.id 1 %}" class="btn btn-success btn-lg btn-block" type="button">{% trans 'Començar!' %}</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

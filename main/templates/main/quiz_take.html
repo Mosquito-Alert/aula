@@ -1,0 +1,81 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% load i18n %}
+{% block extra_css %}
+<style>
+    .disabled {
+        filter: invert(0.70);
+        pointer-events: none;
+    }
+
+    .icon_right {
+        background-image: url({% static 'main/icons/noun_Arrow Right_1094195.svg' %});
+    }
+
+    .icon_left {
+        background-image: url({% static 'main/icons/noun_Left_1094193.svg' %});
+    }
+
+    .icon {
+        display: inline-block;
+        width: 70px;
+        height: 70px;
+        background-size: cover;
+    }
+    .progress {
+        height: 40px !important;
+    }
+</style>
+{% endblock %}
+{% block title %}{% trans 'Realitzant prova' %}{% endblock %}
+
+{% block main %}
+<div class="col-xs-12" style="height:50px;"></div>
+<div class="container">
+    <div class="row mb-3">
+        <div class="progress col-md-12">
+            <div class="progress-bar" role="progressbar" style="width: {{ current_progress }}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{% trans 'Pregunta' %} {{ question.question_order }} {% trans 'de' %} {{ questions_total }}</div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-1 my-auto">
+            {% if previous_question %}
+                <a class="icon icon_left" href="{% url 'quiz_take' quiz.id previous_question.question_order %}"></a>
+            {% else %}
+                <a class="icon icon_left disabled" href="#"></a>
+            {% endif %}
+        </div>
+        <div class="col-md-10">
+            <div id="question_{{ question.id }}" class="mb-3">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div>
+                            <p><strong>{{ question.question_order }}.</strong> <i>{{ question.text }}</i> </p>
+                        </div>
+                    </div>
+                </div>
+                {% for answer in question.sorted_answers_set %}
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="ml-5">
+                            <input type="radio" name="answers" value="{{answer.id}}" class="form-check-input answer_correct"> <p>{{ answer.label }}) {{ answer.text }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-md-1 my-auto">
+            <!--<a class="disabled" href="#" type="button"><img src="{% static 'main/icons/noun_Arrow Right_1094195.svg' %}"></a>-->
+            {% if next_question %}
+                <a class="icon icon_right" href="{% url 'quiz_take' quiz.id next_question.question_order %}"></a>
+            {% else %}
+                <a class="icon icon_right disabled" href=""></a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'main/javascript/quiz_take.js' %}"></script>
+{% endblock %}

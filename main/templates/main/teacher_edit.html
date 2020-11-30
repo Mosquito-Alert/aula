@@ -1,5 +1,6 @@
 {% extends "main/base.html" %}
 {% load static %}
+{% load i18n %}
 {% load crispy_forms_tags %}
 
 {% block extra_css %}
@@ -11,16 +12,16 @@
     }
 </style>
 {% endblock %}
-{% block title %}Editar mestre{% endblock %}
+{% block title %}{% trans 'Editar mestre' %}{% endblock %}
 
 {% block main %}
 <div class="col-xs-12" style="height:50px;"></div>
 <div class="container">
-    <h2><img src="{% static 'main/icons/noun_Teacher_36665.svg' %}" width="10%"> Editant mestre:</h2>
+    <h2><img src="{% static 'main/icons/noun_Teacher_36665.svg' %}" width="10%"> {% trans 'Editant mestre' %}:</h2>
     <form class="form" action="{% url 'teacher_update' teacher_id %}" method="post">
         {% csrf_token %}
         {{ form|crispy }}
-        <input role="button" class="btn btn-success mt-2" type="submit" value="Desar" />
+        <input role="button" class="btn btn-success mt-2" type="submit" value="{% trans 'Desar' %}" />
     </form>
 </div>
 {% endblock %}
