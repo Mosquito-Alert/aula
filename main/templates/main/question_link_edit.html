@@ -1,0 +1,34 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block title %}{% trans 'Editar les preguntes i respostes d\'una prova' %}{% endblock %}
+
+{% block main %}
+<div class="col-xs-12" style="height:50px;"></div>
+<div class="container">
+    <form id="question_form" action="{% url 'question_link_update' question.id %}" method="post">
+        {% csrf_token %}
+        <h2>{% trans 'Nom de la prova' %}:</h2>
+        <p>{{ quiz.name }}</p>
+        <h3><img src="{% static 'main/icons/noun_Question_3611223.svg' %}" width="5%"> {% trans 'Pregunta' %}:</h3>
+        <div class="form-row">
+          <div class="form-group col-md-3 mb-0">
+            {{ form.question_order|as_crispy_field }}
+          </div>
+          <div class="form-group col-md-9 mb-0">
+            {{ form.text|as_crispy_field }}
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-12 mb-0">
+            {{ form.doc_link|as_crispy_field }}
+          </div>
+        </div>
+        <input type="hidden" name="question_id" value="{{ question.id }}">
+        <input role="button" class="btn btn-success mt-2" type="submit" value="{% trans 'Desar' %}"/>
+    </form>
+</div>
+{% endblock %}
+

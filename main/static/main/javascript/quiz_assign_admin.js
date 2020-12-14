@@ -1,4 +1,5 @@
 $(document).ready(function() {
+
     var load_group_names = function(){
         $.ajax({
             url: '/api/group_name/',
@@ -48,69 +49,12 @@ $(document).ready(function() {
         });
     };
 
-    /*
-    $( "p" ).focusout(function() {
-        focus++;
-        $( "#focus-count" ).text( "focusout fired: " + focus + "x" );
-    });
-
-
-    $("#id_group_public_name").change(function(){
-        console.log('change');
-        $('#id_username').val('');
-    });
-
-
-    $('#id_group_public_name').on('change textInput input', function () {
-         $('#id_username').val('');
-    });
-    */
-
-    $(".js-upload-photos").click(function () {
-        $("#fileupload").click();
-    });
-
-    $("#fileupload").fileupload({
-        dataType: 'json',
-        formData: [
-            { name: "csrfmiddlewaretoken", value: "{{ csrf_token }}"}
-        ],
-        done: function (e, data) {  /* 3. PROCESS THE RESPONSE FROM THE SERVER */
-          if (data.result.is_valid) {
-            $("#gallery tbody").html(
-            "<tr id='tr_" + data.result.id + "'>" +
-                "<td>" +
-                    "<a target='_blank' href='" + data.result.url +  "'>" +
-                        "<img id="+ data.result.id +" style='height: 150px;' src='" + data.result.url + "'>" +
-                    "</a>" +
-                "</td>" +
-                "<td>" +
-                    "<a href='#' class='btn btn-danger btn-sm btn-del btn-del-img imatgeRodal deleteFoto' id="+ data.result.id +">Eliminar</a>" +
-                "</td>" +
-            "<tr>");
-            //setJSONFotos(data.result.id);
-            $('#id_photo_path').val(data.result.url);
-          }else{
-            alert(data.result.error_imagen);
-          }
-        }
-    });
-
-    $(document).on('click', '.deleteFoto', function() {
-        if( confirm("Eliminar la foto?") ){
-            $("#gallery tbody").html('');
-        }
-    });
-
-    $(document).on('click', '.suggest-fields', function() {
-        $('#id_password1').val(utils.generate_random_password_4());
-        load_group_names();
-    });
-
     $('#center').change(function(){
         var selected_value = $(this).val()
         load_tutors(selected_value);
         $('#id_select_alum').val(null).trigger("change");
+        $('#id_select_quiz').val(null).trigger("change");
+        $('#id_select_group').val(null).trigger("change");
     });
 
     $('#tutor').change(function(){
@@ -118,10 +62,16 @@ $(document).ready(function() {
         $('#id_select_alum').empty().trigger("change");
         if(selected_value!="-1"){
             $('#id_select_alum').attr("disabled",false);
+            $('#id_select_quiz').attr("disabled",false);
+            $('#id_select_group').attr("disabled",false);
         }else{
             $('#id_select_alum').attr("disabled",true);
+            $('#id_select_quiz').attr("disabled",true);
+            $('#id_select_group').attr("disabled",true);
         }
         $('#id_select_alum').val(null).trigger("change");
+        $('#id_select_quiz').val(null).trigger("change");
+        $('#id_select_group').val(null).trigger("change");
     });
 
     $('#id_select_alum').select2({
@@ -143,15 +93,73 @@ $(document).ready(function() {
       }
     });
 
-    $('#id_select_alum').attr("disabled",true);
-
-    $('#group_form').submit(function() {
-        $('#alum_ids').val('');
-        var alum_ids = $("#id_select_alum").select2('data');
-        var ids = [];
-        for(var i = 0; i < alum_ids.length; i++){
-            ids.push( alum_ids[i].id );
+    $('#id_select_quiz').select2({
+      ajax: {
+        url: '/quiz/search/',
+        dataType: 'json',
+        delay: 250,
+        processResults: function (data) {
+            return {
+                results: data
+            };
+        },
+        data: function(term,page){
+            return {
+                q: term,
+                tutor_id: $("#tutor").val()
+            };
         }
-        $('#alum_ids').val( ids.join(',') );
+      }
     });
+
+    $('#id_select_group').select2({
+      ajax: {
+        url: '/group/search/',
+        dataType: 'json',
+        delay: 250,
+        processResults: function (data) {
+            return {
+                results: data
+            };
+        },
+        data: function(term,page){
+            return {
+                q: term,
+                tutor_id: $("#tutor").val()
+            };
+        }
+      }
+    });
+
+    $('#id_select_alum').attr("disabled",true);
+    $('#id_select_quiz').attr("disabled",true);
+    $('#id_select_group').attr("disabled",true);
+
+    var resetUI = function(){
+        $('#id_select_alum').val(null).trigger("change");
+        $('#id_select_quiz').val(null).trigger("change");
+        $('#id_select_group').val(null).trigger("change");
+        $('#id_select_alum').attr("disabled",true);
+        $('#id_select_quiz').attr("disabled",true);
+        $('#id_select_group').attr("disabled",true);
+        $('#tutor').empty();
+        $('#tutor').html("<option selected>Tria primer un centre...</option>");
+        $('#center').val("-1");
+    }
+
+    $('input[type=radio][name=assignto]').change(function() {
+        if (this.value == 'alum') {
+            resetUI();
+            $('#select_group').hide();
+            $('#select_alum').show();
+        }
+        else if (this.value == 'group') {
+            resetUI();
+            $('#select_group').show();
+            //$('#select_group').addClass("col-md-3");
+            $('#select_alum').hide();
+        }
+    });
+
+
 });

@@ -1,6 +1,28 @@
+var get_highest_question_number = function(){
+    var numbers = [];
+    $("[class^='ord_']").each(function(index, el){
+        var class_name = $(this).attr('class');
+        var order = parseInt( class_name.split('_')[1] );
+        numbers.push(order);
+    });
+    var max_idx;
+    max_idx = Math.max.apply(Math, numbers);
+    if(max_idx){
+        return max_idx + 1;
+    }else{
+        return 1;
+    }
+}
+
+
 $(document).ready(function() {
+
     $('#add_question').click(function(){
         window.location.href = _question_new_url + quiz_id + "/" + '?n=' + suggested_new_order;
+    });
+
+    $('#add_question_link').click(function(){
+        window.location.href = _question_link_new_url + quiz_id + "/" + '?n=' + suggested_new_order;
     });
 
     $('.delete_button').click(function(){
@@ -21,9 +43,11 @@ $(document).ready(function() {
             success: function( data, textStatus, jqXHR ) {
                 toastr.success('Pregunta eliminada!');
                 $('#question_' + id).remove();
+                suggested_new_order = get_highest_question_number();
             },
             error: function(jqXHR, textStatus, errorThrown){
                 toastr.error('Error eliminant pregunta');
+                suggested_new_order = get_highest_question_number();
             }
         });
     };

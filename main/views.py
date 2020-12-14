@@ -5,7 +5,7 @@ from main.forms import QuizForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from main.models import EducationCenter, Word, Quiz, Answer, Question, QuizSolution
-from main.forms import TeacherForm, SimplifiedTeacherForm, EducationCenterForm, TeacherUpdateForm, ChangePasswordForm, SimplifiedAlumForm, SimplifiedGroupForm, AlumUpdateForm, QuestionForm
+from main.forms import TeacherForm, SimplifiedTeacherForm, EducationCenterForm, TeacherUpdateForm, ChangePasswordForm, SimplifiedAlumForm, SimplifiedGroupForm, AlumUpdateForm, QuestionForm, QuestionLinkForm
 from django.contrib.gis.geos import GEOSGeometry
 from rest_framework.decorators import api_view, permission_classes
 from querystring_parser import parser
@@ -14,7 +14,7 @@ import functools
 from rest_framework.response import Response
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import operator
-from main.serializers import EducationCenterSerializer, TeacherSerializer, UserSerializer, AlumSerializer, GroupSerializer, GroupSearchSerializer, TeacherComboSerializer, AlumSearchSerializer, QuizSerializer, QuestionSerializer
+from main.serializers import EducationCenterSerializer, TeacherSerializer, UserSerializer, AlumSerializer, GroupSerializer, GroupSearchSerializer, TeacherComboSerializer, AlumSearchSerializer, QuizSerializer, QuestionSerializer, QuizSearchSerializer
 from rest_framework import status,viewsets, generics
 from django.db.models import Q
 from rest_framework.generics import GenericAPIView
@@ -32,6 +32,7 @@ from django.conf import settings
 from django.core.files import File
 from shutil import copy
 import os
+from django.contrib.auth.decorators import user_passes_test
 
 
 def get_order_clause(params_dict, translation_dict=None):
@@ -98,18 +99,50 @@ def generic_datatable_list_endpoint(request,search_field_list,queryset, classSer
     serializer = classSerializer(paginator.page(page), many=True)
     return Response({'draw': draw, 'recordsTotal': recordsTotal, 'recordsFiltered': recordsFiltered, 'data': serializer.data})
 
+
+def is_teacher_test(user):
+    if user.is_superuser:
+        return True
+    if user.profile and user.profile.is_teacher:
+        return True
+    return False
+
+
+def is_alum_test(user):
+    if user.is_superuser:
+        return True
+    if user.profile and user.profile.is_alum:
+        return True
+    return False
+
+
+def is_group_test(user):
+    if user.is_superuser:
+        return True
+    if user.profile and user.profile.is_group:
+        return True
+    return False
+
+
 # Create your views here.
 def index(request):
-    #return HttpResponse("Hello, world. You're at the polls index.")
     return render(request, 'main/index.html', {})
 
 
+@login_required
 def teacher_menu(request):
-    return render(request, 'main/teacher_menu.html', {})
+    if is_teacher_test(request.user):
+        return render(request, 'main/teacher_menu.html', {})
+    else:
+        return render(request, 'main/no_permissions_page.html', {})
 
 
+@login_required
 def admin_menu(request):
-    return render(request, 'main/admin_menu.html', {})
+    if request.user.is_superuser:
+        return render(request, 'main/admin_menu.html', {})
+    else:
+        return render(request, 'main/no_permissions_page.html', {})
 
 
 @login_required
@@ -134,6 +167,31 @@ def quiz_new(request):
         form = QuizForm()
 
     return render(request, 'main/quiz_new.html', {'form': form})
+
+
+@login_required
+def question_link_new(request, quiz_id=None):
+    quiz = None
+    if quiz_id:
+        quiz = get_object_or_404(Quiz, pk=quiz_id)
+    else:
+        raise forms.ValidationError("No existeix aquesta prova")
+    if request.method == 'POST':
+        form = QuestionLinkForm(request.POST)
+        if form.is_valid():
+            question = form.save(commit=False)
+            question.quiz = quiz
+            question.save()
+            return HttpResponseRedirect('/quiz/update/' + str(quiz_id) + '/')
+    else:
+        form = QuestionLinkForm()
+    return render(request, 'main/question_link_new.html', {'form': form, 'quiz': quiz })
+
+
+@login_required
+def quiz_assign_admin(request):
+    centers = EducationCenter.objects.all().order_by('name')
+    return render(request, 'main/quiz_assign_admin.html', {'centers':centers})
 
 @login_required
 def question_new(request, quiz_id=None):
@@ -164,6 +222,20 @@ def question_new(request, quiz_id=None):
     else:
         form = QuestionForm()
     return render(request, 'main/question_new.html', {'form': form, 'quiz': quiz, 'json_answers': json_answers})
+
+
+@login_required
+def question_link_update(request, pk=None):
+    question = None
+    if pk:
+        question = get_object_or_404(Question, pk=pk)
+    form = QuestionLinkForm(request.POST or None, instance=question)
+    if request.POST:
+        if form.is_valid():
+            question = form.save()
+            return HttpResponseRedirect('/quiz/update/' + str(question.quiz.id) + '/')
+    return render(request, 'main/question_link_edit.html',
+                  { 'form': form, 'question': question })
 
 
 @login_required
@@ -200,11 +272,13 @@ def quiz_take(request, quiz_id=None, question_number=1):
     previous_question = None
     next_question = None
     questions_total = None
+    questions = None
     current_progress = 0
     if quiz_id:
         quiz = get_object_or_404(Quiz, pk=quiz_id)
         question = Question.objects.get(quiz=quiz,question_order=question_number)
-        questions_total = quiz.questions.all().count()
+        questions = quiz.sorted_questions_set
+        questions_total = questions.count()
         current_progress = question_number/questions_total
         try:
             previous_question = Question.objects.get(quiz=quiz,question_order=question_number - 1)
@@ -216,7 +290,16 @@ def quiz_take(request, quiz_id=None, question_number=1):
             pass
     else:
         raise forms.ValidationError("No existeix aquesta prova")
-    return render(request, 'main/quiz_take.html',{'quiz': quiz, 'question': question, 'previous_question':previous_question, 'next_question': next_question, 'current_progress': str(current_progress*100), 'questions_total': questions_total})
+    return render(request, 'main/quiz_take.html',
+                  {
+                      'quiz': quiz,
+                      'question': question,
+                      'previous_question':previous_question,
+                      'next_question': next_question,
+                      'current_progress': str(current_progress*100),
+                      'questions_total': questions_total,
+                      'questions': questions
+                  })
 
 
 @login_required
@@ -626,6 +709,20 @@ def group_search(request):
         else:
             queryset = User.objects.filter(profile__is_group=True).order_by('profile__group_public_name')
         serializer = GroupSearchSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+
+@api_view(['GET'])
+def quiz_search(request):
+    if request.method == 'GET':
+        q = request.query_params.get('q', '')
+        tutor_id = request.query_params.get('tutor_id', '-1')
+        t_id = int(tutor_id)
+        if q != '':
+            queryset = Quiz.objects.filter(author__id=t_id).filter(name__icontains=q).order_by('name')
+        else:
+            queryset = Quiz.objects.filter(author__id=t_id).order_by('name')
+        serializer = QuizSearchSerializer(queryset, many=True)
         return Response(serializer.data)
 
 

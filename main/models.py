@@ -40,10 +40,18 @@ class Quiz(models.Model):
         return number
 
 
+class AssignedQuiz(models.Model):
+    assigned_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='commissions')
+    assigned_to = models.ForeignKey(User, on_delete=models.CASCADE, related_name='homework')
+    assigned_on = models.DateTimeField(auto_now_add=True)
+    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name='assignations')
+
+
 class TakenQuiz(models.Model):
     taken_by = models.ForeignKey(User, null=True, on_delete=models.CASCADE, related_name='taken_quizzes')
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name='taken_quizzes')
-    score = models.FloatField()
+    computed_score = models.FloatField(help_text='Score automatically calculated when the quiz is finished')
+    assigned_score = models.FloatField(help_text='Score given by tutor. Can be different and supersedes the former.')
     date = models.DateTimeField(auto_now_add=True)
 
 
@@ -51,6 +59,7 @@ class Question(models.Model):
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name='questions')
     text = models.CharField('Question', max_length=255)
     question_order = models.IntegerField('Question order inside the quiz')
+    doc_link = models.URLField(max_length=1000, blank=True, null=True)
 
     def __str__(self):
         return self.text
@@ -74,6 +83,7 @@ class QuizSolution(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='answered_questions')
     alum_answered = models.ForeignKey(Answer, on_delete=models.CASCADE, related_name='responses', null=True, blank=True)
     answered_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='alum_answers' )
+    completed = models.BooleanField(default=False)
 
 
 class GroupAnswer(models.Model):

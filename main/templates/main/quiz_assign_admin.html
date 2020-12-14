@@ -1,0 +1,77 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% load i18n %}
+{% block extra_css %}
+<link href="{% static 'main/select2/select2.min.css' %}" rel="stylesheet">
+<style>
+    /* Fix for collapsed select2 on show/hide */
+    .select2 {
+      width: 100%!important;
+    }
+</style>
+{% endblock %}
+{% block title %}{% trans 'Assignar proves' %}{% endblock %}
+{% block main %}
+<div class="col-xs-12" style="height:50px;"></div>
+<div class="container">
+    <h2><img src="{% static 'main/icons/noun_homework_1674013.svg' %}" width="10%"> {% trans 'Assignar proves a grups o alumnes' %}:</h2>
+    <div class="col-xs-12" style="height:50px;"></div>
+    <div class="row">
+        <h4>{% trans 'Assignar proves a' %}:</h4>
+    </div>
+    <div class="row">
+        <div class="form-group col">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="assignto" id="r_alum" value="alum" checked>
+              <label class="form-check-label" for="r_alum">Alumnes</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="assignto" id="r_group" value="group">
+              <label class="form-check-label" for="r_group">Grups</label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-3">
+            <img src="{% static 'main/icons/noun_School_1443077.svg' %}" width="10%">
+            <label for="center">{% trans 'Centre' %}:</label>
+            <select id="center" class="form-control">
+                <option value="-1" selected>{% trans 'Tria' %}...</option>
+                {% for center in centers %}
+                <option value="{{ center.id }}">{{ center.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group col-md-3">
+            <img src="{% static 'main/icons/noun_Teacher_36665.svg' %}" width="10%">
+            <label for="tutor">{% trans 'Tutor' %}:</label>
+            <select id="tutor" class="form-control">
+                <option selected>{% trans 'Tria primer un centre' %}...</option>
+            </select>
+        </div>
+        <div class="form-group col-md-3">
+            <img src="{% static 'main/icons/noun_test_3271143.svg' %}" width="10%">
+            <label for="id_select_quiz">{% trans 'Proves' %}:</label>
+            <select id="id_select_quiz" name="alums" class="form-control" multiple="multiple"></select>
+        </div>
+        <div class="form-group col-md-3">
+            <div id="select_alum" >
+                <img src="{% static 'main/icons/noun_graduate_66572.svg' %}" width="10%">
+                <label for="id_select_alum">{% trans 'Alumnes' %}:</label>
+                <select id="id_select_alum" name="alums" class="form-control" multiple="multiple"></select>
+            </div>
+            <div id="select_group" style="display: none;">
+                <img src="{% static 'main/icons/noun_graduate_66572.svg' %}" width="10%">
+                <label for="id_select_group">{% trans 'Grups' %}:</label>
+                <select id="id_select_group" name="groups" class="form-control" multiple="multiple"></select>
+            </div>
+        </div>
+        <input id="alum_ids" type="hidden" name="alum_ids" value="{{ alum_ids }}">
+    </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'main/csrf_utils.js' %}"></script>
+<script src="{% static 'main/select2/select2.min.js' %}"></script>
+<script src="{% static 'main/javascript/quiz_assign_admin.js' %}"></script>
+{% endblock %}

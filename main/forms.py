@@ -9,9 +9,10 @@ from django.utils.translation import gettext, gettext_lazy as _
 
 class QuizForm(ModelForm):
     name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), required=True)
+    author = forms.ModelChoiceField(label=_("Autor"), queryset=User.objects.filter(profile__is_teacher=True).order_by('username'),widget=forms.Select(attrs={'class': 'form-control'}))
     class Meta:
         model = Quiz
-        fields = ['name']
+        fields = ['name','author']
 
 
 class EducationCenterForm(ModelForm):
@@ -65,8 +66,8 @@ class SimplifiedAlumForm(ModelForm):
     password1 = forms.CharField(label=_("Password"), strip=False,widget=forms.PasswordInput(attrs={'autocomplete': 'new-password', 'class': 'form-control'}),)
     password2 = forms.CharField(label=_("Repetir password"), strip=False,widget=forms.PasswordInput(attrs={'autocomplete': 'new-password', 'class': 'form-control'}), )
     username = forms.CharField(label=_("Nom usuari"), strip=False,widget=forms.TextInput(attrs={'class': 'form-control' }), )
-    teacher = forms.ModelChoiceField(label="Professor", queryset=User.objects.filter(profile__is_teacher=True).order_by('username'),widget=forms.Select(attrs={'class': 'form-control'}))
-    in_group = forms.ModelChoiceField(label="Grup", queryset=User.objects.filter(profile__is_group=True).all().order_by('username'),widget=forms.Select(attrs={'class': 'form-control'}))
+    teacher = forms.ModelChoiceField(label=_("Professor"), queryset=User.objects.filter(profile__is_teacher=True).order_by('username'),widget=forms.Select(attrs={'class': 'form-control'}))
+    in_group = forms.ModelChoiceField(label=_("Grup"), queryset=User.objects.filter(profile__is_group=True).all().order_by('username'),widget=forms.Select(attrs={'class': 'form-control'}))
 
     class Meta:
         model = User
@@ -103,7 +104,7 @@ class SimplifiedAlumForm(ModelForm):
 
 class AlumUpdateForm(ModelForm):
     username = forms.CharField(label=_("Nom usuari"), strip=False,widget=forms.TextInput(attrs={'class': 'form-control'}), )
-    teacher = forms.ModelChoiceField(label="Professor responsable",queryset=User.objects.filter(profile__is_teacher=True).order_by('username'),widget=forms.Select(attrs={'class': 'form-control'}))
+    teacher = forms.ModelChoiceField(label=_("Professor responsable"),queryset=User.objects.filter(profile__is_teacher=True).order_by('username'),widget=forms.Select(attrs={'class': 'form-control'}))
 
     class Meta:
         model = User
@@ -114,7 +115,7 @@ class SimplifiedAlumForm(ModelForm):
     password1 = forms.CharField(label=_("Password"), strip=False, widget=forms.PasswordInput(attrs={'autocomplete': 'new-password', 'class': 'form-control'}), )
     password2 = forms.CharField(label=_("Repetir password"), strip=False, widget=forms.PasswordInput(attrs={'autocomplete': 'new-password', 'class': 'form-control'}), )
     username = forms.CharField(label=_("Nom usuari"), strip=False,widget=forms.TextInput(attrs={'class': 'form-control'}), )
-    teacher = forms.ModelChoiceField(label="Professor responsable",queryset=User.objects.filter(profile__is_teacher=True).order_by('username'),widget=forms.Select(attrs={'class': 'form-control'}))
+    teacher = forms.ModelChoiceField(label=_("Professor responsable"),queryset=User.objects.filter(profile__is_teacher=True).order_by('username'),widget=forms.Select(attrs={'class': 'form-control'}))
 
     class Meta:
         model = User
@@ -153,7 +154,7 @@ class SimplifiedTeacherForm(ModelForm):
     password1 = forms.CharField(label=_("Password"), strip=False,widget=forms.PasswordInput(attrs={'autocomplete': 'new-password', 'class': 'form-control'}),)
     password2 = forms.CharField(label=_("Repetir password"), strip=False,widget=forms.PasswordInput(attrs={'autocomplete': 'new-password', 'class': 'form-control'}), )
     username = forms.CharField(label=_("Username"), strip=False,widget=forms.TextInput(attrs={'class': 'form-control' }), )
-    belongs_to = forms.ModelChoiceField(label="Centre al que pertany", queryset=EducationCenter.objects.all().order_by('name'),widget=forms.Select(attrs={'class': 'form-control'}))
+    belongs_to = forms.ModelChoiceField(label=_("Centre al que pertany"), queryset=EducationCenter.objects.all().order_by('name'),widget=forms.Select(attrs={'class': 'form-control'}))
 
     class Meta:
         model = User
@@ -262,7 +263,7 @@ class TeacherForm(forms.ModelForm):
 
 class TeacherUpdateForm(forms.ModelForm):
     username = forms.CharField(label=_("Username"), strip=False, widget=forms.TextInput(attrs={'class': 'form-control'}), )
-    belongs_to = forms.ModelChoiceField(label="Centre al que pertany",queryset=EducationCenter.objects.all().order_by('name'),widget=forms.Select(attrs={'class': 'form-control'}))
+    belongs_to = forms.ModelChoiceField(label=_("Centre al que pertany"),queryset=EducationCenter.objects.all().order_by('name'),widget=forms.Select(attrs={'class': 'form-control'}))
 
     class Meta:
         model = User
@@ -279,13 +280,33 @@ class ChangePasswordForm(forms.Form):
         password_2 = cleaned_data.get('password_2')
         password_1 = cleaned_data.get('password_1')
         if password_1 != password_2:
-            raise forms.ValidationError('Els passwords són diferents! Si us plau torna a escriure\'ls')
+            raise forms.ValidationError(_('Els passwords són diferents! Si us plau torna a escriure\'ls'))
         return password_2
 
 
+class QuestionLinkForm(forms.ModelForm):
+    question_order = forms.IntegerField(label=_("Ordre de la pregunta dins la prova"), required=True)
+    text = forms.CharField(label=_("Text de la pregunta"), widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 4}), required=True)
+    doc_link = forms.CharField(label=_("Enllaç a document extern"), widget=forms.URLInput(attrs={'class': 'form-control'}), required=True)
+
+    class Meta:
+        model = Question
+        fields = ("question_order","text","doc_link")
+
+    def clean_question_order(self):
+        cleaned_data = self.cleaned_data.get('question_order')
+        quiz_id = self.data.get('quiz_id',-1)
+        if quiz_id != -1:
+            questions = Question.objects.filter(quiz__id=int(quiz_id))
+            for q in questions:
+                if q.question_order == cleaned_data:
+                    raise forms.ValidationError(_('Ja hi ha una pregunta amb aquest número d\'ordre per aquesta prova. Tria un número diferent'))
+        return cleaned_data
+
+
 class QuestionForm(forms.ModelForm):
-    question_order = forms.IntegerField(label="Ordre de la pregunta dins la prova", required=True)
-    text = forms.CharField(label="Text de la pregunta", widget=forms.Textarea(attrs={'class': 'form-control','rows':4}), required=True)
+    question_order = forms.IntegerField(label=_("Ordre de la pregunta dins la prova"), required=True)
+    text = forms.CharField(label=_("Text de la pregunta"), widget=forms.Textarea(attrs={'class': 'form-control','rows':4}), required=True)
     answers_json = forms.CharField(widget=forms.HiddenInput(), required=False)
 
     class Meta:
@@ -299,5 +320,5 @@ class QuestionForm(forms.ModelForm):
             questions = Question.objects.filter(quiz__id=int(quiz_id))
             for q in questions:
                 if q.question_order == cleaned_data:
-                    raise forms.ValidationError('Ja hi ha una pregunta amb aquest número d\'ordre per aquesta prova. Tria un número diferent')
+                    raise forms.ValidationError(_('Ja hi ha una pregunta amb aquest número d\'ordre per aquesta prova. Tria un número diferent'))
         return cleaned_data

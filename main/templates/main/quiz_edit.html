@@ -1,8 +1,9 @@
 {% extends "main/base.html" %}
 {% load static %}
 {% load i18n %}
+{% block extra_css %}
+{% endblock %}
 {% block title %}{% trans 'Editar prova' %}{% endblock %}
-
 {% block main %}
 <div class="col-xs-12" style="height:50px;"></div>
 <div class="container">
@@ -16,11 +17,18 @@
         </div>
         <div class="form-group mb-3">
             <img src="{% static 'main/icons/noun_Teacher_36665.svg' %}" width="5%">
+            <label for="{{ form.author.id_for_label }}">{% trans 'Autor de la prova' %}:</label>
+            {{ form.author }}
+            {{ form.author.errors }}
+        </div>
+        <div class="form-group mb-3">
+            <img src="{% static 'main/icons/noun_Teacher_36665.svg' %}" width="5%">
             <label for="id_nom_autor">{% trans 'Autor de la prova' %}:</label>
             <label id="id_nom_autor"> {{ form.instance.author.username }}</label>
         </div>
         <input role="button" class="btn btn-success mt-2" type="submit" value="{% trans 'Desar' %}" /><br>
-        <button type="button" id="add_question" title="{% trans 'Afegir pregunta' %}" class="btn btn-info mt-2 mb-3"><i class="fas fa-plus"></i></button>
+        <button type="button" id="add_question" title="{% trans 'Afegir pregunta amb múltiple resposta' %}" class="btn btn-info mt-2 mb-3"><img src="{% static 'main/icons/noun_List_648391.svg' %}" width="50px"><i class="fas fa-plus"></i></button>
+        <button type="button" id="add_question_link" title="{% trans 'Afegir pregunta amb link a document extern' %}" class="btn btn-info mt-2 mb-3"><img src="{% static 'main/icons/noun_link_2169256.svg' %}" width="50px"><i class="fas fa-plus"></i></button>
     </form>
 </div>
 {% if quiz.sorted_questions_set %}
@@ -30,26 +38,43 @@
 <div class="container">
     {% for question in quiz.sorted_questions_set %}
     <div id="question_{{ question.id }}" class="mb-3">
-        <div class="row">
-            <div class="col-md-12">
-                <div>
-                    <p><strong>{{ question.question_order }}.</strong> <i>{{ question.text }}</i> <a title="{% trans 'Editar pregunta i respostes' %}" href="{% url 'question_update' question.id %}" class="btn btn-primary"><i class="fas fa-edit"></i></a> <button title="{% trans 'Eliminar pregunta' %}" id="{{ question.id }}" class="delete_button btn btn-danger"><i class="fas fa-backspace"></i></button> </p>
+        {% if question.doc_link %}
+            <div class="row">
+                <div class="col-md-12">
+                    <div>
+                        <p class="ord_{{ question.question_order }}"><strong>{{ question.question_order }}.</strong> <i>{{ question.text }}</i> <a title="{% trans 'Editar pregunta i respostes' %}" href="{% url 'question_link_update' question.id %}" class="btn btn-primary"><i class="fas fa-edit"></i></a> <button title="{% trans 'Eliminar pregunta' %}" id="{{ question.id }}" class="delete_button btn btn-danger"><i class="fas fa-backspace"></i></button> </p>
+                    </div>
                 </div>
             </div>
-        </div>
-        {% for answer in question.sorted_answers_set %}
-        <div class="row">
-            <div class="col-md-12">
-                <div class="ml-5">
-                    {% if answer.is_correct %}
-                        <p style="color:green;">{{ answer.label }}) {{ answer.text }} <i class="far fa-thumbs-up"></i></p>
-                    {% else %}
-                        <p>{{ answer.label }}) {{ answer.text }}</p>
-                    {% endif %}
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="ml-5">
+                        <p class="ord_{{ question.question_order }}"><a href="{{ question.doc_link }}" target="_blank">{{ question.doc_link }}</a></p>
+                    </div>
                 </div>
             </div>
-        </div>
-        {% endfor %}
+        {% else %}
+            <div class="row">
+                <div class="col-md-12">
+                    <div>
+                        <p class="ord_{{ question.question_order }}"><strong>{{ question.question_order }}.</strong> <i>{{ question.text }}</i> <a title="{% trans 'Editar pregunta i respostes' %}" href="{% url 'question_update' question.id %}" class="btn btn-primary"><i class="fas fa-edit"></i></a> <button title="{% trans 'Eliminar pregunta' %}" id="{{ question.id }}" class="delete_button btn btn-danger"><i class="fas fa-backspace"></i></button> </p>
+                    </div>
+                </div>
+            </div>
+            {% for answer in question.sorted_answers_set %}
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="ml-5">
+                        {% if answer.is_correct %}
+                            <p style="color:green;">{{ answer.label }}) {{ answer.text }} <i class="far fa-thumbs-up"></i></p>
+                        {% else %}
+                            <p>{{ answer.label }}) {{ answer.text }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% endif %}
     </div>
     {% endfor %}
 </div>
@@ -68,6 +93,7 @@
     var quiz_id = '{{ quiz.id }}';
     var suggested_new_order = '{{ new_order }}';
     var _question_new_url = '{% url 'question_new' %}';
+    var _question_link_new_url  = '{% url 'question_link_new' %}';
     var _question_delete_url = '{% url 'questions-list' %}';
 </script>
 <script src="{% static 'main/csrf_utils.js' %}"></script>

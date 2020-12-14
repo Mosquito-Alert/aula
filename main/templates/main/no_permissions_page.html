@@ -1,0 +1,21 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% load i18n %}
+{% block title %}{% trans 'No tens permisos' %}{% endblock %}
+
+{% block main %}
+<div class="col-xs-12" style="height:50px;"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <img src="{% static 'main/icons/noun_cheeky_356619.svg' %}">
+        </div>
+        <div class="col-md-8 my-auto">
+            <h2>No tens permís per accedir a aquesta pàgina! Tornaràs a l'inici en <span class="timer">5</span> segons, o si no pots fer clic <a href="{% url 'index' %}">aquí</a></h2>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'main/javascript/no_permission.js' %}"></script>
+{% endblock %}

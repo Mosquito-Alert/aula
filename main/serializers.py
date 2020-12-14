@@ -87,6 +87,18 @@ class GroupSearchSerializer(serializers.ModelSerializer):
         return obj.profile.group_public_name
 
 
+class QuizSearchSerializer(serializers.ModelSerializer):
+
+    text = serializers.SerializerMethodField('get_text')
+
+    class Meta:
+        model = Quiz
+        fields = ['id', 'text']
+
+    def get_text(self, obj):
+        return obj.name
+
+
 class AlumSearchSerializer(serializers.ModelSerializer):
     text = serializers.SerializerMethodField('get_text')
     class Meta:
