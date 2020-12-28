@@ -105,9 +105,9 @@
             <ul id="progressbar">
                 {% for q in questions %}
                 {% if q.question_order <= question.question_order %}
-                <li class="active"><a href="{% url 'quiz_take' quiz.id q.question_order %}">Pregunta {{ q.question_order }}</a> <img src="{% static 'main/icons/fail.svg' %}" width="20px"></li>
+                <li class="active"><a href="{% url 'quiz_take' quiz.id q.question_order quiz_run.id %}">Pregunta {{ q.question_order }}</a> <img src="{% static 'main/icons/fail.svg' %}" width="20px"></li>
                 {% else %}
-                <li><a href="{% url 'quiz_take' quiz.id q.question_order %}">Pregunta {{ q.question_order }}</a> <img src="{% static 'main/icons/fail.svg' %}" width="20px"></li>
+                <li><a href="{% url 'quiz_take' quiz.id q.question_order quiz_run.id %}">Pregunta {{ q.question_order }}</a> <img src="{% static 'main/icons/fail.svg' %}" width="20px"></li>
                 {% endif %}
                 {% endfor %}
             </ul>
@@ -116,7 +116,7 @@
     <div class="row">
         <div class="col-md-1 my-auto">
             {% if previous_question %}
-                <a class="icon icon_left" href="{% url 'quiz_take' quiz.id previous_question.question_order %}"></a>
+                <a class="icon icon_left" href="{% url 'quiz_take' quiz.id previous_question.question_order quiz_run.id %}"></a>
             {% else %}
                 <a class="icon icon_left disabled" href="#"></a>
             {% endif %}
@@ -133,7 +133,7 @@
                 {% if question.doc_link %}
                     <div class="row">
                         <div class="col-md-12">
-                            <input role="button" class="btn btn-success open-link mt-2" data-id="{{ question.id }}" data-link="{{ question.doc_link }}" type="submit" value="{% trans 'Fes clic per obrir l\'enllaç' %}"/>
+                            <input role="button" class="btn btn-success open-link mt-2" data-id="{{ question.id }}" data-link="{{ question.doc_link }}" type="button" value="{% trans 'Fes clic per obrir l\'enllaç' %}"/>
                         </div>
                     </div>
                 {% else %}
@@ -152,7 +152,7 @@
         <div class="col-md-1 my-auto">
             <!--<a class="disabled" href="#" type="button"><img src="{% static 'main/icons/noun_Arrow Right_1094195.svg' %}"></a>-->
             {% if next_question %}
-                <a class="icon icon_right" href="{% url 'quiz_take' quiz.id next_question.question_order %}"></a>
+                <a class="icon icon_right" href="{% url 'quiz_take' quiz.id next_question.question_order quiz_run.id %}"></a>
             {% else %}
                 <a class="icon icon_right disabled" href=""></a>
             {% endif %}
@@ -166,5 +166,28 @@
 </div>
 {% endblock %}
 {% block extra_js %}
+<script>
+    var _post_answer_url = '{% url 'api_writeanswer' %}';
+    var quiz_id = {{ quiz.id }};
+    var run_id = {{ quiz_run.id }};
+    var selected_radio_id;
+    var completed = false;
+    var user_input = {};
+    {% if user_input %}
+    user_input.id = {{ user_input.id }};
+    user_input.question_id = {{ user_input.question.id }};
+    user_input.quizrun_id = {{ user_input.quizrun.id }};
+    {% endif %}
+    {% if user_input.answered %}
+    user_input.answered = true;
+    {% else %}
+    user_input.answered = false;
+    {% endif %}
+    {% if user_input.chosen_answer_id %}
+    user_input.chosen_answer_id = {{ user_input.chosen_answer_id }};
+    {% endif %}
+</script>
+<script src="{% static 'main/csrf_utils.js' %}"></script>
+<script src="{% static 'main/cookies.js' %}"></script>
 <script src="{% static 'main/javascript/quiz_take.js' %}"></script>
 {% endblock %}

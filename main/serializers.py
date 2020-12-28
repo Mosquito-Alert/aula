@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from main.models import EducationCenter, Quiz, Question
+from main.models import EducationCenter, Quiz, Question, QuizRunAnswers
 from django.contrib.auth.models import User
 
 
@@ -164,3 +164,9 @@ class TeacherSerializer(serializers.ModelSerializer):
             return obj.profile.teacher_belongs_to.name
         else:
             return ''
+
+
+class QuizRunAnswerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = QuizRunAnswers
+        fields = '__all__'

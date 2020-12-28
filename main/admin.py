@@ -6,6 +6,6 @@ from .models import *
 
 admin.site.register(EducationCenter)
 admin.site.register(Quiz)
-admin.site.register(TakenQuiz)
+admin.site.register(QuizRun)
 admin.site.register(Question)
 admin.site.register(GroupAnswer)

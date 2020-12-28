@@ -7,12 +7,14 @@ from . import views
 router = routers.DefaultRouter()
 router.register(r'centers', views.CentersViewSet)
 router.register(r'questions', views.QuestionsViewSet, basename="questions")
+router.register(r'quizzes', views.QuizzesViewSet, basename="quizzes")
 
 urlpatterns = [
     path('', views.index, name='index'),
     path('api/',include(router.urls)),
     path('teacher_menu', views.teacher_menu, name='teacher_menu'),
     path('admin_menu', views.admin_menu, name='admin_menu'),
+    path('alum_menu', views.alum_menu, name='alum_menu'),
     path('quiz/new/', views.quiz_new, name='quiz_new'),
     path('quiz/list/', views.quiz_list, name='quiz_list'),
     path('quiz/update/', views.quiz_update, name='quiz_update_no_id'),
@@ -20,6 +22,7 @@ urlpatterns = [
     path('quiz/datatablelist/', views.quiz_datatable_list, name='quiz_datatable_list'),
     path('quiz/start/<int:pk>/', views.quiz_start, name='quiz_take_splash'),
     path('quiz/take/<int:quiz_id>/<int:question_number>/', views.quiz_take, name='quiz_take'),
+    path('quiz/take/<int:quiz_id>/<int:question_number>/<int:run_id>/', views.quiz_take, name='quiz_take'),
     path('quiz/assign_admin/', views.quiz_assign_admin, name='quiz_assign_admin'),
     path('quiz/search/', views.quiz_search, name='quiz_search'),
     path('question/new/<int:quiz_id>/', views.question_new, name='question_new'),
@@ -58,6 +61,8 @@ urlpatterns = [
     path('user/password/change/', views.change_password, name='change_password'),
     path('user/password/change/<int:user_id>/', views.change_password, name='change_password'),
     path('api/group_name/', views.get_random_group_name, name='get_random_group_name'),
+    path('api/startrun/', views.api_startrun, name='api_startrun'),
+    path('api/writeanswer/', views.api_writeanswer, name='api_writeanswer'),
     path('uploadpic', views.uploadpic, name="uploadpic"),
     path('api/tutor_combo/', views.tutor_combo, name="tutor_combo"),
 ]

@@ -10,9 +10,10 @@ from django.utils.translation import gettext, gettext_lazy as _
 class QuizForm(ModelForm):
     name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), required=True)
     author = forms.ModelChoiceField(label=_("Autor"), queryset=User.objects.filter(profile__is_teacher=True).order_by('username'),widget=forms.Select(attrs={'class': 'form-control'}))
+    published = forms.BooleanField(label=_("Prova publicada?"),widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}), required=False)
     class Meta:
         model = Quiz
-        fields = ['name','author']
+        fields = ['name','author','published']
 
 
 class EducationCenterForm(ModelForm):

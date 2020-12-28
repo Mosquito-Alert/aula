@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect
 from main.forms import QuizForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
-from main.models import EducationCenter, Word, Quiz, Answer, Question, QuizSolution
+from main.models import EducationCenter, Word, Quiz, Answer, Question, QuizSolution, QuizRun, QuizRunAnswers
 from main.forms import TeacherForm, SimplifiedTeacherForm, EducationCenterForm, TeacherUpdateForm, ChangePasswordForm, SimplifiedAlumForm, SimplifiedGroupForm, AlumUpdateForm, QuestionForm, QuestionLinkForm
 from django.contrib.gis.geos import GEOSGeometry
 from rest_framework.decorators import api_view, permission_classes
@@ -14,7 +14,7 @@ import functools
 from rest_framework.response import Response
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import operator
-from main.serializers import EducationCenterSerializer, TeacherSerializer, UserSerializer, AlumSerializer, GroupSerializer, GroupSearchSerializer, TeacherComboSerializer, AlumSearchSerializer, QuizSerializer, QuestionSerializer, QuizSearchSerializer
+from main.serializers import EducationCenterSerializer, TeacherSerializer, UserSerializer, AlumSerializer, GroupSerializer, GroupSearchSerializer, TeacherComboSerializer, AlumSearchSerializer, QuizSerializer, QuestionSerializer, QuizSearchSerializer, QuizRunAnswerSerializer
 from rest_framework import status,viewsets, generics
 from django.db.models import Q
 from rest_framework.generics import GenericAPIView
@@ -33,6 +33,7 @@ from django.core.files import File
 from shutil import copy
 import os
 from django.contrib.auth.decorators import user_passes_test
+from rest_framework.exceptions import ParseError
 
 
 def get_order_clause(params_dict, translation_dict=None):
@@ -146,6 +147,16 @@ def admin_menu(request):
 
 
 @login_required
+def alum_menu(request):
+    this_user = request.user
+    teach = this_user.profile.alum_teacher
+    quizzes_in_progress_ids = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=True).values('quiz__id').distinct()
+    available_quizzes = Quiz.objects.filter(author=teach).filter(published=True).exclude(id__in=quizzes_in_progress_ids).order_by('id')
+    in_progress_quizzes = Quiz.objects.filter(id__in=quizzes_in_progress_ids).order_by('id')
+    return render(request, 'main/alum_hub.html', {'available_quizzes':available_quizzes, 'in_progress_quizzes':in_progress_quizzes})
+
+
+@login_required
 def quiz_new(request):
     # if this is a POST request we need to process the form data
     this_user = request.user
@@ -155,11 +166,8 @@ def quiz_new(request):
         # check whether it's valid:
         if form.is_valid():
             pre_quiz = form.save(commit=False)
-            pre_quiz.author = this_user
+            #pre_quiz.author = this_user
             pre_quiz.save()
-            # process the data in form.cleaned_data as required
-            # ...
-            # redirect to a new URL:
             return HttpResponseRedirect('/quiz/update/' + str(pre_quiz.id) + '/')
 
     # if a GET (or any other method) we'll create a blank form
@@ -266,14 +274,17 @@ def question_update(request, pk=None):
 
 
 @login_required
-def quiz_take(request, quiz_id=None, question_number=1):
+def quiz_take(request, quiz_id=None, question_number=1, run_id=None):
     quiz = None
+    quiz_run = None
     question = None
+    user_input = None
     previous_question = None
     next_question = None
     questions_total = None
     questions = None
     current_progress = 0
+    this_user = request.user
     if quiz_id:
         quiz = get_object_or_404(Quiz, pk=quiz_id)
         question = Question.objects.get(quiz=quiz,question_order=question_number)
@@ -290,9 +301,16 @@ def quiz_take(request, quiz_id=None, question_number=1):
             pass
     else:
         raise forms.ValidationError("No existeix aquesta prova")
+    if run_id:
+        quiz_run = get_object_or_404(QuizRun,pk=run_id)
+
+    user_input = QuizRunAnswers.objects.get(question=question, quizrun=quiz_run)
+
     return render(request, 'main/quiz_take.html',
                   {
                       'quiz': quiz,
+                      'quiz_run': quiz_run,
+                      'user_input': user_input,
                       'question': question,
                       'previous_question':previous_question,
                       'next_question': next_question,
@@ -645,6 +663,52 @@ def get_max_index_plus_one(slug,numerals):
     else:
         return max(nums) + 1
 
+@api_view(['POST'])
+def api_writeanswer(request):
+    if request.method == 'POST':
+        id = request.data.get('id', -1)
+        answer_id = request.data.get('answer_id', -1)
+
+        if id == -1:
+            raise ParseError(detail='Quiz run answer id not specified')
+
+        if answer_id == -1:
+            answer = None
+        else:
+            answer = get_object_or_404(Answer, pk=answer_id)
+
+        qra = get_object_or_404(QuizRunAnswers, pk=id)
+
+        qra.chosen_answer = answer
+        qra.answered = True
+        qra.save()
+
+        serializer = QuizRunAnswerSerializer(qra)
+        return Response(serializer.data)
+
+@api_view(['POST'])
+def api_startrun(request):
+    if request.method == 'POST':
+        quiz_id = request.data.get('quiz_id', -1)
+        taken_by = request.data.get('taken_by', -1)
+        run_number = request.data.get('run_number', -1)
+        if quiz_id == -1:
+            raise ParseError(detail='Quiz id not specified')
+        if run_number == -1:
+            raise ParseError(detail='Run number not specified')
+        else:
+            if QuizRun.objects.filter( quiz=quiz_id, taken_by=taken_by, run_number=run_number ).exists():
+                return Response('Run number already exists',status=status.HTTP_404_NOT_FOUND)
+        quiz = get_object_or_404(Quiz,pk=quiz_id)
+        user_taken = get_object_or_404(User,pk=taken_by)
+        q = QuizRun(taken_by=user_taken, quiz=quiz, run_number=run_number)
+        q.save()
+        for question in quiz.questions.all():
+            qa = QuizRunAnswers( quizrun=q, question=question )
+            qa.save()
+        return Response({'run_id': q.id})
+
+
 @api_view(['GET'])
 def get_random_group_name(request):
     if request.method == 'GET':
@@ -779,6 +843,11 @@ class CentersViewSet(viewsets.ModelViewSet):
 class QuestionsViewSet(viewsets.ModelViewSet):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
+
+
+class QuizzesViewSet(viewsets.ModelViewSet):
+    queryset = Quiz.objects.all()
+    serializer_class = QuizSerializer
 
 
 class UserPartialUpdateView(GenericAPIView, UpdateModelMixin):

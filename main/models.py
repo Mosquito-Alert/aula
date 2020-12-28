@@ -21,6 +21,7 @@ class EducationCenter(models.Model):
 class Quiz(models.Model):
     author = models.ForeignKey(User, null=True, on_delete=models.CASCADE, related_name='quizzes')
     name = models.CharField(max_length=255)
+    published = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
@@ -47,12 +48,22 @@ class AssignedQuiz(models.Model):
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name='assignations')
 
 
-class TakenQuiz(models.Model):
+class QuizRun(models.Model):
     taken_by = models.ForeignKey(User, null=True, on_delete=models.CASCADE, related_name='taken_quizzes')
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name='taken_quizzes')
-    computed_score = models.FloatField(help_text='Score automatically calculated when the quiz is finished')
-    assigned_score = models.FloatField(help_text='Score given by tutor. Can be different and supersedes the former.')
+    computed_score = models.IntegerField(help_text='Score automatically calculated when the quiz is finished', default=0)
+    assigned_score = models.IntegerField(help_text='Score given by tutor. Can be different and supersedes the former.', default=0)
     date = models.DateTimeField(auto_now_add=True)
+    date_finished = models.DateTimeField(blank=True, null=True)
+    run_number = models.IntegerField(default=1)
+
+
+class QuizRunAnswers(models.Model):
+    quizrun = models.ForeignKey(QuizRun, on_delete=models.CASCADE, related_name='answers')
+    question = models.ForeignKey('main.Question', on_delete=models.CASCADE, related_name='run_question')
+    chosen_answer = models.ForeignKey('main.Answer', on_delete=models.CASCADE, related_name='run_answer', null=True, blank=True)
+    #chosen answer might not always have a value, so we need a field to indicate that the answer has been answered
+    answered = models.BooleanField(default=False)
 
 
 class Question(models.Model):

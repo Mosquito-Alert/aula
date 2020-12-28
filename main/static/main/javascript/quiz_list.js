@@ -38,6 +38,7 @@ $(document).ready( function () {
             { 'data': 'name' },
             { 'data': 'author.username' },
             { 'data': 'education_center' },
+            { 'data': 'published' }
         ],
         'columnDefs': [
             {
@@ -53,12 +54,30 @@ $(document).ready( function () {
                 'title': 'Centre'
             },
             {
-                'targets': 3,
+            'targets':3,
+            'title': 'Prova publicada?',
+            'render': function(value){
+                    if(value == true){
+                        return '<p><i class="fas fa-check"></i></p>';
+                    }else{
+                        return '<p><i class="fas fa-times"></i></p>';
+                    }
+                }
+            },
+            {
+                'targets': 4,
                 'sortable': false,
                 'render': function(value){
                     return '<button title="Editar" class="edit_button btn btn-info"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>';
                 }
             },
+            /*{
+                'targets': 4,
+                'sortable': false,
+                'render': function(value){
+                    return '<button title="Eliminar prova" class="delete_button btn btn-danger"><i class="fas fa-backspace"></i></button>';
+                }
+            },*/
         ]
     } );
 
@@ -68,4 +87,5 @@ $(document).ready( function () {
         var id = row.data().id
         window.location.href = _quiz_update_url + id + '/';
     });
+
 });
