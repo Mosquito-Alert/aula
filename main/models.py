@@ -51,11 +51,37 @@ class AssignedQuiz(models.Model):
 class QuizRun(models.Model):
     taken_by = models.ForeignKey(User, null=True, on_delete=models.CASCADE, related_name='taken_quizzes')
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name='taken_quizzes')
-    computed_score = models.IntegerField(help_text='Score automatically calculated when the quiz is finished', default=0)
-    assigned_score = models.IntegerField(help_text='Score given by tutor. Can be different and supersedes the former.', default=0)
+    #computed_score = models.IntegerField(help_text='Score automatically calculated when the quiz is finished', default=0)
+    #assigned_score = models.IntegerField(help_text='Score given by tutor. Can be different and supersedes the former.', default=0)
     date = models.DateTimeField(auto_now_add=True)
     date_finished = models.DateTimeField(blank=True, null=True)
     run_number = models.IntegerField(default=1)
+    questions_number = models.IntegerField(help_text='Number of questions when the quiz was finished', default=0)
+    questions_right = models.IntegerField(help_text='Number of correctly answered questions in the run', default=0)
+
+    def is_done(self):
+        for a in self.answers.all():
+            if not a.answered:
+                return False
+        return True
+
+    def evaluate(self):
+        answers = self.answers.all()
+        questions_number = answers.count()
+        questions_right = 0
+        questions_right_list = []
+        for answer in answers:
+            question = answer.question
+            if question.doc_link is not None:
+                questions_right += 1
+                questions_right_list.append(question.question_order)
+            else:
+                correct_answer = question.answers.get(is_correct=True)
+                if answer.chosen_answer.id == correct_answer.id:
+                    questions_right += 1
+                    questions_right_list.append(question.question_order)
+        return { 'questions_number': questions_number, 'questions_right': questions_right, 'questions_right_list': questions_right_list }
+
 
 
 class QuizRunAnswers(models.Model):
@@ -64,6 +90,7 @@ class QuizRunAnswers(models.Model):
     chosen_answer = models.ForeignKey('main.Answer', on_delete=models.CASCADE, related_name='run_answer', null=True, blank=True)
     #chosen answer might not always have a value, so we need a field to indicate that the answer has been answered
     answered = models.BooleanField(default=False)
+
 
 
 class Question(models.Model):

@@ -63,6 +63,7 @@ urlpatterns = [
     path('api/group_name/', views.get_random_group_name, name='get_random_group_name'),
     path('api/startrun/', views.api_startrun, name='api_startrun'),
     path('api/writeanswer/', views.api_writeanswer, name='api_writeanswer'),
+    path('api/finishquiz/', views.api_finishquiz, name='api_finishquiz'),
     path('uploadpic', views.uploadpic, name="uploadpic"),
     path('api/tutor_combo/', views.tutor_combo, name="tutor_combo"),
 ]

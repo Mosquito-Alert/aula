@@ -19,11 +19,15 @@
     .icon_success{
         background-image: url({% static 'main/icons/success.svg' %});
         background-repeat: no-repeat;
+        width: 70px;
+        height: 70px;
     }
 
     .icon_fail{
         background-image: url({% static 'main/icons/fail.svg' %});
         background-repeat: no-repeat;
+        width: 70px;
+        height: 70px;
     }
 
     #status {
@@ -52,7 +56,7 @@
       list-style-type: none;
       text-transform: uppercase;
       font-size: 9px;
-      width: 25%;
+      /*width: 25%;*/
       float: left;
       position: relative;
       text-align: center;
@@ -88,6 +92,22 @@
     #progressbar li.active:before,  #progressbar li.active:after{
       background: #27AE60;
     }
+
+    .progress_done {
+        background-image: url({% static 'main/icons/success.svg' %});
+        background-repeat: no-repeat;
+        width: 20px;
+        height: 20px;
+        display: inline-block;
+    }
+
+    .progress_pending {
+        background-image: url({% static 'main/icons/fail.svg' %});
+        background-repeat: no-repeat;
+        width: 20px;
+        height: 20px;
+        display: inline-block;
+    }
 </style>
 {% endblock %}
 {% block title %}{% trans 'Realitzant prova' %}{% endblock %}
@@ -105,9 +125,11 @@
             <ul id="progressbar">
                 {% for q in questions %}
                 {% if q.question_order <= question.question_order %}
-                <li class="active"><a href="{% url 'quiz_take' quiz.id q.question_order quiz_run.id %}">Pregunta {{ q.question_order }}</a> <img src="{% static 'main/icons/fail.svg' %}" width="20px"></li>
+                <!--<li class="active" style="width: {{ step_width }}%;"><a href="{% url 'quiz_take' quiz.id q.question_order quiz_run.id %}">Pregunta {{ q.question_order }}</a> {% if q.id in completed_questions_list %} <img src="{% static 'main/icons/success.svg' %}" width="20px"> {% else %} <img src="{% static 'main/icons/fail.svg' %}" width="20px"> {% endif %} </li>-->
+                <li class="active" style="width: {{ step_width }}%;"><a href="{% url 'quiz_take' quiz.id q.question_order quiz_run.id %}">Pregunta {{ q.question_order }}</a> {% if q.id in completed_questions_list %} <div id="question_{{ q.id }}" class="progress_done"></div> {% else %} <div id="question_{{ q.id }}" class="progress_pending"></div> {% endif %} </li>
                 {% else %}
-                <li><a href="{% url 'quiz_take' quiz.id q.question_order quiz_run.id %}">Pregunta {{ q.question_order }}</a> <img src="{% static 'main/icons/fail.svg' %}" width="20px"></li>
+                <!--<li style="width: {{ step_width }}%;"><a href="{% url 'quiz_take' quiz.id q.question_order quiz_run.id %}">Pregunta {{ q.question_order }}</a> {% if q.id in completed_questions_list %} <img src="{% static 'main/icons/success.svg' %}" width="20px"> {% else %} <img src="{% static 'main/icons/fail.svg' %}" width="20px"> {% endif %} </li>-->
+                <li style="width: {{ step_width }}%;"><a href="{% url 'quiz_take' quiz.id q.question_order quiz_run.id %}">Pregunta {{ q.question_order }}</a> {% if q.id in completed_questions_list %} <div id="question_{{ q.id }}" class="progress_done"></div> {% else %} <div id="question_{{ q.id }}" class="progress_pending"></div> {% endif %} </li>
                 {% endif %}
                 {% endfor %}
             </ul>
@@ -141,7 +163,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="ml-5">
-                                <input type="radio" name="answers" value="{{answer.id}}" class="form-check-input answer_correct"> <p>{{ answer.label }}) {{ answer.text }}</p>
+                                <input type="radio" data-questionid="{{ question.id }}" name="answers" value="{{answer.id}}" class="form-check-input answer_correct"> <p>{{ answer.label }}) {{ answer.text }}</p>
                             </div>
                         </div>
                     </div>
@@ -160,7 +182,12 @@
     </div>
     <div class="row">
         <div class="col-1 mx-auto">
-            <div id="status" class="icon_fail"></div>
+            <div id="status" class="{% if question.id in completed_questions_list %} icon_success {% else%} icon_fail {% endif %}"></div>
+        </div>
+    </div>
+    <div class="row end_button" style="{%if not quiz_run_done %}display:none;{% endif %}">
+        <div class="mx-auto">
+            <input id="done-button" role="button" class="btn btn-success open-link mt-2" type="button" value="{% trans 'Has completat el material! Fes clic en aquest botó per acabar...' %}"/>
         </div>
     </div>
 </div>

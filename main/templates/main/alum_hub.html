@@ -17,7 +17,30 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-12">
+            <p><strong>{% trans 'Aquestes són les proves que ja has acabat (i que pots repetir, si vols!)' %}:</strong></p>
+            {% if done_quizzes %}
+                {% for quiz in done_quizzes %}
+                    {% for taken_quiz in quiz.taken_quizzes.all %}
+                    <div class="row">
+                        <div class="col-md-4">{{ quiz.name }} (intent {{ taken_quiz.run_number }})</div>
+                        <div class="col-md-4">Acabada el {{ taken_quiz.date_finished }}</div>
+                        <div class="col-md-4">
+                            <a title="{% trans 'Repetir la prova!' %}" class="btn btn-secondary" href="{% url 'quiz_take' quiz.id 1 taken_quiz.id %}" role="button"><i class="fas fa-undo"></i></a>
+                            <!--<button  data-quiz-id="{{ quiz.id }}" class="do_button btn btn-info"><i class="fa fa-lightbulb-o" aria-hidden="true"></i></button>-->
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% endfor %}
+            {% else %}
+                <p>{% trans 'Encara no has acabat cap prova!' %}</p>
+                <p><img src="{% static 'main/icons/noun_Lazy_1744915.svg' %}" height="250px"></p>
+            {% endif %}
+        </div>
+    </div>
+    <div class="col-xs-12" style="height:50px;"></div>
+    <div class="row">
+        <div class="col-md-6">
             <p><strong>{% trans 'Aquestes són les proves que encara no has fet' %}:</strong></p>
             {% if available_quizzes %}
                 {% for quiz in available_quizzes %}
@@ -34,7 +57,7 @@
                 <p><img src="{% static 'main/icons/noun_holidays_2518025.svg' %}" height="250px"></p>
             {% endif %}
         </div>
-        <div class="col-md-4">
+        <div class="col-md-6">
             <p><strong>{% trans 'Aquestes són les proves que estàs fent però no has acabat' %}:</strong></p>
             {% if in_progress_quizzes %}
                 {% for quiz in in_progress_quizzes %}
@@ -52,9 +75,6 @@
                 <p>{% trans 'No tens proves que calgui acabar!' %}</p>
                 <p><img src="{% static 'main/icons/noun_holidays_2518025.svg' %}" height="250px"></p>
             {% endif %}
-        </div>
-        <div class="col-md-4">
-            <p><strong>{% trans 'Aquestes són les proves que ja has acabat (i que pots repetir, si vols!)' %}:</strong></p>
         </div>
     </div>
 </div>

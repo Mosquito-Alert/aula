@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from main.models import EducationCenter, Quiz, Question, QuizRunAnswers
+from main.models import EducationCenter, Quiz, Question, QuizRunAnswers, QuizRun
 from django.contrib.auth.models import User
 
 
@@ -169,4 +169,10 @@ class TeacherSerializer(serializers.ModelSerializer):
 class QuizRunAnswerSerializer(serializers.ModelSerializer):
     class Meta:
         model = QuizRunAnswers
+        fields = '__all__'
+
+
+class QuizRunSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = QuizRun
         fields = '__all__'

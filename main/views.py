@@ -14,7 +14,7 @@ import functools
 from rest_framework.response import Response
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import operator
-from main.serializers import EducationCenterSerializer, TeacherSerializer, UserSerializer, AlumSerializer, GroupSerializer, GroupSearchSerializer, TeacherComboSerializer, AlumSearchSerializer, QuizSerializer, QuestionSerializer, QuizSearchSerializer, QuizRunAnswerSerializer
+from main.serializers import EducationCenterSerializer, TeacherSerializer, UserSerializer, AlumSerializer, GroupSerializer, GroupSearchSerializer, TeacherComboSerializer, AlumSearchSerializer, QuizSerializer, QuestionSerializer, QuizSearchSerializer, QuizRunAnswerSerializer, QuizRunSerializer
 from rest_framework import status,viewsets, generics
 from django.db.models import Q
 from rest_framework.generics import GenericAPIView
@@ -34,6 +34,8 @@ from shutil import copy
 import os
 from django.contrib.auth.decorators import user_passes_test
 from rest_framework.exceptions import ParseError
+from datetime import datetime
+import pytz
 
 
 def get_order_clause(params_dict, translation_dict=None):
@@ -151,9 +153,11 @@ def alum_menu(request):
     this_user = request.user
     teach = this_user.profile.alum_teacher
     quizzes_in_progress_ids = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=True).values('quiz__id').distinct()
-    available_quizzes = Quiz.objects.filter(author=teach).filter(published=True).exclude(id__in=quizzes_in_progress_ids).order_by('id')
+    quizzes_done_ids = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=False).values('quiz__id').distinct()
+    available_quizzes = Quiz.objects.filter(author=teach).filter(published=True).exclude(id__in=quizzes_in_progress_ids).exclude(id__in=quizzes_done_ids).order_by('id')
     in_progress_quizzes = Quiz.objects.filter(id__in=quizzes_in_progress_ids).order_by('id')
-    return render(request, 'main/alum_hub.html', {'available_quizzes':available_quizzes, 'in_progress_quizzes':in_progress_quizzes})
+    done_quizzes = Quiz.objects.filter(id__in=quizzes_done_ids).order_by('id')
+    return render(request, 'main/alum_hub.html', {'available_quizzes':available_quizzes, 'in_progress_quizzes':in_progress_quizzes, 'done_quizzes': done_quizzes})
 
 
 @login_required
@@ -283,14 +287,17 @@ def quiz_take(request, quiz_id=None, question_number=1, run_id=None):
     next_question = None
     questions_total = None
     questions = None
-    current_progress = 0
+    #current_progress = 0
+    step_width = 0
+    done = False
     this_user = request.user
     if quiz_id:
         quiz = get_object_or_404(Quiz, pk=quiz_id)
         question = Question.objects.get(quiz=quiz,question_order=question_number)
         questions = quiz.sorted_questions_set
         questions_total = questions.count()
-        current_progress = question_number/questions_total
+        step_width = str(100/questions_total)
+        #current_progress = question_number/questions_total
         try:
             previous_question = Question.objects.get(quiz=quiz,question_order=question_number - 1)
         except Question.DoesNotExist:
@@ -303,20 +310,27 @@ def quiz_take(request, quiz_id=None, question_number=1, run_id=None):
         raise forms.ValidationError("No existeix aquesta prova")
     if run_id:
         quiz_run = get_object_or_404(QuizRun,pk=run_id)
+        done = quiz_run.is_done()
 
     user_input = QuizRunAnswers.objects.get(question=question, quizrun=quiz_run)
+
+    completed_questions = QuizRunAnswers.objects.filter(quizrun=quiz_run).filter(answered=True).values('question__id')
+    completed_questions_list = [a['question__id'] for a in completed_questions]
 
     return render(request, 'main/quiz_take.html',
                   {
                       'quiz': quiz,
                       'quiz_run': quiz_run,
+                      'quiz_run_done': done,
                       'user_input': user_input,
                       'question': question,
                       'previous_question':previous_question,
                       'next_question': next_question,
-                      'current_progress': str(current_progress*100),
+                      #'current_progress': str(current_progress*100),
+                      'step_width': step_width,
                       'questions_total': questions_total,
-                      'questions': questions
+                      'questions': questions,
+                      'completed_questions_list': completed_questions_list,
                   })
 
 
@@ -683,8 +697,32 @@ def api_writeanswer(request):
         qra.answered = True
         qra.save()
 
+        done = qra.quizrun.is_done()
+
         serializer = QuizRunAnswerSerializer(qra)
+
+        response = { "done": done, "data": serializer.data}
+
+        return Response(response)
+
+
+@api_view(['POST'])
+def api_finishquiz(request):
+    if request.method == 'POST':
+        quizrun_id = request.data.get('id', -1)
+        date_finished = datetime.utcnow().replace(tzinfo=pytz.utc)
+        if quizrun_id == -1:
+            raise ParseError(detail='Quiz id not specified')
+        quizrun = get_object_or_404(QuizRun, pk=quizrun_id)
+        eval_data = quizrun.evaluate()
+
+        quizrun.date_finished = date_finished
+        quizrun.questions_number = eval_data['questions_number']
+        quizrun.questions_right = eval_data['questions_right']
+        quizrun.save()
+        serializer = QuizRunSerializer(quizrun)
         return Response(serializer.data)
+
 
 @api_view(['POST'])
 def api_startrun(request):
