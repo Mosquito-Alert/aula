@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect
 from main.forms import QuizForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
-from main.models import EducationCenter, Word, Quiz, Answer, Question, QuizSolution, QuizRun, QuizRunAnswers
+from main.models import EducationCenter, Word, Quiz, Answer, Question, QuizRun, QuizRunAnswers
 from main.forms import TeacherForm, SimplifiedTeacherForm, EducationCenterForm, TeacherUpdateForm, ChangePasswordForm, SimplifiedAlumForm, SimplifiedGroupForm, AlumUpdateForm, QuestionForm, QuestionLinkForm
 from django.contrib.gis.geos import GEOSGeometry
 from rest_framework.decorators import api_view, permission_classes
@@ -36,6 +36,7 @@ from django.contrib.auth.decorators import user_passes_test
 from rest_framework.exceptions import ParseError
 from datetime import datetime
 import pytz
+from django.utils.translation import gettext_lazy as _
 
 
 def get_order_clause(params_dict, translation_dict=None):
@@ -137,7 +138,9 @@ def teacher_menu(request):
     if is_teacher_test(request.user):
         return render(request, 'main/teacher_menu.html', {})
     else:
-        return render(request, 'main/no_permissions_page.html', {})
+        message = _("Estàs intentant accedir a una pàgina a la que no tens permís.")
+        go_back_to = "alum_menu"
+        return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
 
 
 @login_required
@@ -145,7 +148,14 @@ def admin_menu(request):
     if request.user.is_superuser:
         return render(request, 'main/admin_menu.html', {})
     else:
-        return render(request, 'main/no_permissions_page.html', {})
+        message = _("Estàs intentant accedir a una pàgina a la que no tens permís.")
+        if request.user.profile.is_alum:
+            go_back_to = "alum_menu"
+        elif request.user.profile.is_teacher:
+            go_back_to = "teacher_menu"
+        else:
+            go_back_to = "index"
+        return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
 
 
 @login_required
@@ -155,9 +165,11 @@ def alum_menu(request):
     quizzes_in_progress_ids = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=True).values('quiz__id').distinct()
     quizzes_done_ids = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=False).values('quiz__id').distinct()
     available_quizzes = Quiz.objects.filter(author=teach).filter(published=True).exclude(id__in=quizzes_in_progress_ids).exclude(id__in=quizzes_done_ids).order_by('id')
-    in_progress_quizzes = Quiz.objects.filter(id__in=quizzes_in_progress_ids).order_by('id')
-    done_quizzes = Quiz.objects.filter(id__in=quizzes_done_ids).order_by('id')
-    return render(request, 'main/alum_hub.html', {'available_quizzes':available_quizzes, 'in_progress_quizzes':in_progress_quizzes, 'done_quizzes': done_quizzes})
+    in_progress_quizruns = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=True).order_by('-date')
+    done_quizruns = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=False).order_by('-date')
+    #in_progress_quizzes = Quiz.objects.filter(id__in=quizzes_in_progress_ids).order_by('id')
+    #done_quizzes = Quiz.objects.filter(id__in=quizzes_done_ids).order_by('id')
+    return render(request, 'main/alum_hub.html', {'available_quizzes':available_quizzes, 'in_progress_quizruns':in_progress_quizruns, 'done_quizruns': done_quizruns})
 
 
 @login_required
@@ -198,6 +210,20 @@ def question_link_new(request, quiz_id=None):
     else:
         form = QuestionLinkForm()
     return render(request, 'main/question_link_new.html', {'form': form, 'quiz': quiz })
+
+
+@login_required
+def quiz_take_endsummary(request, quizrun_id=None):
+    quizrun = None
+    bestrun = None
+    n_runs = 0
+    if quizrun_id:
+        quizrun = get_object_or_404(QuizRun, pk=quizrun_id)
+        n_runs = quizrun.n_runs
+        past_runs = n_runs - 1
+    else:
+        raise forms.ValidationError("No existeix aquesta prova")
+    return render(request, 'main/quiz_take_endsummary.html', {'quizrun': quizrun, 'n_runs': n_runs, 'past_runs': past_runs})
 
 
 @login_required
@@ -293,6 +319,11 @@ def quiz_take(request, quiz_id=None, question_number=1, run_id=None):
     this_user = request.user
     if quiz_id:
         quiz = get_object_or_404(Quiz, pk=quiz_id)
+        if this_user.profile.alum_teacher.id != quiz.author.id:
+            #alum is trying to access a quiz created by someone that is not his tutor
+            message = _("Estàs intentant accedir a una prova creada per un professor que no és el teu tutor.")
+            go_back_to = "alum_menu"
+            return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to':go_back_to })
         question = Question.objects.get(quiz=quiz,question_order=question_number)
         questions = quiz.sorted_questions_set
         questions_total = questions.count()
@@ -311,6 +342,10 @@ def quiz_take(request, quiz_id=None, question_number=1, run_id=None):
     if run_id:
         quiz_run = get_object_or_404(QuizRun,pk=run_id)
         done = quiz_run.is_done()
+        if done:
+            message = _("Aquesta prova està marcada com a finalitzada, o sigui que no la pots modificar. Si vols, la pots repetir.")
+            go_back_to = "alum_menu"
+            return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
 
     user_input = QuizRunAnswers.objects.get(question=question, quizrun=quiz_run)
 
@@ -338,15 +373,24 @@ def quiz_take(request, quiz_id=None, question_number=1, run_id=None):
 def quiz_start(request, pk=None):
     quiz = None
     questions_total = None
-    questions_answered = None
+    last_quizrun = None
     this_user = request.user
     if pk:
         quiz = get_object_or_404(Quiz, pk=pk)
+        if not quiz.published:
+            message = _("Aquesta prova no està publicada, no la pots començar.")
+            go_back_to = "alum_menu"
+            return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
+        if this_user.profile.alum_teacher.id != quiz.author.id:
+            #alum is trying to start a quiz created by someone that is not his tutor
+            message = _("Estàs intentant començar una prova creada per un professor que no és el teu tutor.")
+            go_back_to = "alum_menu"
+            return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to':go_back_to })
         questions_total = quiz.questions.all().count()
-        questions_answered = QuizSolution.objects.filter(question__quiz=quiz).filter(answered_by=this_user).count()
+        last_quizrun = QuizRun.objects.filter(taken_by=this_user).filter(quiz=quiz).order_by('-run_number').first()
     else:
         raise forms.ValidationError("No existeix aquesta prova")
-    return render(request, 'main/quiz_take_splash.html', {'quiz': quiz, 'questions_total': questions_total, 'questions_answered': questions_answered} )
+    return render(request, 'main/quiz_take_splash.html', {'quiz': quiz, 'questions_total': questions_total, 'last_quizrun': last_quizrun} )
 
 @login_required
 def quiz_update(request, pk=None):

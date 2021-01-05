@@ -1,7 +1,7 @@
 {% extends "main/base.html" %}
 {% load static %}
 {% load i18n %}
-{% block title %}{% trans 'No tens permisos' %}{% endblock %}
+{% block title %}{% trans 'Error' %}{% endblock %}
 
 {% block main %}
 <div class="col-xs-12" style="height:50px;"></div>
@@ -11,11 +11,15 @@
             <img src="{% static 'main/icons/noun_cheeky_2171565.svg' %}">
         </div>
         <div class="col-md-8 my-auto">
-            <h2>No tens permís per accedir a aquesta pàgina! Tornaràs a l'inici en <span class="timer">5</span> segons, o si no pots fer clic <a href="{% url 'index' %}">aquí</a></h2>
+            <h2 style="color:red;">{{ error_message }}</h2>
+            <h2>Tornaràs a l'inici en <span class="timer">5</span> segons, o si no pots fer clic <a href="{% url go_back_to %}">aquí</a></h2>
         </div>
     </div>
 </div>
 {% endblock %}
 {% block extra_js %}
+<script>
+    var url_go_back_to = "{% url go_back_to %}";
+</script>
 <script src="{% static 'main/javascript/no_permission.js' %}"></script>
 {% endblock %}

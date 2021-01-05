@@ -41,11 +41,11 @@ class Quiz(models.Model):
         return number
 
 
-class AssignedQuiz(models.Model):
-    assigned_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='commissions')
-    assigned_to = models.ForeignKey(User, on_delete=models.CASCADE, related_name='homework')
-    assigned_on = models.DateTimeField(auto_now_add=True)
-    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name='assignations')
+# class AssignedQuiz(models.Model):
+#     assigned_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='commissions')
+#     assigned_to = models.ForeignKey(User, on_delete=models.CASCADE, related_name='homework')
+#     assigned_on = models.DateTimeField(auto_now_add=True)
+#     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name='assignations')
 
 
 class QuizRun(models.Model):
@@ -59,11 +59,26 @@ class QuizRun(models.Model):
     questions_number = models.IntegerField(help_text='Number of questions when the quiz was finished', default=0)
     questions_right = models.IntegerField(help_text='Number of correctly answered questions in the run', default=0)
 
+    @property
+    def next_run(self):
+        return self.run_number + 1
+
+    @property
+    def last_run(self):
+        last_run = QuizRun.objects.filter(taken_by=self.taken_by).filter(quiz=self.quiz).order_by('-run_number').first()
+        if last_run:
+            return last_run.run_number
+        return 0
+
     def is_done(self):
         for a in self.answers.all():
             if not a.answered:
                 return False
         return True
+
+    @property
+    def n_runs(self):
+        return QuizRun.objects.filter(taken_by=self.taken_by).filter(quiz=self.quiz).values('id').count()
 
     def evaluate(self):
         answers = self.answers.all()
@@ -117,16 +132,16 @@ class Answer(models.Model):
         return self.text
 
 
-class QuizSolution(models.Model):
-    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='answered_questions')
-    alum_answered = models.ForeignKey(Answer, on_delete=models.CASCADE, related_name='responses', null=True, blank=True)
-    answered_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='alum_answers' )
-    completed = models.BooleanField(default=False)
-
-
-class GroupAnswer(models.Model):
-    group = models.ForeignKey(User, on_delete=models.CASCADE, related_name='quiz_answers')
-    answer = models.ForeignKey(Answer, on_delete=models.CASCADE, related_name='+')
+# class QuizSolution(models.Model):
+#     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='answered_questions')
+#     alum_answered = models.ForeignKey(Answer, on_delete=models.CASCADE, related_name='responses', null=True, blank=True)
+#     answered_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='alum_answers' )
+#     completed = models.BooleanField(default=False)
+#
+#
+# class GroupAnswer(models.Model):
+#     group = models.ForeignKey(User, on_delete=models.CASCADE, related_name='quiz_answers')
+#     answer = models.ForeignKey(Answer, on_delete=models.CASCADE, related_name='+')
 
 
 class Word(models.Model):

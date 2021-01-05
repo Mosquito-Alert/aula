@@ -1,7 +1,7 @@
 $(document).ready( function () {
 
     $('#start_quiz').click(function(){
-        create_run(quiz_id,taken_by,1);
+        create_run(quiz_id,taken_by,current_run);
     });
 
     var create_run = function(quiz_id, taken_by, run_number){

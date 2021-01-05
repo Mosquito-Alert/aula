@@ -23,6 +23,7 @@ urlpatterns = [
     path('quiz/start/<int:pk>/', views.quiz_start, name='quiz_take_splash'),
     path('quiz/take/<int:quiz_id>/<int:question_number>/', views.quiz_take, name='quiz_take'),
     path('quiz/take/<int:quiz_id>/<int:question_number>/<int:run_id>/', views.quiz_take, name='quiz_take'),
+    path('quiz/take/endsummary/<int:quizrun_id>/', views.quiz_take_endsummary, name='quiz_take_endsummary'),
     path('quiz/assign_admin/', views.quiz_assign_admin, name='quiz_assign_admin'),
     path('quiz/search/', views.quiz_search, name='quiz_search'),
     path('question/new/<int:quiz_id>/', views.question_new, name='question_new'),

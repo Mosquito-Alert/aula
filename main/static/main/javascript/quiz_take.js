@@ -28,8 +28,49 @@ $(document).ready( function () {
             error: function(jqXHR, textStatus, errorThrown){
                 setFail();
                 setProgressPending(question_id);
-                toastr.error("Error escrivint resposta")
+                toastr.error("Error escrivint resposta");
             }
+        });
+    };
+
+    var finish_quiz = function(id){
+        $.ajax({
+            url: _finish_quiz_url,
+            data: {"id":id},
+            method: 'POST',
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type)) {
+                    var csrftoken = getCookie('csrftoken');
+                    xhr.setRequestHeader('X-CSRFToken', csrftoken);
+                }
+            },
+            success: function( data, textStatus, jqXHR ) {
+                location.href = _summary_run_finish_url;
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                toastr.error("Error finalitzant prova");
+            }
+        });
+    }
+
+    var confirmDialog = function(message,run_id){
+        $('<div></div>').appendTo('body')
+            .html('<div><h6>'+message+'</h6></div>')
+            .dialog({
+                modal: true, title: 'Finalitzant prova...', zIndex: 10000, autoOpen: true,
+                width: 'auto', resizable: false,
+                buttons: {
+                    Yes: function () {
+                        finish_quiz(run_id);
+                        $(this).dialog("close");
+                    },
+                    No: function () {
+                        $(this).dialog("close");
+                    }
+                },
+                close: function (event, ui) {
+                    $(this).remove();
+                }
         });
     };
 
@@ -79,5 +120,10 @@ $(document).ready( function () {
     });
 
     user_input_to_ui(user_input);
+
+    $('#done-button').click(function(){
+        var message = "Estàs a punt de finalitzar la prova. Si continues, no la podràs modificar més (tot i que pots repetir-la més tard) i rebràs el resultat en pantalla. Vols continuar?";
+        confirmDialog(message, run_id);
+    });
 
 });

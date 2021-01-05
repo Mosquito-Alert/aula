@@ -3,7 +3,7 @@ $(document).ready(function() {
     var downloadTimer = setInterval(function(){
         if(timeleft <= 0){
             clearInterval(downloadTimer);
-            window.location.href = "/";
+            window.location.href = url_go_back_to;
         }
         $(".timer").text(timeleft);
         timeleft -= 1;

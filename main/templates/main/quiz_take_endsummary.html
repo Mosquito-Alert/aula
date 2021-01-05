@@ -1,0 +1,54 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% load i18n %}
+{% block extra_css %}
+<style>
+    .confetti{
+        position: absolute;
+        left:0px;
+        top:15%;
+        width: 100%;
+    }
+</style>
+{% endblock %}
+{% block title %}{% trans 'Prova finalitzada, resultats' %}{% endblock %}
+
+{% block main %}
+<div class="col-xs-12" style="height:50px;"></div>
+<div class="container">
+    <canvas class="confetti" id="emitter"></canvas>
+    <div class="row">
+        <div class="col-md-2"><img style="max-height: 100px;" src="{% static 'main/icons/noun_finish_2079079.svg' %}"></div>
+        <div class="col-md-10"><h1>{% trans 'Prova finalitzada!' %}</h1></div>
+    </div>
+    <div class="row">
+        <ul>
+            <li>{% trans 'Vas començar la prova el' %} <i>{{ quizrun.date }}</i></li>
+            <li>{% trans 'I la vas acabar el' %} <i>{{ quizrun.date_finished }}</i></li>
+            {% if n_runs > 1 %}
+            <li>{% trans 'Ja havies fet aquesta prova' %} {{ past_runs }} {% trans 'vegades' %}, {% trans 'aquest és l\'intent' %} {{ n_runs }}</li>
+            {% else %}
+            <li>{% trans 'Era la primera vegada que feies aquesta prova' %}</li>
+            {% endif %}
+        </ul>
+    </div>
+    <div class="row">
+        <h2>{% trans 'La teva puntuació és' %}:</h2>
+    </div>
+    <div class="row">
+        <div class="col-md-12 alert alert-success"><h1><p class="text-center">{{ quizrun.questions_right }} {% trans 'de' %} {{ quizrun.questions_number }} {% trans 'respostes correctes' %}!</p></h1></div>
+    </div>
+    <div class="col-xs-12" style="height:20px;"></div>
+    <h2>Ara pots:</h2>
+    <div class="row">
+        <div class="col-md-4 text-center mt-1"><button id="repeat-button" role="button" class="btn btn-success">{% trans 'Repetir la prova ' %} <i class="fas fa-undo" aria-hidden="true"></i></button></div>
+        <div class="col-md-4 text-center mt-1"><a class="btn btn-success" href="{% url 'alum_menu' %}" role="button">{% trans 'Tornar a l\'inici' %}</a></div>
+        <div class="col-md-4 text-center mt-1"><button id="confetti-button" role="button" class="btn btn-success">{% trans 'Llençar més confetti! ' %}</i></button></div>
+    </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<!-- https://github.com/catdad/canvas-confetti -->
+<script src="{% static 'main/confetti.browser.min.js' %}"></script>
+<script src="{% static 'main/javascript/quiz_take_endsummary.js' %}"></script>
+{% endblock %}

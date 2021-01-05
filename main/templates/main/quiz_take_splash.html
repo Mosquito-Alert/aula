@@ -10,8 +10,13 @@
         <div class="col-md-12">
             <h2 class="mb-3">{% trans 'Inici de prova' %} - <strong>{{ quiz.name }}</strong></h2>
             <ul>
-                <li><p>{% trans 'Total de preguntes de la prova' %}: <strong>{{ questions_total }}</strong></p></li>
-                <li>{% trans 'Preguntes respostes' %}: <strong>{{ questions_answered }} de {{ questions_total }}</strong></li>
+                <li>{% trans 'Total de preguntes de la prova' %}: <strong>{{ questions_total }}</strong></li>
+                {% if last_quizrun %}
+                <li>Ja havies fet aquesta prova <strong>{{ last_quizrun.n_runs }} vegades</strong></li>
+                <li>La darrera vegada vas obtenir una puntuació de <strong>{{ last_quizrun.questions_right }} preguntes correctes sobre {{ last_quizrun.questions_number }}</strong></li>
+                {% else %}
+                <li>Aquesta és la primera vegada que fas aquesta prova. Molta sort!</li>
+                {% endif %}
             </ul>
         </div>
     </div>
@@ -31,6 +36,7 @@
     var quiz_id = {{ quiz.id }};
     var taken_by = {{ request.user.id }};
     var _run_create_url = '{% url 'api_startrun' %}';
+    var current_run = {% if last_quizrun %}{{ last_quizrun.next_run }}{% else %}1{% endif %};
 </script>
 <script src="{% static 'main/csrf_utils.js' %}"></script>
 <script src="{% static 'main/cookies.js' %}"></script>

@@ -187,7 +187,7 @@
     </div>
     <div class="row end_button" style="{%if not quiz_run_done %}display:none;{% endif %}">
         <div class="mx-auto">
-            <input id="done-button" role="button" class="btn btn-success open-link mt-2" type="button" value="{% trans 'Has completat el material! Fes clic en aquest botó per acabar...' %}"/>
+            <button id="done-button" role="button" class="btn btn-success mt-2">{% trans 'Has completat el material! Fes clic en aquest botó per acabar...' %}</button>
         </div>
     </div>
 </div>
@@ -195,6 +195,8 @@
 {% block extra_js %}
 <script>
     var _post_answer_url = '{% url 'api_writeanswer' %}';
+    var _finish_quiz_url = '{% url 'api_finishquiz' %}';
+    var _summary_run_finish_url = '{% url 'quiz_take_endsummary' quiz_run.id %}';
     var quiz_id = {{ quiz.id }};
     var run_id = {{ quiz_run.id }};
     var selected_radio_id;
