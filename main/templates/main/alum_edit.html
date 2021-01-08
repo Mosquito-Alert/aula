@@ -3,9 +3,6 @@
 {% load i18n %}
 {% load crispy_forms_tags %}
 
-{% block extra_css %}
-<link href="{% static 'main/select2/select2.min.css' %}" rel="stylesheet">
-{% endblock %}
 
 {% block title %}{% trans 'Editar alumne' %}{% endblock %}
 
@@ -22,6 +19,10 @@
 </div>
 {% endblock %}
 {% block extra_js %}
-<script src="{% static 'main/select2/select2.min.js' %}"></script>
+<script>
+{% if tutor %}
+var tutor_id = {{ tutor.id }};
+{% endif %}
+</script>
 <script src="{% static 'main/javascript/alum_edit.js' %}"></script>
 {% endblock %}

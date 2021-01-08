@@ -1,0 +1,65 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block extra_css %}
+<link href="{% static 'main/jQuery-File-Upload-9.28.0/css/jquery.fileupload-ui.css' %}" rel="stylesheet">
+<link href="{% static 'main/jQuery-File-Upload-9.28.0/css/jquery.fileupload.css' %}" rel="stylesheet">
+<link href="{% static 'main/jQuery-File-Upload-9.28.0/css/style.css' %}" rel="stylesheet">
+<link href="{% static 'main/jQuery-File-Upload-9.28.0/css/github/blueimp-gallery.min.css' %}" rel="stylesheet">
+<link href="{% static 'main/select2/select2.min.css' %}" rel="stylesheet">
+{% endblock %}
+{% block title %}{% trans 'Crear grup' %}{% endblock %}
+
+{% block main %}
+<div class="col-xs-12" style="height:50px;"></div>
+<div class="container">
+    <h2><img src="{% static 'main/icons/noun_group_737669.svg' %}" width="10%"> {% trans 'Creant nou grup' %}:</h2>
+    <button type="button" class="btn btn-primary suggest-fields">Suggerir camps <i class="fas fa-bolt"></i></button>
+    <div class="col-xs-12" style="height:50px;"></div>
+    <form id="group_form" class="form" action="{% url 'group_new' %}" method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <div id="file_upload_div" class="form-group">
+            <label>{% trans 'Imatge del grup' %}:</label>
+            <input id="fileupload" type="file" name="camp_foto" style="display: none" data-url="{% url 'uploadpic' %}" data-form-data='{"csrfmiddlewaretoken": "{{ csrf_token }}"}'>
+            <table id="gallery" class="table table-bordered" style="margin-top: 15px;">
+                <tbody>
+                    {% if photo_path %}
+                      <tr>
+                          <td>
+                            <a target="_blank" href="{{ photo_path }}"><img style="height: 150px;" src="{{ photo_path }}"></a>
+                          </td>
+                          <td>
+                            <a href="#" class="btn btn-danger btn-sm btn-del btn-del-img imatgeRodal deleteFoto">{% trans 'Eliminar' %}</a>
+                          </td>
+                      </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+            <button type="button" class="btn btn-primary js-upload-photos">
+                <span class="glyphicon glyphicon-cloud-upload"></span>{% trans 'Afegir foto' %}
+            </button>
+        </div>
+        <div class="row">
+            <div class="col">
+                <img src="{% static 'main/icons/noun_graduate_66572.svg' %}" width="10%">
+                <label for="id_select_alum">{% trans 'Alumnes del grup' %}:</label>
+                <select id="id_select_alum" name="alums" class="form-control" multiple="multiple"></select>
+            </div>
+            <input id="alum_ids" type="hidden" name="alum_ids" value="{{ alum_ids }}">
+        </div>
+        <input role="button" class="btn btn-success mt-2" type="submit" value="{% trans 'Desar' %}" />
+    </form>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'main/javascript/utils.js' %}"></script>
+<script src="{% static 'main/csrf_utils.js' %}"></script>
+<script src="{% static 'main/jQuery-File-Upload-9.28.0/js/vendor/jquery.ui.widget.js' %}"></script>
+<script src="{% static 'main/jQuery-File-Upload-9.28.0/js/jquery.iframe-transport.js' %}"></script>
+<script src="{% static 'main/jQuery-File-Upload-9.28.0/js/jquery.fileupload.js' %}"></script>
+<script src="{% static 'main/select2/select2.min.js' %}"></script>
+<script src="{% static 'main/javascript/group_new_teacher.js' %}"></script>
+{% endblock %}

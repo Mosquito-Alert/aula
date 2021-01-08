@@ -11,6 +11,7 @@ router.register(r'quizzes', views.QuizzesViewSet, basename="quizzes")
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('my_hub/', views.my_hub, name='my_hub'),
     path('api/',include(router.urls)),
     path('teacher_menu', views.teacher_menu, name='teacher_menu'),
     path('admin_menu', views.admin_menu, name='admin_menu'),

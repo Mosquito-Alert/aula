@@ -25,13 +25,7 @@
             {{ form.published }}
             <label class="form-check-label" for="{{ form.published.id_for_label }}">{% trans 'Prova publicada' %}</label>
         </div>
-        <!--
-        <div class="form-group mb-3">
-            <img src="{% static 'main/icons/noun_Teacher_36665.svg' %}" width="5%">
-            <label for="id_nom_autor">{% trans 'Autor de la prova' %}:</label>
-            <label id="id_nom_autor"> {{ form.instance.author.username }}</label>
-        </div>
-        -->
+
         <input role="button" class="btn btn-success mt-2" type="submit" value="{% trans 'Desar' %}" /><br>
         <button type="button" id="add_question" title="{% trans 'Afegir pregunta amb múltiple resposta' %}" class="btn btn-info mt-2 mb-3"><img src="{% static 'main/icons/noun_List_648391.svg' %}" width="50px"><i class="fas fa-plus"></i></button>
         <button type="button" id="add_question_link" title="{% trans 'Afegir pregunta amb link a document extern' %}" class="btn btn-info mt-2 mb-3"><img src="{% static 'main/icons/noun_link_2169256.svg' %}" width="50px"><i class="fas fa-plus"></i></button>

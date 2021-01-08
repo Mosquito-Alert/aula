@@ -156,6 +156,7 @@ class Profile(models.Model):
     is_group = models.BooleanField(default=False)
     is_alum = models.BooleanField(default=False)
     alum_teacher = models.ForeignKey(User, null=True, on_delete=models.SET_NULL, related_name="teacher")
+    # groups the alum is in
     alum_in_group = models.ManyToManyField(User, related_name="alum_groups")
     teacher_belongs_to = models.ForeignKey(EducationCenter, null=True, on_delete=models.SET_NULL)
     group_password = models.CharField('Password grup', max_length=4, null=True)

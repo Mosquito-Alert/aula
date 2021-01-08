@@ -35,6 +35,12 @@
 
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'my_hub' %}">{% trans 'Menú principal' %} <span class="sr-only">(current)</span></a>
+            </li>
+            {% endif %}
+            <!--
             <li class="nav-item {% if request.resolver_match.url_name == "index" %}active{% endif %}">
                 <a class="nav-link" href="{% url 'index' %}">{% trans 'Inici' %} <span class="sr-only">(current)</span></a>
             </li>
@@ -47,6 +53,7 @@
             <li class="nav-item {% if request.resolver_match.url_name == "admin_menu" %}active{% endif %}">
                 <a class="nav-link" href="{% url 'admin_menu' %}">{% trans 'Espai administradors' %}</a>
             </li>
+            -->
         </ul>
         <ul class="navbar-nav mr-5">
             {% if user.is_authenticated %}

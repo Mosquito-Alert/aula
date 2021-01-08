@@ -9,11 +9,19 @@ from django.utils.translation import gettext, gettext_lazy as _
 
 class QuizForm(ModelForm):
     name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), required=True)
-    author = forms.ModelChoiceField(label=_("Autor"), queryset=User.objects.filter(profile__is_teacher=True).order_by('username'),widget=forms.Select(attrs={'class': 'form-control'}))
     published = forms.BooleanField(label=_("Prova publicada?"),widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}), required=False)
+
     class Meta:
         model = Quiz
-        fields = ['name','author','published']
+        fields = ['name', 'published']
+
+
+class QuizAdminForm(QuizForm):
+    author = forms.ModelChoiceField(label=_("Autor"), queryset=User.objects.filter(profile__is_teacher=True).order_by('username'),widget=forms.Select(attrs={'class': 'form-control'}))
+
+    class Meta:
+        model = Quiz
+        fields = ['name', 'author', 'published']
 
 
 class EducationCenterForm(ModelForm):
@@ -33,27 +41,6 @@ class SimplifiedGroupForm(ModelForm):
     class Meta:
         model = User
         fields = ['username']
-
-    # def clean_password2(self):
-    #     password1 = self.cleaned_data.get("password1")
-    #     password2 = self.cleaned_data.get("password2")
-    #     if password1 and password2 and password1 != password2:
-    #         raise ValidationError(
-    #             self.error_messages['password_mismatch'],
-    #             code='password_mismatch',
-    #         )
-    #     return password2
-    #
-    # def _post_clean(self):
-    #     super()._post_clean()
-    #     # Validate the password after self.instance is updated with form data
-    #     # by super().
-    #     password = self.cleaned_data.get('password2')
-    #     if password:
-    #         try:
-    #             password_validation.validate_password(password, self.instance)
-    #         except ValidationError as error:
-    #             self.add_error('password2', error)
 
     def save(self, commit=True):
         user = super().save(commit=False)
@@ -105,6 +92,13 @@ class SimplifiedAlumForm(ModelForm):
 
 class AlumUpdateForm(ModelForm):
     username = forms.CharField(label=_("Nom usuari"), strip=False,widget=forms.TextInput(attrs={'class': 'form-control'}), )
+
+    class Meta:
+        model = User
+        fields = ['username']
+
+
+class AlumUpdateFormAdmin(AlumUpdateForm):
     teacher = forms.ModelChoiceField(label=_("Professor responsable"),queryset=User.objects.filter(profile__is_teacher=True).order_by('username'),widget=forms.Select(attrs={'class': 'form-control'}))
 
     class Meta:
@@ -149,6 +143,53 @@ class SimplifiedAlumForm(ModelForm):
         if commit:
             user.save()
         return user
+
+
+class SimplifiedAlumFormForTeacher(ModelForm):
+    password1 = forms.CharField(label=_("Password"), strip=False, widget=forms.PasswordInput(attrs={'autocomplete': 'new-password', 'class': 'form-control'}), )
+    password2 = forms.CharField(label=_("Repetir password"), strip=False, widget=forms.PasswordInput(attrs={'autocomplete': 'new-password', 'class': 'form-control'}), )
+    username = forms.CharField(label=_("Nom usuari"), strip=False,widget=forms.TextInput(attrs={'class': 'form-control'}), )
+
+    class Meta:
+        model = User
+        fields = ['username']
+
+    def clean_password2(self):
+        password1 = self.cleaned_data.get("password1")
+        password2 = self.cleaned_data.get("password2")
+        if password1 and password2 and password1 != password2:
+            raise ValidationError(
+                self.error_messages['password_mismatch'],
+                code='password_mismatch',
+            )
+        return password2
+
+    def _post_clean(self):
+        super()._post_clean()
+        # Validate the password after self.instance is updated with form data
+        # by super().
+        password = self.cleaned_data.get('password2')
+        if password:
+            try:
+                password_validation.validate_password(password, self.instance)
+            except ValidationError as error:
+                self.add_error('password2', error)
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.set_password(self.cleaned_data["password1"])
+        if commit:
+            user.save()
+        return user
+
+
+class SimplifiedAlumFormForAdmin(SimplifiedAlumFormForTeacher):
+    teacher = forms.ModelChoiceField(label=_("Professor responsable"),queryset=User.objects.filter(profile__is_teacher=True).order_by('username'),widget=forms.Select(attrs={'class': 'form-control'}))
+    class Meta:
+        model = User
+        fields = ['username']
+
+
 
 
 class SimplifiedTeacherForm(ModelForm):

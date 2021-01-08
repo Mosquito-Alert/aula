@@ -5,7 +5,7 @@ from main.forms import QuizForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from main.models import EducationCenter, Word, Quiz, Answer, Question, QuizRun, QuizRunAnswers
-from main.forms import TeacherForm, SimplifiedTeacherForm, EducationCenterForm, TeacherUpdateForm, ChangePasswordForm, SimplifiedAlumForm, SimplifiedGroupForm, AlumUpdateForm, QuestionForm, QuestionLinkForm
+from main.forms import TeacherForm, SimplifiedTeacherForm, EducationCenterForm, TeacherUpdateForm, ChangePasswordForm, SimplifiedAlumForm, SimplifiedGroupForm, AlumUpdateForm, QuestionForm, QuestionLinkForm, SimplifiedAlumFormForTeacher, SimplifiedAlumFormForAdmin, AlumUpdateFormAdmin, QuizAdminForm
 from django.contrib.gis.geos import GEOSGeometry
 from rest_framework.decorators import api_view, permission_classes
 from querystring_parser import parser
@@ -37,6 +37,7 @@ from rest_framework.exceptions import ParseError
 from datetime import datetime
 import pytz
 from django.utils.translation import gettext_lazy as _
+from django.shortcuts import redirect
 
 
 def get_order_clause(params_dict, translation_dict=None):
@@ -134,6 +135,19 @@ def index(request):
 
 
 @login_required
+def my_hub(request):
+    this_user = request.user
+    if this_user.is_superuser:
+        response = redirect('/admin_menu')
+        return response
+    if is_teacher_test(this_user):
+        response = redirect('/teacher_menu')
+        return response
+    if is_alum_test(this_user):
+        response = redirect('/alum_menu')
+        return response
+
+@login_required
 def teacher_menu(request):
     if is_teacher_test(request.user):
         return render(request, 'main/teacher_menu.html', {})
@@ -174,23 +188,34 @@ def alum_menu(request):
 
 @login_required
 def quiz_new(request):
-    # if this is a POST request we need to process the form data
     this_user = request.user
-    if request.method == 'POST':
-        # create a form instance and populate it with data from the request:
-        form = QuizForm(request.POST)
-        # check whether it's valid:
-        if form.is_valid():
-            pre_quiz = form.save(commit=False)
-            #pre_quiz.author = this_user
-            pre_quiz.save()
-            return HttpResponseRedirect('/quiz/update/' + str(pre_quiz.id) + '/')
-
-    # if a GET (or any other method) we'll create a blank form
+    if this_user.is_superuser:
+        if request.method == 'POST':
+            form = QuizAdminForm(request.POST)
+            if form.is_valid():
+                pre_quiz = form.save(commit=False)
+                #pre_quiz.author = this_user
+                pre_quiz.save()
+                return HttpResponseRedirect('/quiz/update/' + str(pre_quiz.id) + '/')
+        else:
+            form = QuizAdminForm()
+        return render(request, 'main/quiz_new.html', {'form': form})
+    elif this_user.profile and this_user.profile.is_teacher:
+        if request.method == 'POST':
+            form = QuizForm(request.POST)
+            if form.is_valid():
+                pre_quiz = form.save(commit=False)
+                pre_quiz.author = this_user
+                pre_quiz.save()
+                return HttpResponseRedirect('/quiz/update/' + str(pre_quiz.id) + '/')
+        else:
+            form = QuizForm()
+        return render(request, 'main/quiz_new_teacher.html', {'form': form})
     else:
-        form = QuizForm()
+        message = _("Estàs intentant accedir a una pàgina a la que no tens permís.")
+        go_back_to = "my_hub"
+        return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
 
-    return render(request, 'main/quiz_new.html', {'form': form})
 
 
 @login_required
@@ -396,57 +421,105 @@ def quiz_start(request, pk=None):
 def quiz_update(request, pk=None):
     quiz = None
     suggested_new_order = 1
-    if pk:
-        quiz = get_object_or_404(Quiz, pk=pk)
-        suggested_new_order = quiz.get_next_question_number
+    this_user = request.user
+    if this_user.is_superuser:
+        if pk:
+            quiz = get_object_or_404(Quiz, pk=pk)
+            suggested_new_order = quiz.get_next_question_number
+        else:
+            raise forms.ValidationError("No existeix aquesta prova")
+        form = QuizAdminForm(request.POST or None, instance=quiz)
+        if request.POST and form.is_valid():
+            quiz = form.save(commit=False)
+            quiz.save()
+            return HttpResponseRedirect('/quiz/list/')
+        return render(request, 'main/quiz_edit.html', {'form': form, 'quiz': quiz, 'new_order': suggested_new_order} )
+    elif this_user.profile.is_teacher:
+        if pk:
+            quiz = get_object_or_404(Quiz, pk=pk)
+            suggested_new_order = quiz.get_next_question_number
+        else:
+            raise forms.ValidationError("No existeix aquesta prova")
+        form = QuizForm(request.POST or None, instance=quiz)
+        if request.POST and form.is_valid():
+            quiz = form.save(commit=False)
+            quiz.author = this_user
+            quiz.save()
+            return HttpResponseRedirect('/quiz/list/')
+        return render(request, 'main/quiz_edit.html', {'form': form, 'quiz': quiz, 'new_order': suggested_new_order} )
     else:
-        raise forms.ValidationError("No existeix aquesta prova")
-    form = QuizForm(request.POST or None, instance=quiz)
-    if request.POST and form.is_valid():
-        user = form.save(commit=False)
-        user.save()
-        return HttpResponseRedirect('/quiz/list/')
-    return render(request, 'main/quiz_edit.html', {'form': form, 'quiz': quiz, 'new_order': suggested_new_order} )
+        message = _("Estàs intentant accedir a una pàgina a la que no tens permís.")
+        go_back_to = "my_hub"
+        return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
 
 
 @login_required
 def alum_update(request, pk=None):
-    tutor = None
-    if pk:
-        alum = get_object_or_404(User, pk=pk)
-        tutor = alum.profile.alum_teacher
+    this_user = request.user
+    if this_user.is_superuser:
+        tutor = None
+        if pk:
+            alum = get_object_or_404(User, pk=pk)
+            tutor = alum.profile.alum_teacher
+        else:
+            raise forms.ValidationError("No existeix aquest alumne")
+        form = AlumUpdateFormAdmin(request.POST or None, instance=alum)
+        if request.POST and form.is_valid():
+            user = form.save(commit=False)
+            user.profile.alum_teacher = form.cleaned_data.get('teacher')
+            user.save()
+            return HttpResponseRedirect('/alum/list/')
+        return render(request, 'main/alum_edit.html', {'form': form, 'alum_id' : pk, 'tutor': tutor} )
+    elif this_user.profile and this_user.profile.is_teacher:
+        if pk:
+            alum = get_object_or_404(User, pk=pk)
+        else:
+            raise forms.ValidationError("No existeix aquest alumne")
+        form = AlumUpdateForm(request.POST or None, instance=alum)
+        if request.POST and form.is_valid():
+            user = form.save(commit=False)
+            user.profile.alum_teacher = this_user
+            user.save()
+            return HttpResponseRedirect('/alum/list/')
+        return render(request, 'main/alum_edit.html', {'form': form, 'alum_id': pk})
     else:
-        raise forms.ValidationError("No existeix aquest alumne")
-    form = AlumUpdateForm(request.POST or None, instance=alum)
-    if request.POST and form.is_valid():
-        user = form.save(commit=False)
-        user.profile.alum_teacher = form.cleaned_data.get('teacher')
-        user.save()
-        return HttpResponseRedirect('/alum/list/')
-    return render(request, 'main/alum_edit.html',
-                  {
-                      'form': form,
-                      'alum_id' : pk,
-                      #'groups_data': groups_data,
-                      'tutor': tutor})
+        message = _("Estàs intentant accedir a una pàgina a la que no tens permís.")
+        go_back_to = "my_hub"
+        return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
 
 
 @login_required
 def alum_new(request):
-    groups_data = []
-    if request.method == 'POST':
-        form = SimplifiedAlumForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            teacher = form.cleaned_data.get('teacher')
-            user.profile.is_alum = True
-            user.profile.alum_teacher = teacher
-            user.save()
-            return HttpResponseRedirect('/admin_menu')
+    this_user = request.user
+    if this_user.is_superuser:
+        if request.method == 'POST':
+            form = SimplifiedAlumFormForAdmin(request.POST)
+            if form.is_valid():
+                user = form.save()
+                teacher = form.cleaned_data.get('teacher')
+                user.profile.is_alum = True
+                user.profile.alum_teacher = teacher
+                user.save()
+                return HttpResponseRedirect('/alum/list')
+        else:
+            form = SimplifiedAlumFormForAdmin()
+        return render(request, 'main/alum_new.html', {'form': form})
+    elif this_user.profile and this_user.profile.is_teacher:
+        if request.method == 'POST':
+            form = SimplifiedAlumFormForTeacher(request.POST)
+            if form.is_valid():
+                user = form.save()
+                user.profile.is_alum = True
+                user.profile.alum_teacher = this_user
+                user.save()
+                return HttpResponseRedirect('/alum/list')
+        else:
+            form = SimplifiedAlumFormForTeacher()
+        return render(request, 'main/alum_new.html', {'form': form})
     else:
-        form = SimplifiedAlumForm()
-
-    return render(request, 'main/alum_new.html', {'form': form, 'groups_data': groups_data})
+        message = _("Estàs intentant accedir a una pàgina a la que no tens permís.")
+        go_back_to = "my_hub"
+        return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
 
 
 @login_required
@@ -554,6 +627,7 @@ def center_update(request, pk=None):
 
 @login_required
 def group_update(request, pk=None):
+    this_user = request.user
     photo_path = None
     group_password = None
     group_public_name = None
@@ -602,16 +676,22 @@ def group_update(request, pk=None):
             alum.profile.alum_in_group.add(user)
             alum.save()
         return HttpResponseRedirect('/group/list/')
-    return render(request, 'main/group_edit.html', {'form': form, 'group_id' : pk, 'photo_path': photo_path, 'group_password': group_password, 'group_public_name': group_public_name, 'username': username, 'centers':centers, 'tutor': tutor, 'center':center, 'alum_data':alum_data})
+    if this_user.is_superuser:
+        return render(request, 'main/group_edit.html', {'form': form, 'group_id' : pk, 'photo_path': photo_path, 'group_password': group_password, 'group_public_name': group_public_name, 'username': username, 'centers':centers, 'tutor': tutor, 'center':center, 'alum_data':alum_data})
+    elif this_user.profile and this_user.profile.is_teacher:
+        return render(request, 'main/group_edit_teacher.html', {'form': form, 'group_id': pk, 'photo_path': photo_path, 'group_password': group_password, 'group_public_name': group_public_name, 'username': username, 'alum_data': alum_data})
+    else:
+        message = _("Estàs intentant accedir a una pàgina a la que no tens permís.")
+        go_back_to = "my_hub"
+        return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
 
 @login_required
 def group_new(request):
-    # if this is a POST request we need to process the form data
+    this_user = request.user
     photo_path = None
     alum_data = []
     centers = EducationCenter.objects.all().order_by('name')
     if request.method == 'POST':
-        # create a form instance and populate it with data from the request:
         form = SimplifiedGroupForm(request.POST)
         photo_path = request.POST.get('photo_path')
         alum_ids = request.POST.get('alum_ids', '')
@@ -627,22 +707,25 @@ def group_new(request):
             user.profile.group_password = form.cleaned_data.get('password1')
             user.profile.group_public_name = form.cleaned_data.get('group_public_name')
             if photo_path != '':
-                copy( str(settings.BASE_DIR) + photo_path, settings.MEDIA_ROOT + "/group_pics/" )
+                copy(str(settings.BASE_DIR) + photo_path, settings.MEDIA_ROOT + "/group_pics/")
                 user.profile.group_picture = 'group_pics/' + os.path.basename(photo_path)
             user.save()
             for alum in alum_data:
                 alum.profile.alum_in_group.add(user)
                 alum.save()
-            # process the data in form.cleaned_data as required
-            # ...
-            # redirect to a new URL:
-            return HttpResponseRedirect('/admin_menu')
-
-    # if a GET (or any other method) we'll create a blank form
+            return HttpResponseRedirect('/group/list/')
     else:
         form = SimplifiedGroupForm()
+    if this_user.is_superuser:
+        return render(request, 'main/group_new.html', {'form': form, 'photo_path': photo_path, 'centers': centers, 'alum_data': alum_data})
+    elif this_user.profile and this_user.profile.is_teacher:
+        return render(request, 'main/group_new_teacher.html', {'form': form, 'photo_path': photo_path, 'alum_data': alum_data})
+    else:
+        message = _("Estàs intentant accedir a una pàgina a la que no tens permís.")
+        go_back_to = "my_hub"
+        return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
 
-    return render(request, 'main/group_new.html', {'form': form, 'photo_path': photo_path, 'centers': centers, 'alum_data': alum_data})
+
 
 @login_required
 def teacher_update(request, pk=None):
@@ -677,12 +760,25 @@ def teacher_list(request):
 
 @login_required
 def quiz_list(request):
-    return render(request, 'main/quiz_list.html')
+    this_user = request.user
+    if this_user.is_superuser or (this_user.profile and this_user.profile.is_teacher):
+        return render(request, 'main/quiz_list.html')
+    else:
+        message = _("Estàs intentant accedir a una pàgina a la que no tens permís.")
+        go_back_to = "my_hub"
+        return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
 
 
 @login_required
 def alum_list(request):
-    return render(request, 'main/alum_list.html')
+    this_user = request.user
+    if this_user.is_superuser or (this_user.profile and this_user.profile.is_teacher):
+        return render(request, 'main/alum_list.html')
+    else:
+        message = _("Estàs intentant accedir a una pàgina a la que no tens permís.")
+        go_back_to = "my_hub"
+        return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
+
 
 
 @api_view(['GET'])
@@ -806,11 +902,17 @@ def get_random_group_name(request):
 
 @api_view(['GET'])
 def quiz_datatable_list(request):
+    this_user = request.user
     if request.method == 'GET':
         search_field_list = ('name','author.username')
         field_translation_list = {'name': 'name', 'author.username': 'author__username', 'education_center': 'author__profile__teacher_belongs_to__name'}
         sort_translation_list = {'name': 'name', 'author.username': 'author__username', 'education_center': 'author__profile__teacher_belongs_to__name' }
-        queryset = Quiz.objects.select_related('author').all()
+        if this_user.is_superuser:
+            queryset = Quiz.objects.select_related('author').all()
+        elif this_user.profile.is_teacher:
+            queryset = Quiz.objects.select_related('author').filter(author=this_user)
+        else:
+            pass  # this should not happen
         response = generic_datatable_list_endpoint(request, search_field_list, queryset, QuizSerializer, field_translation_list, sort_translation_list)
         return response
 
@@ -826,9 +928,15 @@ def centers_datatable_list(request):
 
 @api_view(['GET'])
 def alum_datatable_list(request):
+    this_user = request.user
     if request.method == 'GET':
         search_field_list = ('username','teacher','groups')
-        queryset = User.objects.filter(profile__is_alum=True)
+        if this_user.is_superuser:
+            queryset = User.objects.filter(profile__is_alum=True)
+        elif this_user.profile.is_teacher:
+            queryset = User.objects.filter(profile__is_alum=True).filter(profile__alum_teacher=this_user)
+        else:
+            pass #this should not happen
         field_translation_list = {'username': 'username', 'teacher': 'profile__alum_teacher__username', 'groups': 'profile__groups_string'}
         sort_translation_list = {'username': 'username', 'teacher': 'profile__alum_teacher__username', 'groups': 'profile__groups_string'}
         response = generic_datatable_list_endpoint(request, search_field_list, queryset, AlumSerializer, field_translation_list, sort_translation_list)
@@ -837,11 +945,23 @@ def alum_datatable_list(request):
 
 @api_view(['GET'])
 def group_datatable_list(request):
+    this_user = request.user
     if request.method == 'GET':
         search_field_list = ('username','group_public_name')
-        queryset = User.objects.filter(profile__is_group=True)
-        field_translation_list = {'username': 'username', 'group_public_name':'profile__group_public_name'}
-        sort_translation_list = {'username': 'username', 'group_public_name':'profile__group_public_name'}
+        if this_user.is_superuser:
+            queryset = User.objects.filter(profile__is_group=True)
+        elif this_user.profile and this_user.profile.is_teacher:
+            #groups that contain any of the tutorees
+            tutorized_alums = User.objects.filter(profile__is_alum=True).filter(profile__alum_teacher=this_user)
+            group_ids = []
+            for t_alum in tutorized_alums:
+                groups = t_alum.profile.alum_in_group.all().values('id')
+                group_ids += [a['id'] for a in groups]
+            queryset = User.objects.filter(profile__is_group=True).filter(id__in=group_ids)
+        else:
+            pass #not allowed
+        field_translation_list = {'username': 'username', 'group_public_name': 'profile__group_public_name'}
+        sort_translation_list = {'username': 'username', 'group_public_name': 'profile__group_public_name'}
         response = generic_datatable_list_endpoint(request, search_field_list, queryset, GroupSerializer, field_translation_list, sort_translation_list)
         return response
 
@@ -875,9 +995,15 @@ def quiz_search(request):
 @api_view(['GET'])
 def alum_search(request):
     if request.method == 'GET':
+        this_user = request.user
         q = request.query_params.get('q', '')
-        tutor_id = request.query_params.get('tutor_id', '-1')
-        t_id = int(tutor_id)
+        if this_user.is_superuser:
+            tutor_id = request.query_params.get('tutor_id', '-1')
+            t_id = int(tutor_id)
+        elif this_user.profile and this_user.profile.is_teacher:
+            t_id = this_user.id
+        else:
+            pass #Security exception
         if q != '':
             queryset = User.objects.filter(profile__is_alum=True).filter(username__icontains=q).filter(profile__alum_teacher__id=t_id).order_by('username')
         else:
