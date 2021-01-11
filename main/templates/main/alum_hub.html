@@ -44,12 +44,12 @@
     <div class="row">
         <div class="col-md-6 alert alert-info">
             <p><strong>{% trans 'Aquestes són les proves que encara no has fet' %}:</strong></p>
-            {% if available_quizruns %}
-                {% for run in available_quizruns %}
+            {% if available_quizzes %}
+                {% for quiz in available_quizzes %}
                     <div class="row mt-3">
-                        <div class="col-md-6"><strong>{% trans 'Títol' %}</strong>: {{ run.quiz.name }}</div>
+                        <div class="col-md-6"><strong>{% trans 'Títol' %}</strong>: {{ quiz.name }}</div>
                         <div class="col-md-6">
-                            <a title="{% trans 'Fer la prova!' %}" class="btn btn-success" href="{% url 'quiz_take_splash' run.quiz.id %}" role="button"><i class="fa fa-lightbulb-o" aria-hidden="true"></i></a>
+                            <a title="{% trans 'Fer la prova!' %}" class="btn btn-success" href="{% url 'quiz_take_splash' quiz.id %}" role="button"><i class="fa fa-lightbulb-o" aria-hidden="true"></i></a>
                         </div>
                     </div>
                 {% endfor %}
