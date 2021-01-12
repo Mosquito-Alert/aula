@@ -146,6 +146,9 @@ def my_hub(request):
     if is_alum_test(this_user):
         response = redirect('/alum_menu')
         return response
+    if is_group_test(this_user):
+        response = redirect('/group_menu')
+        return response
 
 @login_required
 def teacher_menu(request):
@@ -176,6 +179,20 @@ def admin_menu(request):
 def alum_menu(request):
     this_user = request.user
     teach = this_user.profile.alum_teacher
+    quizzes_in_progress_ids = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=True).values('quiz__id').distinct()
+    quizzes_done_ids = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=False).values('quiz__id').distinct()
+    available_quizzes = Quiz.objects.filter(author=teach).filter(published=True).exclude(id__in=quizzes_in_progress_ids).exclude(id__in=quizzes_done_ids).order_by('id')
+    in_progress_quizruns = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=True).order_by('-date')
+    done_quizruns = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=False).order_by('-date')
+    #in_progress_quizzes = Quiz.objects.filter(id__in=quizzes_in_progress_ids).order_by('id')
+    #done_quizzes = Quiz.objects.filter(id__in=quizzes_done_ids).order_by('id')
+    return render(request, 'main/alum_hub.html', {'available_quizzes':available_quizzes, 'in_progress_quizruns':in_progress_quizruns, 'done_quizruns': done_quizruns})
+
+
+@login_required
+def group_menu(request):
+    this_user = request.user
+    teach = this_user.profile.group_teacher
     quizzes_in_progress_ids = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=True).values('quiz__id').distinct()
     quizzes_done_ids = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=False).values('quiz__id').distinct()
     available_quizzes = Quiz.objects.filter(author=teach).filter(published=True).exclude(id__in=quizzes_in_progress_ids).exclude(id__in=quizzes_done_ids).order_by('id')
@@ -344,7 +361,7 @@ def quiz_take(request, quiz_id=None, question_number=1, run_id=None):
     this_user = request.user
     if quiz_id:
         quiz = get_object_or_404(Quiz, pk=quiz_id)
-        if this_user.profile.alum_teacher.id != quiz.author.id:
+        if this_user.profile.group_teacher.id != quiz.author.id:
             #alum is trying to access a quiz created by someone that is not his tutor
             message = _("Estàs intentant accedir a una prova creada per un professor que no és el teu tutor.")
             go_back_to = "alum_menu"
@@ -406,8 +423,8 @@ def quiz_start(request, pk=None):
             message = _("Aquesta prova no està publicada, no la pots començar.")
             go_back_to = "alum_menu"
             return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
-        if this_user.profile.alum_teacher.id != quiz.author.id:
-            #alum is trying to start a quiz created by someone that is not his tutor
+        if this_user.profile.group_teacher.id != quiz.author.id:
+            #group is trying to start a quiz created by someone that is not his tutor
             message = _("Estàs intentant començar una prova creada per un professor que no és el teu tutor.")
             go_back_to = "alum_menu"
             return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to':go_back_to })
@@ -419,38 +436,65 @@ def quiz_start(request, pk=None):
 
 @login_required
 def quiz_update(request, pk=None):
+    # quiz = None
+    # suggested_new_order = 1
+    # this_user = request.user
+    # if this_user.is_superuser:
+    #     if pk:
+    #         quiz = get_object_or_404(Quiz, pk=pk)
+    #         suggested_new_order = quiz.get_next_question_number
+    #     else:
+    #         raise forms.ValidationError("No existeix aquesta prova")
+    #     form = QuizAdminForm(request.POST or None, instance=quiz)
+    #     if request.POST and form.is_valid():
+    #         quiz = form.save(commit=False)
+    #         quiz.save()
+    #         return HttpResponseRedirect('/quiz/list/')
+    #     return render(request, 'main/quiz_edit.html', {'form': form, 'quiz': quiz, 'new_order': suggested_new_order} )
+    # elif this_user.profile.is_teacher:
+    #     if pk:
+    #         quiz = get_object_or_404(Quiz, pk=pk)
+    #         suggested_new_order = quiz.get_next_question_number
+    #     else:
+    #         raise forms.ValidationError("No existeix aquesta prova")
+    #     form = QuizForm(request.POST or None, instance=quiz)
+    #     if request.POST and form.is_valid():
+    #         quiz = form.save(commit=False)
+    #         quiz.author = this_user
+    #         quiz.save()
+    #         return HttpResponseRedirect('/quiz/list/')
+    #     return render(request, 'main/quiz_edit.html', {'form': form, 'quiz': quiz, 'new_order': suggested_new_order} )
+    # else:
+    #     message = _("Estàs intentant accedir a una pàgina a la que no tens permís.")
+    #     go_back_to = "my_hub"
+    #     return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
     quiz = None
     suggested_new_order = 1
     this_user = request.user
+    if pk:
+        quiz = get_object_or_404(Quiz, pk=pk)
+        suggested_new_order = quiz.get_next_question_number
+    else:
+        message = _("Estàs intentant editar una prova que no existeix.")
+        go_back_to = "my_hub"
+        return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
     if this_user.is_superuser:
-        if pk:
-            quiz = get_object_or_404(Quiz, pk=pk)
-            suggested_new_order = quiz.get_next_question_number
-        else:
-            raise forms.ValidationError("No existeix aquesta prova")
         form = QuizAdminForm(request.POST or None, instance=quiz)
-        if request.POST and form.is_valid():
-            quiz = form.save(commit=False)
-            quiz.save()
-            return HttpResponseRedirect('/quiz/list/')
-        return render(request, 'main/quiz_edit.html', {'form': form, 'quiz': quiz, 'new_order': suggested_new_order} )
     elif this_user.profile.is_teacher:
-        if pk:
-            quiz = get_object_or_404(Quiz, pk=pk)
-            suggested_new_order = quiz.get_next_question_number
-        else:
-            raise forms.ValidationError("No existeix aquesta prova")
         form = QuizForm(request.POST or None, instance=quiz)
-        if request.POST and form.is_valid():
-            quiz = form.save(commit=False)
+    if request.POST and form.is_valid():
+        quiz = form.save(commit=False)
+        if this_user.profile.is_teacher:
             quiz.author = this_user
-            quiz.save()
-            return HttpResponseRedirect('/quiz/list/')
-        return render(request, 'main/quiz_edit.html', {'form': form, 'quiz': quiz, 'new_order': suggested_new_order} )
+        quiz.save()
+        return HttpResponseRedirect('/quiz/list/')
+    if this_user.is_superuser or this_user.profile.is_teacher:
+        return render(request, 'main/quiz_edit.html', {'form': form, 'quiz': quiz, 'new_order': suggested_new_order})
     else:
         message = _("Estàs intentant accedir a una pàgina a la que no tens permís.")
         go_back_to = "my_hub"
         return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
+
 
 
 @login_required
@@ -632,54 +676,47 @@ def group_update(request, pk=None):
     group_password = None
     group_public_name = None
     username = None
-    center = None
-    tutor = None
+    center = ""
+    tutor = ""
     centers = EducationCenter.objects.all().order_by('name')
-    alum_data = []
     if pk:
-        group = get_object_or_404(User,pk=pk)
+        group = get_object_or_404(User, pk=pk)
         if group.profile and group.profile.group_picture:
             photo_path = group.profile.group_picture.url
         group_password = group.profile.group_password
         group_public_name = group.profile.group_public_name
-        alums = group.alum_groups.all()
-        for a in alums:
-            alum_data.append(a.user)
-            tutor = a.alum_teacher
-            center = tutor.profile.teacher_belongs_to
         username = group.username
+        if group.profile.group_teacher:
+            tutor = group.profile.group_teacher.id
+            center = group.profile.group_teacher.profile.teacher_belongs_to.id
     else:
         raise forms.ValidationError("No existeix aquest grup")
     form = SimplifiedGroupForm(request.POST or None, instance=group)
-    if request.POST and form.is_valid():
-        user = form.save(commit=False)
-        user.profile.group_password = form.cleaned_data.get('password1')
-        user.profile.group_public_name = form.cleaned_data.get('group_public_name')
-        photo_path = form.cleaned_data.get('photo_path')
-        alum_ids = request.POST.get('alum_ids', '')
-        ids = alum_ids.split(',')
-        if len(ids) > 0:
-            alum_data = []
-            for id in ids:
-                if id != '':
-                    alum = User.objects.get(pk=int(id))
-                    alum_data.append(alum)
-        if photo_path and photo_path != '' and photo_path != 'None':
-            if str(settings.BASE_DIR) + photo_path != settings.MEDIA_ROOT + "/group_pics/" + os.path.basename(photo_path):
-                copy(str(settings.BASE_DIR) + photo_path, settings.MEDIA_ROOT + "/group_pics/")
-                user.profile.group_picture = 'group_pics/' + os.path.basename(photo_path)
-        else:
-            user.profile.group_picture = None
-        user.save()
-        user.alum_groups.clear()
-        for alum in alum_data:
-            alum.profile.alum_in_group.add(user)
-            alum.save()
-        return HttpResponseRedirect('/group/list/')
+    if request.method == 'POST':
+        tutor = request.POST.get('group_teacher')
+        center = request.POST.get('group_center')
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.profile.group_password = form.cleaned_data.get('password1')
+            user.profile.group_public_name = form.cleaned_data.get('group_public_name')
+            photo_path = form.cleaned_data.get('photo_path')
+            if photo_path and photo_path != '' and photo_path != 'None':
+                if str(settings.BASE_DIR) + photo_path != settings.MEDIA_ROOT + "/group_pics/" + os.path.basename(photo_path):
+                    copy(str(settings.BASE_DIR) + photo_path, settings.MEDIA_ROOT + "/group_pics/")
+                    user.profile.group_picture = 'group_pics/' + os.path.basename(photo_path)
+            else:
+                user.profile.group_picture = None
+            if this_user.is_superuser:
+                tutor_user = User.objects.get(pk=int(tutor))
+            elif this_user.profile and this_user.profile.is_teacher:
+                tutor_user = this_user
+            user.profile.group_teacher = tutor_user
+            user.save()
+            return HttpResponseRedirect('/group/list/')
     if this_user.is_superuser:
-        return render(request, 'main/group_edit.html', {'form': form, 'group_id' : pk, 'photo_path': photo_path, 'group_password': group_password, 'group_public_name': group_public_name, 'username': username, 'centers':centers, 'tutor': tutor, 'center':center, 'alum_data':alum_data})
+        return render(request, 'main/group_edit.html', {'form': form, 'group_id' : pk, 'photo_path': photo_path, 'group_password': group_password, 'group_public_name': group_public_name, 'username': username, 'centers':centers, 'tutor': tutor, 'center':center })
     elif this_user.profile and this_user.profile.is_teacher:
-        return render(request, 'main/group_edit_teacher.html', {'form': form, 'group_id': pk, 'photo_path': photo_path, 'group_password': group_password, 'group_public_name': group_public_name, 'username': username, 'alum_data': alum_data})
+        return render(request, 'main/group_edit_teacher.html', {'form': form, 'group_id': pk, 'photo_path': photo_path, 'group_password': group_password, 'group_public_name': group_public_name, 'username': username })
     else:
         message = _("Estàs intentant accedir a una pàgina a la que no tens permís.")
         go_back_to = "my_hub"
@@ -689,37 +726,35 @@ def group_update(request, pk=None):
 def group_new(request):
     this_user = request.user
     photo_path = None
-    alum_data = []
     centers = EducationCenter.objects.all().order_by('name')
+    group_teacher = -1
+    group_teacher_center_id = -1
     if request.method == 'POST':
         form = SimplifiedGroupForm(request.POST)
         photo_path = request.POST.get('photo_path')
-        alum_ids = request.POST.get('alum_ids', '')
-        ids = alum_ids.split(',')
-        if len(ids) > 0:
-            for id in ids:
-                if id != '':
-                    alum = User.objects.get(pk=int(id))
-                    alum_data.append(alum)
+        group_teacher = request.POST.get('group_teacher')
+        group_teacher_center_id = request.POST.get('group_center')
+        if this_user.is_superuser:
+            tutor = User.objects.get(pk=int(group_teacher))
+        elif this_user.profile and this_user.profile.is_teacher:
+            tutor = this_user
         if form.is_valid():
             user = form.save()
             user.profile.is_group = True
             user.profile.group_password = form.cleaned_data.get('password1')
             user.profile.group_public_name = form.cleaned_data.get('group_public_name')
+            user.profile.group_teacher = tutor
             if photo_path != '':
                 copy(str(settings.BASE_DIR) + photo_path, settings.MEDIA_ROOT + "/group_pics/")
                 user.profile.group_picture = 'group_pics/' + os.path.basename(photo_path)
             user.save()
-            for alum in alum_data:
-                alum.profile.alum_in_group.add(user)
-                alum.save()
             return HttpResponseRedirect('/group/list/')
     else:
         form = SimplifiedGroupForm()
     if this_user.is_superuser:
-        return render(request, 'main/group_new.html', {'form': form, 'photo_path': photo_path, 'centers': centers, 'alum_data': alum_data})
+        return render(request, 'main/group_new.html', {'form': form, 'photo_path': photo_path, 'centers': centers, 'group_teacher': group_teacher, 'group_teacher_center_id': group_teacher_center_id})
     elif this_user.profile and this_user.profile.is_teacher:
-        return render(request, 'main/group_new_teacher.html', {'form': form, 'photo_path': photo_path, 'alum_data': alum_data})
+        return render(request, 'main/group_new_teacher.html', {'form': form, 'photo_path': photo_path })
     else:
         message = _("Estàs intentant accedir a una pàgina a la que no tens permís.")
         go_back_to = "my_hub"
@@ -947,21 +982,22 @@ def alum_datatable_list(request):
 def group_datatable_list(request):
     this_user = request.user
     if request.method == 'GET':
-        search_field_list = ('username','group_public_name')
+        search_field_list = ('username', 'group_public_name', 'group_center', 'group_tutor')
         if this_user.is_superuser:
             queryset = User.objects.filter(profile__is_group=True)
         elif this_user.profile and this_user.profile.is_teacher:
             #groups that contain any of the tutorees
-            tutorized_alums = User.objects.filter(profile__is_alum=True).filter(profile__alum_teacher=this_user)
-            group_ids = []
-            for t_alum in tutorized_alums:
-                groups = t_alum.profile.alum_in_group.all().values('id')
-                group_ids += [a['id'] for a in groups]
-            queryset = User.objects.filter(profile__is_group=True).filter(id__in=group_ids)
+            # tutorized_alums = User.objects.filter(profile__is_alum=True).filter(profile__alum_teacher=this_user)
+            # group_ids = []
+            # for t_alum in tutorized_alums:
+            #     groups = t_alum.profile.alum_in_group.all().values('id')
+            #     group_ids += [a['id'] for a in groups]
+            # queryset = User.objects.filter(profile__is_group=True).filter(id__in=group_ids)
+            queryset = User.objects.filter(profile__is_group=True).filter(profile__group_teacher=this_user)
         else:
             pass #not allowed
-        field_translation_list = {'username': 'username', 'group_public_name': 'profile__group_public_name'}
-        sort_translation_list = {'username': 'username', 'group_public_name': 'profile__group_public_name'}
+        field_translation_list = {'username': 'username', 'group_public_name': 'profile__group_public_name', 'group_center': 'profile__center_string', 'group_tutor':  'profile__group_teacher__username'}
+        sort_translation_list = {'username': 'username', 'group_public_name': 'profile__group_public_name', 'group_center': 'profile__center_string', 'group_tutor':  'profile__group_teacher__username'}
         response = generic_datatable_list_endpoint(request, search_field_list, queryset, GroupSerializer, field_translation_list, sort_translation_list)
         return response
 

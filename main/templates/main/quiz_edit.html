@@ -2,10 +2,17 @@
 {% load static %}
 {% load i18n %}
 {% block extra_css %}
+<style>
+    .warning {
+        color: red;
+    }
+</style>
 {% endblock %}
 {% block title %}{% trans 'Editar prova' %}{% endblock %}
 {% block main %}
-<div class="col-xs-12" style="height:50px;"></div>
+<div class="container">
+    <h2><img src="{% static 'main/icons/noun_test_3271143.svg' %}" width="10%"> {% trans 'Editant prova' %}:</h2>
+</div>
 <div class="container">
     <form class="form" action="{% url 'quiz_update' quiz.id %}" method="post">
         {% csrf_token %}

@@ -162,6 +162,7 @@ class Profile(models.Model):
     group_password = models.CharField('Password grup', max_length=4, null=True)
     group_public_name = models.CharField(max_length=255, null=True)
     group_picture = models.ImageField(upload_to='media/group_pics/', null=True)
+    group_teacher = models.ForeignKey(User, null=True, on_delete=models.SET_NULL, related_name="group_teacher")
     groups_string = models.CharField(max_length=1000, null=True, blank=True)
     center_string = models.CharField(max_length=1000, null=True, blank=True)
 
@@ -187,11 +188,17 @@ def create_user_profile(sender, instance, created, **kwargs):
 
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
-    if instance.profile.is_alum:
-        group_string = get_string_from_groups(instance.profile)
+    # if instance.profile.is_alum:
+    #     group_string = get_string_from_groups(instance.profile)
+    #     center_string = None
+    #     if instance.profile.alum_teacher and instance.profile.alum_teacher.profile.teacher_belongs_to:
+    #         center_string = instance.profile.alum_teacher.profile.teacher_belongs_to.name
+    #     instance.profile.center_string = center_string
+    #     instance.profile.groups_string = group_string
+    # instance.profile.save()
+    if instance.profile.is_group:
         center_string = None
-        if instance.profile.alum_teacher and instance.profile.alum_teacher.profile.teacher_belongs_to:
-            center_string = instance.profile.alum_teacher.profile.teacher_belongs_to.name
+        if instance.profile.group_teacher and instance.profile.group_teacher.profile.teacher_belongs_to:
+            center_string = instance.profile.group_teacher.profile.teacher_belongs_to.name
         instance.profile.center_string = center_string
-        instance.profile.groups_string = group_string
     instance.profile.save()

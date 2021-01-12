@@ -85,7 +85,7 @@ $(document).ready( function () {
             ,{ 'data': 'group_password' }
             ,{ 'data': 'group_public_name' }
             ,{ 'data': 'group_center' }
-            ,{ 'data': 'group_alums' }
+            ,{ 'data': 'group_tutor' }
             ,{ 'data': 'group_picture' }
             ,{ 'data': 'is_active' }
         ],
@@ -124,24 +124,7 @@ $(document).ready( function () {
             },
             {
                 'targets':4,
-                'title': 'Alumnes',
-                'render': function(value){
-                    if(value != null){
-                        var alums = value.split(',');
-                        var badges = [];
-                        for(var i = 0; i < alums.length; i++){
-                            var index = i % 5;
-                            badges.push('<span style="color:white;background-color:' + colors[0][0] + ';" class="badge badge-pill">' + alums[i] + '</span>');
-                        }
-                        if(badges.length == 0){
-                            return '';
-                        }else{
-                            return badges.join(' ');
-                        }
-                    }else{
-                        return ''
-                    }
-                }
+                'title': 'Tutor'
             },
             {
                 'targets':5,

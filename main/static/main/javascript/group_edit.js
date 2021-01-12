@@ -69,70 +69,41 @@ $(document).ready(function() {
 
     $('#center').change(function(){
         var selected_value = $(this).val()
+        $('#group_center').val(selected_value);
         load_tutors(selected_value);
     });
 
     $('#tutor').change(function(){
         var selected_value = $(this).val();
-        $('#id_select_alum').empty().trigger("change");
-        if(selected_value!="-1"){
-            $('#id_select_alum').attr("disabled",false);
-        }else{
-            $('#id_select_alum').attr("disabled",true);
-        }
-        console.log(selected_value);
+        $('#group_teacher').val(selected_value);
     });
 
-    $('#id_select_alum').select2({
-      ajax: {
-        url: '/alum/search/',
-        dataType: 'json',
-        delay: 250,
-        processResults: function (data) {
-            return {
-                results: data
-            };
-        },
-        data: function(term,page){
-            return {
-                q: term,
-                tutor_id: $("#tutor").val()
-            };
-        }
-      }
-    });
-
-    //$('#id_select_alum').attr("disabled",true);
-
-    if(selected_center != -1){
-        $('#center option[value=' + selected_center + ']').prop('selected', true);
-        load_tutors(selected_center).then(
-            function(){
-                if(selected_tutor != -1){
-                    $('#tutor option[value=' + selected_tutor + ']').prop('selected', true);
+    var init_ui = function(){
+        var selected_center = $('#group_center').val();
+        var selected_tutor = $('#group_teacher').val();
+        if( selected_center!=null && selected_center != '' && selected_center != '-1'){
+            $('#center option[value=' + selected_center + ']').prop('selected', true);
+            load_tutors(selected_center).then(
+                function(){
+                    if( selected_tutor != null && selected_tutor != '-1' ){
+                        $('#tutor option[value=' + selected_tutor + ']').prop('selected', true);
+                    }
+                },
+                function(error){
+                    console.log(error);
                 }
-            },
-            function(error){
-                console.log(error);
-            }
-        );
-    }
-
-    /*if(selected_tutor != -1){
-        $('#id_teacher option[value=' + selected_tutor + ']').prop('selected', true);
-    }*/
-
-    for(var i = 0; i < init_data.length; i++){
-        $("#id_select_alum").append(new Option(init_data[i].text, init_data[i].id, true, true));
+            );
+        }
     }
 
     $('#group_form').submit(function() {
-        $('#alum_ids').val('');
-        var alum_ids = $("#id_select_alum").select2('data');
-        var ids = [];
-        for(var i = 0; i < alum_ids.length; i++){
-            ids.push( alum_ids[i].id );
+        var selected_tutor = $('#tutor').val();
+        if(selected_tutor==null || selected_tutor == '' || selected_tutor == '-1'){
+            $("#tutor").addClass("is-invalid");
+            $("#selected_tutor").append('<p id="error_1_id_username" class="invalid-feedback"><strong>Si us plau, tria el tutor del grup del desplegable</strong></p>')
+            return false;
         }
-        $('#alum_ids').val( ids.join(',') );
     });
+
+    init_ui();
 });

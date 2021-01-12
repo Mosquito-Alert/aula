@@ -22,6 +22,7 @@ $(document).ready(function() {
     };
 
     var load_tutors = function(center_id){
+        var def = $.Deferred();
         $('#tutor').attr("disabled",true);
         $.ajax({
             url: '/api/tutor_combo/',
@@ -40,31 +41,16 @@ $(document).ready(function() {
                     options.push('<option value="' + data[i].id + '">' + data[i].username + '</option>')
                 }
                 $('#tutor').html(options.join());
+                def.resolve();
             },
             error: function(jqXHR, textStatus, errorThrown){
                 toastr.error('Error recuperant llista de tutors per centre');
                 $('#tutor').attr("disabled",false);
+                def.reject(textStatus);
             }
         });
+        return def.promise();
     };
-
-    /*
-    $( "p" ).focusout(function() {
-        focus++;
-        $( "#focus-count" ).text( "focusout fired: " + focus + "x" );
-    });
-
-
-    $("#id_group_public_name").change(function(){
-        console.log('change');
-        $('#id_username').val('');
-    });
-
-
-    $('#id_group_public_name').on('change textInput input', function () {
-         $('#id_username').val('');
-    });
-    */
 
     $(".js-upload-photos").click(function () {
         $("#fileupload").click();
@@ -109,49 +95,43 @@ $(document).ready(function() {
 
     $('#center').change(function(){
         var selected_value = $(this).val()
+        $('#group_center').val(selected_value);
         load_tutors(selected_value);
-        $('#id_select_alum').val(null).trigger("change");
     });
 
     $('#tutor').change(function(){
         var selected_value = $(this).val();
-        $('#id_select_alum').empty().trigger("change");
-        if(selected_value!="-1"){
-            $('#id_select_alum').attr("disabled",false);
-        }else{
-            $('#id_select_alum').attr("disabled",true);
-        }
-        $('#id_select_alum').val(null).trigger("change");
+        $('#group_teacher').val(selected_value);
     });
-
-    $('#id_select_alum').select2({
-      ajax: {
-        url: '/alum/search/',
-        dataType: 'json',
-        delay: 250,
-        processResults: function (data) {
-            return {
-                results: data
-            };
-        },
-        data: function(term,page){
-            return {
-                q: term,
-                tutor_id: $("#tutor").val()
-            };
-        }
-      }
-    });
-
-    $('#id_select_alum').attr("disabled",true);
 
     $('#group_form').submit(function() {
-        $('#alum_ids').val('');
-        var alum_ids = $("#id_select_alum").select2('data');
-        var ids = [];
-        for(var i = 0; i < alum_ids.length; i++){
-            ids.push( alum_ids[i].id );
+        var selected_tutor = $('#group_teacher').val();
+        if(selected_tutor==null || selected_tutor == '' || selected_tutor == '-1'){
+            $("#tutor").addClass("is-invalid");
+            $("#selected_tutor").append('<p id="error_1_id_username" class="invalid-feedback"><strong>Si us plau, tria el tutor del grup del desplegable</strong></p>')
+            return false;
         }
-        $('#alum_ids').val( ids.join(',') );
     });
+
+    var init_ui = function(){
+        var selected_center = $('#group_center').val();
+        var selected_tutor = $('#group_teacher').val();
+        if( selected_center!=null && selected_center != '' && selected_center != '-1'){
+            $('#center option[value=' + selected_center + ']').prop('selected', true);
+            load_tutors(selected_center).then(
+                function(){
+                    if( selected_tutor != null && selected_tutor != '-1' ){
+                        $('#tutor option[value=' + selected_tutor + ']').prop('selected', true);
+                    }
+                },
+                function(error){
+                    console.log(error);
+                }
+            );
+        }
+    }
+
+    init_ui();
+
+
 });

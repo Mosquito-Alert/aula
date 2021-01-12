@@ -7,10 +7,8 @@
 <!-- Main jumbotron for a primary marketing message or call to action -->
 <div class="jumbotron">
     <div class="container">
-        <h2>Benvingut a Aula</h2>
-        <p>This is a template for a simple marketing or informational website. It includes a large callout called a
-            jumbotron and three supporting pieces of content. Use it as a starting point to create something more
-            unique.</p>
+        <h2>{% trans 'Benvingut a Aula' %}</h2>
+        <p>{% trans 'Aquesta és la web per a un projecte d\'educació en el context d\'una beca FECYT' %}</p>
         <!--<p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>-->
     </div>
 </div>
@@ -19,13 +17,11 @@
     <!-- Example row of columns -->
     <div class="row">
         <div class="col-md-2">
-            <img src="{% static 'main/icons/noun_Teacher_36665.svg' %}">
+            <img style="max-height: 150px;" src="{% static 'main/icons/noun_Teacher_1429557.svg' %}">
         </div>
         <div class="col-md-10">
             <h2>{% trans 'El meu espai' %}</h2>
-            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris
-                condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis
-                euismod. Donec sed odio dui. </p>
+            <p>{% trans 'Fes clic al botó "Entrar" per accedir al teu espai. L\'aplicatiu et demanarà un nom d\'usuari i password i et redirigirà al teu menú principal, segons siguis un usuari de grup, usuari de professor, o bé usuari administrador' %}</p>
             <p><a class="btn btn-success" href="{% url 'my_hub' %}" role="button">Entrar</a></p>
         </div>
         <!--
@@ -41,13 +37,6 @@
         </div>
         <div class="col-md-2">
             <img src="{% static 'main/icons/noun_graduate_66572.svg' %}">
-        </div>
-        <div class="col-md-10">
-            <h2>{% trans 'Espai alumnes' %}</h2>
-            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris
-                condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis
-                euismod. Donec sed odio dui. </p>
-            <p><a class="btn btn-secondary" href="{% url 'alum_menu' %}" role="button">Entrar &raquo;</a></p>
         </div>
         <div class="col-md-2">
             <img src="{% static 'main/icons/noun_admin_3323392.svg' %}">

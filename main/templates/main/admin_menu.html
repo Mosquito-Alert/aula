@@ -6,10 +6,8 @@
 {% block main %}
 <!-- Main jumbotron for a primary marketing message or call to action -->
 <div class="container">
-    <div class="row justify-content-left">
-        <div class="col-2">
-            <img src="{% static 'main/icons/noun_admin_3323392.svg' %}">
-        </div>
+    <div class="container">
+        <h2><img src="{% static 'main/icons/noun_admin_3323392.svg' %}" width="10%"> {% trans 'Menú principal administrador' %}:</h2>
     </div>
     <div class="card-deck mb-3 text-center">
         <div class="card mb-4 box-shadow">
@@ -28,15 +26,6 @@
                 <p class="card-text">{% trans 'Permet crear un usuari per a un professor.' %}</p>
                 <a href="{% url 'teacher_new' %}" class="btn btn-primary"><i class="fas fa-plus"></i></a>
                 <a href="{% url 'teacher_list' %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
-            </div>
-        </div>
-        <div class="card mb-4 box-shadow">
-            <div class="card-body">
-                <h5 class="card-title">{% trans 'Alumnes' %}</h5>
-                <img src="{% static 'main/icons/noun_graduate_66572.svg' %}" width="25%">
-                <p class="card-text">{% trans 'Permet crear un usuari per un alumne.' %}</p>
-                <a href="{% url 'alum_new' %}" class="btn btn-primary"><i class="fas fa-plus"></i></a>
-                <a href="{% url 'alum_list' %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
             </div>
         </div>
         <div class="card mb-4 box-shadow">

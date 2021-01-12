@@ -8,14 +8,14 @@
 <link href="{% static 'main/jQuery-File-Upload-9.28.0/css/jquery.fileupload.css' %}" rel="stylesheet">
 <link href="{% static 'main/jQuery-File-Upload-9.28.0/css/style.css' %}" rel="stylesheet">
 <link href="{% static 'main/jQuery-File-Upload-9.28.0/css/github/blueimp-gallery.min.css' %}" rel="stylesheet">
-<link href="{% static 'main/select2/select2.min.css' %}" rel="stylesheet">
 {% endblock %}
 {% block title %}{% trans 'Crear grup' %}{% endblock %}
 
 {% block main %}
-<div class="col-xs-12" style="height:50px;"></div>
 <div class="container">
     <h2><img src="{% static 'main/icons/noun_group_737669.svg' %}" width="10%"> {% trans 'Creant nou grup' %}:</h2>
+</div>
+<div class="container">
     <button type="button" class="btn btn-primary suggest-fields">Suggerir camps <i class="fas fa-bolt"></i></button>
     <div class="col-xs-12" style="height:50px;"></div>
     <form id="group_form" class="form" action="{% url 'group_new' %}" method="post">
@@ -42,14 +42,6 @@
                 <span class="glyphicon glyphicon-cloud-upload"></span>{% trans 'Afegir foto' %}
             </button>
         </div>
-        <div class="row">
-            <div class="col">
-                <img src="{% static 'main/icons/noun_graduate_66572.svg' %}" width="10%">
-                <label for="id_select_alum">{% trans 'Alumnes del grup' %}:</label>
-                <select id="id_select_alum" name="alums" class="form-control" multiple="multiple"></select>
-            </div>
-            <input id="alum_ids" type="hidden" name="alum_ids" value="{{ alum_ids }}">
-        </div>
         <input role="button" class="btn btn-success mt-2" type="submit" value="{% trans 'Desar' %}" />
     </form>
 </div>
@@ -60,6 +52,5 @@
 <script src="{% static 'main/jQuery-File-Upload-9.28.0/js/vendor/jquery.ui.widget.js' %}"></script>
 <script src="{% static 'main/jQuery-File-Upload-9.28.0/js/jquery.iframe-transport.js' %}"></script>
 <script src="{% static 'main/jQuery-File-Upload-9.28.0/js/jquery.fileupload.js' %}"></script>
-<script src="{% static 'main/select2/select2.min.js' %}"></script>
 <script src="{% static 'main/javascript/group_new_teacher.js' %}"></script>
 {% endblock %}

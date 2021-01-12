@@ -8,14 +8,14 @@
 <link href="{% static 'main/jQuery-File-Upload-9.28.0/css/jquery.fileupload.css' %}" rel="stylesheet">
 <link href="{% static 'main/jQuery-File-Upload-9.28.0/css/style.css' %}" rel="stylesheet">
 <link href="{% static 'main/jQuery-File-Upload-9.28.0/css/github/blueimp-gallery.min.css' %}" rel="stylesheet">
-<link href="{% static 'main/select2/select2.min.css' %}" rel="stylesheet">
 {% endblock %}
 {% block title %}{% trans 'Crear grup' %}{% endblock %}
 
 {% block main %}
-<div class="col-xs-12" style="height:50px;"></div>
 <div class="container">
     <h2><img src="{% static 'main/icons/noun_group_737669.svg' %}" width="10%"> {% trans 'Creant nou grup' %}:</h2>
+</div>
+<div class="container">
     <button type="button" class="btn btn-primary suggest-fields">Suggerir camps <i class="fas fa-bolt"></i></button>
     <div class="col-xs-12" style="height:50px;"></div>
     <form id="group_form" class="form" action="{% url 'group_new' %}" method="post">
@@ -43,8 +43,8 @@
             </button>
         </div>
         <div class="row">
-            <div class="col">
-                <img src="{% static 'main/icons/noun_School_1443077.svg' %}" width="10%">
+            <div class="col-md-6">
+                <img src="{% static 'main/icons/noun_School_1443077.svg' %}" width="50px">
                 <label for="center">{% trans 'Centre' %}:</label>
                 <select id="center" class="form-control">
                     <option value="-1" selected>{% trans 'Tria' %}...</option>
@@ -53,20 +53,16 @@
                     {% endfor %}
                 </select>
             </div>
-            <div class="col">
-                <img src="{% static 'main/icons/noun_Teacher_36665.svg' %}" width="10%">
+            <div id="selected_tutor" class="col-md-6">
+                <img src="{% static 'main/icons/noun_Teacher_36665.svg' %}" width="50px">
                 <label for="tutor">{% trans 'Tutor' %}:</label>
                 <select id="tutor" class="form-control">
                     <option selected>{% trans 'Tria primer un centre' %}...</option>
                 </select>
             </div>
-            <div class="col">
-                <img src="{% static 'main/icons/noun_graduate_66572.svg' %}" width="10%">
-                <label for="id_select_alum">{% trans 'Alumnes' %}:</label>
-                <select id="id_select_alum" name="alums" class="form-control" multiple="multiple"></select>
-            </div>
-            <input id="alum_ids" type="hidden" name="alum_ids" value="{{ alum_ids }}">
         </div>
+        <input id="group_teacher" type="hidden" name="group_teacher" value="{{ group_teacher }}">
+        <input id="group_center" type="hidden" name="group_center" value="{{ group_teacher_center_id }}">
         <input role="button" class="btn btn-success mt-2" type="submit" value="{% trans 'Desar' %}" />
     </form>
 </div>
@@ -77,6 +73,5 @@
 <script src="{% static 'main/jQuery-File-Upload-9.28.0/js/vendor/jquery.ui.widget.js' %}"></script>
 <script src="{% static 'main/jQuery-File-Upload-9.28.0/js/jquery.iframe-transport.js' %}"></script>
 <script src="{% static 'main/jQuery-File-Upload-9.28.0/js/jquery.fileupload.js' %}"></script>
-<script src="{% static 'main/select2/select2.min.js' %}"></script>
 <script src="{% static 'main/javascript/group_new.js' %}"></script>
 {% endblock %}

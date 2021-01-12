@@ -4,7 +4,9 @@
 {% block title %}{% trans 'Crear prova' %}{% endblock %}
 
 {% block main %}
-<div class="col-xs-12" style="height:50px;"></div>
+<div class="container">
+    <h2><img src="{% static 'main/icons/noun_test_3271143.svg' %}" width="10%"> {% trans 'Creant nova prova' %}:</h2>
+</div>
 <div class="container">
     <form class="form" action="{% url 'quiz_new' %}" method="post">
         {% csrf_token %}

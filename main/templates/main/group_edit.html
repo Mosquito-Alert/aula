@@ -8,7 +8,6 @@
 <link href="{% static 'main/jQuery-File-Upload-9.28.0/css/jquery.fileupload.css' %}" rel="stylesheet">
 <link href="{% static 'main/jQuery-File-Upload-9.28.0/css/style.css' %}" rel="stylesheet">
 <link href="{% static 'main/jQuery-File-Upload-9.28.0/css/github/blueimp-gallery.min.css' %}" rel="stylesheet">
-<link href="{% static 'main/select2/select2.min.css' %}" rel="stylesheet">
 {% endblock %}
 {% block title %}{% trans 'Editar grup' %}{% endblock %}
 
@@ -58,7 +57,7 @@
         </div>
         <input id="id_photo_path" type="hidden" name="photo_path" value="{{ photo_path }}">
         <div class="row">
-            <div class="col">
+            <div class="col-md-6">
                 <label for="center">{% trans 'Centre' %}:</label>
                 <select id="center" class="form-control">
                     <option value="-1" selected>{% trans 'Tria' %}...</option>
@@ -67,38 +66,24 @@
                     {% endfor %}
                 </select>
             </div>
-            <div class="col">
+            <div  id="selected_tutor" class="col-md-6">
                 <label for="tutor">{% trans 'Tutor' %}:</label>
                 <select id="tutor" class="form-control">
                     <option selected>{% trans 'Tria centre' %}...</option>
                 </select>
             </div>
-            <div class="col">
-                <label for="id_select_alum">{% trans 'Alumnes' %}:</label>
-                <select id="id_select_alum" name="alums" class="form-control" multiple="multiple"></select>
-            </div>
-            <input id="alum_ids" type="hidden" name="alum_ids" value="{{ alum_ids }}">
         </div>
+        <input id="group_teacher" type="hidden" name="group_teacher" value="{{ tutor }}">
+        <input id="group_center" type="hidden" name="group_center" value="{{ center }}">
         <input role="button" class="btn btn-success mt-2" type="submit" value="{% trans 'Desar' %}" />
     </form>
 </div>
 {% endblock %}
 {% block extra_js %}
-<script>
-    var init_data = [];
-    {% for d in alum_data %}
-    init_data.push({'id':'{{ d.id }}','text':'{{ d.username }}'});
-    {% endfor %}
-    var selected_center = -1;
-    {% if center %} selected_center = {{ center.id }}; {% endif %}
-    var selected_tutor = -1;
-    {% if tutor %} selected_tutor = {{ tutor.id }}; {% endif %}
-</script>
 <script src="{% static 'main/javascript/utils.js' %}"></script>
 <script src="{% static 'main/csrf_utils.js' %}"></script>
 <script src="{% static 'main/jQuery-File-Upload-9.28.0/js/vendor/jquery.ui.widget.js' %}"></script>
 <script src="{% static 'main/jQuery-File-Upload-9.28.0/js/jquery.iframe-transport.js' %}"></script>
 <script src="{% static 'main/jQuery-File-Upload-9.28.0/js/jquery.fileupload.js' %}"></script>
-<script src="{% static 'main/select2/select2.min.js' %}"></script>
 <script src="{% static 'main/javascript/group_edit.js' %}"></script>
 {% endblock %}

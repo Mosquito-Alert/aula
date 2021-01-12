@@ -62,31 +62,5 @@ $(document).ready(function() {
         load_group_names();
     });
 
-    $('#id_select_alum').select2({
-      ajax: {
-        url: '/alum/search/',
-        dataType: 'json',
-        delay: 250,
-        processResults: function (data) {
-            return {
-                results: data
-            };
-        },
-        data: function(term,page){
-            return {
-                q: term
-            };
-        }
-      }
-    });
 
-    $('#group_form').submit(function() {
-        $('#alum_ids').val('');
-        var alum_ids = $("#id_select_alum").select2('data');
-        var ids = [];
-        for(var i = 0; i < alum_ids.length; i++){
-            ids.push( alum_ids[i].id );
-        }
-        $('#alum_ids').val( ids.join(',') );
-    });
 });

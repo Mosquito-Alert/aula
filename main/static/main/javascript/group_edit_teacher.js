@@ -36,51 +36,5 @@ $(document).ready(function() {
         }
     });
 
-    $('#center').change(function(){
-        var selected_value = $(this).val()
-        load_tutors(selected_value);
-    });
 
-    $('#tutor').change(function(){
-        var selected_value = $(this).val();
-        $('#id_select_alum').empty().trigger("change");
-        if(selected_value!="-1"){
-            $('#id_select_alum').attr("disabled",false);
-        }else{
-            $('#id_select_alum').attr("disabled",true);
-        }
-        console.log(selected_value);
-    });
-
-    $('#id_select_alum').select2({
-      ajax: {
-        url: '/alum/search/',
-        dataType: 'json',
-        delay: 250,
-        processResults: function (data) {
-            return {
-                results: data
-            };
-        },
-        data: function(term,page){
-            return {
-                q: term
-            };
-        }
-      }
-    });
-
-    for(var i = 0; i < init_data.length; i++){
-        $("#id_select_alum").append(new Option(init_data[i].text, init_data[i].id, true, true));
-    }
-
-    $('#group_form').submit(function() {
-        $('#alum_ids').val('');
-        var alum_ids = $("#id_select_alum").select2('data');
-        var ids = [];
-        for(var i = 0; i < alum_ids.length; i++){
-            ids.push( alum_ids[i].id );
-        }
-        $('#alum_ids').val( ids.join(',') );
-    });
 });

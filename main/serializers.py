@@ -113,8 +113,9 @@ class GroupSerializer(serializers.ModelSerializer):
     group_password = serializers.SerializerMethodField('get_group_password')
     group_public_name = serializers.SerializerMethodField('get_group_public_name')
     group_center = serializers.SerializerMethodField('get_group_center')
-    group_alums = serializers.SerializerMethodField('get_group_alums')
+    #group_alums = serializers.SerializerMethodField('get_group_alums')
     group_picture = serializers.SerializerMethodField('get_group_picture')
+    group_tutor = serializers.SerializerMethodField('get_group_tutor')
 
     class Meta:
         model = User
@@ -127,17 +128,21 @@ class GroupSerializer(serializers.ModelSerializer):
         return obj.profile.group_public_name
 
     def get_group_center(self,obj):
-        alum = obj.alum_groups.first()
-        if alum:
-            return alum.center_string
-        else:
-            return ''
+        if obj.profile is not None:
+            return obj.profile.center_string
+        return ''
 
-    def get_group_alums(self,obj):
-        alums = []
-        for alum in obj.alum_groups.all():
-            alums.append(alum.user.username)
-        return ','.join(alums)
+    def get_group_tutor(self, obj):
+        tutor = obj.profile.group_teacher
+        if tutor is not None:
+            return tutor.username
+        return ''
+
+    # def get_group_alums(self,obj):
+    #     alums = []
+    #     for alum in obj.alum_groups.all():
+    #         alums.append(alum.user.username)
+    #     return ','.join(alums)
 
     def get_group_picture(self,obj):
         if obj.profile:
