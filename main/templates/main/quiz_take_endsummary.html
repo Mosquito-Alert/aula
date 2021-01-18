@@ -32,18 +32,40 @@
             {% endif %}
         </ul>
     </div>
+    {% if quizrun.quiz.is_test %}
     <div class="row">
         <h2>{% trans 'La teva puntuació és' %}:</h2>
     </div>
     <div class="row">
         <div class="col-md-12 alert alert-success"><h1><p class="text-center">{{ quizrun.questions_right }} {% trans 'de' %} {{ quizrun.questions_number }} {% trans 'respostes correctes' %}!</p></h1></div>
     </div>
+    {% elif quizrun.quiz.is_material %}
+    <div class="row">
+        <h2>{% trans 'Has completat el material!' %}:</h2>
+    </div>
+    <div class="row">
+        <div class="col-md-12 alert alert-success"><h1><p class="text-center">{% trans 'Si vols accedir al material més tard, el tens disponible al Menú principal' %}</p></h1></div>
+    </div>
+    {% elif quizrun.quiz.is_poll %}
+    <div class="row">
+        <h2>{% trans 'Has completat l\'enquesta!' %}:</h2>
+    </div>
+    <div class="row">
+        <div class="col-md-12 alert alert-success"><h1><p class="text-center">{% trans 'Pots veure els resultats de l\'enquesta al Menú principal' %}</p></h1></div>
+    </div>
+    {% endif %}
     <div class="col-xs-12" style="height:20px;"></div>
     <h2>Ara pots:</h2>
     <div class="row">
+        {% if quizrun.quiz.is_test %}
         <div class="col-md-4 text-center mt-1"><button id="repeat-button" role="button" class="btn btn-success">{% trans 'Repetir la prova ' %} <i class="fas fa-undo" aria-hidden="true"></i></button></div>
         <div class="col-md-4 text-center mt-1"><a class="btn btn-success" href="{% url 'group_menu' %}" role="button">{% trans 'Tornar a l\'inici' %}</a></div>
         <div class="col-md-4 text-center mt-1"><button id="confetti-button" role="button" class="btn btn-success">{% trans 'Llençar més confetti! ' %}</i></button></div>
+        {% elif quizrun.quiz.is_material or quizrun.quiz.is_poll %}
+        <div class="col-md-6 text-center mt-1"><a class="btn btn-success" href="{% url 'group_menu' %}" role="button">{% trans 'Tornar a l\'inici' %}</a></div>
+        <div class="col-md-6 text-center mt-1"><button id="confetti-button" role="button" class="btn btn-success">{% trans 'Llençar més confetti! ' %}</i></button></div>
+        {% endif %}
+
     </div>
 </div>
 {% endblock %}

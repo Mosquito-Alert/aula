@@ -4,6 +4,8 @@
 
     AEditor.data = [];
 
+    AEditor.is_poll = false;
+
     AEditor.domElem = null;
 
     AEditor.template_id = null;
@@ -21,7 +23,8 @@
         {
             div: 'answers',
             template_id: 'row_template',
-            data: []
+            data: [],
+            is_poll: false
         },
         options);
         if ($('#' + options.div).length ) {
@@ -32,12 +35,13 @@
         if(options.data.length > 0){
             for(var i = 0; i < options.data.length; i++){
                 var answer = options.data[i];
-                AEditor.addAnswer( options.data[i].id, options.data[i].question_id, options.data[i].text, options.data[i].is_correct );
+                AEditor.addAnswer( options.data[i].label, options.data[i].text, options.data[i].is_correct, options.data[i].id );
             }
         }else{
             AEditor.domElem.empty();
         }
         AEditor.template_id = options.template_id;
+        AEditor.is_poll = options.is_poll;
         return AEditor;
     }
 
@@ -49,7 +53,9 @@
         var template = $('#' + AEditor.template_id).html();
         var data = {'row_id': id};
         AEditor.domElem.append(Mustache.render(template,data));
-        $('#correct_' + id).prop( "checked", is_correct );
+        if(!AEditor.is_poll){
+            $('#correct_' + id).prop( "checked", is_correct );
+        }
         $('#label_' + id).val(label);
         $('#text_' + id).val(text);
     }
@@ -128,10 +134,12 @@
             }
         }
         if(!one_correct){
-            $('#general_errors').html('<span><small class="text-danger answer-error"><strong>Cal marcar com a mínim una resposta com a correcta.</strong></small></span>')
+            if (!AEditor.is_poll){
+                $('#general_errors').html('<span><small class="text-danger answer-error"><strong>Cal marcar com a mínim una resposta com a correcta.</strong></small></span>')
+            }
         }
 
-        if (!one_correct || Object.keys(errors) > 0){
+        if ( (!one_correct && !AEditor.is_poll) || Object.keys(errors) > 0){
             return false;
         }
 

@@ -5,6 +5,7 @@ from django.db.models.signals import post_save,post_delete
 from django.dispatch import receiver
 import os
 from datetime import datetime
+from django.utils.translation import gettext_lazy as _
 
 
 class EducationCenter(models.Model):
@@ -18,17 +19,42 @@ class EducationCenter(models.Model):
         return self.name
 
 
+QUIZ_TYPES = ((0, _('Test')), (1, _('Material')), (2, _('Enquesta')))
+
 class Quiz(models.Model):
     author = models.ForeignKey(User, null=True, on_delete=models.CASCADE, related_name='quizzes')
     name = models.CharField(max_length=255)
     published = models.BooleanField(default=False)
+    type = models.IntegerField(choices=QUIZ_TYPES)
 
     def __str__(self):
         return self.name
 
     @property
+    def type_text(self):
+        switcher = {
+            0: QUIZ_TYPES[0][1],
+            1: QUIZ_TYPES[1][1],
+            2: QUIZ_TYPES[2][1],
+        }
+        return switcher.get(self.type,_('Tipus invàlid'))
+
+    @property
     def sorted_questions_set(self):
         return self.questions.all().order_by('question_order')
+
+
+    @property
+    def is_test(self):
+        return self.type == 0
+
+    @property
+    def is_material(self):
+        return self.type == 1
+
+    @property
+    def is_poll(self):
+        return self.type == 2
 
     @property
     def get_next_question_number(self):
@@ -85,17 +111,20 @@ class QuizRun(models.Model):
         questions_number = answers.count()
         questions_right = 0
         questions_right_list = []
-        for answer in answers:
-            question = answer.question
-            if question.doc_link is not None:
-                questions_right += 1
-                questions_right_list.append(question.question_order)
-            else:
-                correct_answer = question.answers.get(is_correct=True)
-                if answer.chosen_answer.id == correct_answer.id:
+        if self.quiz.is_test:
+            for answer in answers:
+                question = answer.question
+                if question.doc_link is not None:
                     questions_right += 1
                     questions_right_list.append(question.question_order)
-        return { 'questions_number': questions_number, 'questions_right': questions_right, 'questions_right_list': questions_right_list }
+                else:
+                    correct_answer = question.answers.get(is_correct=True)
+                    if answer.chosen_answer.id == correct_answer.id:
+                        questions_right += 1
+                        questions_right_list.append(question.question_order)
+            return { 'questions_number': questions_number, 'questions_right': questions_right, 'questions_right_list': questions_right_list }
+        else:
+            return {'questions_number': questions_number, 'questions_right': questions_number, 'questions_right_list': questions_right_list}
 
 
 

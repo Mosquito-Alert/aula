@@ -71,21 +71,69 @@ $(document).ready( function () {
                     return '<button title="Editar" class="edit_button btn btn-info"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>';
                 }
             },
-            /*{
-                'targets': 4,
+            {
+                'targets': 5,
                 'sortable': false,
                 'render': function(value){
                     return '<button title="Eliminar prova" class="delete_button btn btn-danger"><i class="fas fa-backspace"></i></button>';
                 }
-            },*/
+            },
         ]
     } );
+
+    var delete_quiz = function(id){
+    $.ajax({
+        url: _quiz_delete_url + id,
+        method: 'DELETE',
+        beforeSend: function(xhr, settings) {
+            if (!csrfSafeMethod(settings.type)) {
+                var csrftoken = getCookie('csrftoken');
+                xhr.setRequestHeader('X-CSRFToken', csrftoken);
+            }
+        },
+        success: function( data, textStatus, jqXHR ) {
+            toastr.success('Prova eliminada!');
+            table.ajax.reload();
+        },
+        error: function(jqXHR, textStatus, errorThrown){
+            toastr.error('Error eliminant prova');
+        }
+        });
+    };
+
+    var confirmDialog = function(message,id){
+    $('<div></div>').appendTo('body')
+        .html('<div><h6>'+message+'</h6></div>')
+        .dialog({
+            modal: true, title: 'Eliminant prova...', zIndex: 10000, autoOpen: true,
+            width: 'auto', resizable: false,
+            buttons: {
+                Yes: function () {
+                    delete_quiz(id);
+                    $(this).dialog("close");
+                },
+                No: function () {
+                    $(this).dialog("close");
+                }
+            },
+            close: function (event, ui) {
+                $(this).remove();
+            }
+        });
+    };
 
     $('#quiz_list tbody').on('click', 'td button.edit_button', function () {
         var tr = $(this).closest('tr');
         var row = table.row( tr );
         var id = row.data().id
         window.location.href = _quiz_update_url + id + '/';
+    });
+
+    $('#quiz_list tbody').on('click', 'td button.delete_button', function () {
+        var tr = $(this).closest('tr');
+        var row = table.row( tr );
+        var id = row.data().id;
+        confirmDialog("Segur que vols esborrar la prova?",id);
     });
 
 });

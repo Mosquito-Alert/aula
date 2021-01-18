@@ -5,6 +5,7 @@ import unicodedata
 from django.contrib.auth import password_validation
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext, gettext_lazy as _
+from main.models import QUIZ_TYPES
 
 
 class QuizForm(ModelForm):
@@ -15,13 +16,20 @@ class QuizForm(ModelForm):
         model = Quiz
         fields = ['name', 'published']
 
+class QuizNewForm(QuizForm):
+    type = forms.ChoiceField(choices=QUIZ_TYPES, widget=forms.Select(attrs={'class': 'form-control'}))
 
-class QuizAdminForm(QuizForm):
+    class Meta:
+        model = Quiz
+        fields = ['name', 'published', 'type']
+
+
+class QuizAdminForm(QuizNewForm):
     author = forms.ModelChoiceField(label=_("Autor"), queryset=User.objects.filter(profile__is_teacher=True).order_by('username'),widget=forms.Select(attrs={'class': 'form-control'}))
 
     class Meta:
         model = Quiz
-        fields = ['name', 'author', 'published']
+        fields = ['name', 'author', 'published', 'type']
 
 
 class EducationCenterForm(ModelForm):
@@ -324,6 +332,25 @@ class ChangePasswordForm(forms.Form):
         if password_1 != password_2:
             raise forms.ValidationError(_('Els passwords són diferents! Si us plau torna a escriure\'ls'))
         return password_2
+
+
+class QuestionPollForm(forms.ModelForm):
+    question_order = forms.IntegerField(label=_("Ordre de la pregunta dins la prova"), required=True)
+    text = forms.CharField(label=_("Text de la pregunta"), widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 4}), required=True)
+
+    class Meta:
+        model = Question
+        fields = ("question_order","text")
+
+    def clean_question_order(self):
+        cleaned_data = self.cleaned_data.get('question_order')
+        quiz_id = self.data.get('quiz_id',-1)
+        if quiz_id != -1:
+            questions = Question.objects.filter(quiz__id=int(quiz_id))
+            for q in questions:
+                if q.question_order == cleaned_data:
+                    raise forms.ValidationError(_('Ja hi ha una pregunta amb aquest número d\'ordre per aquesta prova. Tria un número diferent'))
+        return cleaned_data
 
 
 class QuestionLinkForm(forms.ModelForm):

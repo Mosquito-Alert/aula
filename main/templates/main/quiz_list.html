@@ -29,6 +29,7 @@
     var table_language = {% if LANGUAGE_CODE == 'ca' %} table_ca {% else %} table_es {% endif %};
     var _quiz_list_url = '{% url 'quiz_datatable_list' %}';
     var _quiz_update_url = '{% url 'quiz_update_no_id' %}';
+    var _quiz_delete_url = "{% url 'quizzes-list' %}";
 </script>
 <script src="{% static 'main/csrf_utils.js' %}"></script>
 <script src="{% static 'main/cookies.js' %}"></script>

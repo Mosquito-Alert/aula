@@ -25,6 +25,10 @@ $(document).ready(function() {
         window.location.href = _question_link_new_url + quiz_id + "/" + '?n=' + suggested_new_order;
     });
 
+    $('#add_poll_question').click(function(){
+        window.location.href = _question_poll_new_url + quiz_id + "/" + '?n=' + suggested_new_order;
+    });
+
     $('.delete_button').click(function(){
         var question_id = $(this).attr('id');
         confirmDialog("ATENCIÓ: s'esborrarà la pregunta i totes les respostes. Segur que vols continuar?", question_id);

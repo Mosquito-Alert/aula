@@ -5,7 +5,9 @@ from main.forms import QuizForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from main.models import EducationCenter, Word, Quiz, Answer, Question, QuizRun, QuizRunAnswers
-from main.forms import TeacherForm, SimplifiedTeacherForm, EducationCenterForm, TeacherUpdateForm, ChangePasswordForm, SimplifiedAlumForm, SimplifiedGroupForm, AlumUpdateForm, QuestionForm, QuestionLinkForm, SimplifiedAlumFormForTeacher, SimplifiedAlumFormForAdmin, AlumUpdateFormAdmin, QuizAdminForm
+from main.forms import TeacherForm, SimplifiedTeacherForm, EducationCenterForm, TeacherUpdateForm, ChangePasswordForm, \
+    SimplifiedAlumForm, SimplifiedGroupForm, AlumUpdateForm, QuestionForm, QuestionLinkForm, SimplifiedAlumFormForTeacher, \
+    SimplifiedAlumFormForAdmin, AlumUpdateFormAdmin, QuizAdminForm, QuestionPollForm, QuizNewForm
 from django.contrib.gis.geos import GEOSGeometry
 from rest_framework.decorators import api_view, permission_classes
 from querystring_parser import parser
@@ -14,7 +16,9 @@ import functools
 from rest_framework.response import Response
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import operator
-from main.serializers import EducationCenterSerializer, TeacherSerializer, UserSerializer, AlumSerializer, GroupSerializer, GroupSearchSerializer, TeacherComboSerializer, AlumSearchSerializer, QuizSerializer, QuestionSerializer, QuizSearchSerializer, QuizRunAnswerSerializer, QuizRunSerializer
+from main.serializers import EducationCenterSerializer, TeacherSerializer, UserSerializer, AlumSerializer, \
+    GroupSerializer, GroupSearchSerializer, TeacherComboSerializer, AlumSearchSerializer, QuizSerializer, \
+    QuestionSerializer, QuizSearchSerializer, QuizRunAnswerSerializer, QuizRunSerializer
 from rest_framework import status,viewsets, generics
 from django.db.models import Q
 from rest_framework.generics import GenericAPIView
@@ -219,14 +223,14 @@ def quiz_new(request):
         return render(request, 'main/quiz_new.html', {'form': form})
     elif this_user.profile and this_user.profile.is_teacher:
         if request.method == 'POST':
-            form = QuizForm(request.POST)
+            form = QuizNewForm(request.POST)
             if form.is_valid():
                 pre_quiz = form.save(commit=False)
                 pre_quiz.author = this_user
                 pre_quiz.save()
                 return HttpResponseRedirect('/quiz/update/' + str(pre_quiz.id) + '/')
         else:
-            form = QuizForm()
+            form = QuizNewForm()
         return render(request, 'main/quiz_new_teacher.html', {'form': form})
     else:
         message = _("Estàs intentant accedir a una pàgina a la que no tens permís.")
@@ -234,6 +238,35 @@ def quiz_new(request):
         return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
 
 
+@login_required
+def question_poll_new(request, quiz_id=None):
+    quiz = None
+    json_answers = None
+    if quiz_id:
+        quiz = get_object_or_404(Quiz, pk=quiz_id)
+    else:
+        raise forms.ValidationError("No existeix aquesta prova")
+    if request.method == 'POST':
+        form = QuestionForm(request.POST)
+        json_answers = request.POST.get('answers_json', '')
+        if form.is_valid():
+            question = form.save(commit=False)
+            question.quiz = quiz
+            question.save()
+            if json_answers != '':
+                answers_data = json.loads(json_answers)
+                for a in answers_data:
+                    new_answer = Answer(
+                        question=question,
+                        label=a['label'],
+                        text=a['text'],
+                        is_correct=a['is_correct']
+                    )
+                    new_answer.save()
+            return HttpResponseRedirect('/quiz/update/' + str(quiz_id) + '/')
+    else:
+        form = QuestionForm()
+    return render(request, 'main/question_poll_new.html', {'form': form, 'quiz': quiz, 'json_answers': json_answers})
 
 @login_required
 def question_link_new(request, quiz_id=None):
@@ -272,6 +305,41 @@ def quiz_take_endsummary(request, quizrun_id=None):
 def quiz_assign_admin(request):
     centers = EducationCenter.objects.all().order_by('name')
     return render(request, 'main/quiz_assign_admin.html', {'centers':centers})
+
+
+@login_required
+def poll_result(request, quiz_id=None):
+    this_user = request.user
+    quiz = None
+    if quiz_id:
+        quiz = get_object_or_404(Quiz, pk=quiz_id)
+    else:
+        message = _("No existeix aquesta prova.")
+        go_back_to = "alum_menu"
+        return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
+    if not QuizRun.objects.filter(quiz=quiz).exists():
+        message = _("No tens assignada aquesta prova, de manera que no la pots visualitzar.")
+        go_back_to = "alum_menu"
+        return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
+
+    return render(request, 'main/poll_result.html', {'quiz': quiz})
+
+@login_required
+def quiz_browse(request, quiz_id=None):
+    this_user = request.user
+    quiz = None
+    if quiz_id:
+        quiz = get_object_or_404(Quiz, pk=quiz_id)
+    else:
+        message = _("No existeix aquesta prova.")
+        go_back_to = "alum_menu"
+        return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
+    if not QuizRun.objects.filter(quiz=quiz).exists():
+        message = _("No tens assignada aquesta prova, de manera que no la pots visualitzar.")
+        go_back_to = "alum_menu"
+        return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
+
+    return render(request, 'main/quiz_browse.html', {'quiz': quiz})
 
 @login_required
 def question_new(request, quiz_id=None):
@@ -316,6 +384,33 @@ def question_link_update(request, pk=None):
             return HttpResponseRedirect('/quiz/update/' + str(question.quiz.id) + '/')
     return render(request, 'main/question_link_edit.html',
                   { 'form': form, 'question': question })
+
+
+@login_required
+def question_poll_update(request, pk=None):
+    question = None
+    if pk:
+        question = get_object_or_404(Question, pk=pk)
+        answers = question.sorted_answers_set
+        json_answers = json.dumps([{'id': a.id, 'label': a.label, 'text': a.text, 'is_correct': a.is_correct} for a in answers])
+    form = QuestionForm(request.POST or None, instance=question)
+    if request.POST:
+        json_answers = request.POST.get('answers_json', '')
+        if form.is_valid():
+            question = form.save(commit=False)
+            question.answers.all().delete()
+            question.save()
+            answers_obj = json.loads(json_answers)
+            for a in answers_obj:
+                new_answer = Answer(
+                    question=question,
+                    label=a['label'],
+                    text=a['text'],
+                    is_correct=a['is_correct']
+                )
+                new_answer.save()
+            return HttpResponseRedirect('/quiz/update/' + str(question.quiz.id) + '/')
+    return render(request, 'main/question_poll_edit.html', {'form': form, 'question': question, 'json_answers': json_answers})
 
 
 @login_required
@@ -889,11 +984,11 @@ def api_finishquiz(request):
         if quizrun_id == -1:
             raise ParseError(detail='Quiz id not specified')
         quizrun = get_object_or_404(QuizRun, pk=quizrun_id)
-        eval_data = quizrun.evaluate()
-
         quizrun.date_finished = date_finished
-        quizrun.questions_number = eval_data['questions_number']
-        quizrun.questions_right = eval_data['questions_right']
+        if quizrun.quiz.is_test:
+            eval_data = quizrun.evaluate()
+            quizrun.questions_number = eval_data['questions_number']
+            quizrun.questions_right = eval_data['questions_right']
         quizrun.save()
         serializer = QuizRunSerializer(quizrun)
         return Response(serializer.data)
