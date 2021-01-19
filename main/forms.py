@@ -11,17 +11,31 @@ from main.models import QUIZ_TYPES
 class QuizForm(ModelForm):
     name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), required=True)
     published = forms.BooleanField(label=_("Prova publicada?"),widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}), required=False)
+    requisite = forms.ModelChoiceField(label=_("Cal completar la prova del desplegable per poder fer aquesta prova"), queryset=Quiz.objects.all().order_by('name'), widget=forms.Select(attrs={'class': 'form-control'}), required=False)
+
+    def __init__(self, *args, **kwargs):
+        super(QuizForm, self).__init__(*args, **kwargs)
+        userid = kwargs.pop('userid', None)
+        inst = kwargs.pop('instance', None)
+        qs = Quiz.objects.all()
+        if userid:
+            qs = qs.filter(author=userid)
+        if inst:
+            qs = qs.exclude(id=inst.id)
+        self.fields['requisite'].queryset = qs.order_by('name')
 
     class Meta:
         model = Quiz
-        fields = ['name', 'published']
+        fields = ['name', 'published', 'requisite']
+
+
 
 class QuizNewForm(QuizForm):
     type = forms.ChoiceField(choices=QUIZ_TYPES, widget=forms.Select(attrs={'class': 'form-control'}))
 
     class Meta:
         model = Quiz
-        fields = ['name', 'published', 'type']
+        fields = ['name', 'published', 'requisite', 'type']
 
 
 class QuizAdminForm(QuizNewForm):
@@ -29,7 +43,7 @@ class QuizAdminForm(QuizNewForm):
 
     class Meta:
         model = Quiz
-        fields = ['name', 'author', 'published', 'type']
+        fields = ['name', 'published', 'requisite', 'type', 'author']
 
 
 class EducationCenterForm(ModelForm):

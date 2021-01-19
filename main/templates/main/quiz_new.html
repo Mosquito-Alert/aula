@@ -23,6 +23,11 @@
             {{ form.author.errors }}
         </div>
         <div class="form-group mb-3">
+            <label for="{{ form.type.id_for_label }}">{% trans 'Requisits per fer aquesta prova' %}:</label>
+            {{ form.requisite }}
+            {{ form.requisite.errors }}
+        </div>
+        <div class="form-group mb-3">
             <label for="{{ form.type.id_for_label }}">{% trans 'Tipus de material' %}:</label>
             {{ form.type }}
             {{ form.type.errors }}

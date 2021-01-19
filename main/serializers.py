@@ -44,10 +44,17 @@ class ShortUserSerializer(serializers.ModelSerializer):
         fields = ['id', 'username']
 
 
+class NestedQuizSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Quiz
+        fields = ['id','name']
+
+
 class QuizSerializer(serializers.ModelSerializer):
 
     education_center = serializers.SerializerMethodField('get_quiz_center')
     author = ShortUserSerializer()
+    requisite = NestedQuizSerializer()
 
     class Meta:
         model = Quiz

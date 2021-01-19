@@ -202,9 +202,10 @@ def group_menu(request):
     available_quizzes = Quiz.objects.filter(author=teach).filter(published=True).exclude(id__in=quizzes_in_progress_ids).exclude(id__in=quizzes_done_ids).order_by('id')
     in_progress_quizruns = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=True).order_by('-date')
     done_quizruns = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=False).order_by('-date')
+    done_quizzes_ids = [ a.quiz.id for a in done_quizruns ]
     #in_progress_quizzes = Quiz.objects.filter(id__in=quizzes_in_progress_ids).order_by('id')
     #done_quizzes = Quiz.objects.filter(id__in=quizzes_done_ids).order_by('id')
-    return render(request, 'main/alum_hub.html', {'available_quizzes':available_quizzes, 'in_progress_quizruns':in_progress_quizruns, 'done_quizruns': done_quizruns})
+    return render(request, 'main/alum_hub.html', {'available_quizzes':available_quizzes, 'in_progress_quizruns':in_progress_quizruns, 'done_quizruns': done_quizruns, 'done_quizzes_ids': done_quizzes_ids})
 
 
 @login_required
@@ -223,14 +224,14 @@ def quiz_new(request):
         return render(request, 'main/quiz_new.html', {'form': form})
     elif this_user.profile and this_user.profile.is_teacher:
         if request.method == 'POST':
-            form = QuizNewForm(request.POST)
+            form = QuizNewForm(request.POST, userid=this_user.id)
             if form.is_valid():
                 pre_quiz = form.save(commit=False)
                 pre_quiz.author = this_user
                 pre_quiz.save()
                 return HttpResponseRedirect('/quiz/update/' + str(pre_quiz.id) + '/')
         else:
-            form = QuizNewForm()
+            form = QuizNewForm(userid=this_user.id)
         return render(request, 'main/quiz_new_teacher.html', {'form': form})
     else:
         message = _("Estàs intentant accedir a una pàgina a la que no tens permís.")
@@ -576,6 +577,7 @@ def quiz_update(request, pk=None):
     if this_user.is_superuser:
         form = QuizAdminForm(request.POST or None, instance=quiz)
     elif this_user.profile.is_teacher:
+        #form = QuizForm(request.POST or None, instance=quiz, userid=this_user.id)
         form = QuizForm(request.POST or None, instance=quiz)
     if request.POST and form.is_valid():
         quiz = form.save(commit=False)

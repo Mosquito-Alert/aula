@@ -42,7 +42,7 @@
                         <div class="col-md-3"><strong>{% trans 'Finalitzada' %}</strong>: {{ run.date_finished }}</div>
                         <div class="col-md-1"></div>
                         <div class="col-md-2">
-                            <a title="{% trans 'Tornar a veure material' %}" class="btn btn-success" href="{% url 'quiz_browse' run.quiz.id %}" role="button">Veure <i class="far fa-eye"></i></a>
+                            <a title="{% trans 'Tornar a veure material' %}" class="btn btn-success" href="{% url 'quiz_browse' run.quiz.id %}" target="_blank" role="button">Veure <i class="far fa-eye"></i></a>
                         </div>
                         <div class="col-md-2"></div>
                     </div>
@@ -53,7 +53,7 @@
                         <div class="col-md-3"><strong>{% trans 'Finalitzada' %}</strong>: {{ run.date_finished }}</div>
                         <div class="col-md-1"></div>
                         <div class="col-md-2">
-                            <a title="{% trans 'Veure resultats enquesta' %}" class="btn btn-success" href="{% url 'poll_result' run.quiz.id %}" role="button">Veure <i class="far fa-eye"></i></a>
+                            <a title="{% trans 'Veure resultats enquesta' %}" class="btn btn-success" href="{% url 'poll_result' run.quiz.id %}" target="_blank" role="button">Veure <i class="far fa-eye"></i></a>
                         </div>
                         <div class="col-md-2"></div>
                     </div>
@@ -73,7 +73,15 @@
                     <div class="row mt-3">
                         <div class="col-md-6"><strong>{% trans 'Títol' %}</strong>: {{ quiz.name }}</div>
                         <div class="col-md-6">
+                            {% if quiz.requisite %}
+                                {% if quiz.requisite.id in done_quizzes_ids %}
+                                    <a title="{% trans 'Fer la prova!' %}" class="btn btn-success" href="{% url 'quiz_take_splash' quiz.id %}" role="button"><i class="fa fa-lightbulb-o" aria-hidden="true"></i></a>
+                                {% else %}
+                                    <a title="{% trans 'Aquest material està bloquejat, abans cal fer la prova amb nom' %} '{{ quiz.requisite.name }}'" class="btn btn-secondary" href="" role="button"><i class="fas fa-lock"></i></a>
+                                {% endif %}
+                            {% else %}
                             <a title="{% trans 'Fer la prova!' %}" class="btn btn-success" href="{% url 'quiz_take_splash' quiz.id %}" role="button"><i class="fa fa-lightbulb-o" aria-hidden="true"></i></a>
+                            {% endif %}
                         </div>
                     </div>
                 {% endfor %}

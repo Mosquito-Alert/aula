@@ -38,6 +38,7 @@ $(document).ready( function () {
             { 'data': 'name' },
             { 'data': 'author.username' },
             { 'data': 'education_center' },
+            { 'data': 'requisite' },
             { 'data': 'published' }
         ],
         'columnDefs': [
@@ -54,7 +55,18 @@ $(document).ready( function () {
                 'title': 'Centre'
             },
             {
-            'targets':3,
+                'targets':3,
+                'title': 'Requisits',
+                'render': function(value){
+                    if(value){
+                        return value.name;
+                    }else{
+                        return '';
+                    }
+                }
+            },
+            {
+            'targets':4,
             'title': 'Prova publicada?',
             'render': function(value){
                     if(value == true){
@@ -65,14 +77,14 @@ $(document).ready( function () {
                 }
             },
             {
-                'targets': 4,
+                'targets': 5,
                 'sortable': false,
                 'render': function(value){
                     return '<button title="Editar" class="edit_button btn btn-info"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>';
                 }
             },
             {
-                'targets': 5,
+                'targets': 6,
                 'sortable': false,
                 'render': function(value){
                     return '<button title="Eliminar prova" class="delete_button btn btn-danger"><i class="fas fa-backspace"></i></button>';

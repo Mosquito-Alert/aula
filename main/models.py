@@ -21,11 +21,14 @@ class EducationCenter(models.Model):
 
 QUIZ_TYPES = ((0, _('Test')), (1, _('Material')), (2, _('Enquesta')))
 
+
 class Quiz(models.Model):
     author = models.ForeignKey(User, null=True, on_delete=models.CASCADE, related_name='quizzes')
     name = models.CharField(max_length=255)
     published = models.BooleanField(default=False)
     type = models.IntegerField(choices=QUIZ_TYPES)
+    # To take this quiz, you need to previously complete 'requisite'
+    requisite = models.ForeignKey('main.Quiz', null=True, blank=True, on_delete=models.SET_NULL, related_name='allows')
 
     def __str__(self):
         return self.name
@@ -150,6 +153,11 @@ class Question(models.Model):
     def sorted_answers_set(self):
         return self.answers.all().order_by('label')
 
+    @property
+    def total_number_of_answers_of_question(self):
+        n_total = QuizRunAnswers.objects.filter(question=self).filter(answered=True).count()
+        return n_total
+
 
 class Answer(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='answers')
@@ -159,6 +167,22 @@ class Answer(models.Model):
 
     def __str__(self):
         return self.text
+
+    @property
+    def how_many_times_answered(self):
+        n_this = QuizRunAnswers.objects.filter(chosen_answer=self).filter(answered=True).count()
+        return n_this
+
+    @property
+    def answered_by_perc(self):
+        #number of total answers of question
+        n_total = self.question.total_number_of_answers_of_question
+        #number of THIS answer
+        n_this = self.how_many_times_answered
+        if n_total == 0:
+            return "0"
+        else:
+            return str(round((n_this/n_total)*100, 0))
 
 
 # class QuizSolution(models.Model):
