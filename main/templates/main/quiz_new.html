@@ -23,10 +23,12 @@
             {{ form.author.errors }}
         </div>
         <div class="form-group mb-3">
-            <label for="{{ form.type.id_for_label }}">{% trans 'Requisits per fer aquesta prova' %}:</label>
-            {{ form.requisite }}
-            {{ form.requisite.errors }}
+            <label for="id_req">{% trans 'Requisits per fer aquesta prova' %}:</label>
+            <select name="id_req" class="form-control" required id="id_req">
+                <option value="-1">--------</option>
+            </select>
         </div>
+        {{ form.requisite }}
         <div class="form-group mb-3">
             <label for="{{ form.type.id_for_label }}">{% trans 'Tipus de material' %}:</label>
             {{ form.type }}
@@ -35,5 +37,9 @@
         <input role="button" class="btn btn-success mt-2" type="submit" value="{% trans 'Desar' %}" />
     </form>
 </div>
-
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'main/csrf_utils.js' %}"></script>
+<script src="{% static 'main/cookies.js' %}"></script>
+<script src="{% static 'main/javascript/quiz_new.js' %}"></script>
 {% endblock %}

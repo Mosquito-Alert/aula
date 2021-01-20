@@ -30,6 +30,7 @@ urlpatterns = [
     path('quiz/take/endsummary/<int:quizrun_id>/', views.quiz_take_endsummary, name='quiz_take_endsummary'),
     path('quiz/assign_admin/', views.quiz_assign_admin, name='quiz_assign_admin'),
     path('quiz/search/', views.quiz_search, name='quiz_search'),
+    path('quiz/solutions/', views.quiz_solutions, name='quiz_solutions'),
     path('question/new/<int:quiz_id>/', views.question_new, name='question_new'),
     path('question/new/', views.question_new, name='question_new'),
     path('question_link/new/<int:quiz_id>/', views.question_link_new, name='question_link_new'),
@@ -75,4 +76,5 @@ urlpatterns = [
     path('api/finishquiz/', views.api_finishquiz, name='api_finishquiz'),
     path('uploadpic', views.uploadpic, name="uploadpic"),
     path('api/tutor_combo/', views.tutor_combo, name="tutor_combo"),
+    path('api/requirements_combo/', views.requirements_combo, name="requirements_combo"),
 ]

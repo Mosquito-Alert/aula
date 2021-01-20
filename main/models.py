@@ -69,6 +69,21 @@ class Quiz(models.Model):
             pass
         return number
 
+    @property
+    def taken_by_n_people(self):
+        return QuizRun.objects.filter(quiz=self).filter(date_finished__isnull=False).values('taken_by__id').distinct().count()
+
+    @property
+    def best_runs(self):
+        best_runs = []
+        taken_by = QuizRun.objects.filter(quiz=self).filter(date_finished__isnull=False).values('taken_by__id').distinct()
+        for user in taken_by:
+            best_run = QuizRun.objects.filter(taken_by__id=user['taken_by__id']).filter(quiz=self).order_by('-questions_right', '-date_finished').first()
+            best_runs.append(best_run)
+        best_runs.sort(key=lambda x: x.taken_by.profile.group_public_name)
+        return best_runs
+
+
 
 # class AssignedQuiz(models.Model):
 #     assigned_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='commissions')
@@ -225,6 +240,13 @@ class Profile(models.Model):
         for g in self.alum_in_group.all():
             groups.append(g.profile.group_public_name)
         return ','.join(groups)
+
+    @property
+    def tutored_groups(self):
+        if self.is_teacher:
+            return User.objects.filter(profile__is_group=True).filter(profile__group_teacher=self.user).count()
+        else:
+            return 0
 
 
 def get_string_from_groups(profile):

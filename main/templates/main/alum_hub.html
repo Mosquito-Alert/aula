@@ -12,8 +12,8 @@
 <div class="container">
     <div class="row justify-content-left">
         <div class="col-md-11">
-            <p>{% trans 'Hola' %}, {{ user.profile.group_public_name }}!</p>
-            <p>{% trans 'El vostre professor assignat és ' %} <strong>{{ user.profile.group_teacher.username }}</strong></p>
+            <h4><p>{% trans 'Hola' %}, <span class="badge badge-primary"><strong>{{ user.profile.group_public_name }}</strong></span>!</p></h4>
+            <h4><p>{% trans 'El vostre professor assignat és ' %} <span class="badge badge-primary"><strong>{{ user.profile.group_teacher.username }}</strong></span></p></h4>
         </div>
     </div>
     <div class="row alert alert-success">
@@ -42,7 +42,7 @@
                         <div class="col-md-3"><strong>{% trans 'Finalitzada' %}</strong>: {{ run.date_finished }}</div>
                         <div class="col-md-1"></div>
                         <div class="col-md-2">
-                            <a title="{% trans 'Tornar a veure material' %}" class="btn btn-success" href="{% url 'quiz_browse' run.quiz.id %}" target="_blank" role="button">Veure <i class="far fa-eye"></i></a>
+                            <a title="{% trans 'Tornar a veure material' %}" class="btn btn-success" href="{% url 'quiz_browse' run.quiz.id %}" target="_blank" role="button">Repassar <i class="far fa-eye"></i></a>
                         </div>
                         <div class="col-md-2"></div>
                     </div>
@@ -53,7 +53,7 @@
                         <div class="col-md-3"><strong>{% trans 'Finalitzada' %}</strong>: {{ run.date_finished }}</div>
                         <div class="col-md-1"></div>
                         <div class="col-md-2">
-                            <a title="{% trans 'Veure resultats enquesta' %}" class="btn btn-success" href="{% url 'poll_result' run.quiz.id %}" target="_blank" role="button">Veure <i class="far fa-eye"></i></a>
+                            <a title="{% trans 'Veure resultats enquesta' %}" class="btn btn-success" href="{% url 'poll_result' run.quiz.id %}" target="_blank" role="button">Resultats <i class="far fa-eye"></i></a>
                         </div>
                         <div class="col-md-2"></div>
                     </div>

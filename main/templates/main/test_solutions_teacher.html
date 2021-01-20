@@ -1,0 +1,39 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% load i18n %}
+{% block title %}{% trans 'Resultats de proves' %}{% endblock %}
+
+{% block main %}
+<!-- Main jumbotron for a primary marketing message or call to action -->
+<div class="col-xs-12" style="height:20px;"></div>
+<div class="container">
+    <h2><img src="{% static 'main/icons/noun_solution_2998552.svg' %}" width="10%"> {% trans 'Resultats de proves' %}:</h2>
+</div>
+<div class="container">
+    {% for quiz in my_quizzes %}
+    <div class="row alert alert-success">
+        <div class="col-md-6"><h2><span class="badge badge-info">{{ quiz.name }}</span></h2></div>
+        <div class="col-md-6" style="text-align:right;">Completat {{ quiz.taken_by_n_people }}/{{ user.profile.tutored_groups }} grups</div>
+    </div>
+    <div class="row alert alert-success ml-5">
+        <table style="width:100%;">
+            <tr>
+                <th>Grup</th>
+                <th>Millor puntuació</th>
+                <th>Millor intent</th>
+                <th>Prova finalitzada</th>
+            </tr>
+            {% for quizrun in quiz.best_runs %}
+            <tr>
+                <td>{{ quizrun.taken_by.profile.group_public_name }}</td>
+                <td>{{ quizrun.questions_right }}/{{ quizrun.questions_number }}</td>
+                <td>{{ quizrun.run_number }}</td>
+                <td>{{ quizrun.date_finished }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

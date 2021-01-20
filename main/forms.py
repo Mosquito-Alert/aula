@@ -30,20 +30,39 @@ class QuizForm(ModelForm):
 
 
 
-class QuizNewForm(QuizForm):
+class QuizNewForm(ModelForm):
+    name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), required=True)
+    published = forms.BooleanField(label=_("Prova publicada?"),widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}), required=False)
+    requisite = forms.ModelChoiceField(label=_("Cal completar la prova del desplegable per poder fer aquesta prova"),queryset=Quiz.objects.all().order_by('name'),widget=forms.Select(attrs={'class': 'form-control'}), required=False)
     type = forms.ChoiceField(choices=QUIZ_TYPES, widget=forms.Select(attrs={'class': 'form-control'}))
+
+    def __init__(self, *args, **kwargs):
+        userid = kwargs.pop('userid', None)
+        inst = kwargs.pop('instance', None)
+        super(QuizNewForm, self).__init__(*args, **kwargs)
+        qs = Quiz.objects.all()
+        if userid:
+            qs = qs.filter(author=userid)
+        if inst:
+            qs = qs.exclude(id=inst.id)
+        self.fields['requisite'].queryset = qs.order_by('name')
 
     class Meta:
         model = Quiz
         fields = ['name', 'published', 'requisite', 'type']
 
 
-class QuizAdminForm(QuizNewForm):
+class QuizAdminForm(ModelForm):
+    name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), required=True)
+    published = forms.BooleanField(label=_("Prova publicada?"),widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}), required=False)
+    #requisite = forms.ModelChoiceField(label=_("Cal completar la prova del desplegable per poder fer aquesta prova"),queryset=Quiz.objects.all().order_by('name'),widget=forms.Select(attrs={'class': 'form-control'}), required=False)
+    requisite = forms.IntegerField(widget=forms.HiddenInput(), required=False)
+    type = forms.ChoiceField(choices=QUIZ_TYPES, widget=forms.Select(attrs={'class': 'form-control'}))
     author = forms.ModelChoiceField(label=_("Autor"), queryset=User.objects.filter(profile__is_teacher=True).order_by('username'),widget=forms.Select(attrs={'class': 'form-control'}))
 
     class Meta:
         model = Quiz
-        fields = ['name', 'published', 'requisite', 'type', 'author']
+        fields = ['name', 'published', 'type', 'author']
 
 
 class EducationCenterForm(ModelForm):

@@ -18,7 +18,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import operator
 from main.serializers import EducationCenterSerializer, TeacherSerializer, UserSerializer, AlumSerializer, \
     GroupSerializer, GroupSearchSerializer, TeacherComboSerializer, AlumSearchSerializer, QuizSerializer, \
-    QuestionSerializer, QuizSearchSerializer, QuizRunAnswerSerializer, QuizRunSerializer
+    QuestionSerializer, QuizSearchSerializer, QuizRunAnswerSerializer, QuizRunSerializer, QuizComboSerializer
 from rest_framework import status,viewsets, generics
 from django.db.models import Q
 from rest_framework.generics import GenericAPIView
@@ -133,7 +133,6 @@ def is_group_test(user):
     return False
 
 
-# Create your views here.
 def index(request):
     return render(request, 'main/index.html', {})
 
@@ -216,7 +215,10 @@ def quiz_new(request):
             form = QuizAdminForm(request.POST)
             if form.is_valid():
                 pre_quiz = form.save(commit=False)
-                #pre_quiz.author = this_user
+                id_requisite = request.POST.get('requisite', '')
+                if id_requisite != -1:
+                    req = Quiz.objects.get(pk=int(id_requisite))
+                    pre_quiz.requisite = req
                 pre_quiz.save()
                 return HttpResponseRedirect('/quiz/update/' + str(pre_quiz.id) + '/')
         else:
@@ -532,40 +534,9 @@ def quiz_start(request, pk=None):
 
 @login_required
 def quiz_update(request, pk=None):
-    # quiz = None
-    # suggested_new_order = 1
-    # this_user = request.user
-    # if this_user.is_superuser:
-    #     if pk:
-    #         quiz = get_object_or_404(Quiz, pk=pk)
-    #         suggested_new_order = quiz.get_next_question_number
-    #     else:
-    #         raise forms.ValidationError("No existeix aquesta prova")
-    #     form = QuizAdminForm(request.POST or None, instance=quiz)
-    #     if request.POST and form.is_valid():
-    #         quiz = form.save(commit=False)
-    #         quiz.save()
-    #         return HttpResponseRedirect('/quiz/list/')
-    #     return render(request, 'main/quiz_edit.html', {'form': form, 'quiz': quiz, 'new_order': suggested_new_order} )
-    # elif this_user.profile.is_teacher:
-    #     if pk:
-    #         quiz = get_object_or_404(Quiz, pk=pk)
-    #         suggested_new_order = quiz.get_next_question_number
-    #     else:
-    #         raise forms.ValidationError("No existeix aquesta prova")
-    #     form = QuizForm(request.POST or None, instance=quiz)
-    #     if request.POST and form.is_valid():
-    #         quiz = form.save(commit=False)
-    #         quiz.author = this_user
-    #         quiz.save()
-    #         return HttpResponseRedirect('/quiz/list/')
-    #     return render(request, 'main/quiz_edit.html', {'form': form, 'quiz': quiz, 'new_order': suggested_new_order} )
-    # else:
-    #     message = _("Estàs intentant accedir a una pàgina a la que no tens permís.")
-    #     go_back_to = "my_hub"
-    #     return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
     quiz = None
     suggested_new_order = 1
+    req = None
     this_user = request.user
     if pk:
         quiz = get_object_or_404(Quiz, pk=pk)
@@ -577,16 +548,23 @@ def quiz_update(request, pk=None):
     if this_user.is_superuser:
         form = QuizAdminForm(request.POST or None, instance=quiz)
     elif this_user.profile.is_teacher:
-        #form = QuizForm(request.POST or None, instance=quiz, userid=this_user.id)
         form = QuizForm(request.POST or None, instance=quiz)
-    if request.POST and form.is_valid():
-        quiz = form.save(commit=False)
-        if this_user.profile.is_teacher:
-            quiz.author = this_user
-        quiz.save()
-        return HttpResponseRedirect('/quiz/list/')
-    if this_user.is_superuser or this_user.profile.is_teacher:
-        return render(request, 'main/quiz_edit.html', {'form': form, 'quiz': quiz, 'new_order': suggested_new_order})
+    if request.POST:
+        id_requisite = request.POST.get('requisite', '-1')
+        if id_requisite != '-1' and id_requisite != '':
+            req = Quiz.objects.get(pk=int(id_requisite))
+        if form.is_valid():
+            quiz = form.save(commit=False)
+            if this_user.profile.is_teacher:
+                quiz.author = this_user
+            if this_user.is_superuser:
+                quiz.requisite = req
+            quiz.save()
+            return HttpResponseRedirect('/quiz/list/')
+    if this_user.is_superuser:
+        return render(request, 'main/quiz_edit.html', {'form': form, 'quiz': quiz, 'new_order': suggested_new_order, 'selected_author': quiz.author, 'selected_requisite': quiz.requisite.id if quiz.requisite is not None else None })
+    elif this_user.profile.is_teacher:
+        return render(request, 'main/quiz_edit_teacher.html', {'form': form, 'quiz': quiz, 'new_order': suggested_new_order})
     else:
         message = _("Estàs intentant accedir a una pàgina a la que no tens permís.")
         go_back_to = "my_hub"
@@ -912,6 +890,19 @@ def alum_list(request):
         return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
 
 
+@login_required
+def quiz_solutions(request):
+    this_user = request.user
+    if this_user.is_superuser:
+        my_quizzes = Quiz.objects.filter(type=0).order_by('name')
+    elif this_user.profile and this_user.profile.is_teacher:
+        my_quizzes = Quiz.objects.filter(author=this_user).filter(type=0).order_by('name')
+    else:
+        message = _("Estàs intentant accedir a una pàgina a la que no tens permís.")
+        go_back_to = "my_hub"
+        return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
+    return render(request, 'main/test_solutions_teacher.html', {'my_quizzes': my_quizzes})
+
 
 @api_view(['GET'])
 def teachers_datatable_list(request):
@@ -1142,6 +1133,14 @@ def alum_search(request):
         else:
             queryset = User.objects.filter(profile__is_alum=True).filter(profile__alum_teacher__id=t_id).order_by('username')
         serializer = AlumSearchSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+@api_view(['GET'])
+def requirements_combo(request):
+    if request.method == 'GET':
+        q = request.query_params.get('author_id', -1)
+        queryset = Quiz.objects.filter(author__id=q).order_by('name')
+        serializer = QuizComboSerializer(queryset, many=True)
         return Response(serializer.data)
 
 

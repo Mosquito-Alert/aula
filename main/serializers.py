@@ -158,6 +158,12 @@ class GroupSerializer(serializers.ModelSerializer):
         return ''
 
 
+class QuizComboSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Quiz
+        fields = ['id', 'name']
+
+
 class TeacherComboSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
