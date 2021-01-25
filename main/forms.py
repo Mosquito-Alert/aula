@@ -58,7 +58,7 @@ class QuizAdminForm(ModelForm):
     #requisite = forms.ModelChoiceField(label=_("Cal completar la prova del desplegable per poder fer aquesta prova"),queryset=Quiz.objects.all().order_by('name'),widget=forms.Select(attrs={'class': 'form-control'}), required=False)
     requisite = forms.IntegerField(widget=forms.HiddenInput(), required=False)
     type = forms.ChoiceField(choices=QUIZ_TYPES, widget=forms.Select(attrs={'class': 'form-control'}))
-    author = forms.ModelChoiceField(label=_("Autor"), queryset=User.objects.filter(profile__is_teacher=True).order_by('username'),widget=forms.Select(attrs={'class': 'form-control'}))
+    author = forms.ModelChoiceField(label=_("Autor"), queryset=User.objects.filter(profile__is_teacher=True).order_by('username'),widget=forms.Select(attrs={'class': 'form-control'}), required=False)
 
     class Meta:
         model = Quiz

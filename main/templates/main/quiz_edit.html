@@ -14,6 +14,16 @@
     <h2><img src="{% static 'main/icons/noun_test_3271143.svg' %}" width="10%"> {% trans 'Editant prova' %}:</h2>
 </div>
 <div class="container">
+    {% if quiz.taken_by_n_people > 0 %}
+    <div class="alert alert-danger" role="alert">
+        {{ quiz.taken_by_n_people }} grups ja han completat aquesta prova!
+    </div>
+    {% endif %}
+    {% if quiz.published %}
+    <div class="alert alert-danger" role="alert">
+        <strong><i class="fas fa-exclamation-triangle"></i> {% trans 'ATENCIÓ: estàs editant una prova publicada. La modificació de qualsevol camp (a part del nom) pot tenir conseqüències no desitjades! Fes-ho només si tens molt clar el que estàs fent!' %}</strong>
+    </div>
+    {% endif %}
     <form class="form" action="{% url 'quiz_update' quiz.id %}" method="post">
         {% csrf_token %}
         <div class="form-group mb-3">

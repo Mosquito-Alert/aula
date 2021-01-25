@@ -198,7 +198,7 @@ def group_menu(request):
     teach = this_user.profile.group_teacher
     quizzes_in_progress_ids = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=True).values('quiz__id').distinct()
     quizzes_done_ids = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=False).values('quiz__id').distinct()
-    available_quizzes = Quiz.objects.filter(author=teach).filter(published=True).exclude(id__in=quizzes_in_progress_ids).exclude(id__in=quizzes_done_ids).order_by('id')
+    available_quizzes = Quiz.objects.filter(Q(author=teach) | Q(author__isnull=True)).filter(published=True).exclude(id__in=quizzes_in_progress_ids).exclude(id__in=quizzes_done_ids).order_by('id')
     in_progress_quizruns = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=True).order_by('-date')
     done_quizruns = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=False).order_by('-date')
     done_quizzes_ids = [ a.quiz.id for a in done_quizruns ]
@@ -216,7 +216,7 @@ def quiz_new(request):
             if form.is_valid():
                 pre_quiz = form.save(commit=False)
                 id_requisite = request.POST.get('requisite', '')
-                if id_requisite != -1:
+                if id_requisite != -1 and id_requisite != '':
                     req = Quiz.objects.get(pk=int(id_requisite))
                     pre_quiz.requisite = req
                 pre_quiz.save()

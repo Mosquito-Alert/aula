@@ -48,7 +48,14 @@ $(document).ready( function () {
             },
             {
                 'targets':1,
-                'title': 'Autor'
+                'title': 'Autor',
+                'render': function(value){
+                    if(value){
+                        return value;
+                    }else{
+                        return 'Anònim';
+                    }
+                }
             },
             {
                 'targets':2,
@@ -138,7 +145,12 @@ $(document).ready( function () {
         var tr = $(this).closest('tr');
         var row = table.row( tr );
         var id = row.data().id
-        window.location.href = _quiz_update_url + id + '/';
+        if(!user_is_admin){
+            toastr.options = {"positionClass": "toast-top-full-width","preventDuplicates": true};
+            toastr.warning('Ho sentim, no es permet la edició de proves ja publicades.')
+        }else{
+            window.location.href = _quiz_update_url + id + '/';
+        }
     });
 
     $('#quiz_list tbody').on('click', 'td button.delete_button', function () {

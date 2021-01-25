@@ -19,6 +19,7 @@
         <div class="form-group mb-3">
             <img src="{% static 'main/icons/noun_Teacher_36665.svg' %}" width="5%">
             <label for="{{ form.author.id_for_label }}">{% trans 'Autor de la prova' %}:</label>
+            <p class="text-danger">*{% trans 'Nota per administradors: si no tries un autor de la prova (deixes el desplegable en blanc), aquesta prova estarà disponible per TOTS els grups quan la publiquis' %}</p>
             {{ form.author }}
             {{ form.author.errors }}
         </div>
