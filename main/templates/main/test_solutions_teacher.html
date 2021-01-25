@@ -12,8 +12,8 @@
 <div class="container">
     {% for quiz in my_quizzes %}
     <div class="row alert alert-success">
-        <div class="col-md-6"><h2><span class="badge badge-info">{{ quiz.name }}</span></h2></div>
-        <div class="col-md-6" style="text-align:right;">Completat {{ quiz.taken_by_n_people }}/{{ user.profile.tutored_groups }} grups</div>
+        <div class="col-md-6"><h2><span class="badge badge-info">{{ quiz.name }}</span> - {{ quiz.author.username }}</h2></div>
+        <div class="col-md-6" style="text-align:right;">Completat {{ quiz.taken_by_n_people }}/{{ quiz.author.profile.tutored_groups }} grups</div>
     </div>
     <div class="row alert alert-success ml-5">
         <table style="width:100%;">
