@@ -4,7 +4,8 @@ from django.http import HttpResponseRedirect
 from main.forms import QuizForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
-from main.models import EducationCenter, Word, Quiz, Answer, Question, QuizRun, QuizRunAnswers
+from aula import settings
+from main.models import EducationCenter, Word, Quiz, Answer, Question, QuizRun, QuizRunAnswers, Profile, get_string_from_groups
 from main.forms import TeacherForm, SimplifiedTeacherForm, EducationCenterForm, TeacherUpdateForm, ChangePasswordForm, \
     SimplifiedAlumForm, SimplifiedGroupForm, AlumUpdateForm, QuestionForm, QuestionLinkForm, SimplifiedAlumFormForTeacher, \
     SimplifiedAlumFormForAdmin, AlumUpdateFormAdmin, QuizAdminForm, QuestionPollForm, QuizNewForm
@@ -42,6 +43,11 @@ from datetime import datetime
 import pytz
 from django.utils.translation import gettext_lazy as _
 from django.shortcuts import redirect
+from django.template.loader import render_to_string
+from weasyprint import HTML, CSS
+import logging
+from django.db import connection
+
 
 
 def get_order_clause(params_dict, translation_dict=None):
@@ -1207,3 +1213,59 @@ class EducationCenterPartialUpdateView(GenericAPIView, UpdateModelMixin):
 
     def put(self, request, *args, **kwargs):
         return self.partial_update(request, *args, **kwargs)
+
+
+@login_required
+def group_credentials_list(request):
+    this_user = request.user.id
+
+    centroID = Profile.objects.filter(user=request.user).values('teacher_belongs_to_id')
+    centro = get_object_or_404(EducationCenter, pk=centroID[0]['teacher_belongs_to_id'])
+
+
+    teacher_info = []
+    teacher_info = {
+        'name': request.user.username,
+        'centro': centro.name
+    }
+
+    #grupos = Profile.objects.filter(is_group=True).filter(group_teacher=this_user)
+
+    #queryset = User.objects.filter(profile__is_group=True).filter(profile__group_teacher=this_user).select_related()
+    #print(queryset)
+
+    cursor = connection.cursor()
+    cursor.execute('select main_profile.user_id as id, main_profile.group_public_name, main_profile.group_password, '
+                   'auth_user.username from public.main_profile, public.auth_user '
+                   'where main_profile.user_id = auth_user.id and main_profile.group_teacher_id = %s ', [this_user])
+    queryset = cursor.fetchall()
+    #b'select main_profile.user_id, main_profile.group_public_name, main_profile.group_password, auth_user.username from public.main_profile, public.auth_user where main_profile.user_id = auth_user.id and main_profile.group_teacher_id = 2 '
+
+    test = Profile.objects.raw("select m.user_id, m.group_public_name, m.group_password, a.username from public.main_profile m, auth_user a where m.user_id = a.id and m.group_teacher_id = 2")
+
+    print(test)
+
+
+    #print(json.dumps(queryset))
+
+    grupos_info = []
+
+    for g in queryset:
+        grupos_info.append({
+            'nombre_publico_grupo': g[1],
+            'password_grupo': g[2],
+            'nombre_grupo': g[3]
+        })
+
+    logger = logging.getLogger('weasyprint')
+    logger.addHandler(logging.FileHandler('/tmp/weasyprint.log'))
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment'
+    response['Content-Disposition'] = 'filename="test.pdf"'
+    html_string = render_to_string("pdf_templates/group_credentials_list.html", {'titulo': 'Llistat de credencials', 'teacherInfo': teacher_info, 'grupos': grupos_info})
+    pdf_file = HTML(string=html_string, base_url=settings.STATIC_PDF_ROOT).write_pdf()
+    response.write(pdf_file)
+
+    return response
+

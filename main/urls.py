@@ -77,4 +77,5 @@ urlpatterns = [
     path('uploadpic', views.uploadpic, name="uploadpic"),
     path('api/tutor_combo/', views.tutor_combo, name="tutor_combo"),
     path('api/requirements_combo/', views.requirements_combo, name="requirements_combo"),
+    path('makepdf', views.group_credentials_list, name='generatePDF')
 ]
