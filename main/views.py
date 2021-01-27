@@ -1207,3 +1207,7 @@ class EducationCenterPartialUpdateView(GenericAPIView, UpdateModelMixin):
 
     def put(self, request, *args, **kwargs):
         return self.partial_update(request, *args, **kwargs)
+
+
+def quiz_graphic_results(request):
+    return render(request, 'main/quiz_results_graphics.html')
