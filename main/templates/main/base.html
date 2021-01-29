@@ -16,6 +16,10 @@
         #toast-container > div {
             opacity:1;
         }
+        .jumbotron {
+            padding-top: 1.5rem !important;
+            padding-bottom: 2px !important;
+        }
     </style>
     <link href="{% static 'main/jquery-ui/themes/base/jquery-ui.min.css' %}" rel="stylesheet">
     {% block extra_css %}
@@ -35,15 +39,18 @@
 
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
+            <li class="nav-item {% if request.resolver_match.url_name == "index" %}active{% endif %}">
+                <a class="nav-link" href="{% url 'index' %}">{% trans 'Inici' %} <span class="sr-only">(current)</span></a>
+            </li>
             {% if user.is_authenticated %}
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'my_hub' %}">{% trans 'Menú principal' %} <span class="sr-only">(current)</span></a>
             </li>
             {% endif %}
-            <!--
-            <li class="nav-item {% if request.resolver_match.url_name == "index" %}active{% endif %}">
-                <a class="nav-link" href="{% url 'index' %}">{% trans 'Inici' %} <span class="sr-only">(current)</span></a>
+            <li class="nav-item {% if request.resolver_match.url_name == "credits" %}active{% endif %}">
+                <a class="nav-link" href="{% url 'credits' %}">{% trans 'Sobre' %} <span class="sr-only">(current)</span></a>
             </li>
+            <!--
             <li class="nav-item {% if request.resolver_match.url_name == "teacher_menu" %}active{% endif %}">
                 <a class="nav-link" href="{% url 'teacher_menu' %}">{% trans 'Espai professorat' %}</a>
             </li>
@@ -80,6 +87,12 @@
         </ul>
     </div>
 </nav>
+<div class="jumbotron">
+    <div class="container">
+        <h3>{% block main_jumbo %}{% trans 'Benvingut a Aula' %}{% endblock %}</h3>
+        <p>{% block sub_jumbo %}{% trans 'Aquesta és la web per a un projecte d\'educació en el context d\'una beca FECYT' %}{% endblock %}</p>
+    </div>
+</div>
 <main role="main">
 {% block main %}
 

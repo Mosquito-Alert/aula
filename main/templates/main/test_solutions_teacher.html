@@ -3,12 +3,10 @@
 {% load i18n %}
 {% block title %}{% trans 'Resultats de proves' %}{% endblock %}
 
+{% block main_jumbo %}<img src="{% static 'main/icons/noun_solution_2998552.svg' %}" width="10%"> {% trans 'Resultats de proves' %}{% endblock %}
+{% block sub_jumbo %}{% endblock %}
+
 {% block main %}
-<!-- Main jumbotron for a primary marketing message or call to action -->
-<div class="col-xs-12" style="height:20px;"></div>
-<div class="container">
-    <h2><img src="{% static 'main/icons/noun_solution_2998552.svg' %}" width="10%"> {% trans 'Resultats de proves' %}:</h2>
-</div>
 <div class="container">
     {% for quiz in my_quizzes %}
     <div class="row alert alert-success">

@@ -5,10 +5,11 @@
 
 {% block title %}Crear professor{% endblock %}
 
+{% block main_jumbo %}<img src="{% static 'main/icons/noun_Teacher_36665.svg' %}" width="10%">{% trans 'Creant nou usuari per mestre' %}{% endblock %}
+{% block sub_jumbo %}{% endblock %}
+
 {% block main %}
-<div class="col-xs-12" style="height:50px;"></div>
 <div class="container">
-    <h2><img src="{% static 'main/icons/noun_Teacher_36665.svg' %}" width="10%"> Creant nou usuari per mestre:</h2>
     <form class="form" action="{% url 'teacher_new' %}" method="post">
         {% csrf_token %}
         {{ form|crispy }}

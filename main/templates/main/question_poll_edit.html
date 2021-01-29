@@ -5,13 +5,14 @@
 
 {% block title %}{% trans 'Editar les preguntes i respostes d\'una enquesta' %}{% endblock %}
 
+{% block main_jumbo %}{% trans 'Editant pregunta (i respostes)' %}{% endblock %}
+{% block sub_jumbo %}{% trans 'Aquesta pertany a la prova amb nom' %} <strong>{{ question.quiz.name }}</strong>{% endblock %}
+
 {% block main %}
 <div class="col-xs-12" style="height:50px;"></div>
 <div class="container">
     <form id="question_form" action="{% url 'question_update' question.id %}" method="post">
         {% csrf_token %}
-        <h2>{% trans 'Nom de la enquesta' %}:</h2>
-        <p>{{ quiz.name }}</p>
         <h3><img src="{% static 'main/icons/noun_Question_3611223.svg' %}" width="5%"> {% trans 'Pregunta' %}:</h3>
         <div class="form-row">
           <div class="form-group col-md-3 mb-0">

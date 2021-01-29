@@ -1,14 +1,12 @@
 {% extends "main/base.html" %}
 {% load static %}
 {% load i18n %}
-{% block title %}{% trans 'Espai alumne' %}{% endblock %}
+{% block title %}{% trans 'Espai grups' %}{% endblock %}
+
+{% block main_jumbo %}<img src="{% static 'main/icons/noun_group_737669.svg' %}" width="10%"> {% trans 'Menú principal grups' %}{% endblock %}
+{% block sub_jumbo %}{% endblock %}
 
 {% block main %}
-<!-- Main jumbotron for a primary marketing message or call to action -->
-<div class="col-xs-12" style="height:20px;"></div>
-<div class="container">
-    <h2><img src="{% static 'main/icons/noun_group_737669.svg' %}" width="10%"> {% trans 'Menú principal grups' %}:</h2>
-</div>
 <div class="container">
     <div class="row justify-content-left">
         <div class="col-md-11">

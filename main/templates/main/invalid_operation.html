@@ -3,8 +3,10 @@
 {% load i18n %}
 {% block title %}{% trans 'Error' %}{% endblock %}
 
+{% block main_jumbo %}<img src="{% static 'main/icons/noun_cheeky_2171565.svg' %}" width="10%">{% trans 'Operació no permesa!' %}{% endblock %}
+{% block sub_jumbo %}{% endblock %}
+
 {% block main %}
-<div class="col-xs-12" style="height:50px;"></div>
 <div class="container">
     <div class="row">
         <div class="col-md-4">

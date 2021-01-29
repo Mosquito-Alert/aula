@@ -1,0 +1,320 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% load i18n %}
+{% block title %}{% trans 'Sobre' %}{% endblock %}
+{% block extra_css %}
+    <style>
+        .box-shadow { box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05); }
+        .aligncenter {
+            clear: both;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            text-align:center;
+            margin-top: 10px;
+        }
+        .card-img-cont {
+            width: 128px;
+            height: 128px;
+            clear: both;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            text-align:center;
+            margin-top: 10px;
+        }
+    </style>
+{% endblock %}
+
+{% block main_jumbo %}<img src="{% static 'main/icons/noun_Question_3611223.svg' %}" width="10%">{% trans 'Sobre l\'aplicatiu' %}{% endblock %}
+{% block sub_jumbo %}{% trans 'Hem fet servir algunes icones i llibreries creades per 3eres persones...' %}{% endblock %}
+
+{% block main %}
+<div class="album py-5 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card mb-4 box-shadow">
+                    <a class="aligncenter" href="https://github.com/" target="_blank"><img src="{% static 'main/icons/GitHub-Mark-64px.png' %}"></a>
+                    <div class="card-body">
+                        <p class="card-text">
+                            {% trans 'Codi de l\'aplicació disponible a ' %} <a href="https://github.com/aescobarr/aula" target="_blank">Github</a>
+                        </p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                <a class="github-button" href="https://github.com/aescobarr/aula/fork"
+                                 data-color-scheme="no-preference: dark; light: dark; dark: dark;"
+                                 data-icon="octicon-repo-forked" data-size="large"
+                                 aria-label="Fork aescobarr/aula on GitHub">Fork</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card mb-4 box-shadow">
+                    <a class="aligncenter" href="https://fontawesome.com/" target="_blank"><i class="fab fa-font-awesome fa-4x"></i></a>
+                    <div class="card-body">
+                        <p class="card-text">
+                            {% trans 'Algunes icones extretes de ' %} <a href="https://fontawesome.com/" target="_blank">Font awesome</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card mb-4 box-shadow">
+                    <a class="aligncenter" href="https://thenounproject.com/" target="_blank"><img src="{% static 'main/icons/nounproject_logo.60e860f212a5.png' %}"></a>
+                    <div class="card-body">
+                        <p class="card-text">
+                            {% trans 'La resta d\'icones extretes de' %} <a href="https://thenounproject.com/" target="_blank">The Noun project</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="album py-5 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card mb-3 box-shadow">
+                    <div class="card-img-cont">
+                        <img class="card-img-top" src="{% static 'main/icons/noun_admin_3323392.svg' %}" alt="Card image cap">
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">Admin icon by <a href="https://thenounproject.com/theiconz/" target="_blank"> The Icon Z</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card mb-3 box-shadow">
+                    <div class="card-img-cont">
+                        <img class="card-img-top" src="{% static 'main/icons/noun_School_1443077.svg' %}" alt="Card image cap">
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">School icon by <a href="https://thenounproject.com/deemakdaksina"
+                                                            target="_blank"> Deemak Daksina</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card mb-3 box-shadow">
+                    <div class="card-img-cont">
+                        <img class="card-img-top" src="{% static 'main/icons/noun_Teacher_36665.svg' %}" alt="Card image cap">
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">Teacher icon by <a href="https://thenounproject.com/gianlucamanzana"
+                                                             target="_blank"> Gianluca Manzana</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card mb-3 box-shadow">
+                    <div class="card-img-cont">
+                        <img class="card-img-top" src="{% static 'main/icons/noun_Teacher_1429557.svg' %}" alt="Card image cap">
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">Another teacher icon by <a href="https://thenounproject.com/grega.cresnar"
+                                                                     target="_blank"> Gregor Cresnar</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card mb-3 box-shadow">
+                    <div class="card-img-cont">
+                        <img class="card-img-top" src="{% static 'main/icons/noun_group_737669.svg' %}" alt="Card image cap">
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">Group icon by <a href="https://thenounproject.com/mikicon" target="_blank"> mikicon</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card mb-3 box-shadow">
+                    <div class="card-img-cont">
+                        <img class="card-img-top" src="{% static 'main/icons/noun_test_3271143.svg' %}" alt="Card image cap">
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">Test icon by <a href="https://thenounproject.com/taufikr290" target="_blank"> Taufik Ramadhan</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card mb-3 box-shadow">
+                    <div class="card-img-cont">
+                        <img class="card-img-top" src="{% static 'main/icons/noun_solution_2998552.svg' %}" alt="Card image cap">
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">Solution icon by <a href="https://thenounproject.com/coquet_adrien" target="_blank"> Adrien Coquet</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card mb-3 box-shadow">
+                    <div class="card-img-cont">
+                        <img class="card-img-top" src="{% static 'main/icons/noun_Lazy_1744915.svg' %}" alt="Card image cap">
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">Lazy icon by <a href="https://thenounproject.com/coquet_adrien" target="_blank"> Adrien Coquet</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card mb-3 box-shadow">
+                    <div class="card-img-cont">
+                        <img class="card-img-top" src="{% static 'main/icons/noun_holidays_2518025.svg' %}" alt="Card image cap">
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">Holidays icon by <a href="https://thenounproject.com/srinivas.agra" target="_blank"> Srinivas Agra</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card mb-3 box-shadow">
+                    <div class="card-img-cont">
+                        <img class="card-img-top" src="{% static 'main/icons/noun_Arrow Right_1094195.svg' %}" alt="Card image cap">
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">Arrow right icon by <a href="https://thenounproject.com/alepio" target="_blank"> AlePio</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card mb-3 box-shadow">
+                    <div class="card-img-cont">
+                        <img class="card-img-top" src="{% static 'main/icons/noun_Left_1094193.svg' %}" alt="Card image cap">
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">Arrow left icon by <a href="https://thenounproject.com/alepio" target="_blank"> AlePio</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card mb-3 box-shadow">
+                    <div class="card-img-cont">
+                        <img class="card-img-top" src="{% static 'main/icons/noun_cheeky_2171565.svg' %}" alt="Card image cap">
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">Cheeky icon by <a href="https://thenounproject.com/made.somewhere" target="_blank"> Made by Made</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card mb-3 box-shadow">
+                    <div class="card-img-cont">
+                        <img class="card-img-top" src="{% static 'main/icons/noun_finish_2079079.svg' %}" alt="Card image cap">
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">Finish icon by <a href="https://thenounproject.com/coquet_adrien" target="_blank"> Adrien Coquet</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card mb-3 box-shadow">
+                    <div class="card-img-cont">
+                        <img class="card-img-top" src="{% static 'main/icons/noun_starting_1512102.svg' %}" alt="Card image cap">
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">Starting icon by <a href="https://thenounproject.com/Luis" target="_blank"> Luis Prado</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card mb-3 box-shadow">
+                    <div class="card-img-cont">
+                        <img class="card-img-top" src="{% static 'main/icons/noun_link_2169256.svg' %}" alt="Card image cap">
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">Link icon by <a href="https://thenounproject.com/OMARSAFAA" target="_blank"> Omar Safaa</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card mb-3 box-shadow">
+                    <div class="card-img-cont">
+                        <img class="card-img-top" src="{% static 'main/icons/noun_List_648391.svg' %}" alt="Card image cap">
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">List icon by <a href="https://thenounproject.com/timk.smith7" target="_blank"> TS Graphics</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card mb-3 box-shadow">
+                    <div class="card-img-cont">
+                        <img class="card-img-top" src="{% static 'main/icons/noun_multiple choice_139103.svg' %}" alt="Card image cap">
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">Multiple choice icon by <a href="https://thenounproject.com/aenneb" target="_blank"> Aenne Brielmann</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card mb-3 box-shadow">
+                    <div class="card-img-cont">
+                        <img class="card-img-top" src="{% static 'main/icons/noun_poll_1644723.svg' %}" alt="Card image cap">
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">Poll icon by <a href="https://thenounproject.com/bfarias" target="_blank"> b farias</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card mb-3 box-shadow">
+                    <div class="card-img-cont">
+                        <img class="card-img-top" src="{% static 'main/icons/noun_Question_3611223.svg' %}" alt="Card image cap">
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">Question icon by <a href="https://thenounproject.com/flatsain141" target="_blank"> Wahyu Adam Pratama</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card mb-3 box-shadow">
+                    <div class="card-img-cont">
+                        <img class="card-img-top" src="{% static 'main/icons/noun_Response Message_356176.svg' %}" alt="Card image cap">
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">Response icon by <a href="https://thenounproject.com/porciunculavalls" target="_blank"> Carla Porciuncula</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card mb-3 box-shadow">
+                    <div class="card-img-cont">
+                        <img class="card-img-top" src="{% static 'main/icons/noun_not_found_2157361.svg' %}" alt="Card image cap">
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">Not found icon by <a href="https://thenounproject.com/coquet_adrien" target="_blank"> Adrien Coquet</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+{% endblock %}

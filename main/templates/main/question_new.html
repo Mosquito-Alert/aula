@@ -5,13 +5,13 @@
 
 {% block title %}{% trans 'Afegir preguntes a una prova' %}{% endblock %}
 
+{% block main_jumbo %}{% trans 'Creant nova pregunta (i respostes)' %}{% endblock %}
+{% block sub_jumbo %}{% trans 'Aquesta pertany a la prova amb nom' %} <strong>{{ quiz.name }}</strong>{% endblock %}
+
 {% block main %}
-<div class="col-xs-12" style="height:50px;"></div>
 <div class="container">
     <form id="question_form" action="{% url 'question_new' quiz.id %}" method="post">
         {% csrf_token %}
-        <h2>{% trans 'Nom de la prova' %}:</h2>
-        <p>{{ quiz.name }}</p>
         <h3><img src="{% static 'main/icons/noun_Question_3611223.svg' %}" width="5%"> {% trans 'Pregunta' %}:</h3>
         <div class="form-row">
           <div class="form-group col-md-3 mb-0">

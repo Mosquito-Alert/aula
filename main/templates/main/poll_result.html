@@ -3,12 +3,10 @@
 {% load i18n %}
 {% block title %}{% trans 'Resultats enquesta' %}{% endblock %}
 
+{% block main_jumbo %}<img src="{% static 'main/icons/noun_test_3271143.svg' %}" width="10%"> {% trans 'Resultats enquesta' %} - {{ quiz.name }}{% endblock %}
+{% block sub_jumbo %}{% endblock %}
+
 {% block main %}
-<div class="col-xs-12" style="height:50px;"></div>
-<div class="container">
-    <h2><img src="{% static 'main/icons/noun_test_3271143.svg' %}" width="10%"> {% trans 'Resultats enquesta' %}:</h2>
-    <h3>{{ quiz.name }}</h3>
-</div>
 <div class="container">
     {% for question in quiz.sorted_questions_set %}
     <div id="question_{{ question.id }}" class="mb-3">

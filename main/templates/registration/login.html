@@ -1,6 +1,10 @@
 {% extends "main/base.html" %}
 {% load static %}
 {% load i18n %}
+
+{% block main_jumbo %}{% trans 'Pàgina de registre' %}{% endblock %}
+{% block sub_jumbo %}{% endblock %}
+
 {% block main %}
     <main>
         <div class="col-xs-12" style="height:50px;"></div>
@@ -8,11 +12,11 @@
             <form method="post">
                 {% csrf_token %}
                 <div class="form-group">
-                    <label class="control-label" for="id_username">{% trans 'username' %}</label>
+                    <label class="control-label" for="id_username">{% trans 'Nom usuari' %}</label>
                     <input type="text" name="username" required title="" autofocus maxlength="254" class="form-control" placeholder="{% trans 'username' %}" id="id_username" />
                 </div>
                 <div class="form-group">
-                    <label class="control-label" for="id_password">{% trans 'password' %}</label>
+                    <label class="control-label" for="id_password">{% trans 'Password' %}</label>
                     <input type="password" name="password" required title="" class="form-control" placeholder="{% trans 'password' %}" id="id_password" />
                 </div>
                 {% if form.non_field_errors %}

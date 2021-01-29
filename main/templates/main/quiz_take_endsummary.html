@@ -13,14 +13,12 @@
 {% endblock %}
 {% block title %}{% trans 'Prova finalitzada, resultats' %}{% endblock %}
 
+{% block main_jumbo %}<img style="max-height: 100px;" src="{% static 'main/icons/noun_finish_2079079.svg' %}" width="10%">{% trans 'Prova finalitzada!' %}{% endblock %}
+{% block sub_jumbo %}{% endblock %}
+
 {% block main %}
-<div class="col-xs-12" style="height:50px;"></div>
 <div class="container">
     <canvas class="confetti" id="emitter"></canvas>
-    <div class="row">
-        <div class="col-md-2"><img style="max-height: 100px;" src="{% static 'main/icons/noun_finish_2079079.svg' %}"></div>
-        <div class="col-md-10"><h1>{% trans 'Prova finalitzada!' %}</h1></div>
-    </div>
     <div class="row">
         <ul>
             <li>{% trans 'Vas començar la prova el' %} <i>{{ quizrun.date }}</i></li>

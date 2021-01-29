@@ -42,6 +42,7 @@ from datetime import datetime
 import pytz
 from django.utils.translation import gettext_lazy as _
 from django.shortcuts import redirect
+from rest_framework import permissions
 
 
 def get_order_clause(params_dict, translation_dict=None):
@@ -132,10 +133,16 @@ def is_group_test(user):
         return True
     return False
 
+def page_not_found_view(request):
+    return render(request, 'main/404.html', {})
+
 
 def index(request):
     return render(request, 'main/index.html', {})
 
+
+def credits(request):
+    return render(request, 'main/credits.html', {})
 
 @login_required
 def my_hub(request):
@@ -1190,6 +1197,14 @@ class QuizzesViewSet(viewsets.ModelViewSet):
     serializer_class = QuizSerializer
 
 
+class AdminOnlyPermission(permissions.BasePermission):
+    def has_permission(self, request, view):
+        this_user = request.user
+        if this_user.is_superuser:
+            return True
+        return False
+
+
 class UserPartialUpdateView(GenericAPIView, UpdateModelMixin):
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -1198,6 +1213,7 @@ class UserPartialUpdateView(GenericAPIView, UpdateModelMixin):
         return self.partial_update(request, *args, **kwargs)
 
 
+@permission_classes([AdminOnlyPermission])
 class EducationCenterPartialUpdateView(GenericAPIView, UpdateModelMixin):
     '''
     You just need to provide the field which is to be modified.

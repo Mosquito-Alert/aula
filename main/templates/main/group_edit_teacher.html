@@ -11,10 +11,11 @@
 {% endblock %}
 {% block title %}{% trans 'Editar grup' %}{% endblock %}
 
+{% block main_jumbo %}<img src="{% static 'main/icons/noun_group_737669.svg' %}" width="10%"> {% trans 'Editant grup' %}{% endblock %}
+{% block sub_jumbo %}{% endblock %}
+
 {% block main %}
-<div class="col-xs-12" style="height:50px;"></div>
 <div class="container">
-    <h2><img src="{% static 'main/icons/noun_group_737669.svg' %}" width="10%"> {% trans 'Editant grup' %}:</h2>
     <form id="group_form" class="form" action="{% url 'group_update' group_id %}" method="post">
         {% csrf_token %}
         {{ form.username|as_crispy_field }}

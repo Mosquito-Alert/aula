@@ -14,10 +14,11 @@
 {% endblock %}
 {% block title %}{% trans 'Crear centre' %}{% endblock %}
 
+{% block main_jumbo %}<img src="{% static 'main/icons/noun_School_1443077.svg' %}" width="10%"> {% trans 'Creant nou centre' %}{% endblock %}
+{% block sub_jumbo %}{% endblock %}
+
 {% block main %}
-<div class="col-xs-12" style="height:50px;"></div>
 <div class="container">
-    <h2><img src="{% static 'main/icons/noun_School_1443077.svg' %}" width="10%"> {% trans 'Creant nou centre' %}:</h2>
     <form class="form" action="{% url 'center_new' %}" method="post">
         {% csrf_token %}
         {{ form|crispy }}

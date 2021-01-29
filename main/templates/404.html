@@ -1,0 +1,20 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% load i18n %}
+{% block title %}{% trans 'No trobat' %}{% endblock %}
+{% block main %}
+<div class="col-xs-12" style="height:50px;"></div>
+<div class="container">
+    <div class="row">
+        <h1>Aquesta pàgina no existeix?</h1>
+    </div>
+    <div class="row">
+        <img src="{% static 'main/icons/noun_not_found_2157361.svg' %}">
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+{% endblock %}

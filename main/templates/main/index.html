@@ -1,17 +1,21 @@
 {% extends "main/base.html" %}
 {% load static %}
 {% load i18n %}
-{% block title %}Index Aula{% endblock %}
+{% block title %}{% trans 'Index Aula' %}{% endblock %}
+
+{% block main_jumbo %}{% trans 'Benvingut a Aula' %}{% endblock %}
+{% block sub_jumbo %}{% trans 'Aquesta és la web per a un projecte d\'educació en el context d\'una beca FECYT' %}{% endblock %}
 
 {% block main %}
 <!-- Main jumbotron for a primary marketing message or call to action -->
+<!--
 <div class="jumbotron">
     <div class="container">
         <h2>{% trans 'Benvingut a Aula' %}</h2>
         <p>{% trans 'Aquesta és la web per a un projecte d\'educació en el context d\'una beca FECYT' %}</p>
-        <!--<p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>-->
     </div>
 </div>
+-->
 
 <div class="container">
     <!-- Example row of columns -->

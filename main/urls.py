@@ -70,6 +70,7 @@ urlpatterns = [
     path('user/update-partial/', views.UserPartialUpdateView.as_view(), name='user_partial_update'),
     path('user/password/change/', views.change_password, name='change_password'),
     path('user/password/change/<int:user_id>/', views.change_password, name='change_password'),
+    path('credits/', views.credits, name='credits'),
     path('api/group_name/', views.get_random_group_name, name='get_random_group_name'),
     path('api/startrun/', views.api_startrun, name='api_startrun'),
     path('api/writeanswer/', views.api_writeanswer, name='api_writeanswer'),
