@@ -18,6 +18,11 @@
     <h2><img src="{% static 'main/icons/noun_group_737669.svg' %}" width="10%"> {% trans 'Llista de grups' %}:</h2>
 </div>
 <div class="container">
+    <div class="row justify-content-end">
+        <div class="col-lg-3" style="margin-bottom: 2%;">
+            <a href="{% url 'generatePDF' %}" type="button" class="btn btn-info">Descarregar credencials en PDF</a>
+        </div>
+    </div>
     <table class="table table-striped table-bordered" id="group_list" style="width:100%;"></table>
 </div>
 {% endblock %}
