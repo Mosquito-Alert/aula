@@ -13,7 +13,13 @@
     {% for quiz in my_quizzes %}
     <div class="row alert alert-success">
         <div class="col-md-6"><h2><span class="badge badge-info">{{ quiz.name }}</span></h2></div>
-        <div class="col-md-6" style="text-align:right;">Completat {{ quiz.taken_by_n_people }}/{{ user.profile.tutored_groups }} grups</div>
+        <div class="col-md-6" style="text-align:right;"><p>Completat {{ quiz.taken_by_n_people }}/{{ user.profile.tutored_groups }} grups</p>
+            {% if quiz.taken_by_n_people %}
+                <p>
+                    <a href="{% url 'quiz_graphic_results' idQuizz=quiz.id %}" id="{{ quiz.id }}" type="button" class="graphButton btn btn-info">Veure gràfica de resultats</a>
+                </p>
+            {% endif %}
+        </div>
     </div>
     <div class="row alert alert-success ml-5">
         <table style="width:100%;">
@@ -36,4 +42,7 @@
     {% endfor %}
 </div>
 
+{% endblock %}
+{% block extra_js %}
+    <script src="{% static 'main/javascript/test_solutions_teacher.js' %}"></script>
 {% endblock %}

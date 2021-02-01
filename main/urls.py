@@ -77,5 +77,5 @@ urlpatterns = [
     path('uploadpic', views.uploadpic, name="uploadpic"),
     path('api/tutor_combo/', views.tutor_combo, name="tutor_combo"),
     path('api/requirements_combo/', views.requirements_combo, name="requirements_combo"),
-    path('quiz/graphic_results', views.quiz_graphic_results, name='quiz_graphic_results')
+    path('quiz/graphic_results/<int:idQuizz>/', views.quiz_graphic_results, name='quiz_graphic_results')
 ]
