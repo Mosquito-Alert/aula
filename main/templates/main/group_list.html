@@ -9,6 +9,11 @@
     tr.row-disabled{
         color: gray !important;
     }
+
+    .row{
+        padding-right: 15px;
+        margin-bottom: 2%;
+    }
 </style>
 {% endblock %}
 {% block title %}{% trans 'Llistar/Editar/Esborrar grups' %}{% endblock %}
@@ -21,6 +26,9 @@
     <div class="row justify-content-end">
         <div class="col-lg-3" style="margin-bottom: 2%;">
             <a href="{% url 'generatePDF' %}" target="_blank" type="button" class="btn btn-info">Descarregar credencials en PDF</a>
+        </div>
+        <div class="col-lg-1">
+            <a href="{% url 'group_new' %}" type="button" class="btn btn-info">Afegir <i class="fas fa-plus"></i></a>
         </div>
     </div>
     <table class="table table-striped table-bordered" id="group_list" style="width:100%;"></table>
