@@ -5,25 +5,17 @@
 
 {% block title %}{% trans 'Afegir preguntes a una prova' %}{% endblock %}
 
-{% block main_jumbo %}{% trans 'Creant nova pregunta (i respostes)' %}{% endblock %}
+{% block main_jumbo %}{% trans 'Creant pregunta de pujada de dades' %}{% endblock %}
 {% block sub_jumbo %}{% trans 'Aquesta pertany a la prova amb nom' %} <strong>{{ quiz.name }}</strong>{% endblock %}
 
 {% block main %}
 <div class="container">
-    <form id="question_form" action="{% url 'question_link_new' quiz.id %}" method="post">
+    <form id="question_form" action="{% url 'question_upload_new' quiz.id %}" method="post">
         {% csrf_token %}
-        <h3><img src="{% static 'main/icons/noun_Question_3611223.svg' %}" width="5%"> {% trans 'Pregunta' %}:</h3>
+        <h3><img src="{% static 'main/icons/noun_Question_3611223.svg' %}" width="5%"> {% trans 'Text que es mostrarà al costat del control de pujada de fitxers' %}:</h3>
         <div class="form-row">
-          <div class="form-group col-md-3 mb-0">
-            {{ form.question_order|as_crispy_field }}
-          </div>
           <div class="form-group col-md-9 mb-0">
             {{ form.text|as_crispy_field }}
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group col-md-12 mb-0">
-            {{ form.doc_link|as_crispy_field }}
           </div>
         </div>
         <input type="hidden" name="quiz_id" value="{{ quiz.id }}">
@@ -32,6 +24,6 @@
 </div>
 {% endblock %}
 {% block extra_js %}
-<script src="{% static 'main/javascript/question_link_new.js' %}"></script>
+<script src="{% static 'main/javascript/question_upload_new.js' %}"></script>
 {% endblock %}
 

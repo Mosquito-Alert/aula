@@ -7,7 +7,7 @@ from django.contrib.auth.forms import UserCreationForm
 from main.models import EducationCenter, Word, Quiz, Answer, Question, QuizRun, QuizRunAnswers
 from main.forms import TeacherForm, SimplifiedTeacherForm, EducationCenterForm, TeacherUpdateForm, ChangePasswordForm, \
     SimplifiedAlumForm, SimplifiedGroupForm, AlumUpdateForm, QuestionForm, QuestionLinkForm, SimplifiedAlumFormForTeacher, \
-    SimplifiedAlumFormForAdmin, AlumUpdateFormAdmin, QuizAdminForm, QuestionPollForm, QuizNewForm
+    SimplifiedAlumFormForAdmin, AlumUpdateFormAdmin, QuizAdminForm, QuestionPollForm, QuizNewForm, QuestionUploadForm
 from django.contrib.gis.geos import GEOSGeometry
 from rest_framework.decorators import api_view, permission_classes
 from querystring_parser import parser
@@ -43,6 +43,7 @@ import pytz
 from django.utils.translation import gettext_lazy as _
 from django.shortcuts import redirect
 from rest_framework import permissions
+import uuid
 
 
 def get_order_clause(params_dict, translation_dict=None):
@@ -278,6 +279,26 @@ def question_poll_new(request, quiz_id=None):
         form = QuestionForm()
     return render(request, 'main/question_poll_new.html', {'form': form, 'quiz': quiz, 'json_answers': json_answers})
 
+
+@login_required
+def question_upload_new(request, quiz_id=None):
+    quiz = None
+    if quiz_id:
+        quiz = get_object_or_404(Quiz, pk=quiz_id)
+    else:
+        raise forms.ValidationError("No existeix aquesta prova")
+    if request.method == 'POST':
+        form = QuestionUploadForm(request.POST)
+        if form.is_valid():
+            question = form.save(commit=False)
+            question.quiz = quiz
+            question.save()
+            return HttpResponseRedirect('/quiz/update/' + str(quiz_id) + '/')
+    else:
+        form = QuestionUploadForm()
+    return render(request, 'main/question_upload_new.html', {'form': form, 'quiz': quiz })
+
+
 @login_required
 def question_link_new(request, quiz_id=None):
     quiz = None
@@ -397,6 +418,19 @@ def question_link_update(request, pk=None):
 
 
 @login_required
+def question_upload_update(request, pk=None):
+    question = None
+    if pk:
+        question = get_object_or_404(Question, pk=pk)
+    form = QuestionUploadForm(request.POST or None, instance=question)
+    if request.POST:
+        if form.is_valid():
+            question = form.save()
+            return HttpResponseRedirect('/quiz/update/' + str(question.quiz.id) + '/')
+    return render(request, 'main/question_upload_edit.html',{'form': form, 'question': question})
+
+
+@login_required
 def question_poll_update(request, pk=None):
     question = None
     if pk:
@@ -448,6 +482,37 @@ def question_update(request, pk=None):
                 new_answer.save()
             return HttpResponseRedirect('/quiz/update/' + str(question.quiz.id) + '/')
     return render(request, 'main/question_edit.html', {'form': form, 'question': question, 'json_answers': json_answers})
+
+
+@login_required
+def quiz_take_upload(request, quiz_id=None, run_id=None):
+    quiz = None
+    quiz_run = None
+    question = None
+    done = False
+    this_user = request.user
+
+    if quiz_id:
+        quiz = get_object_or_404(Quiz, pk=quiz_id)
+        question = Question.objects.get(quiz=quiz)
+        if this_user.profile.group_teacher.id != quiz.author.id:
+            #alum is trying to access a quiz created by someone that is not his tutor
+            message = _("Estàs intentant accedir a una prova creada per un professor que no és el teu tutor.")
+            go_back_to = "alum_menu"
+            return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to':go_back_to })
+    else:
+        message = _("Aquesta prova no existeix!")
+        go_back_to = "alum_menu"
+        return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
+    if run_id:
+        quiz_run = get_object_or_404(QuizRun,pk=run_id)
+        done = quiz_run.is_done()
+        if done:
+            message = _("Aquesta prova està marcada com a finalitzada, o sigui que no la pots modificar. Si vols, la pots repetir.")
+            go_back_to = "alum_menu"
+            return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
+
+    return render(request, 'main/quiz_take_upload.html',{'quiz': quiz, 'quiz_run': quiz_run, 'quiz_run_done': done, 'question':question})
 
 
 @login_required
@@ -1162,25 +1227,31 @@ def tutor_combo(request):
         serializer = TeacherComboSerializer(queryset, many=True)
         return Response(serializer.data)
 
+
 @login_required
 def uploadpic(request):
+    this_user = request.user
+    if this_user.is_superuser or (this_user.profile is not None and this_user.profile.is_teacher):
+        if request.method == 'POST':
+            file = request.FILES
+            f = request.FILES['camp_foto']
+            with open(settings.MEDIA_ROOT + "/tempfiles/" + f.name, 'wb+') as destination:
+                for chunk in f.chunks():
+                    destination.write(chunk)
+            data = {'is_valid': True, 'id':1, 'url':'/media/tempfiles/'+f.name, 'path':settings.MEDIA_ROOT + "/tempfiles/" + f.name}
+            return JsonResponse(data)
+
+@login_required
+def uploadfile(request):
     if request.method == 'POST':
-        file = request.FILES
-        f = request.FILES['camp_foto']
-        with open(settings.MEDIA_ROOT + "/tempfiles/" + f.name, 'wb+') as destination:
+        f = request.FILES['camp_file']
+        new_name = str(uuid.uuid1()) + ".zip"
+        with open(settings.MEDIA_ROOT + "/tempfiles/" + new_name, 'wb+') as destination:
             for chunk in f.chunks():
                 destination.write(chunk)
-        data = {'is_valid': True, 'id':1, 'url':'/media/tempfiles/'+f.name, 'path':settings.MEDIA_ROOT + "/tempfiles/" + f.name}
+        data = {'is_valid': True, 'id': 1, 'url': '/media/tempfiles/' + new_name,
+                'path': settings.MEDIA_ROOT + "/tempfiles/" + f.name}
         return JsonResponse(data)
-        # form = PhotoForm(request.POST, request.FILES)
-        # if form.is_valid():
-        #     foto = form.save(commit=False)
-        #     foto.save()
-        #     data = {'is_valid': True, 'id': foto.id, 'url': foto.camp_foto.url }
-        # else:
-        #     data = {'is_valid': False, 'errors': form.errors['foto']}
-        # return JsonResponse(data)
-
 
 class CentersViewSet(viewsets.ModelViewSet):
     queryset = EducationCenter.objects.all()
@@ -1205,6 +1276,18 @@ class AdminOnlyPermission(permissions.BasePermission):
         return False
 
 
+class AdminOrTeacherOnlyPermission(permissions.BasePermission):
+    def has_permission(self, request, view):
+        this_user = request.user
+        if this_user.is_superuser:
+            return True
+        if this_user.profile is not None:
+            if this_user.profile.is_teacher:
+                return True
+        return False
+
+
+@permission_classes([AdminOrTeacherOnlyPermission])
 class UserPartialUpdateView(GenericAPIView, UpdateModelMixin):
     queryset = User.objects.all()
     serializer_class = UserSerializer

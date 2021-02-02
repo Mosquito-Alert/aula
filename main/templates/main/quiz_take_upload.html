@@ -1,0 +1,50 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% load i18n %}
+{% block extra_css %}
+<link href="{% static 'main/jQuery-File-Upload-9.28.0/css/jquery.fileupload-ui.css' %}" rel="stylesheet">
+<link href="{% static 'main/jQuery-File-Upload-9.28.0/css/jquery.fileupload.css' %}" rel="stylesheet">
+<link href="{% static 'main/jQuery-File-Upload-9.28.0/css/style.css' %}" rel="stylesheet">
+<link href="{% static 'main/jQuery-File-Upload-9.28.0/css/github/blueimp-gallery.min.css' %}" rel="stylesheet">
+{% endblock %}
+{% block title %}{% trans 'Pujada de dades' %}{% endblock %}
+
+{% block main_jumbo %}{% trans 'Pujada de dades per la prova' %} - {{ quiz.name }}{% endblock %}
+{% block sub_jumbo %}{% endblock %}
+
+{% block main %}
+<div class="container">
+    <div id="file_upload_div" class="form-group">
+        <div class="row">
+            <div class="col-md-12">
+                <div>
+                    <p><strong>{{ question.text }}</strong></p>
+                </div>
+            </div>
+        </div>
+        <input id="fileupload" type="file" name="camp_file" style="display: none" data-url="{% url 'uploadfile' %}" data-form-data='{"csrfmiddlewaretoken": "{{ csrf_token }}"}'>
+        <table id="gallery" class="table table-bordered" style="margin-top: 15px;">
+            <tbody></tbody>
+        </table>
+        <button type="button" class="btn btn-primary js-upload-photos">
+            <span class="glyphicon glyphicon-cloud-upload"></span>{% trans 'Afegir fitxer' %}
+        </button>
+    </div>
+    <input type="hidden" id="file_name">
+    <div class="row end_button" style="display:none;">
+        <div class="mx-auto">
+            <button id="done-button" role="button" class="btn btn-success mt-2">{% trans 'Has completat el material! Fes clic en aquest botó per acabar...' %}</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+
+</script>
+<script src="{% static 'main/csrf_utils.js' %}"></script>
+<script src="{% static 'main/jQuery-File-Upload-9.28.0/js/vendor/jquery.ui.widget.js' %}"></script>
+<script src="{% static 'main/jQuery-File-Upload-9.28.0/js/jquery.iframe-transport.js' %}"></script>
+<script src="{% static 'main/jQuery-File-Upload-9.28.0/js/jquery.fileupload.js' %}"></script>
+<script src="{% static 'main/javascript/quiz_take_upload.js' %}"></script>
+{% endblock %}

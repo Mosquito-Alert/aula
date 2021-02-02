@@ -19,7 +19,12 @@ class EducationCenter(models.Model):
         return self.name
 
 
-QUIZ_TYPES = ((0, _('Test')), (1, _('Material')), (2, _('Enquesta')))
+QUIZ_TYPES = (
+    (0, _('Test')),
+    (1, _('Material')),
+    (2, _('Enquesta')),
+    (3, _('Pujar fitxer'))
+)
 
 
 class Quiz(models.Model):
@@ -39,12 +44,17 @@ class Quiz(models.Model):
             0: QUIZ_TYPES[0][1],
             1: QUIZ_TYPES[1][1],
             2: QUIZ_TYPES[2][1],
+            3: QUIZ_TYPES[3][1],
         }
         return switcher.get(self.type,_('Tipus invàlid'))
 
     @property
     def sorted_questions_set(self):
         return self.questions.all().order_by('question_order')
+
+    @property
+    def n_questions(self):
+        return self.questions.all().count()
 
 
     @property
@@ -58,6 +68,10 @@ class Quiz(models.Model):
     @property
     def is_poll(self):
         return self.type == 2
+
+    @property
+    def is_upload(self):
+        return self.type == 3
 
     @property
     def get_next_question_number(self):
@@ -145,20 +159,19 @@ class QuizRun(models.Model):
             return {'questions_number': questions_number, 'questions_right': questions_number, 'questions_right_list': questions_right_list}
 
 
-
 class QuizRunAnswers(models.Model):
     quizrun = models.ForeignKey(QuizRun, on_delete=models.CASCADE, related_name='answers')
     question = models.ForeignKey('main.Question', on_delete=models.CASCADE, related_name='run_question')
     chosen_answer = models.ForeignKey('main.Answer', on_delete=models.CASCADE, related_name='run_answer', null=True, blank=True)
     #chosen answer might not always have a value, so we need a field to indicate that the answer has been answered
     answered = models.BooleanField(default=False)
-
+    uploaded_material = models.FileField(upload_to='media/uploaded/', null=True, blank=True)
 
 
 class Question(models.Model):
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name='questions')
     text = models.CharField('Question', max_length=255)
-    question_order = models.IntegerField('Question order inside the quiz')
+    question_order = models.IntegerField('Question order inside the quiz', default=1)
     doc_link = models.URLField(max_length=1000, blank=True, null=True)
 
     def __str__(self):

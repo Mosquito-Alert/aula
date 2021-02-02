@@ -29,6 +29,10 @@ $(document).ready(function() {
         window.location.href = _question_poll_new_url + quiz_id + "/" + '?n=' + suggested_new_order;
     });
 
+    $('#add_fileupload_question').click(function(){
+        window.location.href = _question_upload_new_url + quiz_id + "/" + '?n=' + suggested_new_order;
+    });
+
     $('.delete_button').click(function(){
         var question_id = $(this).attr('id');
         confirmDialog("ATENCIÓ: s'esborrarà la pregunta i totes les respostes. Segur que vols continuar?", question_id);
@@ -48,6 +52,9 @@ $(document).ready(function() {
                 toastr.success('Pregunta eliminada!');
                 $('#question_' + id).remove();
                 suggested_new_order = get_highest_question_number();
+                if( $('#questions').children().length == 0 ){
+                    $('#add_fileupload_question').removeClass('hidden');
+                }
             },
             error: function(jqXHR, textStatus, errorThrown){
                 toastr.error('Error eliminant pregunta');

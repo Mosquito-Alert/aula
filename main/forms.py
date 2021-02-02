@@ -367,6 +367,14 @@ class ChangePasswordForm(forms.Form):
         return password_2
 
 
+class QuestionUploadForm(forms.ModelForm):
+    text = forms.CharField(label=_("Text que es mostrarà per solicitar la pujada d'un fitxer"), widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 4}), required=True)
+
+    class Meta:
+        model = Question
+        fields = ("text",)
+
+
 class QuestionPollForm(forms.ModelForm):
     question_order = forms.IntegerField(label=_("Ordre de la pregunta dins la prova"), required=True)
     text = forms.CharField(label=_("Text de la pregunta"), widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 4}), required=True)

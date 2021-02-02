@@ -1,0 +1,29 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block title %}{% trans 'Editar les preguntes d\'una prova' %}{% endblock %}
+
+{% block main_jumbo %}{% trans 'Editant pregunta de pujada de dades' %}{% endblock %}
+{% block sub_jumbo %}{% trans 'Aquesta pertany a la prova amb nom' %} <strong>{{ question.quiz.name }}</strong>{% endblock %}
+
+{% block main %}
+<div class="container">
+    <form id="question_form" action="{% url 'question_upload_update' question.id %}" method="post">
+        {% csrf_token %}
+        <h3><img src="{% static 'main/icons/noun_Question_3611223.svg' %}" width="5%"> {% trans 'Text que es mostrarà al costat del control de pujada de fitxers' %}:</h3>
+        <div class="form-row">
+          <div class="form-group col-md-9 mb-0">
+            {{ form.text|as_crispy_field }}
+          </div>
+        </div>
+        <input type="hidden" name="quiz_id" value="{{ quiz.id }}">
+        <input role="button" class="btn btn-success mt-2" type="submit" value="{% trans 'Desar' %}"/>
+    </form>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'main/javascript/question_upload_edit.js' %}"></script>
+{% endblock %}
+

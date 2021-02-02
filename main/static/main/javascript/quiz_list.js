@@ -145,7 +145,8 @@ $(document).ready( function () {
         var tr = $(this).closest('tr');
         var row = table.row( tr );
         var id = row.data().id
-        if(!user_is_admin){
+        var published = row.data().published;
+        if(!user_is_admin && published){
             toastr.options = {"positionClass": "toast-top-full-width","preventDuplicates": true};
             toastr.warning('Ho sentim, no es permet la edició de proves ja publicades.')
         }else{

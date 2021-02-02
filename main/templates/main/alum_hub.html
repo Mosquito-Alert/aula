@@ -14,7 +14,7 @@
             <h4><p>{% trans 'El vostre professor assignat és ' %} <span class="badge badge-primary"><strong>{{ user.profile.group_teacher.username }}</strong></span></p></h4>
         </div>
     </div>
-    <div class="row alert alert-success">
+    <div class="row alert alert-success done">
         <div class="col-md-12">
             <p><strong>{% trans 'Aquestes són les proves que ja heu acabat (i que podeu repetir, si voleu!)' %}:</strong></p>
             {% if done_quizruns %}
@@ -64,21 +64,29 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-6 alert alert-info">
+        <div class="col-md-6 alert alert-info todo">
             <p><strong>{% trans 'Aquestes són les proves que encara no heu fet' %}:</strong></p>
             {% if available_quizzes %}
                 {% for quiz in available_quizzes %}
                     <div class="row mt-3">
                         <div class="col-md-6"><strong>{% trans 'Títol' %}</strong>: {{ quiz.name }}</div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 done_quizzes">
                             {% if quiz.requisite %}
                                 {% if quiz.requisite.id in done_quizzes_ids %}
+                                    {% if quiz.is_upload %}
+                                    <button title="{% trans 'Fer la prova!' %}" data-quiz_id="{{ quiz.id }}" data-taken_by="{{ user.id }}" class="btn btn-success take_upload" role="button"><i class="fa fa-lightbulb-o" aria-hidden="true"></i></button>
+                                    {% else %}
                                     <a title="{% trans 'Fer la prova!' %}" class="btn btn-success" href="{% url 'quiz_take_splash' quiz.id %}" role="button"><i class="fa fa-lightbulb-o" aria-hidden="true"></i></a>
+                                    {% endif %}
                                 {% else %}
                                     <a title="{% trans 'Aquest material està bloquejat, abans cal fer la prova amb nom' %} '{{ quiz.requisite.name }}'" class="btn btn-secondary" href="" role="button"><i class="fas fa-lock"></i></a>
                                 {% endif %}
                             {% else %}
-                            <a title="{% trans 'Fer la prova!' %}" class="btn btn-success" href="{% url 'quiz_take_splash' quiz.id %}" role="button"><i class="fa fa-lightbulb-o" aria-hidden="true"></i></a>
+                                {% if quiz.is_upload %}
+                                <button title="{% trans 'Fer la prova!' %}" data-quiz_id="{{ quiz.id }}" data-taken_by="{{ user.id }}" class="btn btn-success take_upload" role="button"><i class="fa fa-lightbulb-o" aria-hidden="true"></i></button>
+                                {% else %}
+                                <a title="{% trans 'Fer la prova!' %}" class="btn btn-success" href="{% url 'quiz_take_splash' quiz.id %}" role="button"><i class="fa fa-lightbulb-o" aria-hidden="true"></i></a>
+                                {% endif %}
                             {% endif %}
                         </div>
                     </div>
@@ -88,7 +96,7 @@
                 <p><img src="{% static 'main/icons/noun_holidays_2518025.svg' %}" height="250px"></p>
             {% endif %}
         </div>
-        <div class="col-md-6 alert alert-info">
+        <div class="col-md-6 alert alert-info doing">
             <p><strong>{% trans 'Aquestes són les proves que esteu fent però no heu acabat' %}:</strong></p>
             {% if in_progress_quizruns %}
                 {% for run in in_progress_quizruns %}
@@ -106,5 +114,12 @@
         </div>
     </div>
 </div>
-
+{% endblock %}
+{% block extra_js %}
+<script>
+    var _run_create_url = '{% url 'api_startrun' %}';
+</script>
+<script src="{% static 'main/csrf_utils.js' %}"></script>
+<script src="{% static 'main/cookies.js' %}"></script>
+<script src="{% static 'main/javascript/alum_hub.js' %}"></script>
 {% endblock %}
