@@ -1,0 +1,29 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block main_jumbo %}<img src="{% static 'main/icons/noun_solution_2998552.svg' %}" width="10%"> {% trans 'Gràfica de resultats' %}{% endblock %}
+{% block sub_jumbo %}{{ quiz.name }}{% endblock %}
+
+{% block main %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="grafica" style="margin-top:5%">
+                <figure class="highcharts-figure">
+                    <div id="container"></div>
+                </figure>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <script src="{% static 'main/javascript/quiz_results_graphics.js' %}"></script>
+    <script>
+        var data = {{ grupos_tests | safe }};
+    </script>
+{% endblock %}

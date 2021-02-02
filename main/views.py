@@ -1342,7 +1342,6 @@ class EducationCenterPartialUpdateView(GenericAPIView, UpdateModelMixin):
     def put(self, request, *args, **kwargs):
         return self.partial_update(request, *args, **kwargs)
 
-
 @login_required
 def group_credentials_list(request):
     this_user = request.user.id
@@ -1397,4 +1396,52 @@ def group_credentials_list(request):
     response.write(pdf_file)
 
     return response
+
+
+@login_required
+def quiz_graphic_results(request, idQuizz):
+    this_user = request.user
+    repeated_tests = []
+    tests = []
+    grupos_tests = []
+
+    quiz = Quiz.objects.get(pk=idQuizz)
+    grupos_profe = User.objects.filter(profile__group_teacher=quiz.author)
+
+    for x in grupos_profe:
+
+        p = QuizRun.objects.filter(quiz_id=idQuizz).filter(taken_by_id=x.id).exclude(date_finished=None)
+        if not p:
+            print('Vacio')
+        else:
+            if p.count() > 1:
+                for d in p:
+                    repeated_tests.append({
+                        'id': d.id,
+                        'quiz': d.quiz.name,
+                        'quiz_id': d.quiz_id,
+                        'taken_by': d.taken_by.username,
+                        'questions_number': d.questions_number,
+                        'questions_right': d.questions_right
+
+                    })
+
+                sorted_list = sorted(repeated_tests, key=lambda k: k['questions_right'], reverse=True)
+
+                grupos_tests.append(sorted_list[0])
+            else:
+                for t in p:
+                    tests.append({
+                        'id': t.id,
+                        'quiz': t.quiz.name,
+                        'quiz_id': t.quiz_id,
+                        'taken_by': t.taken_by.username,
+                        'questions_number': t.questions_number,
+                        'questions_right': t.questions_right
+
+                    })
+    grupos_tests.append(tests)
+
+
+    return render(request, 'main/quiz_results_graphics.html', {'grupos_tests': grupos_tests, 'quiz': quiz})
 

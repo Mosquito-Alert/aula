@@ -85,5 +85,6 @@ urlpatterns = [
     path('api/tutor_combo/', views.tutor_combo, name="tutor_combo"),
     path('api/complete_upload/', views.complete_upload, name="complete_upload"),
     path('api/requirements_combo/', views.requirements_combo, name="requirements_combo"),
-    path('makepdf', views.group_credentials_list, name='generatePDF')
+    path('makepdf', views.group_credentials_list, name='generatePDF'),
+    path('quiz/graphic_results/<int:idQuizz>/', views.quiz_graphic_results, name='quiz_graphic_results'),
 ]
