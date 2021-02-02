@@ -36,12 +36,34 @@ $(document).ready( function () {
         }
     });
 
+    var complete = function(quizrun_id, file_path){
+        $.ajax({
+            url: _quiz_complete_upload,
+            data: {'id':quizrun_id,'path':file_path},
+            method: 'POST',
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type)) {
+                    var csrftoken = getCookie('csrftoken');
+                    xhr.setRequestHeader('X-CSRFToken', csrftoken);
+                }
+            },
+            success: function( data, textStatus, jqXHR ) {
+                toastr.success('Prova finalitzada!');
+                window.location.href = _quiz_complete_url;
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                toastr.error('Error completant prova');
+            }
+        });
+    };
+
     $(".js-upload-photos").click(function () {
         $("#fileupload").click();
     });
 
-    $(".done-button").click(function () {
-
+    $("#done-button").click(function () {
+        var file_path = $('#file_name').val();
+        complete(quizrun_id,file_path);
     });
 
     $(document).on('click', '.deleteFile', function() {

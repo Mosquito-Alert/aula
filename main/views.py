@@ -328,7 +328,13 @@ def quiz_take_endsummary(request, quizrun_id=None):
         n_runs = quizrun.n_runs
         past_runs = n_runs - 1
     else:
-        raise forms.ValidationError("No existeix aquesta prova")
+        message = _("Sembla que aquesta prova no existeix.")
+        go_back_to = "alum_menu"
+        return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
+    if not quizrun.is_done:
+        message = _("Sembla que aquesta prova no està completada.")
+        go_back_to = "alum_menu"
+        return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
     return render(request, 'main/quiz_take_endsummary.html', {'quizrun': quizrun, 'n_runs': n_runs, 'past_runs': past_runs})
 
 
@@ -1040,6 +1046,30 @@ def api_writeanswer(request):
 
         return Response(response)
 
+@api_view(['POST'])
+def complete_upload(request):
+    if request.method == 'POST':
+        quizrun_id = request.data.get('id', -1)
+        file_path = request.data.get('path', -1)
+        date_finished = datetime.utcnow().replace(tzinfo=pytz.utc)
+        if quizrun_id == -1:
+            raise ParseError(detail='Quiz id not specified')
+        if file_path == -1:
+            raise ParseError(detail='File path not specified')
+        quizrun = get_object_or_404(QuizRun, pk=quizrun_id)
+        quizrun_answer = get_object_or_404(QuizRunAnswers, quizrun=quizrun)
+        # file_path should be something like /media/tempfiles/1222b116-6543-11eb-833c-c85b76d93ea4.zip
+        if file_path != '':
+            copy(str(settings.BASE_DIR) + file_path, settings.MEDIA_ROOT + "/uploaded/")
+            quizrun_answer.uploaded_material = 'uploaded/' + os.path.basename(file_path)
+            quizrun_answer.answered = True
+            quizrun_answer.save()
+            quizrun.date_finished = date_finished
+            quizrun.save()
+            serializer = QuizRunSerializer(quizrun)
+            return Response(serializer.data)
+        else:
+            raise ParseError(detail='Problem with file path')
 
 @api_view(['POST'])
 def api_finishquiz(request):

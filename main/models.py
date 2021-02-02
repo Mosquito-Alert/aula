@@ -138,6 +138,14 @@ class QuizRun(models.Model):
     def n_runs(self):
         return QuizRun.objects.filter(taken_by=self.taken_by).filter(quiz=self.quiz).values('id').count()
 
+    @property
+    def uploaded_file(self):
+        if self.quiz.is_upload:
+            answer = self.answers.first()
+            if answer is not None:
+                return answer.uploaded_material
+        return None
+
     def evaluate(self):
         answers = self.answers.all()
         questions_number = answers.count()

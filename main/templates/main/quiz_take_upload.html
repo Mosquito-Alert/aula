@@ -40,9 +40,12 @@
 {% endblock %}
 {% block extra_js %}
 <script>
-
+    var quizrun_id = {{ quiz_run.id }};
+    var _quiz_complete_upload = "{% url 'complete_upload' %}";
+    var _quiz_complete_url = "{% url 'quiz_take_endsummary' quiz_run.id %}";
 </script>
 <script src="{% static 'main/csrf_utils.js' %}"></script>
+<script src="{% static 'main/cookies.js' %}"></script>
 <script src="{% static 'main/jQuery-File-Upload-9.28.0/js/vendor/jquery.ui.widget.js' %}"></script>
 <script src="{% static 'main/jQuery-File-Upload-9.28.0/js/jquery.iframe-transport.js' %}"></script>
 <script src="{% static 'main/jQuery-File-Upload-9.28.0/js/jquery.fileupload.js' %}"></script>

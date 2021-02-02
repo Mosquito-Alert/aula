@@ -55,6 +55,17 @@
                         </div>
                         <div class="col-md-2"></div>
                     </div>
+                    {% elif run.quiz.is_upload %}
+                    <div class="row mt-3">
+                        <div class="col-md-3"><strong>{% trans 'Títol' %}</strong>: {{ run.quiz.name }}</div>
+                        <div class="col-md-3"><strong>{% trans 'Començada' %}</strong>: {{ run.date }}</div>
+                        <div class="col-md-3"><strong>{% trans 'Finalitzada' %}</strong>: {{ run.date_finished }}</div>
+                        <div class="col-md-1"></div>
+                        <div class="col-md-2">
+                            <a title="{% trans 'Descarregar fitxer' %}" class="btn btn-success" href="{{ run.uploaded_file.url }}" target="_blank" role="button">Fitxer <i class="fas fa-cloud-download-alt"></i></a>
+                        </div>
+                        <div class="col-md-2"></div>
+                    </div>
                     {% endif %}
                 {% endfor %}
             {% else %}
