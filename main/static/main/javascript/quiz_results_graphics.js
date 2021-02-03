@@ -30,9 +30,6 @@ var graficBarras = function(){
         title: {
             text: 'Resultats per grup de la prova <strong>' + quizName + '</strong>'
         },
-        /*subtitle: {
-            text: 'Source: WorldClimate.com'
-        },*/
         xAxis: {
             categories: nombreGrupo,
             crosshair: true
