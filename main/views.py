@@ -89,9 +89,17 @@ def get_filter_clause(params_dict, fields, translation_dict=None):
     return filter_clause
 
 
-def generic_datatable_list_endpoint(request,search_field_list,queryset, classSerializer, field_translation_dict=None, order_translation_dict=None):
-    draw = request.query_params.get('draw', -1)
-    start = request.query_params.get('start', 0)
+def generic_datatable_list_endpoint(request,search_field_list,queryset, classSerializer, field_translation_dict=None, order_translation_dict=None, paginate=True):
+    draw = -1
+    start = 0
+    try:
+        draw = request.GET['draw']
+    except:
+        pass
+    try:
+        start = request.GET['start']
+    except:
+        pass
     #length = request.query_params.get('length', 25)
     length = 25
 
@@ -106,13 +114,19 @@ def generic_datatable_list_endpoint(request,search_field_list,queryset, classSer
     else:
         queryset = queryset.order_by(*order_clause).filter(functools.reduce(operator.or_, filter_clause))
 
-    paginator = Paginator(queryset, length)
+    if paginate:
+        paginator = Paginator(queryset, length)
 
-    recordsTotal = queryset.count()
-    recordsFiltered = recordsTotal
-    page = int(start) / int(length) + 1
+        recordsTotal = queryset.count()
+        recordsFiltered = recordsTotal
+        page = int(start) / int(length) + 1
 
-    serializer = classSerializer(paginator.page(page), many=True)
+        serializer = classSerializer(paginator.page(page), many=True)
+    else:
+        serializer = classSerializer(queryset, many=True, context={'request': request})
+        recordsTotal = queryset.count()
+        recordsFiltered = recordsTotal
+
     return Response({'draw': draw, 'recordsTotal': recordsTotal, 'recordsFiltered': recordsFiltered, 'data': serializer.data})
 
 
@@ -942,6 +956,45 @@ def group_list(request):
 
 
 @login_required
+def group_list_pdf(request):
+    this_user = request.user
+    search_field_list = ('username', 'group_public_name', 'group_center', 'group_tutor')
+    field_translation_list = {'username': 'username', 'group_public_name': 'profile__group_public_name', 'group_center': 'profile__center_string', 'group_tutor': 'profile__group_teacher__username'}
+    sort_translation_list = {'username': 'username', 'group_public_name': 'profile__group_public_name', 'group_center': 'profile__center_string', 'group_tutor': 'profile__group_teacher__username'}
+    if this_user.is_superuser:
+        queryset = User.objects.filter(profile__is_group=True)
+    elif this_user.profile and this_user.profile.is_teacher:
+        queryset = User.objects.filter(profile__is_group=True).filter(profile__group_teacher=this_user)
+    else:
+        queryset = None
+    data = generic_datatable_list_endpoint(request, search_field_list, queryset, GroupSerializer, field_translation_list, sort_translation_list, paginate=False)
+    records = data.data['data']
+    # records a diccionari
+    # pintar diccionari a pdf
+    # tornar pdf
+    # for g in queryset:
+    #     grupos_info.append({
+    #         'nombre_publico_grupo': g[1],
+    #         'password_grupo': g[2],
+    #         'nombre_grupo': g[3]
+    #     })
+    #
+    # logger = logging.getLogger('weasyprint')
+    # logger.addHandler(logging.FileHandler('/tmp/weasyprint.log'))
+    #
+    # response = HttpResponse(content_type='application/pdf')
+    # response['Content-Disposition'] = 'attachment'
+    # response['Content-Disposition'] = 'filename="test.pdf"'
+    # html_string = render_to_string("pdf_templates/group_credentials_list.html", {'titulo': 'Llistat de credencials', 'teacherInfo': teacher_info, 'grupos': grupos_info})
+    # pdf_file = HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf()
+    # #pdf_file = HTML(string=html_string, base_url=settings.STATIC_PDF_ROOT).write_pdf()
+    # response.write(pdf_file)
+    #
+    # return response
+    #return Response(json.loads(json.dumps(records)))
+
+
+@login_required
 def center_list(request):
     return render(request, 'main/center_list.html')
 
@@ -1012,6 +1065,7 @@ def generate_random_username_struct():
     group_slug = "_".join([adjective.word[0].lower() + color.word[0].lower(), animal.word.lower()])
     return {'group_name': group_name, 'group_slug': group_slug}
 
+
 def get_max_index_plus_one(slug,numerals):
     nums = []
     for elem in numerals:
@@ -1022,6 +1076,7 @@ def get_max_index_plus_one(slug,numerals):
         return 1
     else:
         return max(nums) + 1
+
 
 @api_view(['POST'])
 def api_writeanswer(request):
@@ -1369,11 +1424,6 @@ def group_credentials_list(request):
     #b'select main_profile.user_id, main_profile.group_public_name, main_profile.group_password, auth_user.username from public.main_profile, public.auth_user where main_profile.user_id = auth_user.id and main_profile.group_teacher_id = 2 '
 
     test = Profile.objects.raw("select m.user_id, m.group_public_name, m.group_password, a.username from public.main_profile m, auth_user a where m.user_id = a.id and m.group_teacher_id = 2")
-
-    print(test)
-
-
-    #print(json.dumps(queryset))
 
     grupos_info = []
 

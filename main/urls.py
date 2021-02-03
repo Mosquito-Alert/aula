@@ -67,6 +67,7 @@ urlpatterns = [
     path('alum/datatablelist/', views.alum_datatable_list, name='alum_datatable_list'),
     path('group/new/', views.group_new, name='group_new'),
     path('group/list/', views.group_list, name='group_list'),
+    path('group/list/pdf/', views.group_list_pdf, name='group_list_pdf'),
     path('group/update/<int:pk>/', views.group_update, name='group_update'),
     path('group/update/', views.group_update, name='group_update_no_id'),
     path('group/search/', views.group_search, name='group_search'),
