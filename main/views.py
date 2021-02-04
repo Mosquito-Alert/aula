@@ -961,36 +961,66 @@ def group_list_pdf(request):
     search_field_list = ('username', 'group_public_name', 'group_center', 'group_tutor')
     field_translation_list = {'username': 'username', 'group_public_name': 'profile__group_public_name', 'group_center': 'profile__center_string', 'group_tutor': 'profile__group_teacher__username'}
     sort_translation_list = {'username': 'username', 'group_public_name': 'profile__group_public_name', 'group_center': 'profile__center_string', 'group_tutor': 'profile__group_teacher__username'}
+
+    logger = logging.getLogger('weasyprint')
+    logger.addHandler(logging.FileHandler('/tmp/weasyprint.log'))
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment'
+    response['Content-Disposition'] = 'filename="test.pdf"'
+
     if this_user.is_superuser:
         queryset = User.objects.filter(profile__is_group=True)
+
+        data = generic_datatable_list_endpoint(request, search_field_list, queryset, GroupSerializer, field_translation_list, sort_translation_list, paginate=False)
+        records = data.data['data']
+
+        grupos_info = []
+        teacher_info = []
+        for g in records:
+            grupos_info.append({
+                'nombre_publico_grupo': g['group_public_name'],
+                'password_grupo': g['group_password'],
+                'nombre_grupo': g['username'],
+                'name_profe': g['group_tutor'],
+                'center': g['group_center']
+            })
+
+        '''teacher_info.append({
+            'name': records[0]['group_tutor'],
+            'centro': records[0]['group_center']
+        })'''
+
+        html_string = render_to_string("pdf_templates/group_credentials_list_admin.html", {'titulo': 'Llistat de credencials', 'grupos': grupos_info})
+        pdf_file = HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf()
+        response.write(pdf_file)
+
     elif this_user.profile and this_user.profile.is_teacher:
         queryset = User.objects.filter(profile__is_group=True).filter(profile__group_teacher=this_user)
+        data = generic_datatable_list_endpoint(request, search_field_list, queryset, GroupSerializer, field_translation_list, sort_translation_list, paginate=False)
+        records = data.data['data']
+
+        grupos_info = []
+        teacher_info = []
+        for g in records:
+            grupos_info.append({
+                'nombre_publico_grupo': g['group_public_name'],
+                'password_grupo': g['group_password'],
+                'nombre_grupo': g['username']
+            })
+
+        teacher_info = {
+            'name': records[0]['group_tutor'],
+            'centro': records[0]['group_center']
+        }
+
+        html_string = render_to_string("pdf_templates/group_credentials_list.html", {'titulo': 'Llistat de credencials', 'teacherInfo': teacher_info, 'grupos': grupos_info})
+        pdf_file = HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf()
+        response.write(pdf_file)
+
     else:
         queryset = None
-    data = generic_datatable_list_endpoint(request, search_field_list, queryset, GroupSerializer, field_translation_list, sort_translation_list, paginate=False)
-    records = data.data['data']
-    # records a diccionari
-    # pintar diccionari a pdf
-    # tornar pdf
-    # for g in queryset:
-    #     grupos_info.append({
-    #         'nombre_publico_grupo': g[1],
-    #         'password_grupo': g[2],
-    #         'nombre_grupo': g[3]
-    #     })
-    #
-    # logger = logging.getLogger('weasyprint')
-    # logger.addHandler(logging.FileHandler('/tmp/weasyprint.log'))
-    #
-    # response = HttpResponse(content_type='application/pdf')
-    # response['Content-Disposition'] = 'attachment'
-    # response['Content-Disposition'] = 'filename="test.pdf"'
-    # html_string = render_to_string("pdf_templates/group_credentials_list.html", {'titulo': 'Llistat de credencials', 'teacherInfo': teacher_info, 'grupos': grupos_info})
-    # pdf_file = HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf()
-    # #pdf_file = HTML(string=html_string, base_url=settings.STATIC_PDF_ROOT).write_pdf()
-    # response.write(pdf_file)
-    #
-    # return response
+
+    return response
     #return Response(json.loads(json.dumps(records)))
 
 

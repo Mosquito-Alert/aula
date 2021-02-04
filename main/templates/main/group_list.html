@@ -25,7 +25,7 @@
 <div class="container">
     <div class="row justify-content-end">
         <div class="col-lg-3" style="margin-bottom: 2%;text-align:right;">
-            <a href="{% url 'generatePDF' %}" target="_blank" type="button" class="btn btn-info">Descarregar credencials en PDF</a>
+            <button target="_blank" type="button" id="getPDFlist" class="btn btn-info">Descarregar credencials en PDF</button>
         </div>
         <div class="col-lg-2" style="text-align:right;">
             <a href="{% url 'group_new' %}" type="button" class="btn btn-info">Afegir <i class="fas fa-plus"></i></a>
@@ -42,6 +42,7 @@
     var table_language = {% if LANGUAGE_CODE == 'ca' %} table_ca {% else %} table_es {% endif %};
     var _group_list_url = '{% url 'group_datatable_list' %}';
     var _group_update_url = '{% url 'group_update_no_id' %}';
+    var _group_list_pdf = '{% url 'group_list_pdf' %}';
 </script>
 <script src="{% static 'main/csrf_utils.js' %}"></script>
 <script src="{% static 'main/cookies.js' %}"></script>

@@ -170,4 +170,18 @@ $(document).ready( function () {
         var id = row.data().id
         window.location.href = _group_update_url + id + '/';
     });
+
+
+    $('#getPDFlist').on('click', function(){
+        var params = table.ajax.params();
+        window.location.href = _group_list_pdf + '?' + jQuery.param(params);
+
+    });
+
+
 });
+
+/*var exportPDF = function(){
+        var params = table.ajax.params();
+        window.location.href = _group_list_pdf + '?' + jQuery.param(params);
+    };*/
