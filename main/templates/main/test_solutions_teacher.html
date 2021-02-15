@@ -1,11 +1,11 @@
 {% extends "main/base.html" %}
 {% load static %}
 {% load i18n %}
+{% load imagekit %}
 {% block title %}{% trans 'Resultats de proves' %}{% endblock %}
 
 {% block main_jumbo %}<img src="{% static 'main/icons/noun_solution_2998552.svg' %}" width="10%"> {% trans 'Resultats de proves' %}{% endblock %}
 {% block sub_jumbo %}{% endblock %}
-
 {% block main %}
 <div class="container">
     {% for quiz in my_quizzes %}
@@ -23,6 +23,7 @@
     <div class="row alert alert-success ml-5">
         <table style="width:100%;">
             <tr>
+                <th></th>
                 <th>Grup</th>
                 <th>Millor puntuació</th>
                 <th>Millor intent</th>
@@ -30,6 +31,9 @@
             </tr>
             {% for quizrun in quiz.best_runs %}
             <tr>
+                <td>
+                    <img src="{{ quizrun.taken_by.profile.group_picture_thumbnail.url }}">
+                </td>
                 <td>{{ quizrun.taken_by.profile.group_public_name }}</td>
                 <td>{{ quizrun.questions_right }}/{{ quizrun.questions_number }}</td>
                 <td>{{ quizrun.run_number }}</td>

@@ -6,7 +6,8 @@ from django.dispatch import receiver
 import os
 from datetime import datetime
 from django.utils.translation import gettext_lazy as _
-
+from imagekit.models import ImageSpecField
+from imagekit.processors import ResizeToFill
 
 class EducationCenter(models.Model):
     name = models.CharField(max_length=500)
@@ -96,6 +97,12 @@ class Quiz(models.Model):
             best_runs.append(best_run)
         best_runs.sort(key=lambda x: x.taken_by.profile.group_public_name)
         return best_runs
+
+    @property
+    def taken_by(self):
+        taken_by = QuizRun.objects.filter(quiz=self).filter(date_finished__isnull=False).values('taken_by__id').distinct()
+        for user in taken_by:
+            return QuizRun.objects.filter(taken_by__id=user['taken_by__id']).filter(quiz=self).filter(date_finished__isnull=False).distinct()
 
 
 
@@ -251,6 +258,7 @@ class Profile(models.Model):
     group_password = models.CharField('Password grup', max_length=4, null=True)
     group_public_name = models.CharField(max_length=255, null=True)
     group_picture = models.ImageField(upload_to='media/group_pics/', null=True)
+    group_picture_thumbnail = ImageSpecField(source='group_picture', processors=[ResizeToFill(150, 150)], options={'quality': 80})
     group_teacher = models.ForeignKey(User, null=True, on_delete=models.SET_NULL, related_name="group_teacher")
     groups_string = models.CharField(max_length=1000, null=True, blank=True)
     center_string = models.CharField(max_length=1000, null=True, blank=True)

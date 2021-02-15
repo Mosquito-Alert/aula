@@ -919,7 +919,13 @@ def group_new(request):
             if photo_path != '':
                 copy(str(settings.BASE_DIR) + photo_path, settings.MEDIA_ROOT + "/group_pics/")
                 user.profile.group_picture = 'group_pics/' + os.path.basename(photo_path)
+            else:
+                user.profile.group_picture = 'group_pics/noun_group_737669.jpg'
+
             user.save()
+
+            print(user.profile.group_picture_thumbnail)
+
             return HttpResponseRedirect('/group/list/')
     else:
         form = SimplifiedGroupForm()
@@ -1067,6 +1073,7 @@ def quiz_solutions(request):
         message = _("Estàs intentant accedir a una pàgina a la que no tens permís.")
         go_back_to = "my_hub"
         return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
+    #print(my_quizzes[1].taken_by[0].taken_by.profile.group_picture_thumbnail.url)
     return render(request, 'main/test_solutions_teacher.html', {'my_quizzes': my_quizzes})
 
 
