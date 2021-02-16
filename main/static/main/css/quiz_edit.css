@@ -1,0 +1,80 @@
+    .warning {
+        color: red;
+    }
+    .hidden {
+        display: none !important;
+    }
+
+
+    .warning-message {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.50);
+        z-index: 999999;
+    }
+
+    .warning-message .dialog {
+        width: 400px;
+        margin: 10% auto 0;
+        background-color: #fff;
+        box-shadow: 0 0 20px rgba(0,0,0,.2);
+        border-radius: 3px;
+        overflow: hidden;
+    }
+
+
+    .warning-message .dialog .closeIcon {
+        padding: 10px 8px 0px 8px;
+    }
+
+
+    .warning-message .dialog h3 {
+        font-size: 14px;
+        margin: 0;
+        color: white;
+        display: inline-block;
+    }
+
+    .warning-message .dialog .closeIcon .fa-close {
+        float: right;
+        color: black;
+        cursor: pointer;
+        transition: all .5s ease;
+        padding: 0 2px;
+        border-radius: 1px;
+    }
+
+    .warning-message .dialog .closeIcon .fa-close:hover {
+        color: #b9b9b9;
+    }
+
+    .warning-message .dialog .closeIcon .fa-close:active {
+        box-shadow: 0 0 5px #673AB7;
+        color: #a2a2a2;
+    }
+
+    .warning-message .dialog .dialog-msg {
+        padding: 0px 10px 10px 10px;
+    }
+
+    .warning-message .dialog .dialog-msg p{
+        margin: 0;
+        font-size: 15px;
+        color: black;
+        text-align: center;
+    }
+
+    .warning-message .dialog footer {
+        padding: 8px 10px 18px 10px;
+    }
+
+    .controls {
+        text-align: center;
+    }
+
+    .warningIcon {
+        margin-bottom: 15px !important;
+    }

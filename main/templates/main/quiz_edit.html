@@ -2,14 +2,8 @@
 {% load static %}
 {% load i18n %}
 {% block extra_css %}
-<style>
-    .warning {
-        color: red;
-    }
-    .hidden {
-        display: none !important;
-    }
-</style>
+<!--<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">-->
+<link rel="stylesheet" href="{% static 'main/css/quiz_edit.css' %}">
 {% endblock %}
 {% block title %}{% trans 'Editar prova' %}{% endblock %}
 
@@ -28,7 +22,7 @@
         <strong><i class="fas fa-exclamation-triangle"></i> {% trans 'ATENCIÓ: estàs editant una prova publicada. La modificació de qualsevol camp (a part del nom) pot tenir conseqüències no desitjades! Fes-ho només si tens molt clar el que estàs fent!' %}</strong>
     </div>
     {% endif %}
-    <form class="form" action="{% url 'quiz_update' quiz.id %}" method="post">
+    <form class="form" method="post">
         {% csrf_token %}
         <div class="form-group mb-3">
             <img src="{% static 'main/icons/noun_test_3271143.svg' %}" width="5%">
@@ -61,7 +55,9 @@
             <label class="form-check-label" for="{{ form.published.id_for_label }}">{% trans 'Prova publicada' %}</label>
         </div>
 
-        <input role="button" class="btn btn-success mt-2" type="submit" value="{% trans 'Desar' %}" /><br>
+        <!--<input id="quizSubmitForm" role="button" class="btn btn-success mt-2" type="submit" value="{% trans 'Desar' %}" /><br>-->
+        <button id="quizSubmitForm" role="button" class="btn btn-success mt-2">{% trans 'Desar' %}</button>
+        <br>
         {% if quiz.type == 0 %}
         <button type="button" id="add_question" title="{% trans 'Afegir pregunta amb múltiple resposta' %}" class="btn btn-info mt-2 mb-3"><img src="{% static 'main/icons/noun_List_648391.svg' %}" width="50px"><i class="fas fa-plus"></i></button>
         {% elif quiz.type == 1 %}
@@ -73,6 +69,12 @@
         {% endif %}
     </form>
 </div>
+
+<div id="dialog-confirm">
+
+</div>
+
+
 {% if quiz.sorted_questions_set %}
 <div class="container">
     <hr>
@@ -146,8 +148,15 @@
     var _question_poll_new_url  = '{% url 'question_poll_new' %}';
     var _question_upload_new_url = '{% url 'question_upload_new' %}';
     var _question_delete_url = '{% url 'questions-list' %}';
+    var _title_warning_dialog = "{% trans 'Confirmar acció' %}";
+    var _message_warning_dialog = "{% trans 'Un cop hagis publicat la prova no la podràs modificar, estàs completament segur que vols continuar?' %}";
+    var _aff_warning_dialog = "{% trans 'Si' %}";
+    var _neg_warning_dialog = "{% trans 'No' %}";
 </script>
 <script src="{% static 'main/csrf_utils.js' %}"></script>
 <script src="{% static 'main/cookies.js' %}"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="{% static 'main/javascript/quiz_edit.js' %}"></script>
+<script src="{% static 'main/javascript/quiz_edit_warning.js' %}"></script>
 {% endblock %}
