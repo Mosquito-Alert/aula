@@ -401,15 +401,22 @@ def quiz_browse(request, quiz_id=None):
 def question_new(request, quiz_id=None):
     quiz = None
     json_answers = None
+    question_picture = None
     if quiz_id:
         quiz = get_object_or_404(Quiz, pk=quiz_id)
     else:
         raise forms.ValidationError("No existeix aquesta prova")
     if request.method == 'POST':
         form = QuestionForm(request.POST)
+        question_picture = request.POST.get('question_picture')
         json_answers = request.POST.get('answers_json','')
         if form.is_valid():
             question = form.save(commit=False)
+
+            if question_picture != '':
+                copy(str(settings.BASE_DIR) + question_picture, settings.MEDIA_ROOT + "/question_pics/")
+                question.question_picture = 'question_pics/' + os.path.basename(question_picture)
+
             question.quiz = quiz
             question.save()
             if json_answers != '':
@@ -419,7 +426,7 @@ def question_new(request, quiz_id=None):
                         question=question,
                         label=a['label'],
                         text=a['text'],
-                        is_correct=a['is_correct']
+                        is_correct=a['is_correct'],
                     )
                     new_answer.save()
             return HttpResponseRedirect('/quiz/update/' + str(quiz_id) + '/')
@@ -1379,6 +1386,23 @@ def uploadfile(request):
         data = {'is_valid': True, 'id': 1, 'url': '/media/tempfiles/' + new_name,
                 'path': settings.MEDIA_ROOT + "/tempfiles/" + f.name}
         return JsonResponse(data)
+
+@login_required
+def upload_question_pic(request):
+    this_user = request.user
+    if this_user.is_superuser or (this_user.profile is not None and this_user.profile.is_teacher):
+        if request.method == 'POST':
+            file = request.FILES
+            f = request.FILES['question_foto']
+            with open(settings.MEDIA_ROOT + "/tempfiles/" + f.name, 'wb+') as destination:
+                for chunk in f.chunks():
+                    destination.write(chunk)
+            data = {'is_valid': True, 'id': 1, 'url': '/media/tempfiles/' + f.name,
+                    'path': settings.MEDIA_ROOT + "/tempfiles/" + f.name}
+            return JsonResponse(data)
+
+
+
 
 class CentersViewSet(viewsets.ModelViewSet):
     queryset = EducationCenter.objects.all()

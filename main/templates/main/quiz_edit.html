@@ -85,15 +85,23 @@
         {% if question.doc_link %}
             <div class="row">
                 <div class="col-md-12">
-                    <div>
-                        <p class="ord_{{ question.question_order }}"><strong>{{ question.question_order }}.</strong> <i>{{ question.text }}</i> <a title="{% trans 'Editar pregunta i respostes' %}" href="{% url 'question_link_update' question.id %}" class="btn btn-primary"><i class="fas fa-edit"></i></a> <button title="{% trans 'Eliminar pregunta' %}" id="{{ question.id }}" class="delete_button btn btn-danger"><i class="fas fa-backspace"></i></button> </p>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <p>imagen</p>
+                        </div>
+                        <div class="col-md-12">
+                            <p class="ord_{{ question.question_order }}"><strong>{{ question.question_order }}.</strong>
+                            <i>{{ question.text }}</i> <a title="{% trans 'Editar pregunta i respostes' %}" href="{% url 'question_link_update' question.id %}" class="btn btn-primary"><i class="fas fa-edit"></i></a> <button title="{% trans 'Eliminar pregunta' %}" id="{{ question.id }}" class="delete_button btn btn-danger"><i class="fas fa-backspace"></i></button> </p>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
                     <div class="ml-5">
-                        <p class="ord_{{ question.question_order }}"><a href="{{ question.doc_link }}" target="_blank">{{ question.doc_link }}</a></p>
+                        <p class="ord_{{ question.question_order }}">
+                            <a href="{{ question.doc_link }}" target="_blank">{{ question.doc_link }}</a>
+                        </p>
                     </div>
                 </div>
             </div>

@@ -188,6 +188,7 @@ class Question(models.Model):
     text = models.CharField('Question', max_length=255)
     question_order = models.IntegerField('Question order inside the quiz', default=1)
     doc_link = models.URLField(max_length=1000, blank=True, null=True)
+    question_picture = models.ImageField(upload_to='media/question_pics/', null=True)
 
     def __str__(self):
         return self.text

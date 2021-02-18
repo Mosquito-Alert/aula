@@ -83,6 +83,7 @@ urlpatterns = [
     path('api/finishquiz/', views.api_finishquiz, name='api_finishquiz'),
     path('uploadpic', views.uploadpic, name="uploadpic"),
     path('uploadfile', views.uploadfile, name="uploadfile"),
+    path('uploadquestionpic', views.upload_question_pic, name="upload_question_pic"),
     path('api/tutor_combo/', views.tutor_combo, name="tutor_combo"),
     path('api/complete_upload/', views.complete_upload, name="complete_upload"),
     path('api/requirements_combo/', views.requirements_combo, name="requirements_combo"),

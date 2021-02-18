@@ -3,6 +3,13 @@
 {% load i18n %}
 {% load crispy_forms_tags %}
 
+{% block extra_css %}
+    <link href="{% static 'main/jQuery-File-Upload-9.28.0/css/jquery.fileupload-ui.css' %}" rel="stylesheet">
+    <link href="{% static 'main/jQuery-File-Upload-9.28.0/css/jquery.fileupload.css' %}" rel="stylesheet">
+    <link href="{% static 'main/jQuery-File-Upload-9.28.0/css/style.css' %}" rel="stylesheet">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   <link href="{% static 'main/jQuery-File-Upload-9.28.0/css/github/blueimp-gallery.min.css' %}" rel="stylesheet">
+{% endblock %}
+
 {% block title %}{% trans 'Afegir preguntes a una prova' %}{% endblock %}
 
 {% block main_jumbo %}{% trans 'Creant nova pregunta (i respostes)' %}{% endblock %}
@@ -12,6 +19,7 @@
 <div class="container">
     <form id="question_form" action="{% url 'question_new' quiz.id %}" method="post">
         {% csrf_token %}
+
         <h3><img src="{% static 'main/icons/noun_Question_3611223.svg' %}" width="5%"> {% trans 'Pregunta' %}:</h3>
         <div class="form-row">
           <div class="form-group col-md-3 mb-0">
@@ -21,11 +29,40 @@
             {{ form.text|as_crispy_field }}
           </div>
         </div>
+        <div class="form-row">
+            <div class="form-group col-md-4 mb-0">
+                {{ form.question_picture|as_crispy_field }}
+            </div>
+        </div>
+
+        <div id="file_upload_div" class="form-group">
+            <label>{% trans 'Imatge de la pregunta' %}:</label>
+            <input id="fileupload" type="file" name="question_foto" style="display: none" data-url="{% url 'upload_question_pic' %}" data-form-data='{"csrfmiddlewaretoken": "{{ csrf_token }}"}'>
+            <table id="gallery" class="table table-bordered" style="margin-top: 15px;">
+                <tbody>
+                    {% if question_picture %}
+                      <tr>
+                          <td>
+                            <a target="_blank" href="{{ question_picture }}"><img style="height: 150px;" src="{{ question_picture }}"></a>
+                          </td>
+                          <td>
+                            <a href="#" class="btn btn-danger btn-sm btn-del btn-del-img imatgeRodal deleteFoto">{% trans 'Eliminar' %}</a>
+                          </td>
+                      </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+            <button type="button" class="btn btn-primary js-upload-photos">
+                <span class="glyphicon glyphicon-cloud-upload"></span>{% trans 'Afegir foto' %}
+            </button>
+        </div>
+
         {{ form.answers_json }}
         <h3><img src="{% static 'main/icons/noun_Response Message_356176.svg' %}" width="5%"> {% trans 'Respostes' %}:</h3>
         <div id="answers">
         </div>
         <div id="general_errors"></div>
+        <input id="id_photo_path" type="hidden" name="question_picture" value="{{ question_picture }}">
         <input type="hidden" name="quiz_id" value="{{ quiz.id }}">
         <button type="button" id="add_resposta" class="btn btn-info mt-2"><i class="fas fa-plus"></i></button><br>
         <input role="button" class="btn btn-success mt-2" type="submit" value="{% trans 'Desar' %}"/>
@@ -74,6 +111,11 @@
         init_answers = [];
     }
 </script>
+<script src="{% static 'main/javascript/utils.js' %}"></script>
+<script src="{% static 'main/csrf_utils.js' %}"></script>
+<script src="{% static 'main/jQuery-File-Upload-9.28.0/js/vendor/jquery.ui.widget.js' %}"></script>
+<script src="{% static 'main/jQuery-File-Upload-9.28.0/js/jquery.iframe-transport.js' %}"></script>
+<script src="{% static 'main/jQuery-File-Upload-9.28.0/js/jquery.fileupload.js' %}"></script>
 <script src="{% static 'main/javascript/question_editor.js' %}"></script>
 <script src="{% static 'main/javascript/question_new.js' %}"></script>
 {% endblock %}

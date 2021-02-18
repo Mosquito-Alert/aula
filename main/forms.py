@@ -417,6 +417,7 @@ class QuestionLinkForm(forms.ModelForm):
 class QuestionForm(forms.ModelForm):
     question_order = forms.IntegerField(label=_("Ordre de la pregunta dins la prova"), required=True)
     text = forms.CharField(label=_("Text de la pregunta"), widget=forms.Textarea(attrs={'class': 'form-control','rows':4}), required=True)
+    question_picture = forms.CharField(widget=forms.HiddenInput(), required=False)
     answers_json = forms.CharField(widget=forms.HiddenInput(), required=False)
 
     class Meta:
