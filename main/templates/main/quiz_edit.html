@@ -81,19 +81,12 @@
 </div>
 <div id="questions" class="container">
     {% for question in quiz.sorted_questions_set %}
-    <div id="question_{{ question.id }}" class="mb-3">
+    <div id="question_{{ question.id }}" class="mb-5">
         {% if question.doc_link %}
             <div class="row">
                 <div class="col-md-12">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <p>imagen</p>
-                        </div>
-                        <div class="col-md-12">
-                            <p class="ord_{{ question.question_order }}"><strong>{{ question.question_order }}.</strong>
-                            <i>{{ question.text }}</i> <a title="{% trans 'Editar pregunta i respostes' %}" href="{% url 'question_link_update' question.id %}" class="btn btn-primary"><i class="fas fa-edit"></i></a> <button title="{% trans 'Eliminar pregunta' %}" id="{{ question.id }}" class="delete_button btn btn-danger"><i class="fas fa-backspace"></i></button> </p>
-                        </div>
-                    </div>
+                    <p class="ord_{{ question.question_order }}"><strong>{{ question.question_order }}.</strong>
+                    <i>{{ question.text }}</i> <a title="{% trans 'Editar pregunta i respostes' %}" href="{% url 'question_link_update' question.id %}" class="btn btn-primary"><i class="fas fa-edit"></i></a> <button title="{% trans 'Eliminar pregunta' %}" id="{{ question.id }}" class="delete_button btn btn-danger"><i class="fas fa-backspace"></i></button> </p>
                 </div>
             </div>
             <div class="row">
@@ -106,32 +99,77 @@
                 </div>
             </div>
         {% else %}
-            <div class="row">
-                <div class="col-md-12">
-                    <div>
-                        {% if quiz.is_poll %}
+            {% if quiz.is_poll %}
+                <div class="row">
+                    <div class="col-md-12">
                         <p class="ord_{{ question.question_order }}"><strong>{{ question.question_order }}.</strong> <i>{{ question.text }}</i> <a title="{% trans 'Editar pregunta i respostes' %}" href="{% url 'question_poll_update' question.id %}" class="btn btn-primary"><i class="fas fa-edit"></i></a> <button title="{% trans 'Eliminar pregunta' %}" id="{{ question.id }}" class="delete_button btn btn-danger"><i class="fas fa-backspace"></i></button> </p>
-                        {% elif quiz.is_upload %}
+                    </div>
+                </div>
+            {% elif quiz.is_upload %}
+                <div class="row">
+                    <div class="col-md-12">
                         <p class="ord_{{ question.question_order }}"><strong>{{ question.question_order }}.</strong> <i>{{ question.text }}</i> <a title="{% trans 'Editar pregunta i respostes' %}" href="{% url 'question_upload_update' question.id %}" class="btn btn-primary"><i class="fas fa-edit"></i></a> <button title="{% trans 'Eliminar pregunta' %}" id="{{ question.id }}" class="delete_button btn btn-danger"><i class="fas fa-backspace"></i></button> </p>
-                        {% else %}
-                        <p class="ord_{{ question.question_order }}"><strong>{{ question.question_order }}.</strong> <i>{{ question.text }}</i> <a title="{% trans 'Editar pregunta i respostes' %}" href="{% url 'question_update' question.id %}" class="btn btn-primary"><i class="fas fa-edit"></i></a> <button title="{% trans 'Eliminar pregunta' %}" id="{{ question.id }}" class="delete_button btn btn-danger"><i class="fas fa-backspace"></i></button> </p>
-                        {% endif %}
                     </div>
                 </div>
-            </div>
-            {% for answer in question.sorted_answers_set %}
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="ml-5">
-                        {% if answer.is_correct %}
-                            <p style="color:green;">{{ answer.label }}) {{ answer.text }} <i class="far fa-thumbs-up"></i></p>
-                        {% else %}
-                            <p>{{ answer.label }}) {{ answer.text }}</p>
-                        {% endif %}
+            {% else %}
+
+                    {% if question.question_picture %}
+                    <div class="row">
+                        <div class="col-md-10">
+                            <p class="ord_{{ question.question_order }}"><strong>{{ question.question_order }}.</strong> <i>{{ question.text }}</i></p>
+
+                        </div>
+                        <div class="col-md-2">
+                            <p><a title="{% trans 'Editar pregunta i respostes' %}" href="{% url 'question_update' question.id %}" class="btn btn-primary"><i class="fas fa-edit"></i></a> <button title="{% trans 'Eliminar pregunta' %}" id="{{ question.id }}" class="delete_button btn btn-danger"><i class="fas fa-backspace"></i></button> </p>
+
+                        </div>
                     </div>
-                </div>
-            </div>
-            {% endfor %}
+                    <div class="row">
+                        <div class="col-md-4">
+                            <img style="padding-left:20px; display: block; margin: auto;" src="/media/{{ question.question_picture }}">
+                        </div>
+                        <div class="col-md-7">
+                            {% for answer in question.sorted_answers_set %}
+
+                                    <div class="col-md-11">
+                                        {% if answer.is_correct %}
+                                            <p style="color:green;">{{ answer.label }}) {{ answer.text }} <i class="far fa-thumbs-up"></i></p>
+                                        {% else %}
+                                            <p>{{ answer.label }}) {{ answer.text }}</p>
+                                        {% endif %}
+                                    </div>
+
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="row">
+                        <div class="col-md-10">
+                            <p class="ord_{{ question.question_order }}"><strong>{{ question.question_order }}.</strong> <i>{{ question.text }}</i>
+                        </div>
+                        <div class="col-md-2">
+                            <a title="{% trans 'Editar pregunta i respostes' %}" href="{% url 'question_update' question.id %}" class="btn btn-primary"><i class="fas fa-edit"></i></a> <button title="{% trans 'Eliminar pregunta' %}" id="{{ question.id }}" class="delete_button btn btn-danger"><i class="fas fa-backspace"></i></button> </p>
+                        </div>
+                    </div>
+                        <div class="row">
+                        {% for answer in question.sorted_answers_set %}
+
+                                <div class="col-md-12">
+                                    <div class="ml-5">
+                                        {% if answer.is_correct %}
+                                            <p style="color:green;">{{ answer.label }}) {{ answer.text }} <i class="far fa-thumbs-up"></i></p>
+                                        {% else %}
+                                            <p>{{ answer.label }}) {{ answer.text }}</p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                        {% endfor %}
+                        </div>
+
+                    {% endif %}
+
+            {% endif %}
         {% endif %}
     </div>
     {% endfor %}

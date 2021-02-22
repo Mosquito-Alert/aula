@@ -415,7 +415,9 @@ def question_new(request, quiz_id=None):
 
             if question_picture != '':
                 copy(str(settings.BASE_DIR) + question_picture, settings.MEDIA_ROOT + "/question_pics/")
-                question.question_picture = 'question_pics/' + os.path.basename(question_picture)
+                question.question_picture = '/question_pics/' + os.path.basename(question_picture)
+            elif question_picture == '':
+                question.question_picture = None
 
             question.quiz = quiz
             question.save()
@@ -495,6 +497,12 @@ def question_update(request, pk=None):
     if pk:
         question = get_object_or_404(Question, pk=pk)
         answers = question.sorted_answers_set
+
+        if question.question_picture:
+            question_picture = question.question_picture.name
+        else:
+            question_picture = ''
+
         json_answers = json.dumps([{'id': a.id, 'label': a.label, 'text': a.text, 'is_correct': a.is_correct} for a in answers])
     form = QuestionForm(request.POST or None, instance=question)
     if request.POST:
@@ -502,6 +510,13 @@ def question_update(request, pk=None):
         if form.is_valid():
             question = form.save(commit=False)
             question.answers.all().delete()
+
+            if request.POST['question_picture'] != '' and request.POST['question_picture'] != question_picture:
+                copy(str(settings.BASE_DIR) + request.POST['question_picture'], settings.MEDIA_ROOT + "/question_pics/")
+                question.question_picture = '/question_pics/' + os.path.basename(request.POST['question_picture'])
+            elif request.POST['question_picture'] == '':
+                question.question_picture = None
+
             question.save()
             answers_obj = json.loads(json_answers)
             for a in answers_obj:

@@ -7,7 +7,7 @@
     <link href="{% static 'main/jQuery-File-Upload-9.28.0/css/jquery.fileupload-ui.css' %}" rel="stylesheet">
     <link href="{% static 'main/jQuery-File-Upload-9.28.0/css/jquery.fileupload.css' %}" rel="stylesheet">
     <link href="{% static 'main/jQuery-File-Upload-9.28.0/css/style.css' %}" rel="stylesheet">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   <link href="{% static 'main/jQuery-File-Upload-9.28.0/css/github/blueimp-gallery.min.css' %}" rel="stylesheet">
+    <link href="{% static 'main/jQuery-File-Upload-9.28.0/css/github/blueimp-gallery.min.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block title %}{% trans 'Afegir preguntes a una prova' %}{% endblock %}
@@ -29,6 +29,7 @@
             {{ form.text|as_crispy_field }}
           </div>
         </div>
+
         <div class="form-row">
             <div class="form-group col-md-4 mb-0">
                 {{ form.question_picture|as_crispy_field }}

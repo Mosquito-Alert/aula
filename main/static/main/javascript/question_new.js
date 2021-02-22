@@ -66,6 +66,7 @@ $(document).ready(function() {
     $(document).on('click', '.deleteFoto', function() {
         if( confirm("Eliminar la foto?") ){
             $("#gallery tbody").html('');
+
         }
     });
 

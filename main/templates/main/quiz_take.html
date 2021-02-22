@@ -138,6 +138,13 @@
             </ul>
         </div>
     </div>
+    {% if question.question_picture %}
+    <div class="row" style="margin-bottom: 40px;">
+        <div class="offset-md-2 col-md-8" style="height: auto;">
+            <a target="_blank" href="/media/{{ question.question_picture }}"><img style="display: block; margin: auto;" src="/media/{{ question.question_picture }}"></a>
+        </div>
+    </div>
+    {% endif %}
     <div class="row">
         <div class="col-md-1 my-auto">
             {% if previous_question %}
