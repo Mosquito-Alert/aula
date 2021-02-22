@@ -135,11 +135,19 @@ class QuizRun(models.Model):
             return last_run.run_number
         return 0
 
-    def is_done(self):
+    def all_questions_answered(self):
         for a in self.answers.all():
             if not a.answered:
                 return False
         return True
+
+    def is_done(self):
+        if not self.all_questions_answered():
+            return False
+        if self.date_finished is None:
+            return False
+        return True
+
 
     @property
     def n_runs(self):

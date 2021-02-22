@@ -174,7 +174,7 @@ def my_hub(request):
         response = redirect('/teacher_menu')
         return response
     if is_alum_test(this_user):
-        response = redirect('/alum_menu')
+        response = redirect('/group_menu')
         return response
     if is_group_test(this_user):
         response = redirect('/group_menu')
@@ -186,7 +186,7 @@ def teacher_menu(request):
         return render(request, 'main/teacher_menu.html', {})
     else:
         message = _("Estàs intentant accedir a una pàgina a la que no tens permís.")
-        go_back_to = "alum_menu"
+        go_back_to = "group_menu"
         return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
 
 
@@ -197,7 +197,7 @@ def admin_menu(request):
     else:
         message = _("Estàs intentant accedir a una pàgina a la que no tens permís.")
         if request.user.profile.is_alum:
-            go_back_to = "alum_menu"
+            go_back_to = "group_menu"
         elif request.user.profile.is_teacher:
             go_back_to = "teacher_menu"
         else:
@@ -206,7 +206,7 @@ def admin_menu(request):
 
 
 @login_required
-def alum_menu(request):
+def group_menu(request):
     this_user = request.user
     teach = this_user.profile.alum_teacher
     quizzes_in_progress_ids = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=True).values('quiz__id').distinct()
@@ -348,11 +348,11 @@ def quiz_take_endsummary(request, quizrun_id=None):
         past_runs = n_runs - 1
     else:
         message = _("Sembla que aquesta prova no existeix.")
-        go_back_to = "alum_menu"
+        go_back_to = "group_menu"
         return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
     if not quizrun.is_done:
         message = _("Sembla que aquesta prova no està completada.")
-        go_back_to = "alum_menu"
+        go_back_to = "group_menu"
         return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
     return render(request, 'main/quiz_take_endsummary.html', {'quizrun': quizrun, 'n_runs': n_runs, 'past_runs': past_runs})
 
@@ -371,11 +371,11 @@ def poll_result(request, quiz_id=None):
         quiz = get_object_or_404(Quiz, pk=quiz_id)
     else:
         message = _("No existeix aquesta prova.")
-        go_back_to = "alum_menu"
+        go_back_to = "group_menu"
         return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
     if not QuizRun.objects.filter(quiz=quiz).exists():
         message = _("No tens assignada aquesta prova, de manera que no la pots visualitzar.")
-        go_back_to = "alum_menu"
+        go_back_to = "group_menu"
         return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
 
     return render(request, 'main/poll_result.html', {'quiz': quiz})
@@ -388,11 +388,11 @@ def quiz_browse(request, quiz_id=None):
         quiz = get_object_or_404(Quiz, pk=quiz_id)
     else:
         message = _("No existeix aquesta prova.")
-        go_back_to = "alum_menu"
+        go_back_to = "group_menu"
         return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
     if not QuizRun.objects.filter(quiz=quiz).exists():
         message = _("No tens assignada aquesta prova, de manera que no la pots visualitzar.")
-        go_back_to = "alum_menu"
+        go_back_to = "group_menu"
         return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
 
     return render(request, 'main/quiz_browse.html', {'quiz': quiz})
@@ -545,18 +545,18 @@ def quiz_take_upload(request, quiz_id=None, run_id=None):
         if this_user.profile.group_teacher.id != quiz.author.id:
             #alum is trying to access a quiz created by someone that is not his tutor
             message = _("Estàs intentant accedir a una prova creada per un professor que no és el teu tutor.")
-            go_back_to = "alum_menu"
+            go_back_to = "group_menu"
             return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to':go_back_to })
     else:
         message = _("Aquesta prova no existeix!")
-        go_back_to = "alum_menu"
+        go_back_to = "group_menu"
         return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
     if run_id:
         quiz_run = get_object_or_404(QuizRun,pk=run_id)
         done = quiz_run.is_done()
         if done:
             message = _("Aquesta prova està marcada com a finalitzada, o sigui que no la pots modificar. Si vols, la pots repetir.")
-            go_back_to = "alum_menu"
+            go_back_to = "group_menu"
             return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
 
     return render(request, 'main/quiz_take_upload.html',{'quiz': quiz, 'quiz_run': quiz_run, 'quiz_run_done': done, 'question':question})
@@ -575,13 +575,14 @@ def quiz_take(request, quiz_id=None, question_number=1, run_id=None):
     #current_progress = 0
     step_width = 0
     done = False
+    all_questions_answered = False
     this_user = request.user
     if quiz_id:
         quiz = get_object_or_404(Quiz, pk=quiz_id)
         if this_user.profile.group_teacher.id != quiz.author.id:
             #alum is trying to access a quiz created by someone that is not his tutor
             message = _("Estàs intentant accedir a una prova creada per un professor que no és el teu tutor.")
-            go_back_to = "alum_menu"
+            go_back_to = "group_menu"
             return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to':go_back_to })
         question = Question.objects.get(quiz=quiz,question_order=question_number)
         questions = quiz.sorted_questions_set
@@ -603,13 +604,14 @@ def quiz_take(request, quiz_id=None, question_number=1, run_id=None):
         done = quiz_run.is_done()
         if done:
             message = _("Aquesta prova està marcada com a finalitzada, o sigui que no la pots modificar. Si vols, la pots repetir.")
-            go_back_to = "alum_menu"
+            go_back_to = "group_menu"
             return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
 
     user_input = QuizRunAnswers.objects.get(question=question, quizrun=quiz_run)
 
     completed_questions = QuizRunAnswers.objects.filter(quizrun=quiz_run).filter(answered=True).values('question__id')
     completed_questions_list = [a['question__id'] for a in completed_questions]
+    all_questions_answered = quiz_run.all_questions_answered()
 
     return render(request, 'main/quiz_take.html',
                   {
@@ -625,6 +627,7 @@ def quiz_take(request, quiz_id=None, question_number=1, run_id=None):
                       'questions_total': questions_total,
                       'questions': questions,
                       'completed_questions_list': completed_questions_list,
+                      'all_questions_answered': all_questions_answered
                   })
 
 
@@ -638,12 +641,12 @@ def quiz_start(request, pk=None):
         quiz = get_object_or_404(Quiz, pk=pk)
         if not quiz.published:
             message = _("Aquesta prova no està publicada, no la pots començar.")
-            go_back_to = "alum_menu"
+            go_back_to = "group_menu"
             return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
         if this_user.profile.group_teacher.id != quiz.author.id:
             #group is trying to start a quiz created by someone that is not his tutor
             message = _("Estàs intentant començar una prova creada per un professor que no és el teu tutor.")
-            go_back_to = "alum_menu"
+            go_back_to = "group_menu"
             return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to':go_back_to })
         questions_total = quiz.questions.all().count()
         last_quizrun = QuizRun.objects.filter(taken_by=this_user).filter(quiz=quiz).order_by('-run_number').first()

@@ -121,6 +121,10 @@ $(document).ready( function () {
 
     user_input_to_ui(user_input);
 
+    if(all_questions_answered == true){
+        showFinishButton();
+    }
+
     $('#done-button').click(function(){
         var message = "Estàs a punt de finalitzar la prova. Si continues, no la podràs modificar més (tot i que pots repetir-la més tard) i rebràs el resultat en pantalla. Vols continuar?";
         confirmDialog(message, run_id);

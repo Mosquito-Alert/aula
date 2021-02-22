@@ -225,6 +225,10 @@
     {% if user_input.chosen_answer_id %}
     user_input.chosen_answer_id = {{ user_input.chosen_answer_id }};
     {% endif %}
+    var all_questions_answered = false;
+    {% if all_questions_answered %}
+    all_questions_answered = true;
+    {% endif %}
 </script>
 <script src="{% static 'main/csrf_utils.js' %}"></script>
 <script src="{% static 'main/cookies.js' %}"></script>
