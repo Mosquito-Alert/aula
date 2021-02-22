@@ -141,7 +141,9 @@
     {% if question.question_picture %}
     <div class="row" style="margin-bottom: 40px;">
         <div class="offset-md-2 col-md-8" style="height: auto;">
-            <a target="_blank" href="/media/{{ question.question_picture }}"><img style="display: block; margin: auto;" src="/media/{{ question.question_picture }}"></a>
+            <a target="_blank" href="/media/{{ question.question_picture }}">
+                <img class="img-fluid" style="display: block; margin: auto;" src="/media/{{ question.question_picture }}">
+            </a>
         </div>
     </div>
     {% endif %}
