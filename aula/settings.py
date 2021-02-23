@@ -42,13 +42,12 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'django.contrib.gis',
     'rest_framework',
-    'bootstrap4',
     'crispy_forms',
     'main',
     'imagekit'
 ]
 
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
