@@ -1,0 +1,48 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block extra_css %}
+<link href="//cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css" rel="stylesheet">
+<style>
+    tr.row-disabled{
+        color: gray !important;
+    }
+
+    .row{
+        padding-right: 15px;
+        margin-bottom: 2%;
+    }
+</style>
+{% endblock %}
+
+{% block title %}{% trans 'Llistat enquestas i tests' %}{% endblock %}
+
+{% block main_jumbo %}
+    <img src="{% static 'main/icons/noun_solution_2998552.svg' %}" width="10%"> {% trans 'Gràfica de resultats' %}
+{% endblock %}
+{% block sub_jumbo %}{{ quiz.name }}{% endblock %}
+{% block main %}
+<div class="container">
+    <table class="table table-striped table-bordered" id="test_list" style="width:100%;"></table>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="//cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+<script src="{% static 'main/javascript/datatable_language_options.js' %}"></script>
+<script>
+    {% get_current_language as LANGUAGE_CODE %}
+    var table_language = {% if LANGUAGE_CODE == 'ca' %} table_ca {% else %} table_es {% endif %};
+    var _test_list_url = '{% url 'quiz_datatable_results' %}';
+    var _poll_results = '{% url 'poll_result' 0 %}';
+    var _test_results = '{% url 'test_result' 0 %}';
+
+</script>
+<script src="{% static 'main/csrf_utils.js' %}"></script>
+<script src="{% static 'main/cookies.js' %}"></script>
+<script src="{% static 'main/javascript/quiz_results.js' %}"></script>
+<script>
+
+</script>
+{% endblock %}

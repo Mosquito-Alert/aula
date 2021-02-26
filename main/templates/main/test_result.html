@@ -1,0 +1,77 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% load i18n %}
+{% block title %}{% trans 'Resultats enquesta' %}{% endblock %}
+
+{% block main_jumbo %}<img src="{% static 'main/icons/noun_test_3271143.svg' %}" width="10%"> {% trans 'Resultats test' %} - {{ quiz.name }}{% endblock %}
+{% block sub_jumbo %}{% endblock %}
+
+{% block main %}
+<div class="container">
+    {% for question in quiz.sorted_questions_set %}
+    <div id="question_{{ question.id }}" class="mb-3">
+        {% if question.doc_link %}
+            <div class="row">
+                <div class="col-md-12">
+                    <div>
+                        <p class="ord_{{ question.question_order }}"><strong>{{ question.question_order }}.</strong> <i>{{ question.text }}</i> </p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="ml-5">
+                        <p class="ord_{{ question.question_order }}"><a href="{{ question.doc_link }}" target="_blank">{{ question.doc_link }}</a></p>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="row">
+                <div class="col-md-12">
+                    <div>
+                        {% if quiz.is_test %}
+                        <p class="ord_{{ question.question_order }}"><strong>{{ question.question_order }}.</strong> <i>{{ question.text }}</i> </p>
+                        {% else %}
+                        <p class="ord_{{ question.question_order }}"><strong>{{ question.question_order }}.</strong> <i>{{ question.text }}</i> </p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            {% if question.question_picture %}
+                <div class="row">
+                    <div class="col-md-4">
+                        <img class="img-fluid" style="padding-left:20px; display: block; margin: auto; width: 300px;" src="/media{{ question.question_picture }}">
+                    </div>
+                    <div class="col-md-8">
+                        {% for answer in question.sorted_answers_set %}
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="ml-5">
+                                        <p>{{ answer.label }}) {{ answer.text }} ({{ answer.how_many_times_answered }}/{{ answer.question.total_number_of_answers_of_question }})<div class="progress"><div class="progress-bar" role="progressbar" style="width:{{ answer.answered_by_perc }}%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">{{ answer.answered_by_perc }}%</div></div> </p>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% else %}
+                {% for answer in question.sorted_answers_set %}
+                    <div class="row">
+
+                        <div class="col-md-12">
+                            <div class="ml-5">
+                                <p>{{ answer.label }}) {{ answer.text }} ({{ answer.how_many_times_answered }}/{{ answer.question.total_number_of_answers_of_question }})<div class="progress"><div class="progress-bar" role="progressbar" style="width:{{ answer.answered_by_perc }}%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">{{ answer.answered_by_perc }}%</div></div> </p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+
+
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

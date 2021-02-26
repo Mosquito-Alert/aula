@@ -371,11 +371,11 @@ def poll_result(request, quiz_id=None):
         quiz = get_object_or_404(Quiz, pk=quiz_id)
     else:
         message = _("No existeix aquesta prova.")
-        go_back_to = "group_menu"
+        go_back_to = "quiz_results"
         return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
     if not QuizRun.objects.filter(quiz=quiz).exists():
-        message = _("No tens assignada aquesta prova, de manera que no la pots visualitzar.")
-        go_back_to = "group_menu"
+        message = _("El test seleccionat no l'ha realitzat cap grup i encara no té resultats.")
+        go_back_to = "quiz_results"
         return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
 
     return render(request, 'main/poll_result.html', {'quiz': quiz})
@@ -401,14 +401,17 @@ def quiz_browse(request, quiz_id=None):
 def question_new(request, quiz_id=None):
     quiz = None
     json_answers = None
-    question_picture = None
+    question_picture = ''
     if quiz_id:
         quiz = get_object_or_404(Quiz, pk=quiz_id)
     else:
         raise forms.ValidationError("No existeix aquesta prova")
     if request.method == 'POST':
         form = QuestionForm(request.POST)
-        question_picture = request.POST.get('question_picture')
+        if request.POST.get('question_picture'):
+            question_picture = request.POST.get('question_picture')
+        else:
+            question_picture = ''
         json_answers = request.POST.get('answers_json','')
         if form.is_valid():
             question = form.save(commit=False)
@@ -511,11 +514,12 @@ def question_update(request, pk=None):
             question = form.save(commit=False)
             question.answers.all().delete()
 
-            if request.POST['question_picture'] != '' and request.POST['question_picture'] != question_picture:
-                copy(str(settings.BASE_DIR) + request.POST['question_picture'], settings.MEDIA_ROOT + "/question_pics/")
-                question.question_picture = '/question_pics/' + os.path.basename(request.POST['question_picture'])
-            elif request.POST['question_picture'] == '':
-                question.question_picture = None
+            if 'question_picture' in request.POST:
+                if request.POST['question_picture'] != '' and request.POST['question_picture'] != question_picture:
+                    copy(str(settings.BASE_DIR) + request.POST['question_picture'], settings.MEDIA_ROOT + "/question_pics/")
+                    question.question_picture = '/question_pics/' + os.path.basename(request.POST['question_picture'])
+                elif request.POST['question_picture'] == '':
+                    question.question_picture = None
 
             question.save()
             answers_obj = json.loads(json_answers)
@@ -1573,4 +1577,50 @@ def quiz_graphic_results(request, idQuizz):
 
 
     return render(request, 'main/quiz_results_graphics.html', {'grupos_tests': grupos_tests, 'quiz': quiz})
+
+
+@login_required
+def quiz_results(request):
+
+    return render(request, 'main/quiz_results.html')
+
+@api_view(['GET'])
+def quiz_datatable_results(request):
+    this_user = request.user
+
+    if request.method == 'GET':
+
+        search_field_list = ('name', 'author.username')
+        field_translation_list = {'name': 'name', 'author.username': 'author__username', 'type': 'type__type_text'}
+        sort_translation_list = {'name': 'name', 'author.username': 'author__username', 'type': 'type__type_text'}
+
+        if this_user.is_superuser:
+            #queryset = Quiz.objects.select_related('author').all()
+            queryset = Quiz.objects.filter(Q(type=0) | Q(type=2))
+        elif this_user.profile.is_teacher:
+            queryset = Quiz.objects.select_related('author').filter(author=this_user)
+        else:
+            pass  # this should not happen
+        response = generic_datatable_list_endpoint(request, search_field_list, queryset, QuizSerializer, field_translation_list, sort_translation_list)
+    return response
+
+
+
+@login_required
+def test_result(request, quiz_id=None):
+    this_user = request.user
+    quiz = None
+    if quiz_id:
+        quiz = get_object_or_404(Quiz, pk=quiz_id)
+    else:
+        message = _("No existeix aquesta prova.")
+        go_back_to = "quiz_results"
+        return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
+    if not QuizRun.objects.filter(quiz=quiz).exists():
+        message = _("El test seleccionat no l'ha realitzat cap grup i encara no té resultats.")
+        go_back_to = "quiz_results"
+        return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
+
+    return render(request, 'main/test_result.html', {'quiz': quiz})
+
 
