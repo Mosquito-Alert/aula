@@ -1,5 +1,4 @@
 $(document).ready( function () {
-
     var table = $('#test_list').DataTable( {
         'ajax':{
             'url': _test_list_url,
@@ -66,24 +65,18 @@ $(document).ready( function () {
         ]
     });
 
-        $('#test_list tbody').on('click', 'td button.check_results', function () {
-            var tr = $(this).closest('tr');
-            var row = table.row( tr );
-            var quiz_id = row.data().id;
-            var testType = row.data().type;
+    $('#test_list tbody').on('click', 'td button.check_results', function () {
+        var tr = $(this).closest('tr');
+        var row = table.row( tr );
+        var quiz_id = row.data().id;
+        var testType = row.data().type;
 
-            if (testType === 0){ //Test
-                console.log(_test_results);
-                window.location.href = _test_results.replace('0', quiz_id); + '/';
-            }else if(testType === 2){ //POLL
-                console.log(_poll_results)
-                window.location.href = _poll_results.replace('0', quiz_id); + '/';
-            }
-
+        if (testType === 0){ //Test
+            console.log(_test_results);
+            window.location.href = _test_results.replace('0', quiz_id); + '/';
+        }else if(testType === 2){ //POLL
+            console.log(_poll_results)
+            window.location.href = _poll_results.replace('0', quiz_id); + '/';
+        }
     });
-
-
-
-
-
 });

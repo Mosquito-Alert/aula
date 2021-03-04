@@ -90,6 +90,7 @@ urlpatterns = [
     path('makepdf', views.group_credentials_list, name='generatePDF'),
     path('quiz/graphic_results/<int:idQuizz>/', views.quiz_graphic_results, name='quiz_graphic_results'),
     path('quiz/results/', views.quiz_results, name='quiz_results'),
-    path('quiz/datatablelist/', views.quiz_datatable_results, name='quiz_datatable_results'),
+    path('quiz/datatableresults/', views.quiz_datatable_results, name='quiz_datatable_results'),
     path('quiz/test_result/<int:quiz_id>/', views.test_result, name='test_result'),
+    path('upload_file/solutions/', views.upload_file_solutions, name='upload_file_solutions'),
 ]

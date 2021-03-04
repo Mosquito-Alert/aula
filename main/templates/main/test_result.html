@@ -1,13 +1,49 @@
 {% extends "main/base.html" %}
 {% load static %}
 {% load i18n %}
-{% block title %}{% trans 'Resultats enquesta' %}{% endblock %}
+{% block title %}{% trans 'Resultats test' %}{% endblock %}
 
 {% block main_jumbo %}<img src="{% static 'main/icons/noun_test_3271143.svg' %}" width="10%"> {% trans 'Resultats test' %} - {{ quiz.name }}{% endblock %}
 {% block sub_jumbo %}{% endblock %}
 
 {% block main %}
 <div class="container">
+    <div class="row alert alert-success">
+        <div class="col-md-6"><h2><span class="badge badge-info">{{ quiz.name }}</span> - {{ quiz.author.username }}</h2></div>
+        <div class="col-md-4" style="text-align:right;">Completat {{ quiz.taken_by_n_people }}/{{ quiz.author.profile.tutored_groups }} grups</div>
+        <div class="col-md-2">
+            {% if quiz.taken_by_n_people %}
+                <p>
+                    <a href="{% url 'quiz_graphic_results' idQuizz=quiz.id %}" id="{{ quiz.id }}" type="button" class="graphButton btn btn-info">Veure gràfica de resultats</a>
+                </p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="row alert alert-success ml-5">
+        <table style="width:100%;">
+            <tr>
+                <th></th>
+                <th>Grup</th>
+                <th>Millor puntuació</th>
+                <th>Millor intent</th>
+                <th>Prova finalitzada</th>
+            </tr>
+            {% for quizrun in quiz.best_runs %}
+            <tr>
+                <td>
+                    <img src="{{ quizrun.taken_by.profile.group_picture_thumbnail.url }}">
+                </td>
+                <td>{{ quizrun.taken_by.profile.group_public_name }}</td>
+                <td>{{ quizrun.questions_right }}/{{ quizrun.questions_number }}</td>
+                <td>{{ quizrun.run_number }}</td>
+                <td>{{ quizrun.date_finished }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+
     {% for question in quiz.sorted_questions_set %}
     <div id="question_{{ question.id }}" class="mb-3">
         {% if question.doc_link %}

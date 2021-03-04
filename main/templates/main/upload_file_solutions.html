@@ -1,0 +1,57 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% load i18n %}
+{% load imagekit %}
+{% block title %}{% trans 'Resum dels arxius pujats' %}{% endblock %}
+
+{% block main_jumbo %}<img src="{% static 'main/icons/noun_solution_2998552.svg' %}" width="10%"> {% trans 'Resum dels arxius pujats' %}{% endblock %}
+{% block sub_jumbo %}{% endblock %}
+{% block main %}
+<div class="container">
+    {% for quiz in grupos_profe %}
+    <div class="row alert alert-success">
+        <div class="col-md-6"><h2><span class="badge badge-info">{{ quiz.nomActivitat }}</span> - {{ quiz.autor }}</h2></div>
+        <div class="col-md-6" style="text-align:right;"><span>{% trans 'La prova ha estat pujada per' %} {{ quiz.realitzatPer }} {% trans 'grups' %}</span></div>
+    </div>
+
+    <div class="row alert alert-success ml-5">
+
+        <table style="width:100%;">
+            <tr style="text-align: center;">
+                <th></th>
+                <th>{% trans 'Grup' %}</th>
+                <th>{% trans 'Arxiu pujat' %}</th>
+                <th>{% trans 'Link a l\'arxiu' %}</th>
+                <th>{% trans 'Data pujada arxiu' %}</th>
+            </tr>
+            {% for quizrun in quiz.grupos %}
+                <tr style="text-align: center;">
+                    <td>
+                        <img src="{{ quizrun.imagenGrupo }}">
+                    </td>
+                    <td>{{ quizrun.nombreGrupo }}</td>
+                    {% if quizrun.uploadedFileFlag %}
+                        <td><i class="fas fa-check" style="color: green;"></i></td>
+                    {% else %}
+                        <td><i class="fas fa-times" style="color: red;"></i></td>
+                    {% endif %}
+                    {% if quizrun.linkFile %}
+                        <td><a href="{{ quizrun.linkFile.url }}">{% trans 'Verue arxiu' %}</a></td>
+                    {% else %}
+                        <td> - </td>
+                    {% endif %}
+                    {% if quizrun.uploadDate %}
+                        <td>{{ quizrun.uploadDate }}</td>
+                    {% else %}
+                        <td> - </td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}
+{% block extra_js %}
+{% endblock %}

@@ -1582,7 +1582,7 @@ def quiz_graphic_results(request, idQuizz):
 @login_required
 def quiz_results(request):
 
-    return render(request, 'main/quiz_results.html')
+     return render(request, 'main/quiz_results.html')
 
 @api_view(['GET'])
 def quiz_datatable_results(request):
@@ -1598,7 +1598,7 @@ def quiz_datatable_results(request):
             #queryset = Quiz.objects.select_related('author').all()
             queryset = Quiz.objects.filter(Q(type=0) | Q(type=2))
         elif this_user.profile.is_teacher:
-            queryset = Quiz.objects.select_related('author').filter(author=this_user)
+            queryset = Quiz.objects.select_related('author').filter(author=this_user).filter(Q(type=0) | Q(type=2))
         else:
             pass  # this should not happen
         response = generic_datatable_list_endpoint(request, search_field_list, queryset, QuizSerializer, field_translation_list, sort_translation_list)
@@ -1622,5 +1622,89 @@ def test_result(request, quiz_id=None):
         return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
 
     return render(request, 'main/test_result.html', {'quiz': quiz})
+
+
+@login_required
+def upload_file_solutions(request):
+    this_user = request.user
+    p = []
+    uploadedFileFlag = False
+
+    if this_user.is_superuser:
+        my_quizzes = Quiz.objects.filter(type=3).order_by('name')
+        # Recorrer cada upload File test
+        for idQuizz in my_quizzes:
+            arrayGrupos = []
+            grupos_profe = User.objects.filter(profile__group_teacher=idQuizz.author).order_by('profile__group_public_name')
+
+            #Afegir flag per saber quins grups han fet la entrega
+            for grupo in grupos_profe:
+                quizrun = QuizRun.objects.filter(quiz=idQuizz).filter(taken_by=grupo).exclude(date_finished=None)
+                upload_done = quizrun.exists()
+
+                if upload_done:
+                    arrayGrupos.append({
+                        'imagenGrupo': grupo.profile.group_picture_thumbnail.url,
+                        'nombreGrupo': grupo.profile.group_public_name,
+                        'uploadedFileFlag': True,
+                        'linkFile': quizrun[0].uploaded_file,
+                        'uploadDate': quizrun[0].date_finished
+                    })
+                else:
+                    arrayGrupos.append({
+                        'imagenGrupo': grupo.profile.group_picture_thumbnail.url,
+                        'nombreGrupo': grupo.profile.group_public_name,
+                        'uploadedFileFlag': False,
+                        'linkFile': None,
+                        'uploadDate': None
+                    })
+            #Crear array amb informacio de cada prova
+            p.append({
+                'nomActivitat': idQuizz.name,
+                'autor': idQuizz.author.username,
+                'realitzatPer': str(idQuizz.taken_by_n_people) + '/' + str(idQuizz.author.profile.tutored_groups),
+                'grupos': arrayGrupos
+            })
+    elif this_user.profile and this_user.profile.is_teacher:
+        my_quizzes = Quiz.objects.filter(author=this_user).filter(type=3).order_by('name')
+
+        for idQuizz in my_quizzes:
+            arrayGrupos = []
+            grupos_profe = User.objects.filter(profile__group_teacher=idQuizz.author).order_by('profile__group_public_name')
+
+            #Afegir flag per saber quins grups han fet la entrega
+            for grupo in grupos_profe:
+                quizrun = QuizRun.objects.filter(quiz=idQuizz).filter(taken_by=grupo).exclude(date_finished=None)
+                upload_done = quizrun.exists()
+
+                if upload_done:
+                    arrayGrupos.append({
+                        'imagenGrupo': grupo.profile.group_picture_thumbnail.url,
+                        'nombreGrupo': grupo.profile.group_public_name,
+                        'uploadedFileFlag': True,
+                        'linkFile': quizrun[0].uploaded_file,
+                        'uploadDate': quizrun[0].date_finished
+                    })
+                else:
+                    arrayGrupos.append({
+                        'imagenGrupo': grupo.profile.group_picture_thumbnail.url,
+                        'nombreGrupo': grupo.profile.group_public_name,
+                        'uploadedFileFlag': False,
+                        'linkFile': None,
+                        'uploadDate': None
+                    })
+            #Crear array amb informacio de cada prova
+            p.append({
+                'nomActivitat': idQuizz.name,
+                'autor': idQuizz.author.username,
+                'realitzatPer': str(idQuizz.taken_by_n_people) + '/' + str(idQuizz.author.profile.tutored_groups),
+                'grupos': arrayGrupos
+            })
+    else:
+        message = _("Estàs intentant accedir a una pàgina a la que no tens permís.")
+        go_back_to = "my_hub"
+        return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
+    return render(request, 'main/upload_file_solutions.html', {'my_quizzes': my_quizzes, 'grupos_profe': p})
+
 
 
