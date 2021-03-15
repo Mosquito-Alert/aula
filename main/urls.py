@@ -1,3 +1,5 @@
+from django.conf import settings
+from django.conf.urls.static import static
 from django.urls import path, include
 from django.conf.urls import url
 from rest_framework import routers
@@ -11,6 +13,7 @@ router.register(r'quizzes', views.QuizzesViewSet, basename="quizzes")
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('i18n/', include('django.conf.urls.i18n')),
     path('my_hub/', views.my_hub, name='my_hub'),
     path('api/',include(router.urls)),
     path('teacher_menu', views.teacher_menu, name='teacher_menu'),
