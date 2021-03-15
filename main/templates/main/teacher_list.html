@@ -18,7 +18,7 @@
 {% endblock %}
 {% block title %}{% trans 'Llistar/Editar/Esborrar professors' %}{% endblock %}
 
-{% block main_jumbo %}<img src="{% static 'main/icons/noun_Teacher_36665.svg' %}" width="10%"> {% trans 'Llista de professors' %}{% endblock %}
+{% block main_jumbo %}<img class="img_icons" src="{% static 'main/icons/noun_Teacher_36665.svg' %}"> {% trans 'Llista de professors' %}{% endblock %}
 {% block sub_jumbo %}{% endblock %}
 
 {% block main %}
@@ -37,8 +37,18 @@
     var table_language = {% if LANGUAGE_CODE == 'ca' %} table_ca {% else %} table_es {% endif %};
     var _teacher_list_url = '{% url 'teachers_datatable_list' %}';
     var _teacher_update_url = '{% url 'teacher_update_no_id' %}';
+
 </script>
 <script src="{% static 'main/csrf_utils.js' %}"></script>
 <script src="{% static 'main/cookies.js' %}"></script>
 <script src="{% static 'main/javascript/teacher_list.js' %}"></script>
+<script>
+    $('#languageSelector').change(function (){
+            $(this).closest('form').submit();
+        });
+        {% get_current_language as LANGUAGE_CODE %}
+        var currentLang = '{{ LANGUAGE_CODE }}';
+        $("#languageSelector option[value='" + currentLang + "']").attr("selected","selected");
+
+</script>
 {% endblock %}
