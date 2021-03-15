@@ -128,12 +128,13 @@
                 {% csrf_token %}
                 <div class="dropdown">
                     <button class="dropbtn" value="{{ LANGUAGE_CODE }}">
-                        <img style="width: 30px;" src="/media/flags/{{ LANGUAGE_CODE }}.svg"  alt="{{ LANGUAGE_CODE }}"> {{ LANGUAGE_CODE }} <span class="caret"></span></button>
+                        <img style="width: 30px;" src="{% static 'main/icons/flags/' %}{{ LANGUAGE_CODE }}.svg"  alt="{{ LANGUAGE_CODE }}"> {{ LANGUAGE_CODE }} <span class="caret"></span></button>
+
                     <div class="dropdown-content">
                         {% for lang in LANGUAGES %}
                             <a class="languageSelector" href="#" value="{{ lang.0 }}">
 
-                                <img style="width: 30px;" src="/media/flags/{{ lang.0 }}.svg" alt="{{ lang.1 }}">
+                                <img style="width: 30px;" src="{% static 'main/icons/flags/' %}{{ lang.0 }}.svg" alt="{{ lang.1 }}">
                                     {{ lang.1 }}
                             </a>
                         {% endfor %}
