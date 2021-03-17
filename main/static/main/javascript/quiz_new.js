@@ -38,4 +38,9 @@ $(document).ready( function () {
     $('#id_author').change(function(){
         load_reqs($(this).val());
     });
+
+    tinymce.init({
+      selector: '#html_header',
+      plugins: 'image'
+    });
 });

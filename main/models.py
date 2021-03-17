@@ -31,6 +31,7 @@ QUIZ_TYPES = (
 class Quiz(models.Model):
     author = models.ForeignKey(User, null=True, on_delete=models.CASCADE, related_name='quizzes')
     name = models.CharField(max_length=255)
+    html_header = models.TextField(blank=True, null=True)
     published = models.BooleanField(default=False)
     type = models.IntegerField(choices=QUIZ_TYPES)
     # To take this quiz, you need to previously complete 'requisite'

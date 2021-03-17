@@ -10,11 +10,17 @@
 <div class="container">
     <form class="form" action="{% url 'quiz_new' %}" method="post">
         {% csrf_token %}
+        {{ form.media }}
         <div class="form-group mb-3">
             <img src="{% static 'main/icons/noun_test_3271143.svg' %}" width="5%">
             <label for="{{ form.name.id_for_label }}">{% trans 'Nom de la prova' %}:</label>
             {{ form.name }}
             {{ form.name.errors }}
+        </div>
+        <div class="form-group mb-3">
+            <label for="{{ form.html_header.id_for_label }}">{% trans 'Capçalera de la prova' %}:</label>
+            {{ form.html_header }}
+            {{ form.html_header.errors }}
         </div>
         <div class="form-group mb-3">
             <img src="{% static 'main/icons/noun_Teacher_36665.svg' %}" width="5%">

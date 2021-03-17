@@ -96,4 +96,5 @@ urlpatterns = [
     path('quiz/datatableresults/', views.quiz_datatable_results, name='quiz_datatable_results'),
     path('quiz/test_result/<int:quiz_id>/', views.test_result, name='test_result'),
     path('upload_file/solutions/', views.upload_file_solutions, name='upload_file_solutions'),
+    path('tinymce/', include('tinymce.urls')),
 ]
