@@ -43,6 +43,11 @@
         </table>
     </div>
 
+    {% if quiz.html_header %}
+    <div class="container">
+        {{ quiz.html_header |safe }}
+    </div>
+    {% endif %}
 
     {% for question in quiz.sorted_questions_set %}
     <div id="question_{{ question.id }}" class="mb-3">

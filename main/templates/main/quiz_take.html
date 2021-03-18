@@ -117,6 +117,14 @@
 
 {% block main %}
 <div class="col-xs-12" style="height:50px;"></div>
+{% if quiz.html_header %}
+<div class="container">
+    {{ quiz.html_header |safe }}
+</div>
+<div class="container">
+    <hr>
+</div>
+{% endif %}
 <div class="container">
     <!--<div class="row mb-3">
         <div class="progress col-md-12">

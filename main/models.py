@@ -145,8 +145,6 @@ class QuizRun(models.Model):
     def is_done(self):
         if not self.all_questions_answered():
             return False
-        if self.date_finished is None:
-            return False
         return True
 
 

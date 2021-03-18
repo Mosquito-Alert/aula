@@ -11,6 +11,7 @@ from tinymce.widgets import TinyMCE
 
 class QuizForm(ModelForm):
     name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), required=True)
+    html_header = forms.CharField(widget=TinyMCE(attrs={'cols': 80, 'rows': 20}))
     published = forms.BooleanField(label=_("Prova publicada?"),widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}), required=False)
     requisite = forms.ModelChoiceField(label=_("Cal completar la prova del desplegable per poder fer aquesta prova"), queryset=Quiz.objects.all().order_by('name'), widget=forms.Select(attrs={'class': 'form-control'}), required=False)
 
@@ -27,12 +28,13 @@ class QuizForm(ModelForm):
 
     class Meta:
         model = Quiz
-        fields = ['name', 'published', 'requisite']
+        fields = ['name', 'html_header', 'published', 'requisite']
 
 
 
 class QuizNewForm(ModelForm):
     name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), required=True)
+    html_header = forms.CharField(widget=TinyMCE(attrs={'cols': 80, 'rows': 20}))
     published = forms.BooleanField(label=_("Prova publicada?"),widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}), required=False)
     requisite = forms.ModelChoiceField(label=_("Cal completar la prova del desplegable per poder fer aquesta prova"),queryset=Quiz.objects.all().order_by('name'),widget=forms.Select(attrs={'class': 'form-control'}), required=False)
     type = forms.ChoiceField(choices=QUIZ_TYPES, widget=forms.Select(attrs={'class': 'form-control'}))
@@ -50,7 +52,7 @@ class QuizNewForm(ModelForm):
 
     class Meta:
         model = Quiz
-        fields = ['name', 'published', 'requisite', 'type']
+        fields = ['name', 'published', 'html_header', 'requisite', 'type']
 
 
 class QuizAdminForm(ModelForm):

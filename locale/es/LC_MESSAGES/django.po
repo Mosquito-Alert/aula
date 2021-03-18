@@ -367,7 +367,7 @@ msgstr "Espacio profesorado"
 #: main/templates/main/base.html:73 main/templates/main/base.html:75
 #: main/templates/main/base.html:77
 msgid "Benvingut"
-msgstr "Bienvenidos"
+msgstr "Bienvenido"
 
 #: main/templates/main/base.html:81
 msgid "Tancar sessió"

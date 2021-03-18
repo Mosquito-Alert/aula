@@ -7,6 +7,11 @@
 {% block sub_jumbo %}{% endblock %}
 
 {% block main %}
+{% if quiz.html_header %}
+<div class="container">
+    {{ quiz.html_header |safe }}
+</div>
+{% endif %}
 <div class="container">
     {% for question in quiz.sorted_questions_set %}
     <div id="question_{{ question.id }}" class="mb-3">

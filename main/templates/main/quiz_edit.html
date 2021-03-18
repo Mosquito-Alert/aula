@@ -84,9 +84,14 @@
 <div class="container">
     <hr>
 </div>
+{% if quiz.html_header %}
 <div id="rendered_header" class="container">
     {{ quiz.html_header |safe }}
 </div>
+<div class="container">
+    <hr>
+</div>
+{% endif %}
 <div id="questions" class="container">
     {% for question in quiz.sorted_questions_set %}
     <div id="question_{{ question.id }}" class="mb-5">
@@ -193,15 +198,10 @@
     var _question_poll_new_url  = '{% url 'question_poll_new' %}';
     var _question_upload_new_url = '{% url 'question_upload_new' %}';
     var _question_delete_url = '{% url 'questions-list' %}';
-    var _title_warning_dialog = "{% trans 'Confirmar acció' %}";
-    var _message_warning_dialog = "{% trans 'Un cop hagis publicat la prova no la podràs modificar, estàs completament segur que vols continuar?' %}";
-    var _aff_warning_dialog = "{% trans 'Si' %}";
-    var _neg_warning_dialog = "{% trans 'No' %}";
 </script>
 <script src="{% static 'main/csrf_utils.js' %}"></script>
 <script src="{% static 'main/cookies.js' %}"></script>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="{% static 'main/javascript/quiz_edit.js' %}"></script>
-<script src="{% static 'main/javascript/quiz_edit_warning.js' %}"></script>
 {% endblock %}
