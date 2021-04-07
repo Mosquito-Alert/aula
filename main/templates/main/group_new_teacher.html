@@ -47,6 +47,9 @@
 </div>
 {% endblock %}
 {% block extra_js %}
+<script>
+  var _random_url = "{% url 'get_random_group_name' LANGUAGE_CODE %}";
+</script>
 <script src="{% static 'main/javascript/utils.js' %}"></script>
 <script src="{% static 'main/csrf_utils.js' %}"></script>
 <script src="{% static 'main/jQuery-File-Upload-9.28.0/js/vendor/jquery.ui.widget.js' %}"></script>
