@@ -105,7 +105,7 @@
     </div>
 </script>
 <script>
-    var init_answers_text = '{{ json_answers|safe }}';
+    var init_answers_text = '{{ json_answers|escapejs }}';
     try{
         init_answers = JSON.parse(init_answers_text);
     }catch(error){

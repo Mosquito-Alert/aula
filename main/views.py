@@ -647,7 +647,8 @@ def quiz_start(request, pk=None):
             message = _("Aquesta prova no està publicada, no la pots començar.")
             go_back_to = "group_menu"
             return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
-        if this_user.profile.group_teacher.id != quiz.author.id:
+        if quiz.author is not None:
+          if this_user.profile.group_teacher.id != quiz.author.id:
             #group is trying to start a quiz created by someone that is not his tutor
             message = _("Estàs intentant començar una prova creada per un professor que no és el teu tutor.")
             go_back_to = "group_menu"
