@@ -249,9 +249,10 @@ class Answer(models.Model):
 
 
 class Word(models.Model):
-    word = models.CharField('A word', max_length=50, unique=True, db_index=True)
+    word = models.CharField('A word', max_length=50, db_index=True)
     TYPE_CHOICES = (('animal', 'animal'), ('color', 'color'), ('adjective', 'adjective'),)
     type = models.CharField(max_length=9, choices=TYPE_CHOICES, db_index=True)
+    language = models.CharField(max_length=2, default='en', db_index=True)
 
 
 class Profile(models.Model):

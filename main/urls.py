@@ -81,6 +81,7 @@ urlpatterns = [
     path('user/password/change/<int:user_id>/', views.change_password, name='change_password'),
     path('credits/', views.credits, name='credits'),
     path('api/group_name/', views.get_random_group_name, name='get_random_group_name'),
+    path('api/group_name/<str:locale>/', views.get_random_group_name, name='get_random_group_name'),
     path('api/startrun/', views.api_startrun, name='api_startrun'),
     path('api/writeanswer/', views.api_writeanswer, name='api_writeanswer'),
     path('api/finishquiz/', views.api_finishquiz, name='api_finishquiz'),

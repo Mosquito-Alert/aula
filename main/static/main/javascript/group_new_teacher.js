@@ -1,7 +1,7 @@
 $(document).ready(function() {
     var load_group_names = function(){
         $.ajax({
-            url: '/api/group_name/',
+            url: _random_url,
             method: 'GET',
             beforeSend: function(xhr, settings) {
                 if (!csrfSafeMethod(settings.type)) {

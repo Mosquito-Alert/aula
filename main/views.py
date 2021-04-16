@@ -1124,12 +1124,16 @@ def get_random_row(qs):
     return qs[random_index]
 
 
-def generate_random_username_struct():
-    color = get_random_row(Word.objects.filter(type='color').order_by('word'))
-    adjective = get_random_row(Word.objects.filter(type='adjective').order_by('word'))
-    animal = get_random_row(Word.objects.filter(type='animal').order_by('word'))
-    group_name = " ".join([adjective.word, color.word, animal.word])
-    group_slug = "_".join([adjective.word[0].lower() + color.word[0].lower(), animal.word.lower()])
+def generate_random_username_struct(locale='en'):
+    color = get_random_row(Word.objects.filter(type='color').filter(language=locale).order_by('word'))
+    adjective = get_random_row(Word.objects.filter(type='adjective').filter(language=locale).order_by('word'))
+    animal = get_random_row(Word.objects.filter(type='animal').filter(language=locale).order_by('word'))
+    if locale == 'es':
+      group_name = " ".join([animal.word, adjective.word, color.word ])
+      group_slug = "_".join([animal.word[0].lower() + adjective.word[0].lower(), color.word.lower()])
+    else:
+      group_name = " ".join([adjective.word, color.word, animal.word])
+      group_slug = "_".join([adjective.word[0].lower() + color.word[0].lower(), animal.word.lower()])
     return {'group_name': group_name, 'group_slug': group_slug}
 
 
@@ -1240,9 +1244,11 @@ def api_startrun(request):
 
 
 @api_view(['GET'])
-def get_random_group_name(request):
+def get_random_group_name(request, locale='en'):
     if request.method == 'GET':
-        name_struct = generate_random_username_struct()
+        if locale not in ['en','es']:
+          locale = 'en'
+        name_struct = generate_random_username_struct(locale)
         slug = name_struct['group_slug']
         if User.objects.filter(username=slug).exists():
             #check if there are already numerals
