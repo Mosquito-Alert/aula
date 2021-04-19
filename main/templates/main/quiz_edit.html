@@ -69,7 +69,7 @@
         {% elif quiz.type == 1 %}
         <button type="button" id="add_question_link" title="{% trans 'Afegir pregunta amb link a document extern' %}" class="btn btn-info mt-2 mb-3"><img src="{% static 'main/icons/noun_link_2169256.svg' %}" width="50px"><i class="fas fa-plus"></i></button>
         {% elif quiz.type == 2 %}
-        <button type="button" id="add_poll_question" title="{% trans 'Afegir pregunta d\'enquesta' %}" class="btn btn-info mt-2 mb-3"><img src="{% static 'main/icons/noun_poll_1644723.svg' %}" width="50px"><i class="fas fa-plus"></i></button>
+        <button type="button" id="add_poll_question" title="{% trans 'Afegir pregunta d&#39;enquesta' %}" class="btn btn-info mt-2 mb-3"><img src="{% static 'main/icons/noun_poll_1644723.svg' %}" width="50px"><i class="fas fa-plus"></i></button>
         {% elif quiz.type == 3 %}
         <button type="button" id="add_fileupload_question" title="{% trans 'Afegir pregunta de pujada de fitxer' %}" class="btn btn-info mt-2 mb-3 {% if quiz.n_questions > 0 %}hidden{% endif %}"><img src="{% static 'main/icons/noun_upload script_691826.svg' %}" width="50px"><i class="fas fa-plus"></i></button>
         {% endif %}

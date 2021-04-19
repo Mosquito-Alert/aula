@@ -204,7 +204,7 @@ def admin_menu(request):
             go_back_to = "index"
         return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
 
-
+'''
 @login_required
 def group_menu(request):
     this_user = request.user
@@ -217,6 +217,7 @@ def group_menu(request):
     #in_progress_quizzes = Quiz.objects.filter(id__in=quizzes_in_progress_ids).order_by('id')
     #done_quizzes = Quiz.objects.filter(id__in=quizzes_done_ids).order_by('id')
     return render(request, 'main/alum_hub.html', {'available_quizzes':available_quizzes, 'in_progress_quizruns':in_progress_quizruns, 'done_quizruns': done_quizruns})
+'''
 
 
 @login_required
