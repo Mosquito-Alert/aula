@@ -273,7 +273,7 @@ msgstr "Descargar archivo"
 
 #: main/templates/main/alum_hub.html:72
 msgid "Encara no heu acabat cap prova!"
-msgstr "¡Aún no habéis acabado la prueba!"
+msgstr "¡Aún no habéis acabado ninguna prueba!"
 
 #: main/templates/main/alum_hub.html:79
 msgid "Aquestes són les proves que encara no heu fet"
