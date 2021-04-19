@@ -40,7 +40,7 @@
                         <div class="col-md-3"><strong>{% trans 'Finalitzada' %}</strong>: {{ run.date_finished }}</div>
                         <div class="col-md-1"></div>
                         <div class="col-md-2">
-                            <a title="{% trans 'Tornar a veure material' %}" class="btn btn-success" href="{% url 'quiz_browse' run.quiz.id %}" target="_blank" role="button">Repassar <i class="far fa-eye"></i></a>
+                            <a title="{% trans 'Tornar a veure material' %}" class="btn btn-success" href="{% url 'quiz_browse' run.quiz.id %}" target="_blank" role="button">{% trans 'Repassar' %} <i class="far fa-eye"></i></a>
                         </div>
                         <div class="col-md-2"></div>
                     </div>
@@ -51,7 +51,7 @@
                         <div class="col-md-3"><strong>{% trans 'Finalitzada' %}</strong>: {{ run.date_finished }}</div>
                         <div class="col-md-1"></div>
                         <div class="col-md-2">
-                            <a title="{% trans 'Veure resultats enquesta' %}" class="btn btn-success" href="{% url 'poll_result' run.quiz.id %}" target="_blank" role="button">Resultats <i class="far fa-eye"></i></a>
+                            <a title="{% trans 'Veure resultats enquesta' %}" class="btn btn-success" href="{% url 'poll_result' run.quiz.id %}" target="_blank" role="button">{% trans 'Resultats' %} <i class="far fa-eye"></i></a>
                         </div>
                         <div class="col-md-2"></div>
                     </div>

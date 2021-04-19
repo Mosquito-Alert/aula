@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-19 13:41+0000\n"
+"POT-Creation-Date: 2021-04-19 13:53+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,14 +25,6 @@ msgstr "Español"
 #: aula/settings.py:155
 msgid "Catalan"
 msgstr "Catalan"
-
-#: aula/settings.py:156
-msgid "English"
-msgstr "Inglés"
-
-#: aula/settings.py:157
-msgid "Dutch"
-msgstr "Neerlandés"
 
 #: main/forms.py:15 main/forms.py:38 main/forms.py:60
 msgid "Prova publicada?"
@@ -274,9 +266,17 @@ msgstr "¡Repetir la prueba!"
 msgid "Tornar a veure material"
 msgstr "Volver a ver el material"
 
+#: main/templates/main/alum_hub.html:43
+msgid "Repassar"
+msgstr "Repasar"
+
 #: main/templates/main/alum_hub.html:54
 msgid "Veure resultats enquesta"
 msgstr "Ver resultados encuesta"
+
+#: main/templates/main/alum_hub.html:54
+msgid "Resultats"
+msgstr "Resultados"
 
 #: main/templates/main/alum_hub.html:65
 msgid "Descarregar fitxer"
@@ -951,6 +951,10 @@ msgstr "Puedes ver los resultados de la encuesta en el Menú principal"
 msgid "Has pujat el fitxer!"
 msgstr "¡Has subido el fichero!"
 
+#: main/templates/main/quiz_take_endsummary.html:63
+msgid "Ara pots"
+msgstr "Ahora puedes"
+
 #: main/templates/main/quiz_take_endsummary.html:66
 msgid "Repetir la prova "
 msgstr "Repetir la prueba "
@@ -1184,6 +1188,12 @@ msgstr ""
 #: main/views.py:685
 msgid "Estàs intentant editar una prova que no existeix."
 msgstr "Estás intentando acceder a una prueba que no existe."
+
+#~ msgid "English"
+#~ msgstr "Inglés"
+
+#~ msgid "Dutch"
+#~ msgstr "Neerlandés"
 
 #~ msgid "Aquesta és la web per a un projecte d\\"
 #~ msgstr "Esta es la web para un proyecto"
