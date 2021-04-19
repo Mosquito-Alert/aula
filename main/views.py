@@ -649,12 +649,23 @@ def quiz_start(request, pk=None):
             message = _("Aquesta prova no està publicada, no la pots començar.")
             go_back_to = "group_menu"
             return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
+        if quiz.requisite:
+          done = QuizRun.objects.filter(quiz=quiz.requisite).filter(date_finished__isnull=False).exists()
+          if not done:
+            message = _("Aquesta prova té un requisit que no s'ha completat: ") + quiz.requisite.name
+            go_back_to = "group_menu"
+            return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
         if quiz.author is not None:
           if this_user.profile.group_teacher.id != quiz.author.id:
             #group is trying to start a quiz created by someone that is not his tutor
             message = _("Estàs intentant començar una prova creada per un professor que no és el teu tutor.")
             go_back_to = "group_menu"
             return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to':go_back_to })
+        #check if user has a pending run. If yes, send there
+        pending_quizruns = QuizRun.objects.filter(taken_by=this_user).filter(quiz=quiz).filter(date_finished__isnull=True)
+        if pending_quizruns.exists():
+            pending_quizrun = pending_quizruns.first()
+            return HttpResponseRedirect(reverse('quiz_take',kwargs={"quiz_id":quiz.id, "question_number":1, "run_id": pending_quizrun.id}))
         questions_total = quiz.questions.all().count()
         last_quizrun = QuizRun.objects.filter(taken_by=this_user).filter(quiz=quiz).order_by('-run_number').first()
     else:
@@ -1376,7 +1387,11 @@ def alum_search(request):
 def requirements_combo(request):
     if request.method == 'GET':
         q = request.query_params.get('author_id', -1)
-        queryset = Quiz.objects.filter(author__id=q).order_by('name')
+        if q == '-1':
+          # is admin
+          queryset = Quiz.objects.filter(author__isnull=True).order_by('name')
+        else:
+          queryset = Quiz.objects.filter(author__id=q).order_by('name')
         serializer = QuizComboSerializer(queryset, many=True)
         return Response(serializer.data)
 

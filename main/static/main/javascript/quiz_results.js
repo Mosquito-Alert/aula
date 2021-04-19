@@ -39,7 +39,14 @@ $(document).ready( function () {
             },
             {
                 'targets':1,
-                'title': 'Nom de l\'autor'
+                'title': 'Nom de l\'autor',
+                'render': function(value){
+                    if(value){
+                        return value;
+                    }else{
+                        return 'Anònim';
+                    }
+                }
             },
             {
                 'targets':2,

@@ -86,6 +86,9 @@ $(document).ready(function() {
 
     var load_reqs = function(author_id){
         var def = $.Deferred();
+        if( author_id == "" ){
+          author_id = "-1";
+        }
         $('#id_req').attr("disabled",true);
         $.ajax({
             url: '/api/requirements_combo/',
@@ -125,18 +128,16 @@ $(document).ready(function() {
 
     var init_ui = function(){
         var selected_author = $('#id_author').val();
-        if( selected_author!=null && selected_author != '' && selected_author != '-1'){
-            load_reqs(selected_author).then(
-                function(){
-                    if( selected_req != null && selected_req != '' && selected_req != '-1' ){
-                        $('#id_req option[value=' + selected_req + ']').prop('selected', true);
-                    }
-                },
-                function(error){
-                    console.log(error);
+        load_reqs(selected_author).then(
+            function(){
+                if( selected_req != null && selected_req != '' && selected_req != '-1' ){
+                    $('#id_req option[value=' + selected_req + ']').prop('selected', true);
                 }
-            );
-        }
+            },
+            function(error){
+                console.log(error);
+            }
+        );
     }
 
     init_ui();

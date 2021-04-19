@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from main.models import EducationCenter, Quiz, Question, QuizRunAnswers, QuizRun
 from django.contrib.auth.models import User
-
+from django.urls import reverse
 
 class EducationCenterSerializer(serializers.ModelSerializer):
     pos_x = serializers.SerializerMethodField()
@@ -55,6 +55,7 @@ class QuizSerializer(serializers.ModelSerializer):
     education_center = serializers.SerializerMethodField('get_quiz_center')
     author = ShortUserSerializer()
     requisite = NestedQuizSerializer()
+    quiz_start_url = serializers.SerializerMethodField('get_start_url')
 
     class Meta:
         model = Quiz
@@ -64,6 +65,9 @@ class QuizSerializer(serializers.ModelSerializer):
         if obj.author and obj.author.profile and obj.author.profile.is_teacher:
             return obj.author.profile.teacher_belongs_to.name
         return None
+
+    def get_start_url(self,obj):
+        return reverse('quiz_take_splash', kwargs={'pk':obj.id})
 
 
 class AlumSerializer(serializers.ModelSerializer):

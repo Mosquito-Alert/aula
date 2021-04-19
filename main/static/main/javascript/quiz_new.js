@@ -2,6 +2,9 @@ $(document).ready( function () {
 
     var load_reqs = function(author_id){
         var def = $.Deferred();
+        if( author_id == "" ){
+          author_id = "-1";
+        }
         $('#id_req').attr("disabled",true);
         $.ajax({
             url: '/api/requirements_combo/',
@@ -38,6 +41,8 @@ $(document).ready( function () {
     $('#id_author').change(function(){
         load_reqs($(this).val());
     });
+
+    load_reqs("");
 
     tinymce.init({
       selector: '#html_header',

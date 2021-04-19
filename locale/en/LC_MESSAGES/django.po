@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-19 08:22+0000\n"
+"POT-Creation-Date: 2021-04-19 13:41+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -240,6 +240,10 @@ msgstr ""
 #: main/templates/main/alum_hub.html:83
 msgid "Títol"
 msgstr "Title"
+
+#: main/templates/main/alum_hub.html:24
+msgid "intent"
+msgstr ""
 
 #: main/templates/main/alum_hub.html:25 main/templates/main/alum_hub.html:39
 #: main/templates/main/alum_hub.html:50 main/templates/main/alum_hub.html:61
@@ -890,10 +894,12 @@ msgid "I la vas acabar el"
 msgstr ""
 
 #: main/templates/main/quiz_take_endsummary.html:27
+#: main/templates/main/quiz_take_splash.html:16
 msgid "Ja havies fet aquesta prova"
 msgstr ""
 
 #: main/templates/main/quiz_take_endsummary.html:27
+#: main/templates/main/quiz_take_splash.html:16
 msgid "vegades"
 msgstr ""
 
@@ -959,6 +965,18 @@ msgstr ""
 
 #: main/templates/main/quiz_take_splash.html:14
 msgid "Total de preguntes de la prova"
+msgstr ""
+
+#: main/templates/main/quiz_take_splash.html:17
+msgid "La darrera vegada vas obtenir una puntuació de"
+msgstr ""
+
+#: main/templates/main/quiz_take_splash.html:17
+msgid "preguntes correctes sobre"
+msgstr ""
+
+#: main/templates/main/quiz_take_splash.html:19
+msgid "Aquesta és la primera vegada que fas aquesta prova. Molta sort!"
 msgstr ""
 
 #: main/templates/main/quiz_take_splash.html:29
@@ -1084,9 +1102,9 @@ msgstr ""
 msgid "password"
 msgstr ""
 
-#: main/views.py:188 main/views.py:198 main/views.py:267 main/views.py:698
-#: main/views.py:734 main/views.py:768 main/views.py:925 main/views.py:969
-#: main/views.py:1081 main/views.py:1092 main/views.py:1105 main/views.py:1713
+#: main/views.py:188 main/views.py:198 main/views.py:267 main/views.py:709
+#: main/views.py:745 main/views.py:779 main/views.py:936 main/views.py:980
+#: main/views.py:1092 main/views.py:1103 main/views.py:1116 main/views.py:1728
 msgid "Estàs intentant accedir a una pàgina a la que no tens permís."
 msgstr ""
 
@@ -1098,11 +1116,11 @@ msgstr ""
 msgid "Sembla que aquesta prova no està completada."
 msgstr ""
 
-#: main/views.py:374 main/views.py:391 main/views.py:1625
+#: main/views.py:374 main/views.py:391 main/views.py:1640
 msgid "No existeix aquesta prova."
 msgstr ""
 
-#: main/views.py:378 main/views.py:1629
+#: main/views.py:378 main/views.py:1644
 msgid ""
 "El test seleccionat no l'ha realitzat cap grup i encara no té resultats."
 msgstr ""
@@ -1132,12 +1150,16 @@ msgid "Aquesta prova no està publicada, no la pots començar."
 msgstr ""
 
 #: main/views.py:655
+msgid "Aquesta prova té un requisit que no s'ha completat: "
+msgstr ""
+
+#: main/views.py:661
 msgid ""
 "Estàs intentant començar una prova creada per un professor que no és el teu "
 "tutor."
 msgstr ""
 
-#: main/views.py:674
+#: main/views.py:685
 msgid "Estàs intentant editar una prova que no existeix."
 msgstr ""
 

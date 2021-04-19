@@ -39,7 +39,8 @@ $(document).ready( function () {
             { 'data': 'author.username' },
             { 'data': 'education_center' },
             { 'data': 'requisite' },
-            { 'data': 'published' }
+            { 'data': 'published' },
+            { 'data': 'quiz_start_url' },
         ],
         'columnDefs': [
             {
@@ -84,14 +85,22 @@ $(document).ready( function () {
                 }
             },
             {
-                'targets': 5,
+            'targets':5,
+            'sortable': false,
+            'title': 'Enllaç a la prova',
+            'render': function(value){
+                    return protocol + host + value;
+                }
+            },
+            {
+                'targets': 6,
                 'sortable': false,
                 'render': function(value){
                     return '<button title="Editar" class="edit_button btn btn-info"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>';
                 }
             },
             {
-                'targets': 6,
+                'targets': 7,
                 'sortable': false,
                 'render': function(value){
                     return '<button title="Eliminar prova" class="delete_button btn btn-danger"><i class="fas fa-backspace"></i></button>';

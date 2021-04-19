@@ -13,10 +13,10 @@
             <ul>
                 <li>{% trans 'Total de preguntes de la prova' %}: <strong>{{ questions_total }}</strong></li>
                 {% if last_quizrun %}
-                <li>Ja havies fet aquesta prova <strong>{{ last_quizrun.n_runs }} vegades</strong></li>
-                <li>La darrera vegada vas obtenir una puntuació de <strong>{{ last_quizrun.questions_right }} preguntes correctes sobre {{ last_quizrun.questions_number }}</strong></li>
+                <li>{% trans 'Ja havies fet aquesta prova' %} <strong>{{ last_quizrun.n_runs }} {% trans 'vegades' %}</strong></li>
+                <li>{% trans 'La darrera vegada vas obtenir una puntuació de' %} <strong>{{ last_quizrun.questions_right }} {% trans 'preguntes correctes sobre' %} {{ last_quizrun.questions_number }}</strong></li>
                 {% else %}
-                <li>Aquesta és la primera vegada que fas aquesta prova. Molta sort!</li>
+                <li>{% trans 'Aquesta és la primera vegada que fas aquesta prova. Molta sort!' %}</li>
                 {% endif %}
             </ul>
         </div>
