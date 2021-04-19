@@ -449,7 +449,7 @@ msgstr "Sobre la aplicación"
 #: main/templates/main/credits.html:30
 msgid ""
 "Hem fet servir algunes icones i llibreries creades per 3eres persones..."
-msgstr "Hemos utilizado algunos iconos i librerias creadas por terceros..."
+msgstr "Hemos utilizado algunos iconos y librerías creadas por terceros..."
 
 #: main/templates/main/credits.html:41
 msgid "Codi de l&#39;aplicació disponible a "

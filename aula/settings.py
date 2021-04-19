@@ -153,8 +153,8 @@ USE_TZ = True
 LANGUAGES = (
     ('es', _('Spanish')),
     ('ca', _('Catalan')),
-    ('en', _('English')),
-    ('nl', _('Dutch')),
+    #('en', _('English')),
+    #('nl', _('Dutch')),
 )
 
 # generate locale files
