@@ -583,11 +583,12 @@ def quiz_take(request, quiz_id=None, question_number=1, run_id=None):
     this_user = request.user
     if quiz_id:
         quiz = get_object_or_404(Quiz, pk=quiz_id)
-        if this_user.profile.group_teacher.id != quiz.author.id:
-            #alum is trying to access a quiz created by someone that is not his tutor
-            message = _("Estàs intentant accedir a una prova creada per un professor que no és el teu tutor.")
-            go_back_to = "group_menu"
-            return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to':go_back_to })
+        if quiz.author is not None:
+          if this_user.profile.group_teacher.id != quiz.author.id:
+              #alum is trying to access a quiz created by someone that is not his tutor
+              message = _("Estàs intentant accedir a una prova creada per un professor que no és el teu tutor.")
+              go_back_to = "group_menu"
+              return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to':go_back_to })
         question = Question.objects.get(quiz=quiz,question_order=question_number)
         questions = quiz.sorted_questions_set
         questions_total = questions.count()
