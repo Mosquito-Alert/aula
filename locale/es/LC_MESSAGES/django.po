@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-20 09:34+0000\n"
+"POT-Creation-Date: 2021-04-20 13:41+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -226,7 +226,7 @@ msgstr "Hola"
 
 #: main/templates/main/alum_hub.html:14
 msgid "El vostre professor assignat és "
-msgstr "Vuestro professor asignado es"
+msgstr "Vuestro profesor asignado es"
 
 #: main/templates/main/alum_hub.html:19
 msgid ""
@@ -574,6 +574,18 @@ msgstr "Error"
 #: main/templates/main/invalid_operation.html:6
 msgid "Operació no permesa!"
 msgstr "¡Operación no permitida!"
+
+#: main/templates/main/invalid_operation.html:17
+msgid "Tornaràs a l&#39;inici en"
+msgstr "Volverás al inicio en"
+
+#: main/templates/main/invalid_operation.html:17
+msgid "segons, o si no pots fer clic"
+msgstr "segundos, o si no puedes hacer click"
+
+#: main/templates/main/invalid_operation.html:17
+msgid "aquí"
+msgstr "aquí"
 
 #: main/templates/main/poll_result.html:4
 #: main/templates/main/poll_result.html:6
@@ -1219,6 +1231,11 @@ msgstr ""
 #: main/views.py:686
 msgid "Estàs intentant editar una prova que no existeix."
 msgstr "Estás intentando acceder a una prueba que no existe."
+
+#, fuzzy
+#~| msgid "Tornar a l&#39;inici"
+#~ msgid "Tornaràs a l"
+#~ msgstr "Volver al inicio"
 
 #~ msgid "English"
 #~ msgstr "Inglés"

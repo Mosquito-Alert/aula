@@ -14,7 +14,7 @@
         </div>
         <div class="col-md-8 my-auto">
             <h2 style="color:red;">{{ error_message }}</h2>
-            <h2>Tornaràs a l'inici en <span class="timer">5</span> segons, o si no pots fer clic <a href="{% url go_back_to %}">aquí</a></h2>
+            <h2>{% trans 'Tornaràs a l&#39;inici en' %} <span class="timer">5</span> {% trans 'segons, o si no pots fer clic' %} <a href="{% url go_back_to %}">{% trans 'aquí' %}</a></h2>
         </div>
     </div>
 </div>
