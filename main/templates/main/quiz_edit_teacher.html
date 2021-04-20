@@ -198,6 +198,6 @@
 </script>
 <script src="{% static 'main/csrf_utils.js' %}"></script>
 <script src="{% static 'main/cookies.js' %}"></script>
-<script src="{% static 'main/javascript/quiz_edit_teacher.js' %}"></script>
+<script src="{% static 'main/javascript/quiz_edit_teacher.js' %}?version={% now "U" %}"></script>
 <script src="{% static 'main/javascript/quiz_edit_warning.js' %}"></script>
 {% endblock %}
