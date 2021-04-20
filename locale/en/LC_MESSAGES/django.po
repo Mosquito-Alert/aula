@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-19 13:53+0000\n"
+"POT-Creation-Date: 2021-04-20 09:34+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -75,7 +75,8 @@ msgstr "Username"
 msgid "Professor"
 msgstr "Teacher"
 
-#: main/forms.py:102 main/templates/main/upload_file_solutions.html:22
+#: main/forms.py:102 main/templates/main/test_result.html:35
+#: main/templates/main/upload_file_solutions.html:22
 msgid "Grup"
 msgstr "Group"
 
@@ -1043,6 +1044,44 @@ msgstr ""
 msgid "Resultats test"
 msgstr ""
 
+#: main/templates/main/test_result.html:12 main/views.py:1697
+#: main/views.py:1747
+msgid "Anònim"
+msgstr ""
+
+#: main/templates/main/test_result.html:14
+#: main/templates/main/test_result.html:17
+#: main/templates/main/test_result.html:19
+msgid "Completat"
+msgstr ""
+
+#: main/templates/main/test_result.html:14
+#: main/templates/main/test_result.html:17
+#: main/templates/main/test_result.html:19
+#: main/templates/main/upload_file_solutions.html:14
+msgid "grups"
+msgstr ""
+
+#: main/templates/main/test_result.html:25
+msgid "Veure gràfica de resultats"
+msgstr ""
+
+#: main/templates/main/test_result.html:36
+#, fuzzy
+#| msgid "Puntuació"
+msgid "Millor puntuació"
+msgstr "Puntuation"
+
+#: main/templates/main/test_result.html:37
+msgid "Millor intent"
+msgstr ""
+
+#: main/templates/main/test_result.html:38
+#, fuzzy
+#| msgid "Finalitzada"
+msgid "Prova finalitzada"
+msgstr "Finished"
+
 #: main/templates/main/test_solutions_teacher.html:5
 #: main/templates/main/test_solutions_teacher.html:7
 msgid "Resultats de proves"
@@ -1055,10 +1094,6 @@ msgstr ""
 
 #: main/templates/main/upload_file_solutions.html:14
 msgid "La prova ha estat pujada per"
-msgstr ""
-
-#: main/templates/main/upload_file_solutions.html:14
-msgid "grups"
 msgstr ""
 
 #: main/templates/main/upload_file_solutions.html:23
@@ -1108,9 +1143,9 @@ msgstr ""
 msgid "password"
 msgstr ""
 
-#: main/views.py:188 main/views.py:198 main/views.py:267 main/views.py:709
-#: main/views.py:745 main/views.py:779 main/views.py:936 main/views.py:980
-#: main/views.py:1092 main/views.py:1103 main/views.py:1116 main/views.py:1728
+#: main/views.py:188 main/views.py:198 main/views.py:267 main/views.py:710
+#: main/views.py:746 main/views.py:780 main/views.py:937 main/views.py:981
+#: main/views.py:1093 main/views.py:1104 main/views.py:1117 main/views.py:1757
 msgid "Estàs intentant accedir a una pàgina a la que no tens permís."
 msgstr ""
 
@@ -1122,11 +1157,11 @@ msgstr ""
 msgid "Sembla que aquesta prova no està completada."
 msgstr ""
 
-#: main/views.py:374 main/views.py:391 main/views.py:1640
+#: main/views.py:374 main/views.py:391 main/views.py:1641
 msgid "No existeix aquesta prova."
 msgstr ""
 
-#: main/views.py:378 main/views.py:1644
+#: main/views.py:378 main/views.py:1645
 msgid ""
 "El test seleccionat no l'ha realitzat cap grup i encara no té resultats."
 msgstr ""
@@ -1135,37 +1170,37 @@ msgstr ""
 msgid "No tens assignada aquesta prova, de manera que no la pots visualitzar."
 msgstr ""
 
-#: main/views.py:552 main/views.py:590
+#: main/views.py:553 main/views.py:591
 msgid ""
 "Estàs intentant accedir a una prova creada per un professor que no és el teu "
 "tutor."
 msgstr ""
 
-#: main/views.py:556
+#: main/views.py:557
 msgid "Aquesta prova no existeix!"
 msgstr ""
 
-#: main/views.py:563 main/views.py:612
+#: main/views.py:564 main/views.py:613
 msgid ""
 "Aquesta prova està marcada com a finalitzada, o sigui que no la pots "
 "modificar. Si vols, la pots repetir."
 msgstr ""
 
-#: main/views.py:649
+#: main/views.py:650
 msgid "Aquesta prova no està publicada, no la pots començar."
 msgstr ""
 
-#: main/views.py:655
+#: main/views.py:656
 msgid "Aquesta prova té un requisit que no s'ha completat: "
 msgstr ""
 
-#: main/views.py:661
+#: main/views.py:662
 msgid ""
 "Estàs intentant començar una prova creada per un professor que no és el teu "
 "tutor."
 msgstr ""
 
-#: main/views.py:685
+#: main/views.py:686
 msgid "Estàs intentant editar una prova que no existeix."
 msgstr ""
 

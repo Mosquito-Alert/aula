@@ -268,6 +268,7 @@ class Profile(models.Model):
     group_public_name = models.CharField(max_length=255, null=True)
     group_picture = models.ImageField(upload_to='media/group_pics/', null=True)
     group_picture_thumbnail = ImageSpecField(source='group_picture', processors=[ResizeToFill(150, 150)], options={'quality': 80})
+    group_picture_thumbnail_small = ImageSpecField(source='group_picture', processors=[ResizeToFill(50, 50)],options={'quality': 80})
     group_teacher = models.ForeignKey(User, null=True, on_delete=models.SET_NULL, related_name="group_teacher")
     groups_string = models.CharField(max_length=1000, null=True, blank=True)
     center_string = models.CharField(max_length=1000, null=True, blank=True)

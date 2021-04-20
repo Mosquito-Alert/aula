@@ -547,11 +547,12 @@ def quiz_take_upload(request, quiz_id=None, run_id=None):
     if quiz_id:
         quiz = get_object_or_404(Quiz, pk=quiz_id)
         question = Question.objects.get(quiz=quiz)
-        if this_user.profile.group_teacher.id != quiz.author.id:
-            #alum is trying to access a quiz created by someone that is not his tutor
-            message = _("Estàs intentant accedir a una prova creada per un professor que no és el teu tutor.")
-            go_back_to = "group_menu"
-            return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to':go_back_to })
+        if quiz.author is not None:
+            if this_user.profile.group_teacher.id != quiz.author.id:
+                #alum is trying to access a quiz created by someone that is not his tutor
+                message = _("Estàs intentant accedir a una prova creada per un professor que no és el teu tutor.")
+                go_back_to = "group_menu"
+                return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to':go_back_to })
     else:
         message = _("Aquesta prova no existeix!")
         go_back_to = "group_menu"
@@ -1622,7 +1623,7 @@ def quiz_datatable_results(request):
             #queryset = Quiz.objects.select_related('author').all()
             queryset = Quiz.objects.filter(Q(type=0) | Q(type=2))
         elif this_user.profile.is_teacher:
-            queryset = Quiz.objects.select_related('author').filter(author=this_user).filter(Q(type=0) | Q(type=2))
+            queryset = Quiz.objects.select_related('author').filter(Q(author=this_user) | Q(author__isnull=True)).filter(Q(type=0) | Q(type=2))
         else:
             pass  # this should not happen
         response = generic_datatable_list_endpoint(request, search_field_list, queryset, QuizSerializer, field_translation_list, sort_translation_list)
@@ -1659,7 +1660,7 @@ def upload_file_solutions(request):
         # Recorrer cada upload File test
         for idQuizz in my_quizzes:
             arrayGrupos = []
-            grupos_profe = User.objects.filter(profile__group_teacher=idQuizz.author).order_by('profile__group_public_name')
+            grupos_profe = User.objects.filter(profile__group_teacher__isnull=False).order_by('profile__group_public_name')
 
             #Afegir flag per saber quins grups han fet la entrega
             for grupo in grupos_profe:
@@ -1667,34 +1668,49 @@ def upload_file_solutions(request):
                 upload_done = quizrun.exists()
 
                 if upload_done:
+                    url_pic = ''
+                    try:
+                        url_pic = grupo.profile.group_picture_thumbnail_small.url
+                    except:
+                        pass
                     arrayGrupos.append({
-                        'imagenGrupo': grupo.profile.group_picture_thumbnail.url,
+                        'imagenGrupo': url_pic,
                         'nombreGrupo': grupo.profile.group_public_name,
                         'uploadedFileFlag': True,
                         'linkFile': quizrun[0].uploaded_file,
                         'uploadDate': quizrun[0].date_finished
                     })
                 else:
+                    url_pic = ''
+                    try:
+                        url_pic = grupo.profile.group_picture_thumbnail_small.url
+                    except:
+                        pass
                     arrayGrupos.append({
-                        'imagenGrupo': grupo.profile.group_picture_thumbnail.url,
+                        'imagenGrupo': url_pic,
                         'nombreGrupo': grupo.profile.group_public_name,
                         'uploadedFileFlag': False,
                         'linkFile': None,
                         'uploadDate': None
                     })
             #Crear array amb informacio de cada prova
+            autor = _('Anònim')
+            realitzat_per = str(idQuizz.taken_by_n_people)
+            if idQuizz.author:
+                autor = idQuizz.author.username
+                realitzat_per = str(idQuizz.taken_by_n_people) + '/' + str(idQuizz.author.profile.tutored_groups)
             p.append({
                 'nomActivitat': idQuizz.name,
-                'autor': idQuizz.author.username,
-                'realitzatPer': str(idQuizz.taken_by_n_people) + '/' + str(idQuizz.author.profile.tutored_groups),
+                'autor': autor,
+                'realitzatPer': realitzat_per,
                 'grupos': arrayGrupos
             })
     elif this_user.profile and this_user.profile.is_teacher:
-        my_quizzes = Quiz.objects.filter(author=this_user).filter(type=3).order_by('name')
+        my_quizzes = Quiz.objects.filter(Q(author=this_user) | Q(author__isnull=True)).filter(type=3).order_by('name')
 
         for idQuizz in my_quizzes:
             arrayGrupos = []
-            grupos_profe = User.objects.filter(profile__group_teacher=idQuizz.author).order_by('profile__group_public_name')
+            grupos_profe = User.objects.filter(profile__group_teacher=this_user).order_by('profile__group_public_name')
 
             #Afegir flag per saber quins grups han fet la entrega
             for grupo in grupos_profe:
@@ -1702,26 +1718,39 @@ def upload_file_solutions(request):
                 upload_done = quizrun.exists()
 
                 if upload_done:
+                    url_pic = ''
+                    try:
+                        url_pic = grupo.profile.group_picture_thumbnail_small.url
+                    except:
+                        pass
                     arrayGrupos.append({
-                        'imagenGrupo': grupo.profile.group_picture_thumbnail.url,
+                        'imagenGrupo': url_pic,
                         'nombreGrupo': grupo.profile.group_public_name,
                         'uploadedFileFlag': True,
                         'linkFile': quizrun[0].uploaded_file,
                         'uploadDate': quizrun[0].date_finished
                     })
                 else:
+                    url_pic = ''
+                    try:
+                        url_pic = grupo.profile.group_picture_thumbnail_small.url
+                    except:
+                        pass
                     arrayGrupos.append({
-                        'imagenGrupo': grupo.profile.group_picture_thumbnail.url,
+                        'imagenGrupo': url_pic,
                         'nombreGrupo': grupo.profile.group_public_name,
                         'uploadedFileFlag': False,
                         'linkFile': None,
                         'uploadDate': None
                     })
             #Crear array amb informacio de cada prova
+            autor = _('Anònim')
+            if idQuizz.author:
+                autor = idQuizz.author.username
             p.append({
                 'nomActivitat': idQuizz.name,
-                'autor': idQuizz.author.username,
-                'realitzatPer': str(idQuizz.taken_by_n_people) + '/' + str(idQuizz.author.profile.tutored_groups),
+                'autor': autor,
+                'realitzatPer': str(idQuizz.taken_by_n_people) + '/' + str(this_user.profile.tutored_groups),
                 'grupos': arrayGrupos
             })
     else:
