@@ -58,7 +58,7 @@ class QuizNewForm(ModelForm):
 class QuizAdminForm(ModelForm):
     name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), required=True)
     published = forms.BooleanField(label=_("Prova publicada?"),widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}), required=False)
-    html_header = forms.CharField(widget=TinyMCE(attrs={'cols': 80, 'rows': 20}))
+    html_header = forms.CharField(widget=TinyMCE(attrs={'cols': 80, 'rows': 20}), required=False)
     requisite = forms.IntegerField(widget=forms.HiddenInput(), required=False)
     type = forms.ChoiceField(choices=QUIZ_TYPES, widget=forms.Select(attrs={'class': 'form-control'}))
     author = forms.ModelChoiceField(label=_("Autor"), queryset=User.objects.filter(profile__is_teacher=True).order_by('username'),widget=forms.Select(attrs={'class': 'form-control'}), required=False)

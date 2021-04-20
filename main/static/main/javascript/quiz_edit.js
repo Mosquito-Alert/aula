@@ -132,6 +132,7 @@ $(document).ready(function() {
             function(){
                 if( selected_req != null && selected_req != '' && selected_req != '-1' ){
                     $('#id_req option[value=' + selected_req + ']').prop('selected', true);
+                    $('#id_requisite').val(selected_req);
                 }
             },
             function(error){

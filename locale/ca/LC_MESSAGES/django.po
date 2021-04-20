@@ -836,7 +836,7 @@ msgstr ""
 #: main/templates/main/quiz_results.html:20
 #: main/templates/main/quiz_results.html:23
 msgid "Llistat enquestas i tests"
-msgstr ""
+msgstr "Llistat enquestes i tests"
 
 #: main/templates/main/quiz_results_graphics.html:5
 msgid "Gràfica de resultats"
