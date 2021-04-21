@@ -38,7 +38,7 @@ class Quiz(models.Model):
     requisite = models.ForeignKey('main.Quiz', null=True, blank=True, on_delete=models.SET_NULL, related_name='allows')
 
     def __str__(self):
-        return self.name
+        return "{0} - {1}".format(self.name, self.type_text)
 
     @property
     def type_text(self):
@@ -160,6 +160,9 @@ class QuizRun(models.Model):
                 return answer.uploaded_material
         return None
 
+    def __str__(self):
+        return "{0} ({1}) - {2} - Intent {3}".format(self.quiz.name, self.quiz.type_text, self.taken_by.username, str(self.run_number))
+
     def evaluate(self):
         answers = self.answers.all()
         questions_number = answers.count()
@@ -198,7 +201,7 @@ class Question(models.Model):
     question_picture = models.ImageField(upload_to='media/question_pics/', null=True)
 
     def __str__(self):
-        return self.text
+        return "{0} - {1}".format(self.text, str(self.quiz))
 
     @property
     def sorted_answers_set(self):

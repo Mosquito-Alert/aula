@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-20 13:41+0000\n"
+"POT-Creation-Date: 2021-04-21 08:09+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1056,8 +1056,8 @@ msgstr ""
 msgid "Resultats test"
 msgstr ""
 
-#: main/templates/main/test_result.html:12 main/views.py:1697
-#: main/views.py:1747
+#: main/templates/main/test_result.html:12 main/views.py:1744
+#: main/views.py:1794
 msgid "Anònim"
 msgstr ""
 
@@ -1155,9 +1155,9 @@ msgstr ""
 msgid "password"
 msgstr ""
 
-#: main/views.py:188 main/views.py:198 main/views.py:267 main/views.py:710
-#: main/views.py:746 main/views.py:780 main/views.py:937 main/views.py:981
-#: main/views.py:1093 main/views.py:1104 main/views.py:1117 main/views.py:1757
+#: main/views.py:188 main/views.py:198 main/views.py:267 main/views.py:757
+#: main/views.py:793 main/views.py:827 main/views.py:984 main/views.py:1028
+#: main/views.py:1140 main/views.py:1151 main/views.py:1164 main/views.py:1804
 msgid "Estàs intentant accedir a una pàgina a la que no tens permís."
 msgstr ""
 
@@ -1169,11 +1169,11 @@ msgstr ""
 msgid "Sembla que aquesta prova no està completada."
 msgstr ""
 
-#: main/views.py:374 main/views.py:391 main/views.py:1641
+#: main/views.py:374 main/views.py:391 main/views.py:1688
 msgid "No existeix aquesta prova."
 msgstr ""
 
-#: main/views.py:378 main/views.py:1645
+#: main/views.py:378 main/views.py:1692
 msgid ""
 "El test seleccionat no l'ha realitzat cap grup i encara no té resultats."
 msgstr ""
@@ -1182,37 +1182,48 @@ msgstr ""
 msgid "No tens assignada aquesta prova, de manera que no la pots visualitzar."
 msgstr ""
 
-#: main/views.py:553 main/views.py:591
+#: main/views.py:550 main/views.py:593 main/views.py:631
 msgid ""
 "Estàs intentant accedir a una prova creada per un professor que no és el teu "
 "tutor."
 msgstr ""
 
-#: main/views.py:557
+#: main/views.py:554 main/views.py:597
 msgid "Aquesta prova no existeix!"
 msgstr ""
 
-#: main/views.py:564 main/views.py:613
+#: main/views.py:564 main/views.py:604
+msgid ""
+"Ho sentim, però les proves de pujada de fitxer només es poden fer una vegada."
+msgstr ""
+
+#: main/views.py:653
 msgid ""
 "Aquesta prova està marcada com a finalitzada, o sigui que no la pots "
 "modificar. Si vols, la pots repetir."
 msgstr ""
 
-#: main/views.py:650
+#: main/views.py:690
 msgid "Aquesta prova no està publicada, no la pots començar."
 msgstr ""
 
-#: main/views.py:656
+#: main/views.py:697
+msgid ""
+"Les proves de materials, pujada de fitxers i enquestes només es fan una "
+"vegada. Les pots repassar totes però des del menú de grup "
+msgstr ""
+
+#: main/views.py:703
 msgid "Aquesta prova té un requisit que no s'ha completat: "
 msgstr ""
 
-#: main/views.py:662
+#: main/views.py:709
 msgid ""
 "Estàs intentant començar una prova creada per un professor que no és el teu "
 "tutor."
 msgstr ""
 
-#: main/views.py:686
+#: main/views.py:733
 msgid "Estàs intentant editar una prova que no existeix."
 msgstr ""
 
