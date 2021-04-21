@@ -649,7 +649,7 @@ def quiz_take(request, quiz_id=None, question_number=1, run_id=None):
     if run_id:
         quiz_run = get_object_or_404(QuizRun,pk=run_id)
         done = quiz_run.is_done()
-        if done:
+        if done and quiz_run.date_finished is not None:
             message = _("Aquesta prova està marcada com a finalitzada, o sigui que no la pots modificar. Si vols, la pots repetir.")
             go_back_to = "group_menu"
             return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})

@@ -210,6 +210,7 @@
     var currentLang = '{{ LANGUAGE_CODE }}';
 </script>
 <script src="{% static 'main/javascript/language_identifier.js' %}"></script>
+<script src="{% url 'javascript-catalog' %}"></script>
 {% block extra_js %}
 {% endblock %}
 </body>

@@ -3,6 +3,7 @@ from django.conf.urls.static import static
 from django.urls import path, include
 from django.conf.urls import url
 from rest_framework import routers
+from django.views.i18n import JavaScriptCatalog
 
 from . import views
 
@@ -14,6 +15,7 @@ router.register(r'quizzes', views.QuizzesViewSet, basename="quizzes")
 urlpatterns = [
     path('', views.index, name='index'),
     path('i18n/', include('django.conf.urls.i18n')),
+    path('jsi18n/', JavaScriptCatalog.as_view(packages=['main']), name='javascript-catalog'),
     path('my_hub/', views.my_hub, name='my_hub'),
     path('api/',include(router.urls)),
     path('teacher_menu', views.teacher_menu, name='teacher_menu'),
