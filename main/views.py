@@ -535,6 +535,46 @@ def question_update(request, pk=None):
             return HttpResponseRedirect('/quiz/update/' + str(question.quiz.id) + '/')
     return render(request, 'main/question_edit.html', {'form': form, 'question': question, 'json_answers': json_answers})
 
+@login_required
+def quiz_upload_link(request, quiz_id=None):
+    done = False
+    this_user = request.user
+    quiz_run = None
+
+    if quiz_id:
+        quiz = get_object_or_404(Quiz, pk=quiz_id)
+        question = Question.objects.get(quiz=quiz)
+        if quiz.author is not None:
+            if this_user.profile.group_teacher.id != quiz.author.id:
+                #alum is trying to access a quiz created by someone that is not his tutor
+                message = _("Estàs intentant accedir a una prova creada per un professor que no és el teu tutor.")
+                go_back_to = "group_menu"
+                return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to':go_back_to })
+    else:
+        message = _("Aquesta prova no existeix!")
+        go_back_to = "group_menu"
+        return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
+
+    #comprovar si ja estava creada
+    #exists = QuizRun.objects.filter(taken_by=this_user).filter(quiz=quiz).filter(date_finished__isnull=False).exists()
+    exists = QuizRun.objects.filter(taken_by=this_user).filter(quiz=quiz).exists()
+    if exists:
+        finished = QuizRun.objects.filter(taken_by=this_user).filter(quiz=quiz).filter(date_finished__isnull=False).exists()
+        if finished:
+            message = _("Ho sentim, però les proves de pujada de fitxer només es poden fer una vegada.")
+            go_back_to = "group_menu"
+            return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
+        else:
+            quiz_run = QuizRun.objects.filter(taken_by=this_user).filter(quiz=quiz).first()
+    else:
+        quiz_run = QuizRun(taken_by=this_user, quiz=quiz, run_number=1)
+        quiz_run.save()
+        for question in quiz.questions.all():
+            qa = QuizRunAnswers(quizrun=quiz_run, question=question)
+            qa.save()
+
+    return render(request, 'main/quiz_take_upload.html',{'quiz': quiz, 'quiz_run': quiz_run, 'quiz_run_done': done, 'question':question})
+
 
 @login_required
 def quiz_take_upload(request, quiz_id=None, run_id=None):
@@ -561,7 +601,7 @@ def quiz_take_upload(request, quiz_id=None, run_id=None):
         quiz_run = get_object_or_404(QuizRun,pk=run_id)
         done = quiz_run.is_done()
         if done:
-            message = _("Aquesta prova està marcada com a finalitzada, o sigui que no la pots modificar. Si vols, la pots repetir.")
+            message = _("Ho sentim, però les proves de pujada de fitxer només es poden fer una vegada.")
             go_back_to = "group_menu"
             return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
 
@@ -650,6 +690,13 @@ def quiz_start(request, pk=None):
             message = _("Aquesta prova no està publicada, no la pots començar.")
             go_back_to = "group_menu"
             return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
+        if quiz.type != 0:
+            #només es poden repetir els tests
+            already_done = QuizRun.objects.filter(taken_by=this_user).filter(quiz=quiz).filter(date_finished__isnull=False).exists()
+            if already_done:
+                message = _("Les proves de materials, pujada de fitxers i enquestes només es fan una vegada. Les pots repassar totes però des del menú de grup ")
+                go_back_to = "group_menu"
+                return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
         if quiz.requisite:
           done = QuizRun.objects.filter(quiz=quiz.requisite).filter(date_finished__isnull=False).exists()
           if not done:
@@ -692,7 +739,7 @@ def quiz_update(request, pk=None):
         form = QuizForm(request.POST or None, instance=quiz)
     if request.POST:
         id_requisite = request.POST.get('requisite', '-1')
-        if id_requisite != '-1' and id_requisite != '':
+        if id_requisite is not None and id_requisite != 'None' and id_requisite != '-1' and id_requisite != '':
             req = Quiz.objects.get(pk=int(id_requisite))
         if form.is_valid():
             quiz = form.save(commit=False)

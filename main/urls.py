@@ -31,6 +31,7 @@ urlpatterns = [
     path('quiz/take/<int:quiz_id>/<int:question_number>/', views.quiz_take, name='quiz_take'),
     path('quiz/take/<int:quiz_id>/<int:question_number>/<int:run_id>/', views.quiz_take, name='quiz_take'),
     path('quiz/take_upload/<int:quiz_id>/<int:run_id>/', views.quiz_take_upload, name='quiz_take_upload'),
+    path('quiz/upload_link/<int:quiz_id>/', views.quiz_upload_link, name='quiz_upload_link'),
     path('quiz/take/endsummary/<int:quizrun_id>/', views.quiz_take_endsummary, name='quiz_take_endsummary'),
     path('quiz/assign_admin/', views.quiz_assign_admin, name='quiz_assign_admin'),
     path('quiz/search/', views.quiz_search, name='quiz_search'),

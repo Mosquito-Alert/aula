@@ -67,7 +67,10 @@ class QuizSerializer(serializers.ModelSerializer):
         return None
 
     def get_start_url(self,obj):
-        return reverse('quiz_take_splash', kwargs={'pk':obj.id})
+        if obj.type == 3:
+            return reverse('quiz_upload_link', kwargs={'quiz_id':obj.id})
+        else:
+            return reverse('quiz_take_splash', kwargs={'pk':obj.id})
 
 
 class AlumSerializer(serializers.ModelSerializer):

@@ -128,11 +128,14 @@ $(document).ready(function() {
 
     var init_ui = function(){
         var selected_author = $('#id_author').val();
+        $('#id_requisite').val("");
         load_reqs(selected_author).then(
             function(){
-                if( selected_req != null && selected_req != '' && selected_req != '-1' ){
+                if( selected_req != null && selected_req != '' && selected_req != '-1' && selected_req != 'None'){
                     $('#id_req option[value=' + selected_req + ']').prop('selected', true);
                     $('#id_requisite').val(selected_req);
+                }else{
+                    $('#id_requisite').val("");
                 }
             },
             function(error){
