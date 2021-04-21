@@ -15,7 +15,7 @@ $(document).ready( function () {
                 location.href = start_run_url;
             },
             error: function(jqXHR, textStatus, errorThrown){
-                toastr.error("Error iniciant prova")
+                toastr.error(gettext('Error iniciant prova'));
             }
         });
     };
