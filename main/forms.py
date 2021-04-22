@@ -58,6 +58,7 @@ class QuizNewForm(ModelForm):
 class QuizAdminForm(ModelForm):
     name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), required=True)
     published = forms.BooleanField(label=_("Prova publicada?"),widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}), required=False)
+    professor_poll = forms.BooleanField(label=_("Enquesta només per professors?"),widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}), required=False)
     html_header = forms.CharField(widget=TinyMCE(attrs={'cols': 80, 'rows': 20}), required=False)
     requisite = forms.IntegerField(widget=forms.HiddenInput(), required=False)
     type = forms.ChoiceField(choices=QUIZ_TYPES, widget=forms.Select(attrs={'class': 'form-control'}))
@@ -65,7 +66,7 @@ class QuizAdminForm(ModelForm):
 
     class Meta:
         model = Quiz
-        fields = ['name', 'html_header', 'published', 'type', 'author']
+        fields = ['name', 'html_header', 'published', 'professor_poll', 'type', 'author']
 
 
 class EducationCenterForm(ModelForm):

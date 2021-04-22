@@ -56,6 +56,7 @@ class QuizSerializer(serializers.ModelSerializer):
     author = ShortUserSerializer()
     requisite = NestedQuizSerializer()
     quiz_start_url = serializers.SerializerMethodField('get_start_url')
+    type_text = serializers.SerializerMethodField('get_type_text')
 
     class Meta:
         model = Quiz
@@ -71,6 +72,9 @@ class QuizSerializer(serializers.ModelSerializer):
             return reverse('quiz_upload_link', kwargs={'quiz_id':obj.id})
         else:
             return reverse('quiz_take_splash', kwargs={'pk':obj.id})
+
+    def get_type_text(self, obj):
+        return obj.type_text
 
 
 class AlumSerializer(serializers.ModelSerializer):

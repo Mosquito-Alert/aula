@@ -1,0 +1,85 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% load i18n %}
+{% block title %}{% trans 'Enquestes professorat' %}{% endblock %}
+
+{% block main_jumbo %}<img class="img_icons" src="{% static 'main/icons/noun_test_3271143.svg' %}"> {% trans 'Enquestes professorat' %}{% endblock %}
+{% block sub_jumbo %}{% endblock %}
+
+{% block main %}
+<div class="container">
+    <div class="row justify-content-left">
+        <div class="col-md-11">
+            <h4><p>{% trans 'Hola' %}, <span class="badge badge-primary"><strong>{{ user.username }}</strong></span>!</p></h4>
+        </div>
+    </div>
+    <div class="row alert alert-success done">
+        <div class="col-md-12">
+            <p><strong>{% trans 'Aquestes són les enquestes que ja heu acabat (podeu veure els resultats)' %}:</strong></p>
+            {% if done_quizruns %}
+                {% for run in done_quizruns %}
+                    <div class="row mt-3">
+                        <div class="col-md-3"><strong>{% trans 'Títol' %}</strong>: {{ run.quiz.name }}</div>
+                        <div class="col-md-3"><strong>{% trans 'Començada' %}</strong>: {{ run.date }}</div>
+                        <div class="col-md-3"><strong>{% trans 'Finalitzada' %}</strong>: {{ run.date_finished }}</div>
+                        <div class="col-md-1"></div>
+                        <div class="col-md-2">
+                            <a title="{% trans 'Veure resultats enquesta' %}" class="btn btn-success" href="{% url 'poll_result' run.quiz.id %}" target="_blank" role="button">{% trans 'Resultats' %} <i class="far fa-eye"></i></a>
+                        </div>
+                        <div class="col-md-2"></div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>{% trans 'Encara no heu acabat cap enquesta!' %}</p>
+                <p><img src="{% static 'main/icons/noun_Lazy_1744915.svg' %}" height="250px"></p>
+            {% endif %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 alert alert-info todo">
+            <p><strong>{% trans 'Aquestes són les enquestes que encara no heu fet' %}:</strong></p>
+            {% if available_quizzes %}
+                {% for quiz in available_quizzes %}
+                    <div class="row mt-3">
+                        <div class="col-md-6"><strong>{% trans 'Títol' %}</strong>: {{ quiz.name }}</div>
+                        <div class="col-md-6 done_quizzes">
+                            {% if quiz.requisite %}
+                                {% if quiz.requisite.id in done_quizzes_ids %}
+                                    <a title="{% trans 'Fer la prova!' %}" class="btn btn-success" href="{% url 'quiz_take_splash' quiz.id %}" role="button"><i class="fa fa-lightbulb-o" aria-hidden="true"></i></a>
+                                {% else %}
+                                    <a title="{% trans 'Aquest material està bloquejat, abans cal fer la prova amb nom' %} '{{ quiz.requisite.name }}'" class="btn btn-secondary" href="" role="button"><i class="fas fa-lock"></i></a>
+                                {% endif %}
+                            {% else %}
+                                <a title="{% trans 'Fer la prova!' %}" class="btn btn-success" href="{% url 'quiz_take_splash' quiz.id %}" role="button"><i class="fa fa-lightbulb-o" aria-hidden="true"></i></a>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>{% trans 'No teniu enquestes per fer!' %}</p>
+                <p><img src="{% static 'main/icons/noun_holidays_2518025.svg' %}" height="250px"></p>
+            {% endif %}
+        </div>
+        <div class="col-md-6 alert alert-info doing">
+            <p><strong>{% trans 'Aquestes són les enquestes que esteu fent però no heu acabat' %}:</strong></p>
+            {% if in_progress_quizruns %}
+                {% for run in in_progress_quizruns %}
+                    <div class="row mt-3">
+                        <div class="col-md-6">{{ run.quiz.name }} (intent {{ run.run_number }})</div>
+                        <div class="col-md-6">
+                            <a title="{% trans 'Continuar fent la prova!' %}" class="btn btn-success" href="{% url 'quiz_take' run.quiz.id 1 run.id %}" role="button">Continuar <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>{% trans 'No teniu proves que calgui acabar!' %}</p>
+                <p><img src="{% static 'main/icons/noun_holidays_2518025.svg' %}" height="250px"></p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'main/csrf_utils.js' %}"></script>
+<script src="{% static 'main/cookies.js' %}"></script>
+{% endblock %}

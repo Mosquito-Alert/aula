@@ -61,6 +61,11 @@
             <label class="form-check-label" for="{{ form.published.id_for_label }}">{% trans 'Prova publicada' %}</label>
         </div>
 
+        <div class="form-check mb-3">
+            {{ form.professor_poll }}
+            <label class="form-check-label" for="{{ form.professor_poll.id_for_label }}">{% trans 'Prova només per professors' %}</label>
+        </div>
+
         <!--<input id="quizSubmitForm" role="button" class="btn btn-success mt-2" type="submit" value="{% trans 'Desar' %}" /><br>-->
         <button id="quizSubmitForm" role="button" class="btn btn-success mt-2">{% trans 'Desar' %}</button>
         <br>

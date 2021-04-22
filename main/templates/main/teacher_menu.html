@@ -19,22 +19,19 @@
                 <a href="{% url 'group_list' %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
             </div>
         </div>
-      <!--
         <div class="card mb-4 box-shadow">
             <div class="card-body">
-                <h5 class="card-title">{% trans 'Proves' %}</h5>
+                <h5 class="card-title">{% trans 'Enquestes' %}</h5>
                 <img src="{% static 'main/icons/noun_test_3271143.svg' %}" width="25%">
-                <p class="card-text">{% trans 'Crea i edita proves. Les proves creades estan disponibles per ser realitzades pels grups d&#39;alumnes.' %}</p>
-                <a href="{% url 'quiz_new' %}" class="btn btn-primary"><i class="fas fa-plus"></i></a>
-                <a href="{% url 'quiz_list' %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                <p class="card-text">{% trans 'Fer i consultar resultats d&#39;enquestes' %}</p>
+                <a href="{% url 'teacher_polls' %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
             </div>
         </div>
-        -->
         <div class="card mb-4 box-shadow">
             <div class="card-body">
                 <h5 class="card-title">{% trans 'Veure solucions de proves' %}</h5>
                 <img src="{% static 'main/icons/noun_solution_2998552.svg' %}" width="25%">
-                <p class="card-text">Veure les proves que han fet els grups, així com les puntuacions obtingudes.</p>
+                <p class="card-text">{% trans 'Veure les proves que han fet els grups, així com les puntuacions obtingudes.' %}</p>
                 <!--<a href="{% url 'quiz_solutions' %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>-->
                 <a href="{% url 'quiz_results' %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
                 <a href="{% url 'upload_file_solutions' %}" class="btn btn-primary"><i class="fas fa-upload"></i></a>

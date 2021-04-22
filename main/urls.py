@@ -54,6 +54,7 @@ urlpatterns = [
     path('question_upload/update/<int:pk>/', views.question_upload_update, name='question_upload_update'),
     path('teacher/new/', views.teacher_new, name='teacher_new'),
     path('teacher/list/', views.teacher_list, name='teacher_list'),
+    path('teacher/polls/list/', views.teacher_polls, name='teacher_polls'),
     path('teacher/update/<int:pk>/', views.teacher_update, name='teacher_update'),
     path('teacher/update/', views.teacher_update, name='teacher_update_no_id'),
     path('teacher/datatablelist/', views.teachers_datatable_list, name='teachers_datatable_list'),

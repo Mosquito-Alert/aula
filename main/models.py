@@ -34,6 +34,7 @@ class Quiz(models.Model):
     html_header = models.TextField(blank=True, null=True)
     published = models.BooleanField(default=False)
     type = models.IntegerField(choices=QUIZ_TYPES)
+    professor_poll = models.BooleanField(default=False)
     # To take this quiz, you need to previously complete 'requisite'
     requisite = models.ForeignKey('main.Quiz', null=True, blank=True, on_delete=models.SET_NULL, related_name='allows')
 

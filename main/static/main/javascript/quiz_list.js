@@ -40,6 +40,7 @@ $(document).ready( function () {
             { 'data': 'education_center' },
             { 'data': 'requisite' },
             { 'data': 'published' },
+            { 'data': 'type_text' },
             { 'data': 'quiz_start_url' },
         ],
         'columnDefs': [
@@ -86,6 +87,10 @@ $(document).ready( function () {
             },
             {
             'targets':5,
+            'title': 'Tipus prova'
+            },
+            {
+            'targets':6,
             'sortable': false,
             'title': 'Enllaç a la prova',
             'render': function(value){
@@ -93,14 +98,14 @@ $(document).ready( function () {
                 }
             },
             {
-                'targets': 6,
+                'targets': 7,
                 'sortable': false,
                 'render': function(value){
                     return '<button title="Editar" class="edit_button btn btn-info"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>';
                 }
             },
             {
-                'targets': 7,
+                'targets': 8,
                 'sortable': false,
                 'render': function(value){
                     return '<button title="Eliminar prova" class="delete_button btn btn-danger"><i class="fas fa-backspace"></i></button>';
