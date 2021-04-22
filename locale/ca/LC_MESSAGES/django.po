@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-21 08:09+0000\n"
+"POT-Creation-Date: 2021-04-22 06:06+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -142,7 +142,11 @@ msgstr ""
 msgid "Pujar fitxer"
 msgstr ""
 
-#: main/models.py:51
+#: main/models.py:28
+msgid "Enquesta professorat"
+msgstr ""
+
+#: main/models.py:53
 msgid "Tipus invàlid"
 msgstr ""
 
@@ -186,7 +190,6 @@ msgstr ""
 
 #: main/templates/main/admin_menu.html:44
 #: main/templates/main/quiz_assign_admin.html:54
-#: main/templates/main/teacher_menu.html:25
 msgid "Proves"
 msgstr ""
 
@@ -195,7 +198,7 @@ msgid "Crea una prova."
 msgstr ""
 
 #: main/templates/main/admin_menu.html:53
-#: main/templates/main/teacher_menu.html:35
+#: main/templates/main/teacher_menu.html:32
 msgid "Veure solucions de proves"
 msgstr ""
 
@@ -216,6 +219,7 @@ msgid "Menú principal grups"
 msgstr ""
 
 #: main/templates/main/alum_hub.html:13
+#: main/templates/main/teacher_polls.html:13
 msgid "Hola"
 msgstr ""
 
@@ -231,6 +235,8 @@ msgstr ""
 #: main/templates/main/alum_hub.html:24 main/templates/main/alum_hub.html:38
 #: main/templates/main/alum_hub.html:49 main/templates/main/alum_hub.html:60
 #: main/templates/main/alum_hub.html:83
+#: main/templates/main/teacher_polls.html:22
+#: main/templates/main/teacher_polls.html:44
 msgid "Títol"
 msgstr ""
 
@@ -240,11 +246,13 @@ msgstr ""
 
 #: main/templates/main/alum_hub.html:25 main/templates/main/alum_hub.html:39
 #: main/templates/main/alum_hub.html:50 main/templates/main/alum_hub.html:61
+#: main/templates/main/teacher_polls.html:23
 msgid "Començada"
 msgstr ""
 
 #: main/templates/main/alum_hub.html:26 main/templates/main/alum_hub.html:40
 #: main/templates/main/alum_hub.html:51 main/templates/main/alum_hub.html:62
+#: main/templates/main/teacher_polls.html:24
 msgid "Finalitzada"
 msgstr ""
 
@@ -265,10 +273,12 @@ msgid "Repassar"
 msgstr ""
 
 #: main/templates/main/alum_hub.html:54
+#: main/templates/main/teacher_polls.html:27
 msgid "Veure resultats enquesta"
 msgstr ""
 
 #: main/templates/main/alum_hub.html:54
+#: main/templates/main/teacher_polls.html:27
 msgid "Resultats"
 msgstr ""
 
@@ -286,10 +296,13 @@ msgstr ""
 
 #: main/templates/main/alum_hub.html:88 main/templates/main/alum_hub.html:90
 #: main/templates/main/alum_hub.html:97 main/templates/main/alum_hub.html:99
+#: main/templates/main/teacher_polls.html:48
+#: main/templates/main/teacher_polls.html:53
 msgid "Fer la prova!"
 msgstr ""
 
 #: main/templates/main/alum_hub.html:93
+#: main/templates/main/teacher_polls.html:50
 msgid "Aquest material està bloquejat, abans cal fer la prova amb nom"
 msgstr ""
 
@@ -302,10 +315,12 @@ msgid "Aquestes són les proves que esteu fent però no heu acabat"
 msgstr ""
 
 #: main/templates/main/alum_hub.html:117
+#: main/templates/main/teacher_polls.html:70
 msgid "Continuar fent la prova!"
 msgstr ""
 
 #: main/templates/main/alum_hub.html:122
+#: main/templates/main/teacher_polls.html:75
 msgid "No teniu proves que calgui acabar!"
 msgstr ""
 
@@ -949,12 +964,13 @@ msgid "Repetir la prova "
 msgstr ""
 
 #: main/templates/main/quiz_take_endsummary.html:67
-#: main/templates/main/quiz_take_endsummary.html:70
+#: main/templates/main/quiz_take_endsummary.html:71
+#: main/templates/main/quiz_take_endsummary.html:73
 msgid "Tornar a l&#39;inici"
 msgstr ""
 
 #: main/templates/main/quiz_take_endsummary.html:68
-#: main/templates/main/quiz_take_endsummary.html:71
+#: main/templates/main/quiz_take_endsummary.html:75
 msgid "Llençar més confetti! "
 msgstr ""
 
@@ -1025,14 +1041,47 @@ msgid ""
 "usuaris de l&#39;aplicació, que poden fer proves de coneixements."
 msgstr ""
 
-#: main/templates/main/teacher_menu.html:27
+#: main/templates/main/teacher_menu.html:24
+msgid "Enquestes"
+msgstr ""
+
+#: main/templates/main/teacher_menu.html:26
+msgid "Fer i consultar resultats d&#39;enquestes al professorat"
+msgstr ""
+
+#: main/templates/main/teacher_menu.html:34
 msgid ""
-"Crea i edita proves. Les proves creades estan disponibles per ser "
-"realitzades pels grups d&#39;alumnes."
+"Veure les proves que han fet els grups, així com les puntuacions obtingudes."
 msgstr ""
 
 #: main/templates/main/teacher_new.html:8
 msgid "Creant nou usuari per mestre"
+msgstr ""
+
+#: main/templates/main/teacher_polls.html:4
+#: main/templates/main/teacher_polls.html:6
+msgid "Enquestes professorat"
+msgstr ""
+
+#: main/templates/main/teacher_polls.html:18
+msgid ""
+"Aquestes són les enquestes que ja heu acabat (podeu veure els resultats)"
+msgstr ""
+
+#: main/templates/main/teacher_polls.html:33
+msgid "Encara no heu acabat cap enquesta!"
+msgstr ""
+
+#: main/templates/main/teacher_polls.html:40
+msgid "Aquestes són les enquestes que encara no heu fet"
+msgstr ""
+
+#: main/templates/main/teacher_polls.html:59
+msgid "No teniu enquestes per fer!"
+msgstr ""
+
+#: main/templates/main/teacher_polls.html:64
+msgid "Aquestes són les enquestes que esteu fent però no heu acabat"
 msgstr ""
 
 #: main/templates/main/test_result.html:4
@@ -1040,8 +1089,8 @@ msgstr ""
 msgid "Resultats test"
 msgstr ""
 
-#: main/templates/main/test_result.html:12 main/views.py:1744
-#: main/views.py:1794
+#: main/templates/main/test_result.html:12 main/views.py:1763
+#: main/views.py:1813
 msgid "Anònim"
 msgstr ""
 
@@ -1135,75 +1184,76 @@ msgstr ""
 msgid "password"
 msgstr ""
 
-#: main/views.py:188 main/views.py:198 main/views.py:267 main/views.py:757
-#: main/views.py:793 main/views.py:827 main/views.py:984 main/views.py:1028
-#: main/views.py:1140 main/views.py:1151 main/views.py:1164 main/views.py:1804
+#: main/views.py:188 main/views.py:198 main/views.py:236 main/views.py:286
+#: main/views.py:776 main/views.py:812 main/views.py:846 main/views.py:1003
+#: main/views.py:1047 main/views.py:1159 main/views.py:1170 main/views.py:1183
+#: main/views.py:1823
 msgid "Estàs intentant accedir a una pàgina a la que no tens permís."
 msgstr ""
 
-#: main/views.py:351
+#: main/views.py:370
 msgid "Sembla que aquesta prova no existeix."
 msgstr ""
 
-#: main/views.py:355
+#: main/views.py:374
 msgid "Sembla que aquesta prova no està completada."
 msgstr ""
 
-#: main/views.py:374 main/views.py:391 main/views.py:1688
+#: main/views.py:393 main/views.py:410 main/views.py:1707
 msgid "No existeix aquesta prova."
 msgstr ""
 
-#: main/views.py:378 main/views.py:1692
+#: main/views.py:397 main/views.py:1711
 msgid ""
 "El test seleccionat no l'ha realitzat cap grup i encara no té resultats."
 msgstr ""
 
-#: main/views.py:395
+#: main/views.py:414
 msgid "No tens assignada aquesta prova, de manera que no la pots visualitzar."
 msgstr ""
 
-#: main/views.py:550 main/views.py:593 main/views.py:631
+#: main/views.py:569 main/views.py:612 main/views.py:650
 msgid ""
 "Estàs intentant accedir a una prova creada per un professor que no és el teu "
 "tutor."
 msgstr ""
 
-#: main/views.py:554 main/views.py:597
+#: main/views.py:573 main/views.py:616
 msgid "Aquesta prova no existeix!"
 msgstr ""
 
-#: main/views.py:564 main/views.py:604
+#: main/views.py:583 main/views.py:623
 msgid ""
 "Ho sentim, però les proves de pujada de fitxer només es poden fer una vegada."
 msgstr ""
 
-#: main/views.py:653
+#: main/views.py:672
 msgid ""
 "Aquesta prova està marcada com a finalitzada, o sigui que no la pots "
 "modificar. Si vols, la pots repetir."
 msgstr ""
 
-#: main/views.py:690
+#: main/views.py:709
 msgid "Aquesta prova no està publicada, no la pots començar."
 msgstr ""
 
-#: main/views.py:697
+#: main/views.py:716
 msgid ""
 "Les proves de materials, pujada de fitxers i enquestes només es fan una "
 "vegada. Les pots repassar totes però des del menú de grup "
 msgstr ""
 
-#: main/views.py:703
+#: main/views.py:722
 msgid "Aquesta prova té un requisit que no s'ha completat: "
 msgstr ""
 
-#: main/views.py:709
+#: main/views.py:728
 msgid ""
 "Estàs intentant començar una prova creada per un professor que no és el teu "
 "tutor."
 msgstr ""
 
-#: main/views.py:733
+#: main/views.py:752
 msgid "Estàs intentant editar una prova que no existeix."
 msgstr ""
 
