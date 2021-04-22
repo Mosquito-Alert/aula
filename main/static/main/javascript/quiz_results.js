@@ -28,7 +28,7 @@ $(document).ready( function () {
         'columns': [
             { 'data': 'name' },
             { 'data': 'author.username' },
-            { 'data': 'type' },
+            { 'data': 'type_text' },
             {'data': 'test_results'}
         ],
 
@@ -50,14 +50,7 @@ $(document).ready( function () {
             },
             {
                 'targets':2,
-                'title': 'Tipus de prova',
-                'render': function(value){
-                    if (value === 0){
-                        return "Test"
-                    }else if(value === 2){
-                        return "Enquesta"
-                    }
-                }
+                'title': 'Tipus de prova'
             },
             {
                 'targets': 3,
@@ -81,7 +74,7 @@ $(document).ready( function () {
         if (testType === 0){ //Test
             console.log(_test_results);
             window.location.href = _test_results.replace('0', quiz_id); + '/';
-        }else if(testType === 2){ //POLL
+        }else if(testType === 2 || testType === 4){ //POLL
             console.log(_poll_results)
             window.location.href = _poll_results.replace('0', quiz_id); + '/';
         }

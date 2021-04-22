@@ -67,7 +67,11 @@
         <div class="col-md-4 text-center mt-1"><a class="btn btn-success" href="{% url 'group_menu' %}" role="button">{% trans 'Tornar a l&#39;inici' %}</a></div>
         <div class="col-md-4 text-center mt-1"><button id="confetti-button" role="button" class="btn btn-success">{% trans 'Llençar més confetti! ' %}</i></button></div>
         {% else %}
-        <div class="col-md-6 text-center mt-1"><a class="btn btn-success" href="{% url 'group_menu' %}" role="button">{% trans 'Tornar a l&#39;inici' %}</a></div>
+            {% if request.user.profile.is_teacher %}
+                <div class="col-md-6 text-center mt-1"><a class="btn btn-success" href="{% url 'teacher_menu' %}" role="button">{% trans 'Tornar a l&#39;inici' %}</a></div>
+            {% else %}
+                <div class="col-md-6 text-center mt-1"><a class="btn btn-success" href="{% url 'group_menu' %}" role="button">{% trans 'Tornar a l&#39;inici' %}</a></div>
+            {% endif %}
         <div class="col-md-6 text-center mt-1"><button id="confetti-button" role="button" class="btn btn-success">{% trans 'Llençar més confetti! ' %}</i></button></div>
         {% endif %}
 

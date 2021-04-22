@@ -24,7 +24,8 @@ QUIZ_TYPES = (
     (0, _('Test')),
     (1, _('Material')),
     (2, _('Enquesta')),
-    (3, _('Pujar fitxer'))
+    (3, _('Pujar fitxer')),
+    (4, _('Enquesta professorat')),
 )
 
 
@@ -47,6 +48,7 @@ class Quiz(models.Model):
             1: QUIZ_TYPES[1][1],
             2: QUIZ_TYPES[2][1],
             3: QUIZ_TYPES[3][1],
+            4: QUIZ_TYPES[4][1],
         }
         return switcher.get(self.type,_('Tipus invàlid'))
 
@@ -69,7 +71,7 @@ class Quiz(models.Model):
 
     @property
     def is_poll(self):
-        return self.type == 2
+        return self.type == 2 or self.type == 4
 
     @property
     def is_upload(self):

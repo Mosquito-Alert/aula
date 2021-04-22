@@ -221,12 +221,31 @@ def group_menu(request):
 
 
 @login_required
+def teacher_polls(request):
+    this_user = request.user
+    if is_teacher_test(this_user):
+        # filter(type=2).filter(professor_poll=True).
+        polls_in_progress_ids = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=True).values('quiz__id').distinct()
+        polls_done_ids = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=False).values('quiz__id').distinct()
+        available_polls = Quiz.objects.filter(type=4).filter(author__isnull=True).filter(published=True).exclude(id__in=polls_in_progress_ids).exclude(id__in=polls_done_ids).order_by('id')
+        in_progress_polls = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=True).order_by('-date')
+        done_polls = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=False).order_by('-date')
+        done_poll_ids = [a.quiz.id for a in done_polls]
+        return render(request, 'main/teacher_polls.html', {'available_quizzes':available_polls, 'in_progress_quizruns':in_progress_polls, 'done_quizruns': done_polls, 'done_quizzes_ids': done_poll_ids})
+    else:
+        message = _("Estàs intentant accedir a una pàgina a la que no tens permís.")
+        go_back_to = "index"
+        return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
+
+
+
+@login_required
 def group_menu(request):
     this_user = request.user
     teach = this_user.profile.group_teacher
     quizzes_in_progress_ids = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=True).values('quiz__id').distinct()
     quizzes_done_ids = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=False).values('quiz__id').distinct()
-    available_quizzes = Quiz.objects.filter(Q(author=teach) | Q(author__isnull=True)).filter(published=True).exclude(id__in=quizzes_in_progress_ids).exclude(id__in=quizzes_done_ids).order_by('id')
+    available_quizzes = Quiz.objects.filter(Q(author=teach) | Q(author__isnull=True)).filter(published=True).exclude(type=4).exclude(id__in=quizzes_in_progress_ids).exclude(id__in=quizzes_done_ids).order_by('id')
     in_progress_quizruns = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=True).order_by('-date')
     done_quizruns = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=False).order_by('-date')
     done_quizzes_ids = [ a.quiz.id for a in done_quizruns ]
@@ -1663,12 +1682,12 @@ def quiz_datatable_results(request):
     if request.method == 'GET':
 
         search_field_list = ('name', 'author.username')
-        field_translation_list = {'name': 'name', 'author.username': 'author__username', 'type': 'type__type_text'}
-        sort_translation_list = {'name': 'name', 'author.username': 'author__username', 'type': 'type__type_text'}
+        field_translation_list = {'name': 'name', 'author.username': 'author__username'}
+        sort_translation_list = {'name': 'name', 'author.username': 'author__username'}
 
         if this_user.is_superuser:
             #queryset = Quiz.objects.select_related('author').all()
-            queryset = Quiz.objects.filter(Q(type=0) | Q(type=2))
+            queryset = Quiz.objects.filter(Q(type=0) | Q(type=2) | Q(type=4))
         elif this_user.profile.is_teacher:
             queryset = Quiz.objects.select_related('author').filter(Q(author=this_user) | Q(author__isnull=True)).filter(Q(type=0) | Q(type=2))
         else:
