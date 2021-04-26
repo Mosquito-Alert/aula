@@ -19,7 +19,7 @@ from django.contrib.gis.geos import GEOSGeometry
 import csv
 
 
-USERS_FILE = proj_path + '/util_scripts/teacher_list_original.csv'
+USERS_FILE = proj_path + '/util_scripts/profes_restants.csv'
 OUT_FILE = proj_path + '/util_scripts/teachers_out.csv'
 
 def clean_teacher_name(original_name):
@@ -35,7 +35,7 @@ def remove_users():
         csv_reader = csv.reader(csv_file, delimiter=',')
         next(csv_reader)
         for row in csv_reader:
-            teacher_name = clean_teacher_name(row[4])
+            teacher_name = clean_teacher_name(row[3])
             try:
                 u = User.objects.get(username=teacher_name)
                 u.delete()
@@ -50,8 +50,8 @@ def create_users():
         csv_reader = csv.reader(csv_file, delimiter=',')
         next(csv_reader)
         for row in csv_reader:
-            center_name = row[1]
-            teacher_name = clean_teacher_name(row[4])
+            center_name = row[0]
+            teacher_name = clean_teacher_name(row[3])
             center = None
             try:
                 center = EducationCenter.objects.get(name=center_name)
