@@ -11,4 +11,4 @@ media/
 *.sublime*
 static/*
 __pycache__/
-
+util_scripts/*.csv
