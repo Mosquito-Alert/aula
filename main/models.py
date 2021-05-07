@@ -98,7 +98,7 @@ class Quiz(models.Model):
         for user in taken_by:
             best_run = QuizRun.objects.filter(taken_by__id=user['taken_by__id']).filter(quiz=self).order_by('-questions_right', '-date_finished').first()
             best_runs.append(best_run)
-        #best_runs.sort(key=lambda x: x.taken_by.profile.group_public_name)
+        best_runs.sort(key=lambda x: ( x.taken_by.profile.group_public_name if x.taken_by.profile.group_public_name is not None else x.taken_by.username) )
         return best_runs
 
     @property
