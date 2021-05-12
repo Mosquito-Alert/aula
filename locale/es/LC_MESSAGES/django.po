@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-22 06:06+0000\n"
+"POT-Creation-Date: 2021-05-12 10:50+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -787,7 +787,7 @@ msgstr "Añadir pregunta con múltiple respuesta"
 msgid "Afegir pregunta amb link a document extern"
 msgstr "Añadir pregunta con link a documento externo"
 
-#: main/templates/main/quiz_edit.html:72
+#: main/templates/main/quiz_edit.html:72 main/templates/main/quiz_edit.html:76
 #: main/templates/main/quiz_edit_teacher.html:59
 msgid "Afegir pregunta d&#39;enquesta"
 msgstr "Añadir preguntas a una encuesta"
@@ -797,11 +797,11 @@ msgstr "Añadir preguntas a una encuesta"
 msgid "Afegir pregunta de pujada de fitxer"
 msgstr "Añadir pregunta de subida de fichero"
 
-#: main/templates/main/quiz_edit.html:102
-#: main/templates/main/quiz_edit.html:118
-#: main/templates/main/quiz_edit.html:137
-#: main/templates/main/quiz_edit.html:149
-#: main/templates/main/quiz_edit.html:168
+#: main/templates/main/quiz_edit.html:104
+#: main/templates/main/quiz_edit.html:120
+#: main/templates/main/quiz_edit.html:139
+#: main/templates/main/quiz_edit.html:151
+#: main/templates/main/quiz_edit.html:170
 #: main/templates/main/quiz_edit_teacher.html:89
 #: main/templates/main/quiz_edit_teacher.html:104
 #: main/templates/main/quiz_edit_teacher.html:121
@@ -810,11 +810,11 @@ msgstr "Añadir pregunta de subida de fichero"
 msgid "Editar pregunta i respostes"
 msgstr "Editar pregunta y respuestas"
 
-#: main/templates/main/quiz_edit.html:102
-#: main/templates/main/quiz_edit.html:118
-#: main/templates/main/quiz_edit.html:137
-#: main/templates/main/quiz_edit.html:149
-#: main/templates/main/quiz_edit.html:168
+#: main/templates/main/quiz_edit.html:104
+#: main/templates/main/quiz_edit.html:120
+#: main/templates/main/quiz_edit.html:139
+#: main/templates/main/quiz_edit.html:151
+#: main/templates/main/quiz_edit.html:170
 #: main/templates/main/quiz_edit_teacher.html:89
 #: main/templates/main/quiz_edit_teacher.html:104
 #: main/templates/main/quiz_edit_teacher.html:121
@@ -823,7 +823,7 @@ msgstr "Editar pregunta y respuestas"
 msgid "Eliminar pregunta"
 msgstr "Eliminar pregunta"
 
-#: main/templates/main/quiz_edit.html:198
+#: main/templates/main/quiz_edit.html:200
 #: main/templates/main/quiz_edit_teacher.html:179
 msgid ""
 "Aquesta prova encara no té contingut. El pots afegir fent servir el botó (+)"
@@ -1039,6 +1039,30 @@ msgstr "Subida de datos para la prueba"
 msgid "Afegir fitxer"
 msgstr "Añadir fichero"
 
+#: main/templates/main/quizrun_group_list.html:21
+msgid "Llistat intents prova/grup"
+msgstr "Lista intentos prueba/grupo"
+
+#: main/templates/main/quizrun_group_list.html:25
+msgid "Llistat d'intents per prova i per grup"
+msgstr "Lista de intentos por prueba i por grupo"
+
+#: main/templates/main/quizrun_group_list.html:33
+msgid "Número d'intent"
+msgstr "Número de intento"
+
+#: main/templates/main/quizrun_group_list.html:34
+msgid "Data finalització"
+msgstr "Fecha de finalización"
+
+#: main/templates/main/quizrun_group_list.html:35
+msgid "Respostes correctes"
+msgstr "Respuestas correctas"
+
+#: main/templates/main/quizrun_group_list.html:45
+msgid "Eliminar intent"
+msgstr "Eliminar intento"
+
 #: main/templates/main/teacher_edit.html:15
 msgid "Editar mestre"
 msgstr "Editar profesor"
@@ -1080,7 +1104,8 @@ msgstr "Hacer y consultar resultados de encuestas al profesorado"
 #: main/templates/main/teacher_menu.html:34
 msgid ""
 "Veure les proves que han fet els grups, així com les puntuacions obtingudes."
-msgstr "Ver las pruebas que han hecho los grupos, así como las puntuaciones obtenidas"
+msgstr ""
+"Ver las pruebas que han hecho los grupos, así como las puntuaciones obtenidas"
 
 #: main/templates/main/teacher_new.html:8
 msgid "Creant nou usuari per mestre"
@@ -1092,8 +1117,10 @@ msgid "Enquestes professorat"
 msgstr "Encuestas profesorado"
 
 #: main/templates/main/teacher_polls.html:18
-msgid "Aquestes són les enquestes que ja heu acabat (podeu veure els resultats)"
-msgstr "Estas son las encuestas que habéis terminado (podeis ver los resultados)"
+msgid ""
+"Aquestes són les enquestes que ja heu acabat (podeu veure els resultats)"
+msgstr ""
+"Estas son las encuestas que habéis terminado (podeis ver los resultados)"
 
 #: main/templates/main/teacher_polls.html:33
 msgid "Encara no heu acabat cap enquesta!"
@@ -1149,6 +1176,12 @@ msgstr "Mejor intento"
 #: main/templates/main/test_result.html:38
 msgid "Prova finalitzada"
 msgstr "¡Prueba finalizada!"
+
+#: main/templates/main/test_result.html:58
+#, fuzzy
+#| msgid "Llista de centres"
+msgid "Llistar intents"
+msgstr "Listar centros"
 
 #: main/templates/main/test_solutions_teacher.html:5
 #: main/templates/main/test_solutions_teacher.html:7
@@ -1226,11 +1259,11 @@ msgstr "Parece que esta prueba no existe."
 msgid "Sembla que aquesta prova no està completada."
 msgstr "Parece que esta prueba no está completada."
 
-#: main/views.py:393 main/views.py:410 main/views.py:1707
+#: main/views.py:393 main/views.py:410 main/views.py:1707 main/views.py:1838
 msgid "No existeix aquesta prova."
 msgstr "No existe esta prueba."
 
-#: main/views.py:397 main/views.py:1711
+#: main/views.py:397 main/views.py:1711 main/views.py:1843
 msgid ""
 "El test seleccionat no l'ha realitzat cap grup i encara no té resultats."
 msgstr ""
@@ -1296,6 +1329,11 @@ msgstr ""
 msgid "Estàs intentant editar una prova que no existeix."
 msgstr "Estás intentando acceder a una prueba que no existe."
 
+#, fuzzy
+#~| msgid "Llista d\\"
+#~ msgid "Llistat d\\"
+#~ msgstr "Lista d\\"
+
 #~ msgid ""
 #~ "Crea i edita proves. Les proves creades estan disponibles per ser "
 #~ "realitzades pels grups d&#39;alumnes."
@@ -1325,9 +1363,6 @@ msgstr "Estás intentando acceder a una prueba que no existe."
 
 #~ msgid "La resta d\\"
 #~ msgstr "El resto d\\"
-
-#~ msgid "Llista d\\"
-#~ msgstr "Lista d\\"
 
 #~ msgid "Grups d\\"
 #~ msgstr "Grupos d\\"

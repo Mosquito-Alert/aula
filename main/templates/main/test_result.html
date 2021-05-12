@@ -36,6 +36,9 @@
                 <th>{% trans 'Millor puntuació' %}</th>
                 <th>{% trans 'Millor intent' %}</th>
                 <th>{% trans 'Prova finalitzada' %}</th>
+                {% if user.is_superuser %}
+                    <th></th>
+                {% endif %}
             </tr>
             {% for quizrun in quiz.best_runs %}
             <tr>
@@ -50,6 +53,11 @@
                 <td>{{ quizrun.questions_right }}/{{ quizrun.questions_number }}</td>
                 <td>{{ quizrun.run_number }}</td>
                 <td>{{ quizrun.date_finished }}</td>
+                {% if user.is_superuser %}
+                    <td>
+                        <a class="btn btn-info" href="{% url 'quizrun_group_list' quiz_id=quiz.id group_id=quizrun.taken_by.profile.user.id %}">{% trans 'Llistar intents' %}</a>
+                    </td>
+                {% endif %}
             </tr>
             {% endfor %}
         </table>

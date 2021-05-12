@@ -1827,3 +1827,33 @@ def upload_file_solutions(request):
 
 
 
+@login_required
+def quizrun_group_list(request, quiz_id=None, group_id=None):
+    this_user = request.user
+    quizruns = None
+    if quiz_id and group_id:
+        #quiz = get_object_or_404(Quiz, pk=quiz_id)
+        quizruns = QuizRun.objects.filter(quiz_id=quiz_id).filter(taken_by_id=group_id)
+    else:
+        message = _("No existeix aquesta prova.")
+        go_back_to = "quiz_results"
+        return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
+
+    if not quizruns:
+        message = _("El test seleccionat no l'ha realitzat cap grup i encara no té resultats.")
+        go_back_to = "quiz_results"
+        return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
+
+    return render(request, 'main/quizrun_group_list.html', {'quizruns': quizruns})
+
+
+@api_view(['POST'])
+@login_required
+def delete_quizrun(request, quizrun_id=None):
+    print(quizrun_id)
+    if quizrun_id:
+        QuizRun.objects.filter(id=quizrun_id).delete()
+
+    context = {}
+    return Response(context)
+

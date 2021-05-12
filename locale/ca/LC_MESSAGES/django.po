@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-22 06:06+0000\n"
+"POT-Creation-Date: 2021-05-12 11:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -771,7 +771,7 @@ msgstr ""
 msgid "Afegir pregunta amb link a document extern"
 msgstr ""
 
-#: main/templates/main/quiz_edit.html:72
+#: main/templates/main/quiz_edit.html:72 main/templates/main/quiz_edit.html:76
 #: main/templates/main/quiz_edit_teacher.html:59
 msgid "Afegir pregunta d&#39;enquesta"
 msgstr ""
@@ -781,11 +781,11 @@ msgstr ""
 msgid "Afegir pregunta de pujada de fitxer"
 msgstr ""
 
-#: main/templates/main/quiz_edit.html:102
-#: main/templates/main/quiz_edit.html:118
-#: main/templates/main/quiz_edit.html:137
-#: main/templates/main/quiz_edit.html:149
-#: main/templates/main/quiz_edit.html:168
+#: main/templates/main/quiz_edit.html:104
+#: main/templates/main/quiz_edit.html:120
+#: main/templates/main/quiz_edit.html:139
+#: main/templates/main/quiz_edit.html:151
+#: main/templates/main/quiz_edit.html:170
 #: main/templates/main/quiz_edit_teacher.html:89
 #: main/templates/main/quiz_edit_teacher.html:104
 #: main/templates/main/quiz_edit_teacher.html:121
@@ -794,11 +794,11 @@ msgstr ""
 msgid "Editar pregunta i respostes"
 msgstr ""
 
-#: main/templates/main/quiz_edit.html:102
-#: main/templates/main/quiz_edit.html:118
-#: main/templates/main/quiz_edit.html:137
-#: main/templates/main/quiz_edit.html:149
-#: main/templates/main/quiz_edit.html:168
+#: main/templates/main/quiz_edit.html:104
+#: main/templates/main/quiz_edit.html:120
+#: main/templates/main/quiz_edit.html:139
+#: main/templates/main/quiz_edit.html:151
+#: main/templates/main/quiz_edit.html:170
 #: main/templates/main/quiz_edit_teacher.html:89
 #: main/templates/main/quiz_edit_teacher.html:104
 #: main/templates/main/quiz_edit_teacher.html:121
@@ -807,7 +807,7 @@ msgstr ""
 msgid "Eliminar pregunta"
 msgstr ""
 
-#: main/templates/main/quiz_edit.html:198
+#: main/templates/main/quiz_edit.html:200
 #: main/templates/main/quiz_edit_teacher.html:179
 msgid ""
 "Aquesta prova encara no té contingut. El pots afegir fent servir el botó (+)"
@@ -1015,6 +1015,30 @@ msgstr ""
 msgid "Afegir fitxer"
 msgstr ""
 
+#: main/templates/main/quizrun_group_list.html:21
+msgid "Llistat intents prova/grup"
+msgstr "Llistat intents prova/grup"
+
+#: main/templates/main/quizrun_group_list.html:25
+msgid "Llistat d'intents per prova i per grup"
+msgstr "Llistat d'intents per prova i per grup"
+
+#: main/templates/main/quizrun_group_list.html:33
+msgid "Número d'intent"
+msgstr "Número d'intent"
+
+#: main/templates/main/quizrun_group_list.html:34
+msgid "Data finalització"
+msgstr "Data finalització"
+
+#: main/templates/main/quizrun_group_list.html:35
+msgid "Respostes correctes"
+msgstr "Respostes correctes"
+
+#: main/templates/main/quizrun_group_list.html:45
+msgid "Eliminar intent"
+msgstr "Eliminar intent"
+
 #: main/templates/main/teacher_edit.html:15
 msgid "Editar mestre"
 msgstr ""
@@ -1123,6 +1147,12 @@ msgstr ""
 msgid "Prova finalitzada"
 msgstr ""
 
+#: main/templates/main/test_result.html:58
+#, fuzzy
+#| msgid "Llistat enquestas i tests"
+msgid "Llistar intents"
+msgstr "Llistat enquestes i tests"
+
 #: main/templates/main/test_solutions_teacher.html:5
 #: main/templates/main/test_solutions_teacher.html:7
 msgid "Resultats de proves"
@@ -1199,11 +1229,11 @@ msgstr ""
 msgid "Sembla que aquesta prova no està completada."
 msgstr ""
 
-#: main/views.py:393 main/views.py:410 main/views.py:1707
+#: main/views.py:393 main/views.py:410 main/views.py:1707 main/views.py:1838
 msgid "No existeix aquesta prova."
 msgstr ""
 
-#: main/views.py:397 main/views.py:1711
+#: main/views.py:397 main/views.py:1711 main/views.py:1843
 msgid ""
 "El test seleccionat no l'ha realitzat cap grup i encara no té resultats."
 msgstr ""
