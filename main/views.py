@@ -1888,7 +1888,13 @@ def delete_quizrun(request, quizrun_id=None):
 @login_required
 def test_results_detail_view(request, quiz_id=None, group_id=None):
 
-    quizrun = QuizRun.objects.filter(quiz_id=quiz_id).filter(taken_by=group_id)
+    quizruns = QuizRun.objects.filter(quiz_id=quiz_id).filter(taken_by=group_id).order_by('-run_number')
+
+    quizrun_ids = quizruns.values('id')
+    quizrun_answers = QuizRunAnswers.objects.filter(quizrun__id__in=quizrun_ids)
+    answers_by_quizrun = [ str(a.quizrun.id) + '-' + str(a.chosen_answer.id) for a in quizrun_answers ]
+
+    '''
     for r in quizrun:
         qa = QuizRunAnswers.objects.filter(quizrun_id=r.id).order_by('question_id__question_order')
 
@@ -1924,7 +1930,7 @@ def test_results_detail_view(request, quiz_id=None, group_id=None):
                                'doc_link': k.doc_link,
                                'question_picture': k.question_picture,
                                'answers_text': []})
+    '''
 
-
-
-    return render(request, 'main/test_results_detail_view.html', {'q': questionObject, 'a': answersObject, 'quiz': qa })
+    return render(request, 'main/test_results_detail_view_2.html', {'quizruns': quizruns, 'answers_by_quizrun': answers_by_quizrun})
+    #return render(request, 'main/test_results_detail_view.html', {'q': questionObject, 'a': answersObject, 'quiz': qa })
