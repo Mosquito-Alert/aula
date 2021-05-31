@@ -102,4 +102,5 @@ urlpatterns = [
     path('tinymce/', include('tinymce.urls')),
     path('quiz/test_result/<int:quiz_id>/<int:group_id>/', views.quizrun_group_list, name='quizrun_group_list'),
     path('quizrun/delete/<int:quizrun_id>/', views.delete_quizrun, name='delete_quizrun'),
+    path('quiz/test_result/<int:quiz_id>/<int:group_id>/detail/', views.test_results_detail_view, name='test_results_detail_view')
 ]

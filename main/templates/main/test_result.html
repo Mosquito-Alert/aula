@@ -11,12 +11,12 @@
     <div class="row alert alert-success">
         <div class="col-md-6"><h2><span class="badge badge-info">{{ quiz.name }}</span> - {% if quiz.author %}{{ quiz.author.username }}{% else %}{% trans 'Anònim' %}{% endif %}</h2></div>
         {% if quiz.author %}
-        <div class="col-md-4" style="text-align:right;">{% trans 'Completat' %} {{ quiz.taken_by_n_people }}/{{ quiz.author.profile.tutored_groups }} {% trans 'grups' %}</div>
+            <div class="col-md-4" style="text-align:right;">{% trans 'Completat' %} {{ quiz.taken_by_n_people }}/{{ quiz.author.profile.tutored_groups }} {% trans 'grups' %}</div>
         {% else %}
             {% if request.user.is_superuser %}
                 <div class="col-md-4" style="text-align:right;">{% trans 'Completat' %} {{ quiz.taken_by_n_people }} {% trans 'grups' %}</div>
             {% else %}
-                <div class="col-md-4" style="text-align:right;">{% trans 'Completat' %} {{ quiz.taken_by_n_people }}/{{ request.user.profile.tutored_groups }} {% trans 'grups' %}</div>
+                <div class="col-md-4" style="text-align:right;">{% trans 'Completat' %} {{ n_of_best_runs }}/{{ request.user.profile.tutored_groups }} {% trans 'grups' %}</div>
             {% endif %}
         {% endif %}
         <div class="col-md-2">
@@ -40,26 +40,49 @@
                     <th></th>
                 {% endif %}
             </tr>
-            {% for quizrun in quiz.best_runs %}
-            <tr>
-                <td>
-                    {% if quizrun.taken_by.profile.is_group %}
-                        <img src="{{ quizrun.taken_by.profile.group_picture_thumbnail.url }}">
-                    {% else %}
-                        <img src="{% static 'main/icons/noun_Teacher_36665.svg' %}" width="150px">
-                    {% endif %}
-                </td>
-                <td>{% if quizrun.taken_by.profile.is_group %}{{ quizrun.taken_by.profile.group_public_name }}{% else %}{{ quizrun.taken_by.username }}{% endif %}</td>
-                <td>{{ quizrun.questions_right }}/{{ quizrun.questions_number }}</td>
-                <td>{{ quizrun.run_number }}</td>
-                <td>{{ quizrun.date_finished }}</td>
-                {% if user.is_superuser %}
-                    <td>
-                        <a class="btn btn-info" href="{% url 'quizrun_group_list' quiz_id=quiz.id group_id=quizrun.taken_by.profile.user.id %}">{% trans 'Llistar intents' %}</a>
-                    </td>
-                {% endif %}
-            </tr>
-            {% endfor %}
+            {% if request.user.is_superuser %}
+                {% for quizrun in quiz.best_runs %}
+                    <tr>
+                        <td>
+                            {% if quizrun.taken_by.profile.is_group %}
+                                <img src="{{ quizrun.taken_by.profile.group_picture_thumbnail.url }}">
+                            {% else %}
+                                <img src="{% static 'main/icons/noun_Teacher_36665.svg' %}" width="150px">
+                            {% endif %}
+                        </td>
+                        <td>{% if quizrun.taken_by.profile.is_group %}{{ quizrun.taken_by.profile.group_public_name }}{% else %}{{ quizrun.taken_by.username }}{% endif %}</td>
+                        <td>{{ quizrun.questions_right }}/{{ quizrun.questions_number }}</td>
+                        <td>{{ quizrun.run_number }}</td>
+                        <td>{{ quizrun.date_finished }}</td>
+                        {% if user.is_superuser %}
+                            <td>
+                                <a class="btn btn-info" href="{% url 'quizrun_group_list' quiz_id=quiz.id group_id=quizrun.taken_by.profile.user.id %}">{% trans 'Llistar intents' %}</a>
+                            </td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            {% else %}
+                {% for quizrun in quizRuns %}
+                    <tr>
+                        <td>
+                            {% if quizrun.taken_by.profile.is_group %}
+                                <img src="{{ quizrun.taken_by.profile.group_picture_thumbnail.url }}">
+                            {% else %}
+                                <img src="{% static 'main/icons/noun_Teacher_36665.svg' %}" width="150px">
+                            {% endif %}
+                        </td>
+                        <td>{% if quizrun.taken_by.profile.is_group %}{{ quizrun.taken_by.profile.group_public_name }}{% else %}{{ quizrun.taken_by.username }}{% endif %}</td>
+                        <td>{{ quizrun.questions_right }}/{{ quizrun.questions_number }}</td>
+                        <td>{{ quizrun.run_number }}</td>
+                        <td>{{ quizrun.date_finished }}</td>
+                        {% if user.is_superuser %}
+                            <td>
+                                <a class="btn btn-info" href="{% url 'quizrun_group_list' quiz_id=quiz.id group_id=quizrun.taken_by.profile.user.id %}">{% trans 'Llistar intents' %}</a>
+                            </td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            {% endif %}
         </table>
     </div>
 
@@ -136,9 +159,6 @@
                     </div>
                 {% endfor %}
             {% endif %}
-
-
-
         {% endif %}
     </div>
     {% endfor %}

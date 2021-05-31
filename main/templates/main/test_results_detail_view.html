@@ -1,0 +1,39 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% load i18n %}
+{% block title %}{% trans 'Resultats test' %}{% endblock %}
+
+{% block main_jumbo %}
+<img class="img_icons" src="{% static 'main/icons/noun_test_3271143.svg' %}"> {% trans 'Resultats test' %} - {% endblock %}
+{% block sub_jumbo %}{% endblock %}
+
+{% block main %}
+    <div class="container">
+    {% for quizrun in quiz %}
+        {% for question in q %}
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="ml-5">
+                        <p>{{ question.question_order }}. {{ question.text }}</p>
+
+                            {% for answers in a %}
+                                {% if answers.question_id == question.id  %}
+                                    {% if answers.is_correct %}
+                                        {% if quizrun.chosen_answer_id == answers.id %}
+                                            <p style="color:green;">{{ answers.text }}</p>
+                                        {% else %}
+                                            <p style="color:red;">{{ answers.text }}</p>
+                                        {% endif %}
+                                    {% else %}
+                                            <p>{{ answers.text }}</p>
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% endfor %}
+    </div>
+{% endblock %}
