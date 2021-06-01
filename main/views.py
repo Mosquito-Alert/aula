@@ -1892,45 +1892,11 @@ def test_results_detail_view(request, quiz_id=None, group_id=None):
 
     quizrun_ids = quizruns.values('id')
     quizrun_answers = QuizRunAnswers.objects.filter(quizrun__id__in=quizrun_ids)
-    answers_by_quizrun = [ str(a.quizrun.id) + '-' + str(a.chosen_answer.id) for a in quizrun_answers ]
+    answers_by_quizrun = [str(a.quizrun.id) + '-' + str(a.chosen_answer.id) for a in quizrun_answers]
 
-    '''
-    for r in quizrun:
-        qa = QuizRunAnswers.objects.filter(quizrun_id=r.id).order_by('question_id__question_order')
-
-    preguntas = {}
-    a = Answer.objects.filter(question_id__quiz_id=quiz_id).annotate(test=Count('question_id__id')).order_by('question_id', 'id')
-    answersObject = []
-    for l in a:
-        answersObject.append({'id': l.id,
-                              'question_id': l.question_id,
-                              'text': l.text,
-                              'is_correct': l.is_correct,
-                              'label': l.label})
-
-    # for key, s in groupby(a, key=lambda x: x[0]['question_id']):
-    # preguntas[str(key)] = list(s)
+    quiz = get_object_or_404(Quiz, pk=quiz_id)
+    group = get_object_or_404(User, pk=group_id)
 
 
-    questionList = []
-    for r in answersObject:
-        if r['question_id'] not in questionList:
-            questionList.append(r['question_id'])
+    return render(request, 'main/test_results_detail_view.html', {'quizruns': quizruns, 'answers_by_quizrun': answers_by_quizrun, 'quiz_info': quiz, 'group_info': group})
 
-    f = Question.objects.filter(id__in=questionList).order_by('id')
-
-
-
-    questionObject = []
-    for k in f:
-        questionObject.append({'id': k.id,
-                               'text': k.text,
-                               'quiz_id': k.quiz_id,
-                               'question_order': k.question_order,
-                               'doc_link': k.doc_link,
-                               'question_picture': k.question_picture,
-                               'answers_text': []})
-    '''
-
-    return render(request, 'main/test_results_detail_view_2.html', {'quizruns': quizruns, 'answers_by_quizrun': answers_by_quizrun})
-    #return render(request, 'main/test_results_detail_view.html', {'q': questionObject, 'a': answersObject, 'quiz': qa })
