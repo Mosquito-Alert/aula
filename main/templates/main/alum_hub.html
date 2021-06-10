@@ -114,7 +114,11 @@
                     <div class="row mt-3">
                         <div class="col-md-6">{{ run.quiz.name }} (intent {{ run.run_number }})</div>
                         <div class="col-md-6">
+                            {% if run.quiz.is_upload %}
+                            <a title="{% trans 'Continuar fent la prova!' %}" class="btn btn-success" href="{% url 'quiz_upload_link' run.quiz.id %}" role="button">Continuar <i class="fas fa-arrow-right"></i></a>
+                            {% else %}
                             <a title="{% trans 'Continuar fent la prova!' %}" class="btn btn-success" href="{% url 'quiz_take' run.quiz.id 1 run.id %}" role="button">Continuar <i class="fas fa-arrow-right"></i></a>
+                            {% endif %}
                         </div>
                     </div>
                 {% endfor %}
