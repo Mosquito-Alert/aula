@@ -36,6 +36,7 @@
                 <th>{% trans 'Millor puntuació' %}</th>
                 <th>{% trans 'Millor intent' %}</th>
                 <th>{% trans 'Prova finalitzada' %}</th>
+                <th style="text-align:center;">{% trans 'Vista de detall' %}</th>
                 {% if user.is_superuser %}
                     <th></th>
                 {% endif %}
@@ -54,6 +55,7 @@
                         <td>{{ quizrun.questions_right }}/{{ quizrun.questions_number }}</td>
                         <td>{{ quizrun.run_number }}</td>
                         <td>{{ quizrun.date_finished }}</td>
+                        <td style="text-align:center;"><a href="{% url 'test_results_detail_view' quiz_id=quiz.id group_id=quizrun.taken_by.profile.user.id %}"><i class="fas fa-2x fa-eye"></i></a></td>
                         {% if user.is_superuser %}
                             <td>
                                 <a class="btn btn-info" href="{% url 'quizrun_group_list' quiz_id=quiz.id group_id=quizrun.taken_by.profile.user.id %}">{% trans 'Llistar intents' %}</a>
@@ -75,6 +77,7 @@
                         <td>{{ quizrun.questions_right }}/{{ quizrun.questions_number }}</td>
                         <td>{{ quizrun.run_number }}</td>
                         <td>{{ quizrun.date_finished }}</td>
+                        <td style="text-align:center;"><a href="{% url 'test_results_detail_view' quiz_id=quiz.id group_id=quizrun.taken_by.profile.user.id %}"><i class="fas fa-2x fa-eye"></i></a></td>
                         {% if user.is_superuser %}
                             <td>
                                 <a class="btn btn-info" href="{% url 'quizrun_group_list' quiz_id=quiz.id group_id=quizrun.taken_by.profile.user.id %}">{% trans 'Llistar intents' %}</a>
