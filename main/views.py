@@ -569,6 +569,10 @@ def quiz_upload_link(request, quiz_id=None):
                 message = _("Estàs intentant accedir a una prova creada per un professor que no és el teu tutor.")
                 go_back_to = "group_menu"
                 return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to':go_back_to })
+        if this_user.profile.is_teacher:
+            message = _("No es permet la pujada de materials a professors. Si vols pujar els materials d'un si us plau grup fes servir l'usuari del grup corresponent.")
+            go_back_to = "teacher_menu"
+            return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
     else:
         message = _("Aquesta prova no existeix!")
         go_back_to = "group_menu"
