@@ -1,0 +1,63 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block extra_css %}
+<link href="//cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css" rel="stylesheet">
+<style>
+    tr.row-disabled{
+        color: gray !important;
+    }
+
+    .row{
+        padding-right: 15px;
+        margin-bottom: 2%;
+    }
+</style>
+{% endblock %}
+
+{% block title %}
+    {% trans 'Llistat intents prova/grup' %}
+{% endblock %}
+
+{% block main_jumbo %}
+    <img class="img_icons" src="{% static 'main/icons/noun_solution_2998552.svg' %}"> {% trans "Llistat d'intents per prova i per grup" %}
+{% endblock %}
+{% block sub_jumbo %}{{ quiz.name }}{% endblock %}
+
+{% block main %}
+<div class="container">
+    <table id="runsList" class="table table-striped table-bordered" style="width:100%">
+        <tr>
+            <th>{% trans "Número d'intent" %}</th>
+            <th>{% trans 'Data finalització' %}</th>
+            <th>{% trans 'Respostes correctes' %}</th>
+            <th></th>
+        </tr>
+
+        {% for t in quizruns %}
+            <tr>
+                <td>{{ t.run_number }}</td>
+                <td>{{ t.date_finished }}</td>
+                <td>{{ t.questions_right }}</td>
+                <td>
+                    <button class="btn btn-danger delete_quizrun" id="{{ t.id }}">{% trans 'Eliminar intent' %}</button>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+</div>
+{% endblock %}
+
+
+{% block extra_js %}
+<script>
+
+</script>
+<script src="{% static 'main/csrf_utils.js' %}"></script>
+<script src="{% static 'main/cookies.js' %}"></script>
+<script src="{% static 'main/javascript/quizrun_group_list.js' %}"></script>
+{% endblock %}
+

@@ -9,14 +9,14 @@
 {% block main %}
 <div class="container">
     <div class="row alert alert-success">
-        <div class="col-md-6"><h2><span class="badge badge-info">{{ quiz.name }}</span> - {% if quiz.author %}{{ quiz.author.username }}{% else %}{% trans 'Anònim' %}{% endif %}</h2></div>
+        <div class="col-md-6"><h2><span class="badge badge-info">{{ quiz.name }}</span>{% if quiz.author %} - {{ quiz.author.username }}{% endif %}</h2></div>
         {% if quiz.author %}
-        <div class="col-md-4" style="text-align:right;">{% trans 'Completat' %} {{ quiz.taken_by_n_people }}/{{ quiz.author.profile.tutored_groups }} {% trans 'grups' %}</div>
+            <div class="col-md-4" style="text-align:right;">{% trans 'Completat' %} {{ quiz.taken_by_n_people }}/{{ quiz.author.profile.tutored_groups }} {% trans 'grups' %}</div>
         {% else %}
             {% if request.user.is_superuser %}
                 <div class="col-md-4" style="text-align:right;">{% trans 'Completat' %} {{ quiz.taken_by_n_people }} {% trans 'grups' %}</div>
             {% else %}
-                <div class="col-md-4" style="text-align:right;">{% trans 'Completat' %} {{ quiz.taken_by_n_people }}/{{ request.user.profile.tutored_groups }} {% trans 'grups' %}</div>
+                <div class="col-md-4" style="text-align:right;">{% trans 'Completat' %} {{ n_of_best_runs }}/{{ request.user.profile.tutored_groups }} {% trans 'grups' %}</div>
             {% endif %}
         {% endif %}
         <div class="col-md-2">
@@ -28,7 +28,8 @@
         </div>
     </div>
 
-    <div class="row alert alert-success ml-5">
+    <!--<div class="row alert alert-success ml-5">-->
+    <div class="row alert alert-success">
         <table style="width:100%;">
             <tr>
                 <th></th>
@@ -36,23 +37,61 @@
                 <th>{% trans 'Millor puntuació' %}</th>
                 <th>{% trans 'Millor intent' %}</th>
                 <th>{% trans 'Prova finalitzada' %}</th>
+                <th style="text-align:center;">{% trans 'Vista de detall' %}</th>
+                {% if user.is_superuser %}
+                    <th></th>
+                {% endif %}
             </tr>
-            {% for quizrun in quiz.best_runs %}
-            <tr>
-                <td>
-                    {% if quizrun.taken_by.profile.is_group %}
-                        <img src="{{ quizrun.taken_by.profile.group_picture_thumbnail.url }}">
-                    {% else %}
-                        <img src="{% static 'main/icons/noun_Teacher_36665.svg' %}" width="150px">
-                    {% endif %}
-                </td>
-                <td>{% if quizrun.taken_by.profile.is_group %}{{ quizrun.taken_by.profile.group_public_name }}{% else %}{{ quizrun.taken_by.username }}{% endif %}</td>
-                <td>{{ quizrun.questions_right }}/{{ quizrun.questions_number }}</td>
-                <td>{{ quizrun.run_number }}</td>
-                <td>{{ quizrun.date_finished }}</td>
-            </tr>
-            {% endfor %}
+            {% if request.user.is_superuser %}
+                {% for quizrun in quiz.best_runs %}
+                    <tr>
+                        <td>
+                            {% if quizrun.taken_by.profile.is_group %}
+                                <img src="{{ quizrun.taken_by.profile.group_picture_thumbnail.url }}">
+                            {% else %}
+                                <img src="{% static 'main/icons/noun_Teacher_36665.svg' %}" width="150px">
+                            {% endif %}
+                        </td>
+                        <td>{% if quizrun.taken_by.profile.is_group %}{{ quizrun.taken_by.profile.group_public_name }}{% else %}{{ quizrun.taken_by.username }}{% endif %}</td>
+                        <td>{{ quizrun.questions_right }}/{{ quizrun.questions_number }}</td>
+                        <td>{{ quizrun.run_number }}</td>
+                        <td>{{ quizrun.date_finished }}</td>
+                        <td style="text-align:center;"><a href="{% url 'test_results_detail_view' quiz_id=quiz.id group_id=quizrun.taken_by.profile.user.id %}"><i class="fas fa-2x fa-eye"></i></a></td>
+                        {% if user.is_superuser %}
+                            <td>
+                                <a class="btn btn-info" href="{% url 'quizrun_group_list' quiz_id=quiz.id group_id=quizrun.taken_by.profile.user.id %}">{% trans 'Llistar intents' %}</a>
+                            </td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            {% else %}
+                {% for quizrun in quizRuns %}
+                    <tr>
+                        <td>
+                            {% if quizrun.taken_by.profile.is_group %}
+                                <img src="{{ quizrun.taken_by.profile.group_picture_thumbnail.url }}">
+                            {% else %}
+                                <img src="{% static 'main/icons/noun_Teacher_36665.svg' %}" width="150px">
+                            {% endif %}
+                        </td>
+                        <td>{% if quizrun.taken_by.profile.is_group %}{{ quizrun.taken_by.profile.group_public_name }}{% else %}{{ quizrun.taken_by.username }}{% endif %}</td>
+                        <td>{{ quizrun.questions_right }}/{{ quizrun.questions_number }}</td>
+                        <td>{{ quizrun.run_number }}</td>
+                        <td>{{ quizrun.date_finished }}</td>
+                        <td style="text-align:center;"><a href="{% url 'test_results_detail_view' quiz_id=quiz.id group_id=quizrun.taken_by.profile.user.id %}"><i class="fas fa-2x fa-eye"></i></a></td>
+                        {% if user.is_superuser %}
+                            <td>
+                                <a class="btn btn-info" href="{% url 'quizrun_group_list' quiz_id=quiz.id group_id=quizrun.taken_by.profile.user.id %}">{% trans 'Llistar intents' %}</a>
+                            </td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            {% endif %}
         </table>
+    </div>
+
+    <div class="container">
+        <hr>
     </div>
 
     {% if quiz.html_header %}
@@ -101,7 +140,11 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="ml-5">
-                                        <p>{{ answer.label }}) {{ answer.text }} ({{ answer.how_many_times_answered }}/{{ answer.question.total_number_of_answers_of_question }})<div class="progress"><div class="progress-bar" role="progressbar" style="width:{{ answer.answered_by_perc }}%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">{{ answer.answered_by_perc }}%</div></div> </p>
+                                        {% if answer.is_correct %}
+                                            <p class="correct_answer" style="color:green"><i class="fas fa-check"></i> {{ answer.label }}) {{ answer.text }} ({{ answer.how_many_times_answered }}/{{ answer.question.total_number_of_answers_of_question }})<div class="progress"><div class="progress-bar" role="progressbar" style="width:{{ answer.answered_by_perc }}%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">{{ answer.answered_by_perc }}%</div></div> </p>
+                                        {% else %}
+                                            <p>{{ answer.label }}) {{ answer.text }} ({{ answer.how_many_times_answered }}/{{ answer.question.total_number_of_answers_of_question }})<div class="progress"><div class="progress-bar" role="progressbar" style="width:{{ answer.answered_by_perc }}%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">{{ answer.answered_by_perc }}%</div></div> </p>
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>
@@ -114,15 +157,16 @@
 
                         <div class="col-md-12">
                             <div class="ml-5">
-                                <p>{{ answer.label }}) {{ answer.text }} ({{ answer.how_many_times_answered }}/{{ answer.question.total_number_of_answers_of_question }})<div class="progress"><div class="progress-bar" role="progressbar" style="width:{{ answer.answered_by_perc }}%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">{{ answer.answered_by_perc }}%</div></div> </p>
+                                {% if answer.is_correct %}
+                                    <p class="correct_answer" style="color:green"><i class="fas fa-check"></i> {{ answer.label }}) {{ answer.text }} ({{ answer.how_many_times_answered }}/{{ answer.question.total_number_of_answers_of_question }})<div class="progress"><div class="progress-bar" role="progressbar" style="width:{{ answer.answered_by_perc }}%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">{{ answer.answered_by_perc }}%</div></div> </p>
+                                {% else %}
+                                    <p>{{ answer.label }}) {{ answer.text }} ({{ answer.how_many_times_answered }}/{{ answer.question.total_number_of_answers_of_question }})<div class="progress"><div class="progress-bar" role="progressbar" style="width:{{ answer.answered_by_perc }}%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">{{ answer.answered_by_perc }}%</div></div> </p>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
                 {% endfor %}
             {% endif %}
-
-
-
         {% endif %}
     </div>
     {% endfor %}

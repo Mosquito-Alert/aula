@@ -1,0 +1,79 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% load i18n %}
+{% block title %}{% trans 'Resultats test' %}{% endblock %}
+
+{% block main_jumbo %}
+<img class="img_icons" src="{% static 'main/icons/noun_test_3271143.svg' %}"> {% trans 'Resultats test' %} - {{ quiz_info.name }} - {% trans 'Grup' %}: {{ group_info.username }}
+{% endblock %}
+{% block sub_jumbo %}
+
+{% endblock %}
+
+{% block main %}
+    <div class="container">
+    <div class="row alert alert-success">
+        <p>{% trans 'Les respostes correctes de la prova es mostren en color' %} <span style="color:green;">{% trans 'verd' %}</span>, {% trans 'mentre que la resposta de l&#39;alumne es mostra en' %} <b>{% trans 'negreta' %}</b></p>
+    </div>
+    {% for quizrun in quizruns %}
+        <h3>{% trans 'intent' %} {{ quizrun.run_number }} - {{ quizrun.questions_right }}/{{ quizrun.questions_number }}</h3>
+        {% for question in quizrun.quiz.sorted_questions_set %}
+        <p><strong>{{ question.question_order }}</strong> - <i>{{ question.text }}</i></p>
+        {% if question.question_picture %}
+            <ul style="list-style-type:none;">
+                <div class="row">
+                    <div class="col-md-4">
+                        <img class="img-fluid" style="padding-left:20px; display: block; margin: auto; width: 300px;" src="/media{{ question.question_picture }}">
+                    </div>
+                    <div class="col-md-8">
+                        {% for answer in question.sorted_answers_set %}
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="ml-5">
+                                        {% with quizrun_id=quizrun.id|slugify %}
+                                            {% with answer_id=answer.id|slugify %}
+                                                {% with id_resp=quizrun_id|add:"-"|add:answer_id %}
+                                                    {% if id_resp in answers_by_quizrun %}
+                                                        <li id="{{ quizrun.id }}-{{ answer.id }}" class="{% if answer.is_correct %}text-success{% endif %}"><strong>{{ answer.label }}) {{ answer.text }}</strong></li>
+                                                    {% else %}
+                                                        <li id="{{ quizrun.id }}-{{ answer.id }}" class="{% if answer.is_correct %}text-success{% endif %}">{{ answer.label }}) {{ answer.text }}</li>
+                                                    {% endif %}
+                                                {% endwith %}
+                                            {% endwith %}
+                                        {% endwith %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </ul>
+        {% else %}
+
+        <ul style="list-style-type:none;">
+                {% for answer in question.sorted_answers_set %}
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="ml-5">
+                                {% with quizrun_id=quizrun.id|slugify %}
+                                    {% with answer_id=answer.id|slugify %}
+                                        {% with id_resp=quizrun_id|add:"-"|add:answer_id %}
+                                            {% if id_resp in answers_by_quizrun %}
+                                                <li id="{{ quizrun.id }}-{{ answer.id }}" class="{% if answer.is_correct %}text-success{% endif %}"><strong>{{ answer.label }}) {{ answer.text }}</strong></li>
+                                            {% else %}
+                                                <li id="{{ quizrun.id }}-{{ answer.id }}" class="{% if answer.is_correct %}text-success{% endif %}">{{ answer.label }}) {{ answer.text }}</li>
+                                            {% endif %}
+                                        {% endwith %}
+                                    {% endwith %}
+                                {% endwith %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        {% endfor %}
+        <hr>
+    {% endfor %}
+    </div>
+{% endblock %}

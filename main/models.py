@@ -92,6 +92,18 @@ class Quiz(models.Model):
         return QuizRun.objects.filter(quiz=self).filter(date_finished__isnull=False).values('taken_by__id').distinct().count()
 
     @property
+    def taken_by_n_people_per_teacher(self):
+        author = User.objects.get(id=self.author.id)
+        grupos_profe = User.objects.filter(profile__group_teacher=author)
+        for r in grupos_profe:
+            t = QuizRun.objects.filter(quiz=self).filter(date_finished__isnull=False).values('taken_by__id').distinct().count()
+            QuizRun.objects.filter(taken_by__id=r.id).filter(quiz=quiz_id).filter(
+                date_finished__isnull=False).order_by('-questions_right', '-date_finished').first()
+
+
+        return QuizRun.objects.filter(quiz=self).filter(date_finished__isnull=False).values('taken_by__id').distinct().count()
+
+    @property
     def best_runs(self):
         best_runs = []
         taken_by = QuizRun.objects.filter(quiz=self).filter(date_finished__isnull=False).values('taken_by__id').distinct()
@@ -195,6 +207,11 @@ class QuizRunAnswers(models.Model):
     uploaded_material = models.FileField(upload_to='media/uploaded/', null=True, blank=True)
 
 
+    @property
+    def quizrun_info(self):
+        return QuizRun.objects.filter(id=self.quizrun_id)
+
+
 class Question(models.Model):
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name='questions')
     text = models.CharField('Question', max_length=255)
@@ -208,6 +225,10 @@ class Question(models.Model):
     @property
     def sorted_answers_set(self):
         return self.answers.all().order_by('label')
+
+    @property
+    def sorted_answers_set_2(self):
+        return self.answers.objects.filter()
 
     @property
     def total_number_of_answers_of_question(self):

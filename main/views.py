@@ -49,7 +49,8 @@ from django.template.loader import render_to_string
 from weasyprint import HTML, CSS
 import logging
 from django.db import connection
-
+from itertools import groupby
+from django.db.models import Count
 
 def get_order_clause(params_dict, translation_dict=None):
     order_clause = []
@@ -1634,7 +1635,10 @@ def quiz_graphic_results(request, idQuizz):
     grupos_tests = []
 
     quiz = Quiz.objects.get(pk=idQuizz)
-    grupos_profe = User.objects.filter(profile__group_teacher=quiz.author)
+    if request.user.is_superuser:
+        grupos_profe = User.objects.filter(profile__is_group=True)
+    else:
+        grupos_profe = User.objects.filter(profile__group_teacher=request.user.id).filter(profile__is_group=True)
 
     for x in grupos_profe:
 
@@ -1705,18 +1709,42 @@ def quiz_datatable_results(request):
 def test_result(request, quiz_id=None):
     this_user = request.user
     quiz = None
-    if quiz_id:
-        quiz = get_object_or_404(Quiz, pk=quiz_id)
+    if this_user.is_superuser:
+        if quiz_id:
+            quiz = get_object_or_404(Quiz, pk=quiz_id)
+        else:
+            message = _("No existeix aquesta prova.")
+            go_back_to = "quiz_results"
+            return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
+        if not QuizRun.objects.filter(quiz=quiz).exists():
+            message = _("El test seleccionat no l'ha realitzat cap grup i encara no té resultats.")
+            go_back_to = "quiz_results"
+            return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
+        return render(request, 'main/test_result.html', {'quiz': quiz})
     else:
-        message = _("No existeix aquesta prova.")
-        go_back_to = "quiz_results"
-        return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
-    if not QuizRun.objects.filter(quiz=quiz).exists():
-        message = _("El test seleccionat no l'ha realitzat cap grup i encara no té resultats.")
-        go_back_to = "quiz_results"
-        return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
+        best_runs = []
+        author = User.objects.get(id=this_user.id)
+        grupos_profe = User.objects.filter(profile__group_teacher=author)
+        for r in grupos_profe:
+            best_run = QuizRun.objects.filter(taken_by__id=r.id).filter(quiz=quiz_id).filter(
+                date_finished__isnull=False).order_by('-questions_right', '-date_finished').first()
+            if best_run:
+                best_runs.append(best_run)
+        best_runs.sort(key=lambda x: (x.taken_by.profile.group_public_name if x.taken_by.profile.group_public_name is not None else x.taken_by.username))
+        n_of_best_runs = best_runs.__len__()
 
-    return render(request, 'main/test_result.html', {'quiz': quiz})
+        if quiz_id:
+            quiz = get_object_or_404(Quiz, pk=quiz_id)
+        else:
+            message = _("No existeix aquesta prova.")
+            go_back_to = "quiz_results"
+            return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
+        if not QuizRun.objects.filter(quiz=quiz).exists():
+            message = _("El test seleccionat no l'ha realitzat cap grup i encara no té resultats.")
+            go_back_to = "quiz_results"
+            return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
+
+        return render(request, 'main/test_result.html', {'quiz': quiz, 'quizRuns': best_runs, 'n_of_best_runs': n_of_best_runs})
 
 
 @login_required
@@ -1831,3 +1859,53 @@ def upload_file_solutions(request):
 
 
 
+@login_required
+def quizrun_group_list(request, quiz_id=None, group_id=None):
+    this_user = request.user
+    quizruns = None
+    if quiz_id and group_id:
+        #quiz = get_object_or_404(Quiz, pk=quiz_id)
+        quizruns = QuizRun.objects.filter(quiz_id=quiz_id).filter(taken_by_id=group_id)
+    else:
+        message = _("No existeix aquesta prova.")
+        go_back_to = "quiz_results"
+        return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
+
+    if not quizruns:
+        message = _("El test seleccionat no l'ha realitzat cap grup i encara no té resultats.")
+        go_back_to = "quiz_results"
+        return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
+
+    return render(request, 'main/quizrun_group_list.html', {'quizruns': quizruns})
+
+
+@api_view(['POST'])
+@login_required
+def delete_quizrun(request, quizrun_id=None):
+    print(quizrun_id)
+    if quizrun_id:
+        QuizRun.objects.filter(id=quizrun_id).delete()
+
+    context = {}
+    return Response(context)
+
+@login_required
+def test_results_detail_view(request, quiz_id=None, group_id=None):
+
+    quizruns = QuizRun.objects.filter(quiz_id=quiz_id).filter(taken_by=group_id).order_by('-run_number')
+    quiz = Quiz.objects.get(pk=quiz_id)
+
+    group = User.objects.get(pk=group_id)
+
+    quizrun_ids = quizruns.values('id')
+    quizrun_answers = QuizRunAnswers.objects.filter(quizrun__id__in=quizrun_ids)
+    answers_by_quizrun = [str(a.quizrun.id) + '-' + str(a.chosen_answer.id) for a in quizrun_answers]
+
+    quiz = get_object_or_404(Quiz, pk=quiz_id)
+    group = get_object_or_404(User, pk=group_id)
+
+
+    return render(request, 'main/test_results_detail_view.html', {'quizruns': quizruns, 'answers_by_quizrun': answers_by_quizrun, 'quiz_info': quiz, 'group_info': group})
+
+    return render(request, 'main/test_results_detail_view_2.html', {'quizruns': quizruns, 'answers_by_quizrun': answers_by_quizrun, 'quiz':quiz, 'group':group})
+    #return render(request, 'main/test_results_detail_view.html', {'q': questionObject, 'a': answersObject, 'quiz': qa })
