@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-22 06:06+0000\n"
+"POT-Creation-Date: 2021-06-23 08:44+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -75,7 +75,8 @@ msgstr "Username"
 msgid "Professor"
 msgstr "Teacher"
 
-#: main/forms.py:102 main/templates/main/test_result.html:35
+#: main/forms.py:102 main/templates/main/test_result.html:36
+#: main/templates/main/test_results_detail_view.html:7
 #: main/templates/main/upload_file_solutions.html:22
 msgid "Grup"
 msgstr "Group"
@@ -243,6 +244,7 @@ msgid "Títol"
 msgstr "Title"
 
 #: main/templates/main/alum_hub.html:24
+#: main/templates/main/test_results_detail_view.html:19
 msgid "intent"
 msgstr ""
 
@@ -787,7 +789,7 @@ msgstr ""
 msgid "Afegir pregunta amb link a document extern"
 msgstr ""
 
-#: main/templates/main/quiz_edit.html:72
+#: main/templates/main/quiz_edit.html:72 main/templates/main/quiz_edit.html:76
 #: main/templates/main/quiz_edit_teacher.html:59
 #, fuzzy
 #| msgid "Veure resultats enquesta"
@@ -799,11 +801,11 @@ msgstr "Check poll result"
 msgid "Afegir pregunta de pujada de fitxer"
 msgstr ""
 
-#: main/templates/main/quiz_edit.html:102
-#: main/templates/main/quiz_edit.html:118
-#: main/templates/main/quiz_edit.html:137
-#: main/templates/main/quiz_edit.html:149
-#: main/templates/main/quiz_edit.html:168
+#: main/templates/main/quiz_edit.html:104
+#: main/templates/main/quiz_edit.html:120
+#: main/templates/main/quiz_edit.html:139
+#: main/templates/main/quiz_edit.html:151
+#: main/templates/main/quiz_edit.html:170
 #: main/templates/main/quiz_edit_teacher.html:89
 #: main/templates/main/quiz_edit_teacher.html:104
 #: main/templates/main/quiz_edit_teacher.html:121
@@ -812,11 +814,11 @@ msgstr ""
 msgid "Editar pregunta i respostes"
 msgstr ""
 
-#: main/templates/main/quiz_edit.html:102
-#: main/templates/main/quiz_edit.html:118
-#: main/templates/main/quiz_edit.html:137
-#: main/templates/main/quiz_edit.html:149
-#: main/templates/main/quiz_edit.html:168
+#: main/templates/main/quiz_edit.html:104
+#: main/templates/main/quiz_edit.html:120
+#: main/templates/main/quiz_edit.html:139
+#: main/templates/main/quiz_edit.html:151
+#: main/templates/main/quiz_edit.html:170
 #: main/templates/main/quiz_edit_teacher.html:89
 #: main/templates/main/quiz_edit_teacher.html:104
 #: main/templates/main/quiz_edit_teacher.html:121
@@ -825,7 +827,7 @@ msgstr ""
 msgid "Eliminar pregunta"
 msgstr ""
 
-#: main/templates/main/quiz_edit.html:198
+#: main/templates/main/quiz_edit.html:200
 #: main/templates/main/quiz_edit_teacher.html:179
 msgid ""
 "Aquesta prova encara no té contingut. El pots afegir fent servir el botó (+)"
@@ -1033,6 +1035,38 @@ msgstr ""
 msgid "Afegir fitxer"
 msgstr "Add file"
 
+#: main/templates/main/quizrun_group_list.html:21
+#, fuzzy
+#| msgid "Llista de grups"
+msgid "Llistat intents prova/grup"
+msgstr "List groups"
+
+#: main/templates/main/quizrun_group_list.html:25
+msgid "Llistat d'intents per prova i per grup"
+msgstr ""
+
+#: main/templates/main/quizrun_group_list.html:33
+msgid "Número d'intent"
+msgstr ""
+
+#: main/templates/main/quizrun_group_list.html:34
+#, fuzzy
+#| msgid "Finalitzada"
+msgid "Data finalització"
+msgstr "Finished"
+
+#: main/templates/main/quizrun_group_list.html:35
+#, fuzzy
+#| msgid "Respostes"
+msgid "Respostes correctes"
+msgstr "Answers"
+
+#: main/templates/main/quizrun_group_list.html:45
+#, fuzzy
+#| msgid "Eliminar"
+msgid "Eliminar intent"
+msgstr "Delete"
+
 #: main/templates/main/teacher_edit.html:15
 msgid "Editar mestre"
 msgstr ""
@@ -1108,12 +1142,9 @@ msgstr ""
 
 #: main/templates/main/test_result.html:4
 #: main/templates/main/test_result.html:6
+#: main/templates/main/test_results_detail_view.html:4
+#: main/templates/main/test_results_detail_view.html:7
 msgid "Resultats test"
-msgstr ""
-
-#: main/templates/main/test_result.html:12 main/views.py:1763
-#: main/views.py:1813
-msgid "Anònim"
 msgstr ""
 
 #: main/templates/main/test_result.html:14
@@ -1133,21 +1164,50 @@ msgstr ""
 msgid "Veure gràfica de resultats"
 msgstr ""
 
-#: main/templates/main/test_result.html:36
+#: main/templates/main/test_result.html:37
 #, fuzzy
 #| msgid "Puntuació"
 msgid "Millor puntuació"
 msgstr "Puntuation"
 
-#: main/templates/main/test_result.html:37
+#: main/templates/main/test_result.html:38
 msgid "Millor intent"
 msgstr ""
 
-#: main/templates/main/test_result.html:38
+#: main/templates/main/test_result.html:39
 #, fuzzy
 #| msgid "Finalitzada"
 msgid "Prova finalitzada"
 msgstr "Finished"
+
+#: main/templates/main/test_result.html:40
+#, fuzzy
+#| msgid "Llista de centres"
+msgid "Vista de detall"
+msgstr "List centers"
+
+#: main/templates/main/test_result.html:62
+#: main/templates/main/test_result.html:84
+#, fuzzy
+#| msgid "Llista de centres"
+msgid "Llistar intents"
+msgstr "List centers"
+
+#: main/templates/main/test_results_detail_view.html:16
+msgid "Les respostes correctes de la prova es mostren en color"
+msgstr "The correct answers appear in color"
+
+#: main/templates/main/test_results_detail_view.html:16
+msgid "verd"
+msgstr "green"
+
+#: main/templates/main/test_results_detail_view.html:16
+msgid "mentre que la resposta de l&#39;alumne es mostra en"
+msgstr "while the alum answer appears in"
+
+#: main/templates/main/test_results_detail_view.html:16
+msgid "negreta"
+msgstr "bold"
 
 #: main/templates/main/test_solutions_teacher.html:5
 #: main/templates/main/test_solutions_teacher.html:7
@@ -1210,77 +1270,82 @@ msgstr ""
 msgid "password"
 msgstr ""
 
-#: main/views.py:188 main/views.py:198 main/views.py:236 main/views.py:286
-#: main/views.py:776 main/views.py:812 main/views.py:846 main/views.py:1003
-#: main/views.py:1047 main/views.py:1159 main/views.py:1170 main/views.py:1183
-#: main/views.py:1823
+#: main/views.py:189 main/views.py:199 main/views.py:237 main/views.py:287
+#: main/views.py:777 main/views.py:813 main/views.py:847 main/views.py:1004
+#: main/views.py:1048 main/views.py:1160 main/views.py:1171 main/views.py:1184
+#: main/views.py:1851
 msgid "Estàs intentant accedir a una pàgina a la que no tens permís."
 msgstr ""
 
-#: main/views.py:370
+#: main/views.py:371
 msgid "Sembla que aquesta prova no existeix."
 msgstr ""
 
-#: main/views.py:374
+#: main/views.py:375
 msgid "Sembla que aquesta prova no està completada."
 msgstr ""
 
-#: main/views.py:393 main/views.py:410 main/views.py:1707
+#: main/views.py:394 main/views.py:411 main/views.py:1712 main/views.py:1735
+#: main/views.py:1866
 msgid "No existeix aquesta prova."
 msgstr ""
 
-#: main/views.py:397 main/views.py:1711
+#: main/views.py:398 main/views.py:1716 main/views.py:1739 main/views.py:1871
 msgid ""
 "El test seleccionat no l'ha realitzat cap grup i encara no té resultats."
 msgstr ""
 
-#: main/views.py:414
+#: main/views.py:415
 msgid "No tens assignada aquesta prova, de manera que no la pots visualitzar."
 msgstr ""
 
-#: main/views.py:569 main/views.py:612 main/views.py:650
+#: main/views.py:570 main/views.py:613 main/views.py:651
 msgid ""
 "Estàs intentant accedir a una prova creada per un professor que no és el teu "
 "tutor."
 msgstr ""
 
-#: main/views.py:573 main/views.py:616
+#: main/views.py:574 main/views.py:617
 msgid "Aquesta prova no existeix!"
 msgstr ""
 
-#: main/views.py:583 main/views.py:623
+#: main/views.py:584 main/views.py:624
 msgid ""
 "Ho sentim, però les proves de pujada de fitxer només es poden fer una vegada."
 msgstr ""
 
-#: main/views.py:672
+#: main/views.py:673
 msgid ""
 "Aquesta prova està marcada com a finalitzada, o sigui que no la pots "
 "modificar. Si vols, la pots repetir."
 msgstr ""
 
-#: main/views.py:709
+#: main/views.py:710
 msgid "Aquesta prova no està publicada, no la pots començar."
 msgstr ""
 
-#: main/views.py:716
+#: main/views.py:717
 msgid ""
 "Les proves de materials, pujada de fitxers i enquestes només es fan una "
 "vegada. Les pots repassar totes però des del menú de grup "
 msgstr ""
 
-#: main/views.py:722
+#: main/views.py:723
 msgid "Aquesta prova té un requisit que no s'ha completat: "
 msgstr ""
 
-#: main/views.py:728
+#: main/views.py:729
 msgid ""
 "Estàs intentant començar una prova creada per un professor que no és el teu "
 "tutor."
 msgstr ""
 
-#: main/views.py:752
+#: main/views.py:753
 msgid "Estàs intentant editar una prova que no existeix."
+msgstr ""
+
+#: main/views.py:1791 main/views.py:1841
+msgid "Anònim"
 msgstr ""
 
 #~ msgid "English"

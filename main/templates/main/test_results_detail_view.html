@@ -12,8 +12,11 @@
 
 {% block main %}
     <div class="container">
+    <div class="row alert alert-success">
+        <p>{% trans 'Les respostes correctes de la prova es mostren en color' %} <span style="color:green;">{% trans 'verd' %}</span>, {% trans 'mentre que la resposta de l&#39;alumne es mostra en' %} <b>{% trans 'negreta' %}</b></p>
+    </div>
     {% for quizrun in quizruns %}
-        <h3>{% trans 'Intent' %} {{ quizrun.run_number }}</h3>
+        <h3>{% trans 'intent' %} {{ quizrun.run_number }} - {{ quizrun.questions_right }}/{{ quizrun.questions_number }}</h3>
         {% for question in quizrun.quiz.sorted_questions_set %}
         <p><strong>{{ question.question_order }}</strong> - <i>{{ question.text }}</i></p>
         {% if question.question_picture %}
@@ -70,6 +73,7 @@
             </ul>
         {% endif %}
         {% endfor %}
+        <hr>
     {% endfor %}
     </div>
 {% endblock %}

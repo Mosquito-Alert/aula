@@ -9,7 +9,7 @@
 {% block main %}
 <div class="container">
     <div class="row alert alert-success">
-        <div class="col-md-6"><h2><span class="badge badge-info">{{ quiz.name }}</span> - {% if quiz.author %}{{ quiz.author.username }}{% else %}{% trans 'Anònim' %}{% endif %}</h2></div>
+        <div class="col-md-6"><h2><span class="badge badge-info">{{ quiz.name }}</span>{% if quiz.author %} - {{ quiz.author.username }}{% endif %}</h2></div>
         {% if quiz.author %}
             <div class="col-md-4" style="text-align:right;">{% trans 'Completat' %} {{ quiz.taken_by_n_people }}/{{ quiz.author.profile.tutored_groups }} {% trans 'grups' %}</div>
         {% else %}
@@ -28,7 +28,8 @@
         </div>
     </div>
 
-    <div class="row alert alert-success ml-5">
+    <!--<div class="row alert alert-success ml-5">-->
+    <div class="row alert alert-success">
         <table style="width:100%;">
             <tr>
                 <th></th>
@@ -87,6 +88,10 @@
                 {% endfor %}
             {% endif %}
         </table>
+    </div>
+
+    <div class="container">
+        <hr>
     </div>
 
     {% if quiz.html_header %}
