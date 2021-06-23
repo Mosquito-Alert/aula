@@ -160,16 +160,16 @@
             {% if user.is_authenticated %}
                 <li class="nav-item dropdown">
                     {% if user.is_superuser %}
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img style="background:gray;" src="{% static 'main/icons/noun_admin_3323392.svg' %}" width="15%"> {% trans "Benvingut" %}, {{ user.username }}<span class="caret"></span></a>
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img style="background:gray;" src="{% static 'main/icons/noun_admin_3323392.svg' %}" width="15%">{{ user.username }}<span class="caret"></span></a>
                     {% else %}
                         {% if user.profile.is_teacher %}
-                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img style="background:gray;" src="{% static 'main/icons/noun_Teacher_36665.svg' %}" width="15%"> {% trans "Benvingut" %}, {{ user.username }}<span class="caret"></span></a>
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img style="background:gray;" src="{% static 'main/icons/noun_Teacher_36665.svg' %}" width="15%">{{ user.username }}<span class="caret"></span></a>
                         {% elif user.profile.is_alum %}
-                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img style="background:gray;" src="{% static 'main/icons/noun_graduate_66572.svg' %}" width="15%"> {% trans "Benvingut" %}, {{ user.username }}<span class="caret"></span></a>
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img style="background:gray;" src="{% static 'main/icons/noun_graduate_66572.svg' %}" width="15%">{{ user.username }}<span class="caret"></span></a>
                         {% elif user.profile.is_group %}
-                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img style="background:gray;" src="{% static 'main/icons/noun_group_737669.svg' %}" width="15%"> {% trans "Benvingut" %}, {{ user.profile.group_public_name }}<span class="caret"></span></a>
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img style="background:gray;" src="{% static 'main/icons/noun_group_737669.svg' %}" width="15%">{{ user.profile.group_public_name }}<span class="caret"></span></a>
                         {% else %}
-                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{% trans "Benvingut" %}, {{ user.username }}<span class="caret"></span></a>
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ user.username }}<span class="caret"></span></a>
                         {% endif %}
                     {% endif %}
                     <div class="dropdown-menu">
@@ -177,7 +177,7 @@
                     </div>
                 </li>
             {% else %}
-                <li>
+                <li class="nav-item">
                     <a class="nav-link" href="{% url 'login' %}">{% trans "Iniciar sessió" %}</a>
                 </li>
             {% endif %}
