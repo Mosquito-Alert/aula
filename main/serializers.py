@@ -186,7 +186,7 @@ class TeacherSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = '__all__'
+        fields = ['id','username','center']
 
     def get_center(self,obj):
         if obj.profile:
