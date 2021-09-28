@@ -28,11 +28,11 @@ msgstr "Catalan"
 
 #: main/forms.py:15 main/forms.py:38 main/forms.py:60
 msgid "Prova publicada?"
-msgstr ""
+msgstr "Published test?"
 
 #: main/forms.py:16 main/forms.py:39
 msgid "Cal completar la prova del desplegable per poder fer aquesta prova"
-msgstr ""
+msgstr "You must complete the test on the dropbox to be able to take this test"
 
 #: main/forms.py:64
 msgid "Autor"
@@ -44,18 +44,20 @@ msgstr "Name"
 
 #: main/forms.py:80
 msgid "Password (Es recomana un password curt, de 4 caràcters:)"
-msgstr ""
+msgstr "Password (we recommend a short password, 4 characters)"
 
 #: main/forms.py:81
 msgid ""
 "Nom d'accés del grup (És similar a un nom d'usuari, curt, en minúscules i "
 "sense caràcters especials)"
 msgstr ""
+"Group access name (similar to a username, short, lowercase and "
+"no special characters"
 
 #: main/forms.py:82 main/templates/main/group_edit.html:32
 #: main/templates/main/group_edit_teacher.html:32
 msgid "Nom públic del grup"
-msgstr ""
+msgstr "Group public name"
 
 #: main/forms.py:98 main/forms.py:154 main/forms.py:193 main/forms.py:240
 #: main/forms.py:301 main/templates/registration/login.html:19
@@ -83,7 +85,7 @@ msgstr "Group"
 
 #: main/forms.py:146 main/forms.py:157 main/forms.py:231
 msgid "Professor responsable"
-msgstr ""
+msgstr "Assigned teacher"
 
 #: main/forms.py:242 main/forms.py:351
 msgid "Username"
@@ -91,7 +93,7 @@ msgstr "Username"
 
 #: main/forms.py:243 main/forms.py:352
 msgid "Centre al que pertany"
-msgstr ""
+msgstr "Center to which belongs"
 
 #: main/forms.py:298
 msgid "The two password fields didn’t match."
@@ -103,15 +105,15 @@ msgstr "Password confirmation"
 
 #: main/forms.py:369
 msgid "Els passwords són diferents! Si us plau torna a escriure'ls"
-msgstr ""
+msgstr "Passwords are different! Please write them again"
 
 #: main/forms.py:374
 msgid "Text que es mostrarà per solicitar la pujada d'un fitxer"
-msgstr ""
+msgstr "Text that will be shown when asking for a file upload"
 
 #: main/forms.py:382 main/forms.py:401 main/forms.py:421
 msgid "Ordre de la pregunta dins la prova"
-msgstr ""
+msgstr "Order of the question inside the test"
 
 #: main/forms.py:383 main/forms.py:402 main/forms.py:422
 msgid "Text de la pregunta"
@@ -122,6 +124,8 @@ msgid ""
 "Ja hi ha una pregunta amb aquest número d'ordre per aquesta prova. Tria un "
 "número diferent"
 msgstr ""
+"There already is a question with this number order for this test. Try a "
+"different number"
 
 #: main/forms.py:403
 msgid "Enllaç a document extern"
@@ -144,10 +148,8 @@ msgid "Pujar fitxer"
 msgstr "Upload file"
 
 #: main/models.py:28
-#, fuzzy
-#| msgid "Espai professorat"
 msgid "Enquesta professorat"
-msgstr "Teacher section"
+msgstr "Teacher poll"
 
 #: main/models.py:53
 msgid "Tipus invàlid"
@@ -172,7 +174,7 @@ msgstr "Centers"
 
 #: main/templates/main/admin_menu.html:17
 msgid "Permet entrar els centres en què els professors imparteixen classe"
-msgstr ""
+msgstr "Allows the user to specify the education center in which the professors impart classes"
 
 #: main/templates/main/admin_menu.html:24
 msgid "Professors"
@@ -180,16 +182,16 @@ msgstr "Teachers"
 
 #: main/templates/main/admin_menu.html:26
 msgid "Permet crear un usuari per a un professor."
-msgstr ""
+msgstr "Allows the creation of a professor user."
 
 #: main/templates/main/admin_menu.html:33
 #: main/templates/main/teacher_menu.html:15
 msgid "Grups d&#39;alumnes"
-msgstr ""
+msgstr "Alumn groups"
 
 #: main/templates/main/admin_menu.html:35
 msgid "Permet crear un grup a partir de varis alumnes"
-msgstr ""
+msgstr "Allows the creation of a group from several students"
 
 #: main/templates/main/admin_menu.html:44
 #: main/templates/main/quiz_assign_admin.html:54
@@ -234,6 +236,7 @@ msgstr "Your assigned teacher is "
 msgid ""
 "Aquestes són les proves que ja heu acabat (i que podeu repetir, si voleu!)"
 msgstr ""
+"These are the tests you have already finished (and you can repeat if you want!)"
 
 #: main/templates/main/alum_hub.html:24 main/templates/main/alum_hub.html:38
 #: main/templates/main/alum_hub.html:49 main/templates/main/alum_hub.html:60
@@ -246,13 +249,13 @@ msgstr "Title"
 #: main/templates/main/alum_hub.html:24
 #: main/templates/main/test_results_detail_view.html:19
 msgid "intent"
-msgstr ""
+msgstr "try"
 
 #: main/templates/main/alum_hub.html:25 main/templates/main/alum_hub.html:39
 #: main/templates/main/alum_hub.html:50 main/templates/main/alum_hub.html:61
 #: main/templates/main/teacher_polls.html:23
 msgid "Començada"
-msgstr ""
+msgstr "Started"
 
 #: main/templates/main/alum_hub.html:26 main/templates/main/alum_hub.html:40
 #: main/templates/main/alum_hub.html:51 main/templates/main/alum_hub.html:62
@@ -262,7 +265,7 @@ msgstr "Finished"
 
 #: main/templates/main/alum_hub.html:27
 msgid "Puntuació"
-msgstr "Puntuation"
+msgstr "Score"
 
 #: main/templates/main/alum_hub.html:30
 msgid "Repetir la prova!"
@@ -270,11 +273,11 @@ msgstr "Repeat the test!"
 
 #: main/templates/main/alum_hub.html:43
 msgid "Tornar a veure material"
-msgstr ""
+msgstr "Browse material"
 
 #: main/templates/main/alum_hub.html:43
 msgid "Repassar"
-msgstr ""
+msgstr "Review"
 
 #: main/templates/main/alum_hub.html:54
 #: main/templates/main/teacher_polls.html:27
@@ -283,10 +286,8 @@ msgstr "Check poll result"
 
 #: main/templates/main/alum_hub.html:54
 #: main/templates/main/teacher_polls.html:27
-#, fuzzy
-#| msgid "Resultats enquesta"
 msgid "Resultats"
-msgstr "Poll results"
+msgstr "Results"
 
 #: main/templates/main/alum_hub.html:65
 msgid "Descarregar fitxer"
@@ -294,51 +295,49 @@ msgstr "Download file"
 
 #: main/templates/main/alum_hub.html:72
 msgid "Encara no heu acabat cap prova!"
-msgstr ""
+msgstr "You have not finished any test yet!"
 
 #: main/templates/main/alum_hub.html:79
 msgid "Aquestes són les proves que encara no heu fet"
-msgstr ""
+msgstr "These are the tests you still have not completed"
 
 #: main/templates/main/alum_hub.html:88 main/templates/main/alum_hub.html:90
 #: main/templates/main/alum_hub.html:97 main/templates/main/alum_hub.html:99
 #: main/templates/main/teacher_polls.html:48
 #: main/templates/main/teacher_polls.html:53
 msgid "Fer la prova!"
-msgstr ""
+msgstr "Take the test!"
 
 #: main/templates/main/alum_hub.html:93
 #: main/templates/main/teacher_polls.html:50
 msgid "Aquest material està bloquejat, abans cal fer la prova amb nom"
-msgstr ""
+msgstr "This material is locked. First, you must complete the test with name"
 
 #: main/templates/main/alum_hub.html:106
 msgid "No teniu proves per fer!"
-msgstr ""
+msgstr "No pending tests!"
 
 #: main/templates/main/alum_hub.html:111
 msgid "Aquestes són les proves que esteu fent però no heu acabat"
-msgstr ""
+msgstr "These are the tests which are in progress but not yet finished"
 
 #: main/templates/main/alum_hub.html:117
 #: main/templates/main/teacher_polls.html:70
 msgid "Continuar fent la prova!"
-msgstr ""
+msgstr "Continue the test!"
 
 #: main/templates/main/alum_hub.html:122
 #: main/templates/main/teacher_polls.html:75
 msgid "No teniu proves que calgui acabar!"
-msgstr ""
+msgstr "You don't have any pending tests!"
 
 #: main/templates/main/alum_list.html:14
 msgid "Llistar/Editar/Esborrar alumnes"
 msgstr "List/Edit/Delete students"
 
 #: main/templates/main/alum_list.html:19
-#, fuzzy
-#| msgid "Editar alumne"
 msgid "Llista d&#39;alumnes"
-msgstr "Edit student"
+msgstr "Student list"
 
 #: main/templates/main/alum_new.html:10
 msgid "Crear alumne"
@@ -410,12 +409,12 @@ msgid "Benvingut a Aula"
 msgstr "Welcome to Aula"
 
 #: main/templates/main/base.html:191 main/templates/main/index.html:7
-#, fuzzy
-#| msgid "Aquesta és la web per a un projecte d\\"
 msgid ""
 "Aquesta és la web per a un projecte d&#39;educació en el context d&#39;una "
 "beca FECYT"
-msgstr "This is the web site for a project"
+msgstr ""
+"This website was created for an education project in the context of a "
+"FECYT grant"
 
 #: main/templates/main/center_edit.html:15
 msgid "Editar centre"
@@ -457,28 +456,29 @@ msgstr "Change password"
 
 #: main/templates/main/change_password.html:15
 msgid "Atenció! estàs canviant el password de l&#39;usuari"
-msgstr ""
+msgstr "Warning! you are changing the password for user"
 
 #: main/templates/main/credits.html:29
 msgid "Sobre l&#39;aplicatiu"
-msgstr ""
+msgstr "About"
 
 #: main/templates/main/credits.html:30
 msgid ""
 "Hem fet servir algunes icones i llibreries creades per 3eres persones..."
 msgstr ""
+"We userd some libraries and icons created by 3rd parties"
 
 #: main/templates/main/credits.html:41
 msgid "Codi de l&#39;aplicació disponible a "
-msgstr ""
+msgstr "App code available on"
 
 #: main/templates/main/credits.html:59
 msgid "Algunes icones extretes de "
-msgstr ""
+msgstr "Some icons taken from "
 
 #: main/templates/main/credits.html:69
 msgid "La resta d&#39;icones extretes de"
-msgstr ""
+msgstr "The rest of icons taken from"
 
 #: main/templates/main/group_edit.html:12
 #: main/templates/main/group_edit_teacher.html:12
@@ -493,7 +493,7 @@ msgstr "Editing group"
 #: main/templates/main/group_edit.html:24
 #: main/templates/main/group_edit_teacher.html:24
 msgid "Password (Es recomana un password curt, de 4 caràcters)"
-msgstr ""
+msgstr "Password (short password recommended, 4 characters)"
 
 #: main/templates/main/group_edit.html:39
 #: main/templates/main/group_edit_teacher.html:39
@@ -534,7 +534,7 @@ msgstr "Choose"
 #: main/templates/main/group_edit.html:71 main/templates/main/group_new.html:58
 #: main/templates/main/quiz_assign_admin.html:47
 msgid "Tutor"
-msgstr ""
+msgstr "Tutor"
 
 #: main/templates/main/group_edit.html:73
 msgid "Tria centre"
@@ -561,15 +561,15 @@ msgstr "Creating new group"
 #: main/templates/main/group_new.html:60
 #: main/templates/main/quiz_assign_admin.html:49
 msgid "Tria primer un centre"
-msgstr ""
+msgstr "Choose a center first"
 
 #: main/templates/main/index.html:4
 msgid "Index Aula"
-msgstr ""
+msgstr "Index Aula"
 
 #: main/templates/main/index.html:18
 msgid "El meu espai"
-msgstr ""
+msgstr "My space"
 
 #: main/templates/main/index.html:19
 msgid ""
@@ -578,6 +578,8 @@ msgid ""
 "principal, segons siguis un usuari de grup, usuari de professor, o bé usuari "
 "administrador"
 msgstr ""
+"Clic on the button to access your space. The app will "
+"ask for a username and password and will redirect you to your main menu "
 
 #: main/templates/main/invalid_operation.html:4
 msgid "Error"
@@ -589,15 +591,15 @@ msgstr "Operation not allowed"
 
 #: main/templates/main/invalid_operation.html:17
 msgid "Tornaràs a l&#39;inici en"
-msgstr ""
+msgstr "Back to home in"
 
 #: main/templates/main/invalid_operation.html:17
 msgid "segons, o si no pots fer clic"
-msgstr ""
+msgstr "seconds, if it fails just click"
 
 #: main/templates/main/invalid_operation.html:17
 msgid "aquí"
-msgstr ""
+msgstr "here"
 
 #: main/templates/main/poll_result.html:4
 #: main/templates/main/poll_result.html:6
@@ -606,10 +608,8 @@ msgstr "Poll results"
 
 #: main/templates/main/question_edit.html:13
 #: main/templates/main/question_link_edit.html:6
-#, fuzzy
-#| msgid "Editar les preguntes i respostes d\\"
 msgid "Editar les preguntes i respostes d&#39;una prova"
-msgstr "Edit questions and answers d\\"
+msgstr "Edit a test questions and answers"
 
 #: main/templates/main/question_edit.html:15
 #: main/templates/main/question_link_edit.html:8
@@ -626,7 +626,7 @@ msgstr "Editing question (and answers)"
 #: main/templates/main/question_upload_edit.html:9
 #: main/templates/main/question_upload_new.html:9
 msgid "Aquesta pertany a la prova amb nom"
-msgstr ""
+msgstr "This belongs to the test with name"
 
 #: main/templates/main/question_edit.html:22
 #: main/templates/main/question_link_edit.html:15
@@ -663,75 +663,71 @@ msgid "Creant nova pregunta (i respostes)"
 msgstr "Creating new question (and answers)"
 
 #: main/templates/main/question_poll_edit.html:6
-#, fuzzy
-#| msgid "Editar les preguntes i respostes d\\"
 msgid "Editar les preguntes i respostes d&#39;una enquesta"
-msgstr "Edit questions and answers d\\"
+msgstr "Edit a poll questions and answers"
 
 #: main/templates/main/question_poll_new.html:6
 msgid "Afegir preguntes a una enquesta"
-msgstr ""
+msgstr "Add questions to a poll"
 
 #: main/templates/main/question_upload_edit.html:6
-#, fuzzy
-#| msgid "Afegir preguntes a una prova"
 msgid "Editar les preguntes d&#39;una prova"
-msgstr "Add questions to a test"
+msgstr "Edit a test questions"
 
 #: main/templates/main/question_upload_edit.html:8
 msgid "Editant pregunta de pujada de dades"
-msgstr ""
+msgstr "Editing file upload question"
 
 #: main/templates/main/question_upload_edit.html:15
 #: main/templates/main/question_upload_new.html:15
 msgid "Text que es mostrarà al costat del control de pujada de fitxers"
-msgstr ""
+msgstr "Text to be shown along the file upload control"
 
 #: main/templates/main/question_upload_new.html:8
 msgid "Creant pregunta de pujada de dades"
-msgstr ""
+msgstr "Creating data upload question"
 
 #: main/templates/main/quiz_assign_admin.html:13
 msgid "Assignar proves"
-msgstr ""
+msgstr "Assign tests"
 
 #: main/templates/main/quiz_assign_admin.html:17
 msgid "Assignar proves a grups o alumnes"
-msgstr ""
+msgstr "Assign tests to groups or individual students"
 
 #: main/templates/main/quiz_assign_admin.html:20
 msgid "Assignar proves a"
-msgstr ""
+msgstr "Assign tests to"
 
 #: main/templates/main/quiz_assign_admin.html:60
 msgid "Alumnes"
-msgstr ""
+msgstr "Students"
 
 #: main/templates/main/quiz_assign_admin.html:65
 msgid "Grups"
-msgstr ""
+msgstr "Groups"
 
 #: main/templates/main/quiz_browse.html:4
 msgid "Visualitzar material"
-msgstr ""
+msgstr "View material"
 
 #: main/templates/main/quiz_browse.html:6
 msgid "Revisió materials"
-msgstr ""
+msgstr "Review materials"
 
 #: main/templates/main/quiz_browse.html:7
 msgid "Nom del material"
-msgstr ""
+msgstr "Material name"
 
 #: main/templates/main/quiz_edit.html:8
 #: main/templates/main/quiz_edit_teacher.html:8
 msgid "Editar prova"
-msgstr ""
+msgstr "Edit test"
 
 #: main/templates/main/quiz_edit.html:10
 #: main/templates/main/quiz_edit_teacher.html:10
 msgid "Editant prova"
-msgstr ""
+msgstr "Editing test"
 
 #: main/templates/main/quiz_edit.html:22
 msgid ""
@@ -739,67 +735,66 @@ msgid ""
 "(a part del nom) pot tenir conseqüències no desitjades! Fes-ho només si tens "
 "molt clar el que estàs fent!"
 msgstr ""
+"WARNING: you are editing a published test. The modification of any field "
+"(besides the name) can have unwanted consequences. Do it only if "
+"you are 100% of what you are doing"
 
 #: main/templates/main/quiz_edit.html:30
 #: main/templates/main/quiz_edit_teacher.html:21
 #: main/templates/main/quiz_new.html:16
 #: main/templates/main/quiz_new_teacher.html:15
 msgid "Nom de la prova"
-msgstr ""
+msgstr "Test name"
 
 #: main/templates/main/quiz_edit.html:35
 #: main/templates/main/quiz_edit_teacher.html:26
 #: main/templates/main/quiz_new.html:21
 #: main/templates/main/quiz_new_teacher.html:20
-#, fuzzy
-#| msgid "Repetir la prova!"
 msgid "Capçalera de la prova"
-msgstr "Repeat the test!"
+msgstr "Test header"
 
 #: main/templates/main/quiz_edit.html:42
 #: main/templates/main/quiz_edit_teacher.html:33
 #: main/templates/main/quiz_new.html:27
 msgid "Autor de la prova"
-msgstr ""
+msgstr "Test author"
 
 #: main/templates/main/quiz_edit.html:48
 #: main/templates/main/quiz_edit_teacher.html:39
 #: main/templates/main/quiz_new.html:33
 #: main/templates/main/quiz_new_teacher.html:25
 msgid "Requisits per fer aquesta prova"
-msgstr ""
+msgstr "Test requisites"
 
 #: main/templates/main/quiz_edit.html:55 main/templates/main/quiz_new.html:40
 #: main/templates/main/quiz_new_teacher.html:30
 msgid "Tipus de material"
-msgstr ""
+msgstr "Material type"
 
 #: main/templates/main/quiz_edit.html:61
 #: main/templates/main/quiz_edit_teacher.html:48
 msgid "Prova publicada"
-msgstr ""
+msgstr "Published test"
 
 #: main/templates/main/quiz_edit.html:68
 #: main/templates/main/quiz_edit_teacher.html:55
 msgid "Afegir pregunta amb múltiple resposta"
-msgstr ""
+msgstr "Add multiple option question"
 
 #: main/templates/main/quiz_edit.html:70
 #: main/templates/main/quiz_edit_teacher.html:57
 msgid "Afegir pregunta amb link a document extern"
-msgstr ""
+msgstr "Add question with link to external document"
 
 #: main/templates/main/quiz_edit.html:72 main/templates/main/quiz_edit.html:76
 #: main/templates/main/quiz_edit_teacher.html:59
-#, fuzzy
-#| msgid "Veure resultats enquesta"
 msgid "Afegir pregunta d&#39;enquesta"
-msgstr "Check poll result"
+msgstr "Add poll question"
 
 #: main/templates/main/quiz_edit.html:74
 #: main/templates/main/quiz_edit_teacher.html:61
 msgid "Afegir pregunta de pujada de fitxer"
-msgstr ""
+msgstr "Add file upload question"
 
 #: main/templates/main/quiz_edit.html:104
 #: main/templates/main/quiz_edit.html:120
@@ -812,7 +807,7 @@ msgstr ""
 #: main/templates/main/quiz_edit_teacher.html:133
 #: main/templates/main/quiz_edit_teacher.html:153
 msgid "Editar pregunta i respostes"
-msgstr ""
+msgstr "Edit question and answers"
 
 #: main/templates/main/quiz_edit.html:104
 #: main/templates/main/quiz_edit.html:120
@@ -825,53 +820,56 @@ msgstr ""
 #: main/templates/main/quiz_edit_teacher.html:133
 #: main/templates/main/quiz_edit_teacher.html:153
 msgid "Eliminar pregunta"
-msgstr ""
+msgstr "Delete question"
 
 #: main/templates/main/quiz_edit.html:200
 #: main/templates/main/quiz_edit_teacher.html:179
 msgid ""
 "Aquesta prova encara no té contingut. El pots afegir fent servir el botó (+)"
 msgstr ""
+"This quest does not have content yet. You can add it using the (+) button"
 
 #: main/templates/main/quiz_edit_teacher.html:44
 msgid "Aquesta prova és de tipus"
-msgstr ""
+msgstr "This test is of type"
 
 #: main/templates/main/quiz_edit_teacher.html:194
 msgid "Confirmar acció"
-msgstr ""
+msgstr "Confirm action"
 
 #: main/templates/main/quiz_edit_teacher.html:195
 msgid ""
 "Un cop hagis publicat la prova no la podràs modificar, estàs completament "
 "segur que vols continuar?"
 msgstr ""
+"Once the test is published, you will not be able to modify it. Are you completely "
+"sure you want to continue?"
 
 #: main/templates/main/quiz_edit_teacher.html:196
 msgid "Si"
-msgstr ""
+msgstr "Yes"
 
 #: main/templates/main/quiz_edit_teacher.html:197
 msgid "No"
-msgstr ""
+msgstr "No"
 
 #: main/templates/main/quiz_list.html:19
 msgid "Llistar/Editar/Esborrar proves"
-msgstr ""
+msgstr "List/Edit/Delete tests"
 
 #: main/templates/main/quiz_list.html:21
 msgid "Llista de proves"
-msgstr ""
+msgstr "Test list"
 
 #: main/templates/main/quiz_new.html:4
 #: main/templates/main/quiz_new_teacher.html:4
 msgid "Crear prova"
-msgstr ""
+msgstr "Create test"
 
 #: main/templates/main/quiz_new.html:6
 #: main/templates/main/quiz_new_teacher.html:6
 msgid "Creant nova prova"
-msgstr ""
+msgstr "Creating new test"
 
 #: main/templates/main/quiz_new.html:28
 msgid ""
@@ -879,213 +877,209 @@ msgid ""
 "desplegable en blanc), aquesta prova estarà disponible per TOTS els grups "
 "quan la publiquis"
 msgstr ""
+"Note for admins: if you don't choose a test author (do not select "
+"anything on the dropbox), this test will we available to ALL groups "
+"when you publish it"
 
 #: main/templates/main/quiz_results.html:20
 #: main/templates/main/quiz_results.html:23
 msgid "Llistat enquestas i tests"
-msgstr ""
+msgstr "Poll and test list"
 
 #: main/templates/main/quiz_results_graphics.html:5
 msgid "Gràfica de resultats"
-msgstr ""
+msgstr "Results graph"
 
 #: main/templates/main/quiz_take.html:113
 msgid "Realitzant prova"
-msgstr ""
+msgstr "Taking test"
 
 #: main/templates/main/quiz_take.html:115
 msgid "Estàs fent la prova"
-msgstr ""
+msgstr "You are taking the test"
 
 #: main/templates/main/quiz_take.html:131
 #: main/templates/main/quiz_take_endsummary.html:38
 msgid "de"
-msgstr ""
+msgstr "of"
 
 #: main/templates/main/quiz_take.html:178
 msgid "Fes clic per obrir l&#39;enllaç"
-msgstr ""
+msgstr "Clic to open the link"
 
 #: main/templates/main/quiz_take.html:210
 #: main/templates/main/quiz_take_upload.html:36
 msgid "Has completat el material! Fes clic en aquest botó per acabar..."
-msgstr ""
+msgstr "You completed the material! Click on this button to finish..."
 
 #: main/templates/main/quiz_take_endsummary.html:14
 msgid "Prova finalitzada, resultats"
-msgstr ""
+msgstr "Finished test, results"
 
 #: main/templates/main/quiz_take_endsummary.html:16
 msgid "Prova finalitzada!"
-msgstr ""
+msgstr "Test completed!"
 
 #: main/templates/main/quiz_take_endsummary.html:24
 msgid "Vas començar la prova el"
-msgstr ""
+msgstr "You started the test on"
 
 #: main/templates/main/quiz_take_endsummary.html:25
 msgid "I la vas acabar el"
-msgstr ""
+msgstr "And finished on"
 
 #: main/templates/main/quiz_take_endsummary.html:27
 #: main/templates/main/quiz_take_splash.html:16
 msgid "Ja havies fet aquesta prova"
-msgstr ""
+msgstr "You had already taken this test"
 
 #: main/templates/main/quiz_take_endsummary.html:27
 #: main/templates/main/quiz_take_splash.html:16
 msgid "vegades"
-msgstr ""
+msgstr "times"
 
 #: main/templates/main/quiz_take_endsummary.html:27
 msgid "aquest és l&#39;intent"
-msgstr ""
+msgstr "this is the retry number"
 
 #: main/templates/main/quiz_take_endsummary.html:29
 msgid "Era la primera vegada que feies aquesta prova"
-msgstr ""
+msgstr "It was the first time you took this test"
 
 #: main/templates/main/quiz_take_endsummary.html:35
 msgid "La teva puntuació és"
-msgstr ""
+msgstr "Your score is"
 
 #: main/templates/main/quiz_take_endsummary.html:38
 msgid "respostes correctes"
-msgstr ""
+msgstr "correct answers"
 
 #: main/templates/main/quiz_take_endsummary.html:42
 msgid "Has completat el material!"
-msgstr ""
+msgstr "You have completed the material!"
 
 #: main/templates/main/quiz_take_endsummary.html:45
 #: main/templates/main/quiz_take_endsummary.html:59
 msgid ""
 "Si vols accedir al material més tard, el tens disponible al Menú principal"
 msgstr ""
+"If you want to access the material later, it will be availabe on your main Menu"
 
 #: main/templates/main/quiz_take_endsummary.html:49
 msgid "Has completat l&#39;enquesta!"
-msgstr ""
+msgstr "You completed the poll!"
 
 #: main/templates/main/quiz_take_endsummary.html:52
 msgid "Pots veure els resultats de l&#39;enquesta al Menú principal"
-msgstr ""
+msgstr "You can see the poll results in the main Menu"
 
 #: main/templates/main/quiz_take_endsummary.html:56
 msgid "Has pujat el fitxer!"
-msgstr ""
+msgstr "You uploaded the file!"
 
 #: main/templates/main/quiz_take_endsummary.html:63
 msgid "Ara pots"
-msgstr ""
+msgstr "You can now"
 
 #: main/templates/main/quiz_take_endsummary.html:66
 msgid "Repetir la prova "
-msgstr ""
+msgstr "Repeat the test "
 
 #: main/templates/main/quiz_take_endsummary.html:67
 #: main/templates/main/quiz_take_endsummary.html:71
 #: main/templates/main/quiz_take_endsummary.html:73
 msgid "Tornar a l&#39;inici"
-msgstr ""
+msgstr "Back to start"
 
 #: main/templates/main/quiz_take_endsummary.html:68
 #: main/templates/main/quiz_take_endsummary.html:75
 msgid "Llençar més confetti! "
-msgstr ""
+msgstr "Throw more confetti!"
 
 #: main/templates/main/quiz_take_splash.html:4
 msgid "Realitzar prova"
-msgstr ""
+msgstr "Take test"
 
 #: main/templates/main/quiz_take_splash.html:6
 msgid "Inici de prova"
-msgstr ""
+msgstr "Test start"
 
 #: main/templates/main/quiz_take_splash.html:14
 msgid "Total de preguntes de la prova"
-msgstr ""
+msgstr "Total questions in test"
 
 #: main/templates/main/quiz_take_splash.html:17
 msgid "La darrera vegada vas obtenir una puntuació de"
-msgstr ""
+msgstr "Last time your score was"
 
 #: main/templates/main/quiz_take_splash.html:17
 msgid "preguntes correctes sobre"
-msgstr ""
+msgstr "correct answers over"
 
 #: main/templates/main/quiz_take_splash.html:19
 msgid "Aquesta és la primera vegada que fas aquesta prova. Molta sort!"
-msgstr ""
+msgstr "This is the first time you take this test. Good luck!"
 
 #: main/templates/main/quiz_take_splash.html:29
 #: main/templates/main/quiz_take_splash.html:30
 msgid "Començar!"
-msgstr ""
+msgstr "Start!"
 
 #: main/templates/main/quiz_take_upload.html:10
 msgid "Pujada de dades"
-msgstr ""
+msgstr "Data upload"
 
 #: main/templates/main/quiz_take_upload.html:12
 msgid "Pujada de dades per la prova"
-msgstr ""
+msgstr "Data upload for test"
 
 #: main/templates/main/quiz_take_upload.html:30
 msgid "Afegir fitxer"
 msgstr "Add file"
 
 #: main/templates/main/quizrun_group_list.html:21
-#, fuzzy
-#| msgid "Llista de grups"
 msgid "Llistat intents prova/grup"
-msgstr "List groups"
+msgstr "List test trials by group"
 
 #: main/templates/main/quizrun_group_list.html:25
 msgid "Llistat d'intents per prova i per grup"
-msgstr ""
+msgstr "Test trials by test and group"
 
 #: main/templates/main/quizrun_group_list.html:33
 msgid "Número d'intent"
-msgstr ""
+msgstr "Trial number"
 
 #: main/templates/main/quizrun_group_list.html:34
-#, fuzzy
-#| msgid "Finalitzada"
 msgid "Data finalització"
-msgstr "Finished"
+msgstr "Finish date"
 
 #: main/templates/main/quizrun_group_list.html:35
-#, fuzzy
-#| msgid "Respostes"
 msgid "Respostes correctes"
-msgstr "Answers"
+msgstr "Correct answers"
 
 #: main/templates/main/quizrun_group_list.html:45
-#, fuzzy
-#| msgid "Eliminar"
 msgid "Eliminar intent"
-msgstr "Delete"
+msgstr "Delete trial"
 
 #: main/templates/main/teacher_edit.html:15
 msgid "Editar mestre"
-msgstr ""
+msgstr "Edit teacher"
 
 #: main/templates/main/teacher_edit.html:17
 msgid "Editant mestre"
-msgstr ""
+msgstr "Editing teacher"
 
 #: main/templates/main/teacher_list.html:19
 msgid "Llistar/Editar/Esborrar professors"
-msgstr ""
+msgstr "List/Edit/Delete teachers"
 
 #: main/templates/main/teacher_list.html:21
 msgid "Llista de professors"
-msgstr ""
+msgstr "Teachers list"
 
 #: main/templates/main/teacher_menu.html:6
 msgid "Menú principal professor"
-msgstr ""
+msgstr "Main menu teacher"
 
 #: main/templates/main/teacher_menu.html:17
 msgid ""
@@ -1094,104 +1088,94 @@ msgid ""
 msgstr ""
 
 #: main/templates/main/teacher_menu.html:24
-#, fuzzy
-#| msgid "Enquesta"
 msgid "Enquestes"
-msgstr "Poll"
+msgstr "Polls"
 
 #: main/templates/main/teacher_menu.html:26
 msgid "Fer i consultar resultats d&#39;enquestes al professorat"
-msgstr ""
+msgstr "Take and view results of teacher polls"
 
 #: main/templates/main/teacher_menu.html:34
 msgid ""
 "Veure les proves que han fet els grups, així com les puntuacions obtingudes."
 msgstr ""
+"See the group tests, as well as the obtained scores"
 
 #: main/templates/main/teacher_new.html:8
 msgid "Creant nou usuari per mestre"
-msgstr ""
+msgstr "Creating new user for teacher"
 
 #: main/templates/main/teacher_polls.html:4
 #: main/templates/main/teacher_polls.html:6
-#, fuzzy
-#| msgid "Espai professorat"
 msgid "Enquestes professorat"
-msgstr "Teacher section"
+msgstr "Teacher polls"
 
 #: main/templates/main/teacher_polls.html:18
 msgid ""
 "Aquestes són les enquestes que ja heu acabat (podeu veure els resultats)"
 msgstr ""
+"These are your finished polls (you can see the results)"
 
 #: main/templates/main/teacher_polls.html:33
 msgid "Encara no heu acabat cap enquesta!"
-msgstr ""
+msgstr "You have not yet completed any poll!"
 
 #: main/templates/main/teacher_polls.html:40
 msgid "Aquestes són les enquestes que encara no heu fet"
-msgstr ""
+msgstr "These are the polls you haven't taken yet"
 
 #: main/templates/main/teacher_polls.html:59
 msgid "No teniu enquestes per fer!"
-msgstr ""
+msgstr "No available polls!"
 
 #: main/templates/main/teacher_polls.html:64
 msgid "Aquestes són les enquestes que esteu fent però no heu acabat"
-msgstr ""
+msgstr "These are your ongoing polls"
 
 #: main/templates/main/test_result.html:4
 #: main/templates/main/test_result.html:6
 #: main/templates/main/test_results_detail_view.html:4
 #: main/templates/main/test_results_detail_view.html:7
 msgid "Resultats test"
-msgstr ""
+msgstr "Test results"
 
 #: main/templates/main/test_result.html:14
 #: main/templates/main/test_result.html:17
 #: main/templates/main/test_result.html:19
 msgid "Completat"
-msgstr ""
+msgstr "Completed"
 
 #: main/templates/main/test_result.html:14
 #: main/templates/main/test_result.html:17
 #: main/templates/main/test_result.html:19
 #: main/templates/main/upload_file_solutions.html:14
 msgid "grups"
-msgstr ""
+msgstr "groups"
 
 #: main/templates/main/test_result.html:25
 msgid "Veure gràfica de resultats"
-msgstr ""
+msgstr "See results graph"
 
 #: main/templates/main/test_result.html:37
-#, fuzzy
-#| msgid "Puntuació"
 msgid "Millor puntuació"
-msgstr "Puntuation"
+msgstr "Best score"
 
 #: main/templates/main/test_result.html:38
 msgid "Millor intent"
-msgstr ""
+msgstr "Best try"
 
 #: main/templates/main/test_result.html:39
-#, fuzzy
-#| msgid "Finalitzada"
 msgid "Prova finalitzada"
-msgstr "Finished"
+msgstr "Finished test"
 
 #: main/templates/main/test_result.html:40
-#, fuzzy
-#| msgid "Llista de centres"
 msgid "Vista de detall"
-msgstr "List centers"
+msgstr "Detail view"
 
 #: main/templates/main/test_result.html:62
 #: main/templates/main/test_result.html:84
-#, fuzzy
-#| msgid "Llista de centres"
 msgid "Llistar intents"
-msgstr "List centers"
+msgstr "List tries"
 
 #: main/templates/main/test_results_detail_view.html:16
 msgid "Les respostes correctes de la prova es mostren en color"
@@ -1203,7 +1187,7 @@ msgstr "green"
 
 #: main/templates/main/test_results_detail_view.html:16
 msgid "mentre que la resposta de l&#39;alumne es mostra en"
-msgstr "while the alum answer appears in"
+msgstr "while the student answer appears in"
 
 #: main/templates/main/test_results_detail_view.html:16
 msgid "negreta"
@@ -1212,141 +1196,151 @@ msgstr "bold"
 #: main/templates/main/test_solutions_teacher.html:5
 #: main/templates/main/test_solutions_teacher.html:7
 msgid "Resultats de proves"
-msgstr ""
+msgstr "Test results"
 
 #: main/templates/main/upload_file_solutions.html:5
 #: main/templates/main/upload_file_solutions.html:7
 msgid "Resum dels arxius pujats"
-msgstr ""
+msgstr "Uploaded file summary"
 
 #: main/templates/main/upload_file_solutions.html:14
 msgid "La prova ha estat pujada per"
-msgstr ""
+msgstr "The test was uploaded by"
 
 #: main/templates/main/upload_file_solutions.html:23
 msgid "Arxiu pujat"
-msgstr ""
+msgstr "Uploaded file"
 
 #: main/templates/main/upload_file_solutions.html:24
 msgid "Link a l&#39;arxiu"
-msgstr ""
+msgstr "File link"
 
 #: main/templates/main/upload_file_solutions.html:25
 msgid "Data pujada arxiu"
-msgstr ""
+msgstr "File upload date"
 
 #: main/templates/main/upload_file_solutions.html:39
 msgid "Verue arxiu"
-msgstr ""
+msgstr "Browse file"
 
 #: main/templates/pdf_templates/group_credentials_list.html:39
 #: main/templates/pdf_templates/group_credentials_list_admin.html:32
 msgid "Nom públic"
-msgstr ""
+msgstr "Public name"
 
 #: main/templates/pdf_templates/group_credentials_list.html:40
 #: main/templates/pdf_templates/group_credentials_list_admin.html:33
 msgid "Nom usuari del grup"
-msgstr ""
+msgstr "Group username"
 
 #: main/templates/pdf_templates/group_credentials_list.html:41
 #: main/templates/pdf_templates/group_credentials_list_admin.html:34
 msgid "Contrasenya"
-msgstr ""
+msgstr "Password"
 
 #: main/templates/pdf_templates/group_credentials_list_admin.html:35
 msgid "Professor a carrec"
-msgstr ""
+msgstr "Teacher in charge"
 
 #: main/templates/registration/login.html:5
 msgid "Pàgina de registre"
-msgstr ""
+msgstr "Login page"
 
 #: main/templates/registration/login.html:16
 msgid "username"
-msgstr ""
+msgstr "username"
 
 #: main/templates/registration/login.html:20
 msgid "password"
-msgstr ""
+msgstr "password"
 
 #: main/views.py:189 main/views.py:199 main/views.py:237 main/views.py:287
 #: main/views.py:777 main/views.py:813 main/views.py:847 main/views.py:1004
 #: main/views.py:1048 main/views.py:1160 main/views.py:1171 main/views.py:1184
 #: main/views.py:1851
 msgid "Estàs intentant accedir a una pàgina a la que no tens permís."
-msgstr ""
+msgstr "You are trying to access a restricted page"
 
 #: main/views.py:371
 msgid "Sembla que aquesta prova no existeix."
-msgstr ""
+msgstr "Looks like this test does not exist"
 
 #: main/views.py:375
 msgid "Sembla que aquesta prova no està completada."
-msgstr ""
+msgstr "Looks like this test is not complete"
 
 #: main/views.py:394 main/views.py:411 main/views.py:1712 main/views.py:1735
 #: main/views.py:1866
 msgid "No existeix aquesta prova."
-msgstr ""
+msgstr "This test does not exist"
 
 #: main/views.py:398 main/views.py:1716 main/views.py:1739 main/views.py:1871
 msgid ""
 "El test seleccionat no l'ha realitzat cap grup i encara no té resultats."
 msgstr ""
+"The selected test has not been taken by any group and does not have results."
 
 #: main/views.py:415
 msgid "No tens assignada aquesta prova, de manera que no la pots visualitzar."
-msgstr ""
+msgstr "This test has not been assigned to you, therefore you can't take it"
 
 #: main/views.py:570 main/views.py:613 main/views.py:651
 msgid ""
 "Estàs intentant accedir a una prova creada per un professor que no és el teu "
 "tutor."
 msgstr ""
+"You are trying to access a test created by a teacher which is not your "
+"tutor."
 
 #: main/views.py:574 main/views.py:617
 msgid "Aquesta prova no existeix!"
-msgstr ""
+msgstr "This test does not exist!"
 
 #: main/views.py:584 main/views.py:624
 msgid ""
 "Ho sentim, però les proves de pujada de fitxer només es poden fer una vegada."
 msgstr ""
+"Sorry, the data upload test can only be taken once."
 
 #: main/views.py:673
 msgid ""
 "Aquesta prova està marcada com a finalitzada, o sigui que no la pots "
 "modificar. Si vols, la pots repetir."
 msgstr ""
+"This test is marked as finished, so you can't "
+"modify it. If you want, you can repeat it."
 
 #: main/views.py:710
 msgid "Aquesta prova no està publicada, no la pots començar."
-msgstr ""
+msgstr "This test is not yet published, you can't take it."
 
 #: main/views.py:717
 msgid ""
 "Les proves de materials, pujada de fitxers i enquestes només es fan una "
 "vegada. Les pots repassar totes però des del menú de grup "
 msgstr ""
+"Material, File upload and polls can only be taken once. "
+"You can review them from the group menu"
 
 #: main/views.py:723
 msgid "Aquesta prova té un requisit que no s'ha completat: "
-msgstr ""
+msgstr "This test has a prerequisite which has not yet been completed: "
 
 #: main/views.py:729
 msgid ""
 "Estàs intentant començar una prova creada per un professor que no és el teu "
 "tutor."
 msgstr ""
+"You are trying to take a test created by a teacher which is not your "
+"tutor."
 
 #: main/views.py:753
 msgid "Estàs intentant editar una prova que no existeix."
-msgstr ""
+msgstr "You are trying to edit a non-existing test."
 
 #: main/views.py:1791 main/views.py:1841
 msgid "Anònim"
-msgstr ""
+msgstr "Anonymous"
 
 #~ msgid "English"
 #~ msgstr "English"
