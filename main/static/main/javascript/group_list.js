@@ -21,14 +21,14 @@ $(document).ready( function () {
             },
             success: function( data, textStatus, jqXHR ) {
                 if(data.is_active==false){
-                    toastr.success('Grup desactivat!');
+                    toastr.success(gettext('Grup desactivat!'));
                 }else{
-                    toastr.success('Grup activat!');
+                    toastr.success(gettext('Grup activat!'));
                 }
                 table.ajax.reload();
             },
             error: function(jqXHR, textStatus, errorThrown){
-                toastr.error('Error modificant grup');
+                toastr.error(gettext('Error modificant grup'));
             }
         });
     };
@@ -37,7 +37,7 @@ $(document).ready( function () {
         $('<div></div>').appendTo('body')
             .html('<div><h6>'+message+'</h6></div>')
             .dialog({
-                modal: true, title: 'Inactivant grup...', zIndex: 10000, autoOpen: true,
+                modal: true, title: gettext('Inactivant grup...'), zIndex: 10000, autoOpen: true,
                 width: 'auto', resizable: false,
                 buttons: {
                     Yes: function () {
@@ -95,7 +95,7 @@ $(document).ready( function () {
                 'data': 'is_active',
                 'sortable': false,
                 'render': function(value){
-                    return '<button title="Desactivar usuari" class="delete_button btn btn-danger"><i class="fas fa-backspace"></i></button>';
+                    return '<button title="' + gettext('Desactivar usuari') + '" class="delete_button btn btn-danger"><i class="fas fa-backspace"></i></button>';
                 }
             },
             {
@@ -103,32 +103,32 @@ $(document).ready( function () {
                 'data': 'is_active',
                 'sortable': false,
                 'render': function(value){
-                    return '<button title="Editar" class="edit_button btn btn-info"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>';
+                    return '<button title="' + gettext('Editar') + '" class="edit_button btn btn-info"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>';
                 }
             },
             {
                 'targets':0,
-                'title': 'Nom usuari del grup'
+                'title': gettext('Nom usuari del grup')
             },
             {
                 'targets':1,
-                'title': 'Password'
+                'title': gettext('Password')
             },
             {
                 'targets':2,
-                'title': 'Nom públic'
+                'title': gettext('Nom públic')
             },
             {
                 'targets':3,
-                'title': 'Centre'
+                'title': gettext('Centre')
             },
             {
                 'targets':4,
-                'title': 'Tutor'
+                'title': gettext('Tutor')
             },
             {
                 'targets':5,
-                'title': 'Imatge del grup',
+                'title': gettext('Imatge del grup'),
                 'render': function(value){
                     if(value != ''){
                         return '<img width="50px" src="' + value + '">';
@@ -140,7 +140,7 @@ $(document).ready( function () {
             {
                 'targets':6,
                 'data': 'is_active',
-                'title': 'Grup actiu?',
+                'title': gettext('Grup actiu?'),
                 'render': function(value){
                     if(value == true){
                         return '<p><i class="fas fa-check"></i></p>';
@@ -158,9 +158,9 @@ $(document).ready( function () {
         var id = row.data().id;
         var active = row.data().is_active;
         if(active){
-            confirmDialog("El grup està actiu i es marcarà com a inactiu. Segur que vols continuar?",id,false);
+            confirmDialog(gettext("El grup està actiu i es marcarà com a inactiu. Segur que vols continuar?"),id,false);
         }else{
-            confirmDialog("El grup està inactiu i es marcarà com a actiu. Segur que vols continuar?",id,true);
+            confirmDialog(gettext("El grup està inactiu i es marcarà com a actiu. Segur que vols continuar?"),id,true);
         }
     });
 
@@ -180,8 +180,3 @@ $(document).ready( function () {
 
 
 });
-
-/*var exportPDF = function(){
-        var params = table.ajax.params();
-        window.location.href = _group_list_pdf + '?' + jQuery.param(params);
-    };*/

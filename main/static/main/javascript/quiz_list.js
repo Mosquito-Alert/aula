@@ -46,26 +46,26 @@ $(document).ready( function () {
         'columnDefs': [
             {
                 'targets':0,
-                'title': 'Nom de la prova'
+                'title': gettext('Nom de la prova')
             },
             {
                 'targets':1,
-                'title': 'Autor',
+                'title': gettext('Autor'),
                 'render': function(value){
                     if(value){
                         return value;
                     }else{
-                        return 'Anònim';
+                        return gettext('Anònim');
                     }
                 }
             },
             {
                 'targets':2,
-                'title': 'Centre'
+                'title': gettext('Centre')
             },
             {
                 'targets':3,
-                'title': 'Requisits',
+                'title': gettext('Requisits'),
                 'render': function(value){
                     if(value){
                         return value.name;
@@ -76,7 +76,7 @@ $(document).ready( function () {
             },
             {
             'targets':4,
-            'title': 'Prova publicada?',
+            'title': gettext('Prova publicada?'),
             'render': function(value){
                     if(value == true){
                         return '<p><i class="fas fa-check"></i></p>';
@@ -87,12 +87,12 @@ $(document).ready( function () {
             },
             {
             'targets':5,
-            'title': 'Tipus prova'
+            'title': gettext('Tipus prova')
             },
             {
             'targets':6,
             'sortable': false,
-            'title': 'Enllaç a la prova',
+            'title': gettext('Enllaç a la prova'),
             'render': function(value){
                     return protocol + host + value;
                 }
@@ -101,14 +101,14 @@ $(document).ready( function () {
                 'targets': 7,
                 'sortable': false,
                 'render': function(value){
-                    return '<button title="Editar" class="edit_button btn btn-info"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>';
+                    return '<button title="' + gettext('Editar') + '" class="edit_button btn btn-info"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>';
                 }
             },
             {
                 'targets': 8,
                 'sortable': false,
                 'render': function(value){
-                    return '<button title="Eliminar prova" class="delete_button btn btn-danger"><i class="fas fa-backspace"></i></button>';
+                    return '<button title="' + gettext('Eliminar prova') + '" class="delete_button btn btn-danger"><i class="fas fa-backspace"></i></button>';
                 }
             },
         ]
@@ -125,11 +125,11 @@ $(document).ready( function () {
             }
         },
         success: function( data, textStatus, jqXHR ) {
-            toastr.success('Prova eliminada!');
+            toastr.success(gettext('Prova eliminada!'));
             table.ajax.reload();
         },
         error: function(jqXHR, textStatus, errorThrown){
-            toastr.error('Error eliminant prova');
+            toastr.error(gettext('Error eliminant prova'));
         }
         });
     };
@@ -138,7 +138,7 @@ $(document).ready( function () {
     $('<div></div>').appendTo('body')
         .html('<div><h6>'+message+'</h6></div>')
         .dialog({
-            modal: true, title: 'Eliminant prova...', zIndex: 10000, autoOpen: true,
+            modal: true, title: gettext('Eliminant prova...'), zIndex: 10000, autoOpen: true,
             width: 'auto', resizable: false,
             buttons: {
                 Yes: function () {
@@ -162,7 +162,7 @@ $(document).ready( function () {
         var published = row.data().published;
         if(!user_is_admin && published){
             toastr.options = {"positionClass": "toast-top-full-width","preventDuplicates": true};
-            toastr.warning('Ho sentim, no es permet la edició de proves ja publicades.')
+            toastr.warning(gettext('Ho sentim, no es permet la edició de proves ja publicades.'));
         }else{
             window.location.href = _quiz_update_url + id + '/';
         }
@@ -172,7 +172,7 @@ $(document).ready( function () {
         var tr = $(this).closest('tr');
         var row = table.row( tr );
         var id = row.data().id;
-        confirmDialog("Segur que vols esborrar la prova?",id);
+        confirmDialog(gettext("Segur que vols esborrar la prova?"),id);
     });
 
 });

@@ -35,30 +35,30 @@ $(document).ready( function () {
         'columnDefs': [
             {
                 'targets':0,
-                'title': 'Nom de la prova'
+                'title': gettext('Nom de la prova')
             },
             {
                 'targets':1,
-                'title': 'Nom de l\'autor',
+                'title': gettext('Nom autor'),
                 'render': function(value){
                     if(value){
                         return value;
                     }else{
-                        return 'Anònim';
+                        return gettext('Anònim');
                     }
                 }
             },
             {
                 'targets':2,
-                'title': 'Tipus de prova'
+                'title': gettext('Tipus de prova')
             },
             {
                 'targets': 3,
-                'title': 'Veure resultats',
+                'title': gettext('Veure resultats'),
                 'data': 'test_results',
                 'sortable': false,
                 'render': function(value){
-                    return '<button title="Veure resultats" class="check_results btn btn-info"><i class="far fa-eye" aria-hidden="true"></i></button>';
+                    return '<button title="' + gettext('Veure resultats') + '" class="check_results btn btn-info"><i class="far fa-eye" aria-hidden="true"></i></button>';
                 }
             },
 

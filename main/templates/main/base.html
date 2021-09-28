@@ -205,6 +205,27 @@
 <script src="https://kit.fontawesome.com/027a77898a.js" crossorigin="anonymous"></script>
 <script src="{% static 'main/jquery-ui/jquery-ui.min.js' %}"></script>
 <script src="{% static 'main/toastr/toastr.min.js' %}"></script>
+<script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
+<script>
+    var table_language = {
+        "sProcessing":   '<span class="fa fa-spinner fa-spin" aria-hidden="true"></span>',
+        "sLengthMenu":   "{% trans 'sLengthMenu' %}",
+        "sZeroRecords":  "{% trans 'sZeroRecords' %}",
+        "sInfo":         "{% trans 'sInfo' %}",
+        "sInfoEmpty":    "{% trans 'sInfoEmpty' %}",
+        "sInfoFiltered": "{% trans 'sInfoFiltered' %}",
+        "loadingRecords": "{% trans 'loadingRecords' %}",
+        "sInfoPostFix":  "",
+        "sSearch":       "{% trans 'Filtrar' %}:",
+        "sUrl":          "",
+        "oPaginate": {
+            "sFirst":    "{% trans 'Primer' %}",
+            "sPrevious": "{% trans 'Anterior' %}",
+            "sNext":     "{% trans 'Següent' %}",
+            "sLast":     "{% trans 'Últim' %}"
+        }
+    };
+</script>
 <script>
     {% get_current_language as LANGUAGE_CODE %}
     var currentLang = '{{ LANGUAGE_CODE }}';

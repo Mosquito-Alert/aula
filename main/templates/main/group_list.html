@@ -25,10 +25,10 @@
 <div class="container">
     <div class="row justify-content-end">
         <div class="col-lg-3" style="margin-bottom: 2%;text-align:right;">
-            <button target="_blank" type="button" id="getPDFlist" class="btn btn-info">Descarregar credencials en PDF</button>
+            <button target="_blank" type="button" id="getPDFlist" class="btn btn-info">{% trans 'Descarregar credencials en PDF' %}</button>
         </div>
         <div class="col-lg-2" style="text-align:right;">
-            <a href="{% url 'group_new' %}" type="button" class="btn btn-info">Afegir <i class="fas fa-plus"></i></a>
+            <a href="{% url 'group_new' %}" type="button" class="btn btn-info">{% trans 'Afegir' %} <i class="fas fa-plus"></i></a>
         </div>
     </div>
     <table class="table table-striped table-bordered" id="group_list" style="width:100%;"></table>
@@ -39,7 +39,6 @@
 <script src="{% static 'main/javascript/datatable_language_options.js' %}"></script>
 <script>
     {% get_current_language as LANGUAGE_CODE %}
-    var table_language = {% if LANGUAGE_CODE == 'ca' %} table_ca {% else %} table_es {% endif %};
     var _group_list_url = '{% url 'group_datatable_list' %}';
     var _group_update_url = '{% url 'group_update_no_id' %}';
     var _group_list_pdf = '{% url 'group_list_pdf' %}';

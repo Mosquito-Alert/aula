@@ -33,7 +33,6 @@
 <script src="{% static 'main/javascript/datatable_language_options.js' %}"></script>
 <script>
     {% get_current_language as LANGUAGE_CODE %}
-    var table_language = {% if LANGUAGE_CODE == 'ca' %} table_ca {% else %} table_es {% endif %};
     var _test_list_url = '{% url 'quiz_datatable_results' %}';
     var _poll_results = '{% url 'poll_result' 0 %}';
     var _test_results = '{% url 'test_result' 0 %}';

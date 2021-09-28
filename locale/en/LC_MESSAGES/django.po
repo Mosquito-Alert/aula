@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-23 08:44+0000\n"
+"POT-Creation-Date: 2021-09-28 14:15+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,6 +25,10 @@ msgstr "Spanish"
 #: aula/settings.py:155
 msgid "Catalan"
 msgstr "Catalan"
+
+#: aula/settings.py:156
+msgid "English"
+msgstr "English"
 
 #: main/forms.py:15 main/forms.py:38 main/forms.py:60
 msgid "Prova publicada?"
@@ -51,8 +55,8 @@ msgid ""
 "Nom d'accés del grup (És similar a un nom d'usuari, curt, en minúscules i "
 "sense caràcters especials)"
 msgstr ""
-"Group access name (similar to a username, short, lowercase and "
-"no special characters"
+"Group access name (similar to a username, short, lowercase and no special "
+"characters"
 
 #: main/forms.py:82 main/templates/main/group_edit.html:32
 #: main/templates/main/group_edit_teacher.html:32
@@ -174,7 +178,9 @@ msgstr "Centers"
 
 #: main/templates/main/admin_menu.html:17
 msgid "Permet entrar els centres en què els professors imparteixen classe"
-msgstr "Allows the user to specify the education center in which the professors impart classes"
+msgstr ""
+"Allows the user to specify the education center in which the professors "
+"impart classes"
 
 #: main/templates/main/admin_menu.html:24
 msgid "Professors"
@@ -187,7 +193,7 @@ msgstr "Allows the creation of a professor user."
 #: main/templates/main/admin_menu.html:33
 #: main/templates/main/teacher_menu.html:15
 msgid "Grups d&#39;alumnes"
-msgstr "Alumn groups"
+msgstr "Student groups"
 
 #: main/templates/main/admin_menu.html:35
 msgid "Permet crear un grup a partir de varis alumnes"
@@ -236,7 +242,8 @@ msgstr "Your assigned teacher is "
 msgid ""
 "Aquestes són les proves que ja heu acabat (i que podeu repetir, si voleu!)"
 msgstr ""
-"These are the tests you have already finished (and you can repeat if you want!)"
+"These are the tests you have already finished (and you can repeat if you "
+"want!)"
 
 #: main/templates/main/alum_hub.html:24 main/templates/main/alum_hub.html:38
 #: main/templates/main/alum_hub.html:49 main/templates/main/alum_hub.html:60
@@ -321,12 +328,12 @@ msgstr "No pending tests!"
 msgid "Aquestes són les proves que esteu fent però no heu acabat"
 msgstr "These are the tests which are in progress but not yet finished"
 
-#: main/templates/main/alum_hub.html:117
+#: main/templates/main/alum_hub.html:118 main/templates/main/alum_hub.html:120
 #: main/templates/main/teacher_polls.html:70
 msgid "Continuar fent la prova!"
 msgstr "Continue the test!"
 
-#: main/templates/main/alum_hub.html:122
+#: main/templates/main/alum_hub.html:126
 #: main/templates/main/teacher_polls.html:75
 msgid "No teniu proves que calgui acabar!"
 msgstr "You don't have any pending tests!"
@@ -390,12 +397,6 @@ msgstr "About"
 msgid "Espai professorat"
 msgstr "Teacher section"
 
-#: main/templates/main/base.html:163 main/templates/main/base.html:166
-#: main/templates/main/base.html:168 main/templates/main/base.html:170
-#: main/templates/main/base.html:172
-msgid "Benvingut"
-msgstr "Welcome"
-
 #: main/templates/main/base.html:176
 msgid "Tancar sessió"
 msgstr "Logout"
@@ -413,8 +414,52 @@ msgid ""
 "Aquesta és la web per a un projecte d&#39;educació en el context d&#39;una "
 "beca FECYT"
 msgstr ""
-"This website was created for an education project in the context of a "
-"FECYT grant"
+"This website was created for an education project in the context of a FECYT "
+"grant"
+
+#: main/templates/main/base.html:212
+msgid "sLengthMenu"
+msgstr "Show _MENU_ records"
+
+#: main/templates/main/base.html:213
+msgid "sZeroRecords"
+msgstr "No records found"
+
+#: main/templates/main/base.html:214
+msgid "sInfo"
+msgstr "Showing _START_ to _END_ of _TOTAL_ records"
+
+#: main/templates/main/base.html:215
+msgid "sInfoEmpty"
+msgstr "Showing 0 to 0 of 0 records"
+
+#: main/templates/main/base.html:216
+msgid "sInfoFiltered"
+msgstr "(filtered of _MAX_ total records)"
+
+#: main/templates/main/base.html:217
+msgid "loadingRecords"
+msgstr "Loading..."
+
+#: main/templates/main/base.html:219
+msgid "Filtrar"
+msgstr "Filter"
+
+#: main/templates/main/base.html:222
+msgid "Primer"
+msgstr "First"
+
+#: main/templates/main/base.html:223
+msgid "Anterior"
+msgstr "Previous"
+
+#: main/templates/main/base.html:224
+msgid "Següent"
+msgstr "Next"
+
+#: main/templates/main/base.html:225
+msgid "Últim"
+msgstr "Last"
 
 #: main/templates/main/center_edit.html:15
 msgid "Editar centre"
@@ -436,6 +481,12 @@ msgstr "List/Edit/Delete centers"
 #: main/templates/main/center_list.html:21
 msgid "Llista de centres"
 msgstr "List centers"
+
+#: main/templates/main/center_list.html:27
+#: main/templates/main/group_list.html:31 main/templates/main/quiz_list.html:27
+#: main/templates/main/teacher_list.html:27
+msgid "Afegir"
+msgstr "Add"
 
 #: main/templates/main/center_new.html:15
 msgid "Crear centre"
@@ -465,8 +516,7 @@ msgstr "About"
 #: main/templates/main/credits.html:30
 msgid ""
 "Hem fet servir algunes icones i llibreries creades per 3eres persones..."
-msgstr ""
-"We userd some libraries and icons created by 3rd parties"
+msgstr "We used some libraries and icons created by 3rd parties"
 
 #: main/templates/main/credits.html:41
 msgid "Codi de l&#39;aplicació disponible a "
@@ -548,6 +598,10 @@ msgstr "List/Edit/Delete groups"
 msgid "Llista de grups"
 msgstr "List groups"
 
+#: main/templates/main/group_list.html:28
+msgid "Descarregar credencials en PDF"
+msgstr "Download credentials PDF"
+
 #: main/templates/main/group_new.html:12
 #: main/templates/main/group_new_teacher.html:12
 msgid "Crear grup"
@@ -578,8 +632,12 @@ msgid ""
 "principal, segons siguis un usuari de grup, usuari de professor, o bé usuari "
 "administrador"
 msgstr ""
-"Clic on the button to access your space. The app will "
-"ask for a username and password and will redirect you to your main menu "
+"Click on the button \"Go\" to access your space. The app will ask for a "
+"username and password and will redirect you to your main menu "
+
+#: main/templates/main/index.html:20
+msgid "Entrar"
+msgstr "Go"
 
 #: main/templates/main/invalid_operation.html:4
 msgid "Error"
@@ -736,8 +794,8 @@ msgid ""
 "molt clar el que estàs fent!"
 msgstr ""
 "WARNING: you are editing a published test. The modification of any field "
-"(besides the name) can have unwanted consequences. Do it only if "
-"you are 100% of what you are doing"
+"(besides the name) can have unwanted consequences. Do it only if you are "
+"100% of what you are doing"
 
 #: main/templates/main/quiz_edit.html:30
 #: main/templates/main/quiz_edit_teacher.html:21
@@ -842,8 +900,8 @@ msgid ""
 "Un cop hagis publicat la prova no la podràs modificar, estàs completament "
 "segur que vols continuar?"
 msgstr ""
-"Once the test is published, you will not be able to modify it. Are you completely "
-"sure you want to continue?"
+"Once the test is published, you will not be able to modify it. Are you "
+"completely sure you want to continue?"
 
 #: main/templates/main/quiz_edit_teacher.html:196
 msgid "Si"
@@ -877,9 +935,9 @@ msgid ""
 "desplegable en blanc), aquesta prova estarà disponible per TOTS els grups "
 "quan la publiquis"
 msgstr ""
-"Note for admins: if you don't choose a test author (do not select "
-"anything on the dropbox), this test will we available to ALL groups "
-"when you publish it"
+"Note for admins: if you don't choose a test author (do not select anything "
+"on the dropbox), this test will we available to ALL groups when you publish "
+"it"
 
 #: main/templates/main/quiz_results.html:20
 #: main/templates/main/quiz_results.html:23
@@ -963,7 +1021,8 @@ msgstr "You have completed the material!"
 msgid ""
 "Si vols accedir al material més tard, el tens disponible al Menú principal"
 msgstr ""
-"If you want to access the material later, it will be availabe on your main Menu"
+"If you want to access the material later, it will be availabe on your main "
+"Menu"
 
 #: main/templates/main/quiz_take_endsummary.html:49
 msgid "Has completat l&#39;enquesta!"
@@ -1098,8 +1157,7 @@ msgstr "Take and view results of teacher polls"
 #: main/templates/main/teacher_menu.html:34
 msgid ""
 "Veure les proves que han fet els grups, així com les puntuacions obtingudes."
-msgstr ""
-"See the group tests, as well as the obtained scores"
+msgstr "See the group tests, as well as the obtained scores"
 
 #: main/templates/main/teacher_new.html:8
 msgid "Creant nou usuari per mestre"
@@ -1113,8 +1171,7 @@ msgstr "Teacher polls"
 #: main/templates/main/teacher_polls.html:18
 msgid ""
 "Aquestes són les enquestes que ja heu acabat (podeu veure els resultats)"
-msgstr ""
-"These are your finished polls (you can see the results)"
+msgstr "These are your finished polls (you can see the results)"
 
 #: main/templates/main/teacher_polls.html:33
 msgid "Encara no heu acabat cap enquesta!"
@@ -1255,9 +1312,9 @@ msgid "password"
 msgstr "password"
 
 #: main/views.py:189 main/views.py:199 main/views.py:237 main/views.py:287
-#: main/views.py:777 main/views.py:813 main/views.py:847 main/views.py:1004
-#: main/views.py:1048 main/views.py:1160 main/views.py:1171 main/views.py:1184
-#: main/views.py:1851
+#: main/views.py:781 main/views.py:817 main/views.py:851 main/views.py:1008
+#: main/views.py:1052 main/views.py:1164 main/views.py:1175 main/views.py:1188
+#: main/views.py:1855
 msgid "Estàs intentant accedir a una pàgina a la que no tens permís."
 msgstr "You are trying to access a restricted page"
 
@@ -1269,12 +1326,12 @@ msgstr "Looks like this test does not exist"
 msgid "Sembla que aquesta prova no està completada."
 msgstr "Looks like this test is not complete"
 
-#: main/views.py:394 main/views.py:411 main/views.py:1712 main/views.py:1735
-#: main/views.py:1866
+#: main/views.py:394 main/views.py:411 main/views.py:1716 main/views.py:1739
+#: main/views.py:1870
 msgid "No existeix aquesta prova."
 msgstr "This test does not exist"
 
-#: main/views.py:398 main/views.py:1716 main/views.py:1739 main/views.py:1871
+#: main/views.py:398 main/views.py:1720 main/views.py:1743 main/views.py:1875
 msgid ""
 "El test seleccionat no l'ha realitzat cap grup i encara no té resultats."
 msgstr ""
@@ -1284,66 +1341,69 @@ msgstr ""
 msgid "No tens assignada aquesta prova, de manera que no la pots visualitzar."
 msgstr "This test has not been assigned to you, therefore you can't take it"
 
-#: main/views.py:570 main/views.py:613 main/views.py:651
+#: main/views.py:570 main/views.py:617 main/views.py:655
 msgid ""
 "Estàs intentant accedir a una prova creada per un professor que no és el teu "
 "tutor."
 msgstr ""
-"You are trying to access a test created by a teacher which is not your "
-"tutor."
+"You are trying to access a test created by a teacher which is not your tutor."
 
-#: main/views.py:574 main/views.py:617
+#: main/views.py:574
+msgid ""
+"No es permet la pujada de materials a professors. Si vols pujar els "
+"materials d'un si us plau grup fes servir l'usuari del grup corresponent."
+msgstr ""
+
+#: main/views.py:578 main/views.py:621
 msgid "Aquesta prova no existeix!"
 msgstr "This test does not exist!"
 
-#: main/views.py:584 main/views.py:624
+#: main/views.py:588 main/views.py:628
 msgid ""
 "Ho sentim, però les proves de pujada de fitxer només es poden fer una vegada."
-msgstr ""
-"Sorry, the data upload test can only be taken once."
+msgstr "Sorry, the data upload test can only be taken once."
 
-#: main/views.py:673
+#: main/views.py:677
 msgid ""
 "Aquesta prova està marcada com a finalitzada, o sigui que no la pots "
 "modificar. Si vols, la pots repetir."
 msgstr ""
-"This test is marked as finished, so you can't "
-"modify it. If you want, you can repeat it."
+"This test is marked as finished, so you can't modify it. If you want, you "
+"can repeat it."
 
-#: main/views.py:710
+#: main/views.py:714
 msgid "Aquesta prova no està publicada, no la pots començar."
 msgstr "This test is not yet published, you can't take it."
 
-#: main/views.py:717
+#: main/views.py:721
 msgid ""
 "Les proves de materials, pujada de fitxers i enquestes només es fan una "
 "vegada. Les pots repassar totes però des del menú de grup "
 msgstr ""
-"Material, File upload and polls can only be taken once. "
-"You can review them from the group menu"
+"Material, File upload and polls can only be taken once. You can review them "
+"from the group menu"
 
-#: main/views.py:723
+#: main/views.py:727
 msgid "Aquesta prova té un requisit que no s'ha completat: "
 msgstr "This test has a prerequisite which has not yet been completed: "
 
-#: main/views.py:729
+#: main/views.py:733
 msgid ""
 "Estàs intentant començar una prova creada per un professor que no és el teu "
 "tutor."
 msgstr ""
-"You are trying to take a test created by a teacher which is not your "
-"tutor."
+"You are trying to take a test created by a teacher which is not your tutor."
 
-#: main/views.py:753
+#: main/views.py:757
 msgid "Estàs intentant editar una prova que no existeix."
 msgstr "You are trying to edit a non-existing test."
 
-#: main/views.py:1791 main/views.py:1841
+#: main/views.py:1795 main/views.py:1845
 msgid "Anònim"
 msgstr "Anonymous"
 
-#~ msgid "English"
-#~ msgstr "English"
+#~ msgid "Benvingut"
+#~ msgstr "Welcome"
 
 #~ msgid "Dutch"
 #~ msgstr "Dutch"

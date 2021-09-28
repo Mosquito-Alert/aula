@@ -1,0 +1,235 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-09-28 14:26+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: main/static/main/javascript/center_list.js:16
+msgid "Centre activat!"
+msgstr "Center activated!"
+
+#: main/static/main/javascript/center_list.js:18
+msgid "Centre inactivat!"
+msgstr "Center disactivated!"
+
+#: main/static/main/javascript/center_list.js:23
+msgid "Error modificant centre"
+msgstr "Error updating center"
+
+#: main/static/main/javascript/center_list.js:32
+msgid "Inactivant centre..."
+msgstr "Deactivating center..."
+
+#: main/static/main/javascript/center_list.js:106
+msgid "Nom"
+msgstr "Name"
+
+#: main/static/main/javascript/center_list.js:120
+msgid "Data creació"
+msgstr "Creation date"
+
+#: main/static/main/javascript/center_list.js:130
+msgid "Data modificació"
+msgstr "Modification date"
+
+#: main/static/main/javascript/center_list.js:140
+msgid "Centre actiu?"
+msgstr "Is active?"
+
+#: main/static/main/javascript/center_list.js:158
+msgid ""
+"El centre està actiu i es marcarà com a inactiu. Segur que vols continuar?"
+msgstr "Center is active and will be marked as inactive. Continue?"
+
+#: main/static/main/javascript/center_list.js:160
+msgid ""
+"El centre està inactiu i es marcarà com a actiu. Segur que vols continuar?"
+msgstr "Center is inactive and will be marked as active. Continue?"
+
+#: main/static/main/javascript/group_list.js:24
+msgid "Grup desactivat!"
+msgstr "Group deactivated!"
+
+#: main/static/main/javascript/group_list.js:26
+msgid "Grup activat!"
+msgstr "Group activated!"
+
+#: main/static/main/javascript/group_list.js:31
+msgid "Error modificant grup"
+msgstr "Error updating group"
+
+#: main/static/main/javascript/group_list.js:40
+msgid "Inactivant grup..."
+msgstr "Deactivating group..."
+
+#: main/static/main/javascript/group_list.js:98
+#: main/static/main/javascript/teacher_list.js:86
+msgid "Desactivar usuari"
+msgstr "Deactivate user"
+
+#: main/static/main/javascript/group_list.js:106
+#: main/static/main/javascript/quiz_list.js:104
+#: main/static/main/javascript/teacher_list.js:94
+msgid "Editar"
+msgstr "Edit"
+
+#: main/static/main/javascript/group_list.js:111
+msgid "Nom usuari del grup"
+msgstr "Username"
+
+#: main/static/main/javascript/group_list.js:115
+msgid "Password"
+msgstr "Password"
+
+#: main/static/main/javascript/group_list.js:119
+msgid "Nom públic"
+msgstr "Public name"
+
+#: main/static/main/javascript/group_list.js:123
+#: main/static/main/javascript/quiz_list.js:64
+#: main/static/main/javascript/teacher_list.js:109
+msgid "Centre"
+msgstr "Center"
+
+#: main/static/main/javascript/group_list.js:127
+msgid "Tutor"
+msgstr "Tutor"
+
+#: main/static/main/javascript/group_list.js:131
+msgid "Imatge del grup"
+msgstr "Group image"
+
+#: main/static/main/javascript/group_list.js:143
+msgid "Grup actiu?"
+msgstr "Is active?"
+
+#: main/static/main/javascript/group_list.js:161
+msgid ""
+"El grup està actiu i es marcarà com a inactiu. Segur que vols continuar?"
+msgstr "Group is active and will be marked as inactive. Continue?"
+
+#: main/static/main/javascript/group_list.js:163
+msgid ""
+"El grup està inactiu i es marcarà com a actiu. Segur que vols continuar?"
+msgstr "Group is inactive and will be marked as active. Continue?"
+
+#: main/static/main/javascript/quiz_list.js:49
+#: main/static/main/javascript/quiz_results.js:38
+msgid "Nom de la prova"
+msgstr "Test name"
+
+#: main/static/main/javascript/quiz_list.js:53
+msgid "Autor"
+msgstr "Author"
+
+#: main/static/main/javascript/quiz_list.js:58
+#: main/static/main/javascript/quiz_results.js:47
+msgid "Anònim"
+msgstr "Anonymous"
+
+#: main/static/main/javascript/quiz_list.js:68
+msgid "Requisits"
+msgstr "Requisite"
+
+#: main/static/main/javascript/quiz_list.js:79
+msgid "Prova publicada?"
+msgstr "Published test?"
+
+#: main/static/main/javascript/quiz_list.js:90
+msgid "Tipus prova"
+msgstr "Test type"
+
+#: main/static/main/javascript/quiz_list.js:95
+msgid "Enllaç a la prova"
+msgstr "Link to test"
+
+#: main/static/main/javascript/quiz_list.js:111
+msgid "Eliminar prova"
+msgstr "Delete test"
+
+#: main/static/main/javascript/quiz_list.js:128
+msgid "Prova eliminada!"
+msgstr "Test deleted!"
+
+#: main/static/main/javascript/quiz_list.js:132
+msgid "Error eliminant prova"
+msgstr "Error deleting test"
+
+#: main/static/main/javascript/quiz_list.js:141
+msgid "Eliminant prova..."
+msgstr "Deleting test..."
+
+#: main/static/main/javascript/quiz_list.js:165
+msgid "Ho sentim, no es permet la edició de proves ja publicades."
+msgstr "Sorry, edition of published tests is not allowed."
+
+#: main/static/main/javascript/quiz_list.js:175
+msgid "Segur que vols esborrar la prova?"
+msgstr "Are you sure you want to delete the test?"
+
+#: main/static/main/javascript/quiz_results.js:42
+msgid "Nom autor"
+msgstr "Author name"
+
+#: main/static/main/javascript/quiz_results.js:53
+msgid "Tipus de prova"
+msgstr "Test type"
+
+#: main/static/main/javascript/quiz_results.js:57
+#: main/static/main/javascript/quiz_results.js:61
+msgid "Veure resultats"
+msgstr "See results"
+
+#: main/static/main/javascript/teacher_list.js:16
+msgid "Professor desactivat!"
+msgstr "Teacher deactivated!"
+
+#: main/static/main/javascript/teacher_list.js:18
+msgid "Professor activat!"
+msgstr "Teacher activated!"
+
+#: main/static/main/javascript/teacher_list.js:23
+msgid "Error modificant professor"
+msgstr "Error updating teacher"
+
+#: main/static/main/javascript/teacher_list.js:32
+msgid "Inactivant professor..."
+msgstr "Deactivating teacher..."
+
+#: main/static/main/javascript/teacher_list.js:101
+msgid "Canviar password"
+msgstr "Change password"
+
+#: main/static/main/javascript/teacher_list.js:105
+msgid "Nom usuari"
+msgstr "Username"
+
+#: main/static/main/javascript/teacher_list.js:113
+msgid "Usuari actiu?"
+msgstr "User active?"
+
+#: main/static/main/javascript/teacher_list.js:131
+msgid ""
+"El professor està actiu i es marcarà com a inactiu. Això vol dir que no es "
+"podrà loginar. Segur que vols continuar?"
+msgstr "Teacher is active and will be marked as inactive. Continue?"
+
+#: main/static/main/javascript/teacher_list.js:133
+msgid ""
+"El professor està inactiu i es marcarà com a actiu. Això vol dir que no es "
+"podrà loginar. Segur que vols continuar?"
+msgstr "Teacher is inactive and will be marked as active. Continue?"

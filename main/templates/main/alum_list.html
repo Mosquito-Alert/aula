@@ -27,7 +27,6 @@
 <script src="{% static 'main/javascript/datatable_language_options.js' %}"></script>
 <script>
     {% get_current_language as LANGUAGE_CODE %}
-    var table_language = {% if LANGUAGE_CODE == 'ca' %} table_ca {% else %} table_es {% endif %};
     var _alum_list_url = '{% url 'alum_datatable_list' %}';
     var _alum_update_url = '{% url 'alum_update_no_id' %}';
 </script>

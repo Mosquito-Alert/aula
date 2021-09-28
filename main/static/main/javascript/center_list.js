@@ -13,14 +13,14 @@ var delete_center = function(id, toggle_flip){
         },
         success: function( data, textStatus, jqXHR ) {
             if(toggle_flip == true){
-                toastr.success('Centre activat!');
+                toastr.success(gettext('Centre activat!'));
             }else{
-                toastr.success('Centre inactivat!');
+                toastr.success(gettext('Centre inactivat!'));
             }
             table.ajax.reload();
         },
         error: function(jqXHR, textStatus, errorThrown){
-            toastr.error('Error modificant centre');
+            toastr.error(gettext('Error modificant centre'));
         }
     });
 };
@@ -29,7 +29,7 @@ var confirmDialog = function(message,id, to_state){
     $('<div></div>').appendTo('body')
         .html('<div><h6>'+message+'</h6></div>')
         .dialog({
-            modal: true, title: 'Inactivant centre...', zIndex: 10000, autoOpen: true,
+            modal: true, title: gettext('Inactivant centre...'), zIndex: 10000, autoOpen: true,
             width: 'auto', resizable: false,
             buttons: {
                 Yes: function () {
@@ -103,7 +103,7 @@ var table = $('#center_list').DataTable( {
         },
         {
             'targets':0,
-            'title': 'Nom'
+            'title': gettext('Nom')
         },
         {
             'targets':1,
@@ -117,7 +117,7 @@ var table = $('#center_list').DataTable( {
         },
         {
             'targets':3,
-            'title': 'Data creació',
+            'title': gettext('Data creació'),
             'sortable': true,
             "render": function(value){
                 var date = new Date(value);
@@ -127,7 +127,7 @@ var table = $('#center_list').DataTable( {
         },
         {
             'targets':4,
-            'title': 'Data modificació',
+            'title': gettext('Data modificació'),
             'sortable': true,
             "render": function(value){
                 var date = new Date(value);
@@ -137,7 +137,7 @@ var table = $('#center_list').DataTable( {
         },
         {
             'targets':5,
-            'title': 'Centre actiu?',
+            'title': gettext('Centre actiu?'),
             'render': function(value){
                 if(value == true){
                     return '<p><i class="fas fa-check"></i></p>';
@@ -155,9 +155,9 @@ $('#center_list tbody').on('click', 'td button.delete_button', function () {
     var id = row.data().id;
     var active = row.data().active;
     if(active){
-        confirmDialog("El centre està actiu i es marcarà com a inactiu. Segur que vols continuar?",id,false);
+        confirmDialog(gettext("El centre està actiu i es marcarà com a inactiu. Segur que vols continuar?"),id,false);
     }else{
-        confirmDialog("El centre està inactiu i es marcarà com a actiu. Segur que vols continuar?",id,true);
+        confirmDialog(gettext("El centre està inactiu i es marcarà com a actiu. Segur que vols continuar?"),id,true);
     }
 });
 

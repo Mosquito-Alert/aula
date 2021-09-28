@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-23 08:44+0000\n"
+"POT-Creation-Date: 2021-09-28 14:15+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,6 +25,10 @@ msgstr "Spaans"
 #: aula/settings.py:155
 msgid "Catalan"
 msgstr "Catalaans"
+
+#: aula/settings.py:156
+msgid "English"
+msgstr "Engels"
 
 #: main/forms.py:15 main/forms.py:38 main/forms.py:60
 msgid "Prova publicada?"
@@ -316,12 +320,12 @@ msgstr ""
 msgid "Aquestes són les proves que esteu fent però no heu acabat"
 msgstr ""
 
-#: main/templates/main/alum_hub.html:117
+#: main/templates/main/alum_hub.html:118 main/templates/main/alum_hub.html:120
 #: main/templates/main/teacher_polls.html:70
 msgid "Continuar fent la prova!"
 msgstr ""
 
-#: main/templates/main/alum_hub.html:122
+#: main/templates/main/alum_hub.html:126
 #: main/templates/main/teacher_polls.html:75
 msgid "No teniu proves que calgui acabar!"
 msgstr ""
@@ -385,12 +389,6 @@ msgstr ""
 msgid "Espai professorat"
 msgstr ""
 
-#: main/templates/main/base.html:163 main/templates/main/base.html:166
-#: main/templates/main/base.html:168 main/templates/main/base.html:170
-#: main/templates/main/base.html:172
-msgid "Benvingut"
-msgstr ""
-
 #: main/templates/main/base.html:176
 msgid "Tancar sessió"
 msgstr ""
@@ -407,6 +405,50 @@ msgstr ""
 msgid ""
 "Aquesta és la web per a un projecte d&#39;educació en el context d&#39;una "
 "beca FECYT"
+msgstr ""
+
+#: main/templates/main/base.html:212
+msgid "sLengthMenu"
+msgstr ""
+
+#: main/templates/main/base.html:213
+msgid "sZeroRecords"
+msgstr ""
+
+#: main/templates/main/base.html:214
+msgid "sInfo"
+msgstr ""
+
+#: main/templates/main/base.html:215
+msgid "sInfoEmpty"
+msgstr ""
+
+#: main/templates/main/base.html:216
+msgid "sInfoFiltered"
+msgstr ""
+
+#: main/templates/main/base.html:217
+msgid "loadingRecords"
+msgstr ""
+
+#: main/templates/main/base.html:219
+msgid "Filtrar"
+msgstr ""
+
+#: main/templates/main/base.html:222
+msgid "Primer"
+msgstr ""
+
+#: main/templates/main/base.html:223
+msgid "Anterior"
+msgstr ""
+
+#: main/templates/main/base.html:224
+msgid "Següent"
+msgstr ""
+
+#: main/templates/main/base.html:225
+msgid "Últim"
 msgstr ""
 
 #: main/templates/main/center_edit.html:15
@@ -428,6 +470,12 @@ msgstr ""
 
 #: main/templates/main/center_list.html:21
 msgid "Llista de centres"
+msgstr ""
+
+#: main/templates/main/center_list.html:27
+#: main/templates/main/group_list.html:31 main/templates/main/quiz_list.html:27
+#: main/templates/main/teacher_list.html:27
+msgid "Afegir"
 msgstr ""
 
 #: main/templates/main/center_new.html:15
@@ -540,6 +588,10 @@ msgstr ""
 msgid "Llista de grups"
 msgstr ""
 
+#: main/templates/main/group_list.html:28
+msgid "Descarregar credencials en PDF"
+msgstr ""
+
 #: main/templates/main/group_new.html:12
 #: main/templates/main/group_new_teacher.html:12
 msgid "Crear grup"
@@ -569,6 +621,10 @@ msgid ""
 "demanarà un nom d&#39;usuari i password i et redirigirà al teu menú "
 "principal, segons siguis un usuari de grup, usuari de professor, o bé usuari "
 "administrador"
+msgstr ""
+
+#: main/templates/main/index.html:20
+msgid "Entrar"
 msgstr ""
 
 #: main/templates/main/invalid_operation.html:4
@@ -1233,9 +1289,9 @@ msgid "password"
 msgstr ""
 
 #: main/views.py:189 main/views.py:199 main/views.py:237 main/views.py:287
-#: main/views.py:777 main/views.py:813 main/views.py:847 main/views.py:1004
-#: main/views.py:1048 main/views.py:1160 main/views.py:1171 main/views.py:1184
-#: main/views.py:1851
+#: main/views.py:781 main/views.py:817 main/views.py:851 main/views.py:1008
+#: main/views.py:1052 main/views.py:1164 main/views.py:1175 main/views.py:1188
+#: main/views.py:1855
 msgid "Estàs intentant accedir a una pàgina a la que no tens permís."
 msgstr ""
 
@@ -1247,12 +1303,12 @@ msgstr ""
 msgid "Sembla que aquesta prova no està completada."
 msgstr ""
 
-#: main/views.py:394 main/views.py:411 main/views.py:1712 main/views.py:1735
-#: main/views.py:1866
+#: main/views.py:394 main/views.py:411 main/views.py:1716 main/views.py:1739
+#: main/views.py:1870
 msgid "No existeix aquesta prova."
 msgstr ""
 
-#: main/views.py:398 main/views.py:1716 main/views.py:1739 main/views.py:1871
+#: main/views.py:398 main/views.py:1720 main/views.py:1743 main/views.py:1875
 msgid ""
 "El test seleccionat no l'ha realitzat cap grup i encara no té resultats."
 msgstr ""
@@ -1261,57 +1317,60 @@ msgstr ""
 msgid "No tens assignada aquesta prova, de manera que no la pots visualitzar."
 msgstr ""
 
-#: main/views.py:570 main/views.py:613 main/views.py:651
+#: main/views.py:570 main/views.py:617 main/views.py:655
 msgid ""
 "Estàs intentant accedir a una prova creada per un professor que no és el teu "
 "tutor."
 msgstr ""
 
-#: main/views.py:574 main/views.py:617
+#: main/views.py:574
+msgid ""
+"No es permet la pujada de materials a professors. Si vols pujar els "
+"materials d'un si us plau grup fes servir l'usuari del grup corresponent."
+msgstr ""
+
+#: main/views.py:578 main/views.py:621
 msgid "Aquesta prova no existeix!"
 msgstr ""
 
-#: main/views.py:584 main/views.py:624
+#: main/views.py:588 main/views.py:628
 msgid ""
 "Ho sentim, però les proves de pujada de fitxer només es poden fer una vegada."
 msgstr ""
 
-#: main/views.py:673
+#: main/views.py:677
 msgid ""
 "Aquesta prova està marcada com a finalitzada, o sigui que no la pots "
 "modificar. Si vols, la pots repetir."
 msgstr ""
 
-#: main/views.py:710
+#: main/views.py:714
 msgid "Aquesta prova no està publicada, no la pots començar."
 msgstr ""
 
-#: main/views.py:717
+#: main/views.py:721
 msgid ""
 "Les proves de materials, pujada de fitxers i enquestes només es fan una "
 "vegada. Les pots repassar totes però des del menú de grup "
 msgstr ""
 
-#: main/views.py:723
+#: main/views.py:727
 msgid "Aquesta prova té un requisit que no s'ha completat: "
 msgstr ""
 
-#: main/views.py:729
+#: main/views.py:733
 msgid ""
 "Estàs intentant començar una prova creada per un professor que no és el teu "
 "tutor."
 msgstr ""
 
-#: main/views.py:753
+#: main/views.py:757
 msgid "Estàs intentant editar una prova que no existeix."
 msgstr ""
 
-#: main/views.py:1791 main/views.py:1841
+#: main/views.py:1795 main/views.py:1845
 msgid "Anònim"
 msgstr ""
-
-#~ msgid "English"
-#~ msgstr "Engels"
 
 #~ msgid "Dutch"
 #~ msgstr "Nederlands"

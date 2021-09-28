@@ -13,14 +13,14 @@ var delete_teacher = function(id, to_state){
         },
         success: function( data, textStatus, jqXHR ) {
             if(data.is_active==false){
-                toastr.success('Professor desactivat!');
+                toastr.success(gettext('Professor desactivat!'));
             }else{
-                toastr.success('Professor activat!');
+                toastr.success(gettext('Professor activat!'));
             }
             table.ajax.reload();
         },
         error: function(jqXHR, textStatus, errorThrown){
-            toastr.error('Error modificant professor');
+            toastr.error(gettext('Error modificant professor'));
         }
     });
 };
@@ -29,7 +29,7 @@ var confirmDialog = function(message,id, to_state){
     $('<div></div>').appendTo('body')
         .html('<div><h6>'+message+'</h6></div>')
         .dialog({
-            modal: true, title: 'Inactivant professor...', zIndex: 10000, autoOpen: true,
+            modal: true, title: gettext('Inactivant professor...'), zIndex: 10000, autoOpen: true,
             width: 'auto', resizable: false,
             buttons: {
                 Yes: function () {
@@ -83,7 +83,7 @@ var table = $('#teacher_list').DataTable( {
             'data': 'is_active',
             'sortable': false,
             'render': function(value){
-                return '<button title="Desactivar usuari" class="delete_button btn btn-danger"><i class="fas fa-backspace"></i></button>';
+                return '<button title="' + gettext('Desactivar usuari') + '" class="delete_button btn btn-danger"><i class="fas fa-backspace"></i></button>';
             }
         },
         {
@@ -91,26 +91,26 @@ var table = $('#teacher_list').DataTable( {
             'data': 'is_active',
             'sortable': false,
             'render': function(value){
-                return '<button title="Editar" class="edit_button btn btn-info"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>';
+                return '<button title="' + gettext('Editar') + '" class="edit_button btn btn-info"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>';
             }
         },
         {
             'targets': 5,
             'data': null,
             'sortable': false,
-            'defaultContent': '<button title="Canviar password" class="chgpsswd_button btn btn-danger"><i class="fa fa-asterisk"></i></button>'
+            'defaultContent': '<button title="' + gettext('Canviar password') + '" class="chgpsswd_button btn btn-danger"><i class="fa fa-asterisk"></i></button>'
         },
         {
             'targets':0,
-            'title': 'Nom usuari'
+            'title': gettext('Nom usuari')
         },
         {
             'targets':1,
-            'title': 'Centre'
+            'title': gettext('Centre')
         },
         {
             'targets':2,
-            'title': 'Usuari actiu?',
+            'title': gettext('Usuari actiu?'),
             'render': function(value){
                 if(value == true){
                     return '<p><i class="fas fa-check"></i></p>';
@@ -128,9 +128,9 @@ $('#teacher_list tbody').on('click', 'td button.delete_button', function () {
     var id = row.data().id;
     var active = row.data().is_active;
     if(active){
-        confirmDialog("El professor està actiu i es marcarà com a inactiu. Això vol dir que no es podrà loginar. Segur que vols continuar?",id,false);
+        confirmDialog(gettext("El professor està actiu i es marcarà com a inactiu. Això vol dir que no es podrà loginar. Segur que vols continuar?"),id,false);
     }else{
-        confirmDialog("El professor està inactiu i es marcarà com a actiu. Això vol dir que no es podrà loginar. Segur que vols continuar?",id,true);
+        confirmDialog(gettext("El professor està inactiu i es marcarà com a actiu. Això vol dir que no es podrà loginar. Segur que vols continuar?"),id,true);
     }
 });
 
