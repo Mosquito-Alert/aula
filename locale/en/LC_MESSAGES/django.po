@@ -1232,7 +1232,7 @@ msgstr "Detail view"
 #: main/templates/main/test_result.html:62
 #: main/templates/main/test_result.html:84
 msgid "Llistar intents"
-msgstr "List tries"
+msgstr "List attempts"
 
 #: main/templates/main/test_results_detail_view.html:16
 msgid "Les respostes correctes de la prova es mostren en color"
