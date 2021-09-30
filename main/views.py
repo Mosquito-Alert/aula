@@ -1903,9 +1903,6 @@ def delete_quizrun(request, quizrun_id=None):
 def test_results_detail_view(request, quiz_id=None, group_id=None):
 
     quizruns = QuizRun.objects.filter(quiz_id=quiz_id).filter(taken_by=group_id).order_by('-run_number')
-    quiz = Quiz.objects.get(pk=quiz_id)
-
-    group = User.objects.get(pk=group_id)
 
     quizrun_ids = quizruns.values('id')
     quizrun_answers = QuizRunAnswers.objects.filter(quizrun__id__in=quizrun_ids)
@@ -1914,8 +1911,4 @@ def test_results_detail_view(request, quiz_id=None, group_id=None):
     quiz = get_object_or_404(Quiz, pk=quiz_id)
     group = get_object_or_404(User, pk=group_id)
 
-
     return render(request, 'main/test_results_detail_view.html', {'quizruns': quizruns, 'answers_by_quizrun': answers_by_quizrun, 'quiz_info': quiz, 'group_info': group})
-
-    return render(request, 'main/test_results_detail_view_2.html', {'quizruns': quizruns, 'answers_by_quizrun': answers_by_quizrun, 'quiz':quiz, 'group':group})
-    #return render(request, 'main/test_results_detail_view.html', {'q': questionObject, 'a': answersObject, 'quiz': qa })

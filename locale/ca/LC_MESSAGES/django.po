@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-30 09:27+0000\n"
+"POT-Creation-Date: 2021-09-30 12:25+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -209,6 +209,10 @@ msgstr ""
 #: main/templates/main/admin_menu.html:53
 #: main/templates/main/teacher_menu.html:32
 msgid "Veure solucions de proves"
+msgstr ""
+
+#: main/templates/main/admin_menu.html:55
+msgid "Veure el progrés d&#39;alumnes i grups"
 msgstr ""
 
 #: main/templates/main/alum_edit.html:7

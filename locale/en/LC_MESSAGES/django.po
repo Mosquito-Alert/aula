@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-30 09:27+0000\n"
+"POT-Creation-Date: 2021-09-30 12:25+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -216,6 +216,10 @@ msgstr "Create test"
 #: main/templates/main/teacher_menu.html:32
 msgid "Veure solucions de proves"
 msgstr "Check test solutions"
+
+#: main/templates/main/admin_menu.html:55
+msgid "Veure el progrés d&#39;alumnes i grups"
+msgstr "See the progress of students and groups"
 
 #: main/templates/main/alum_edit.html:7
 msgid "Editar alumne"
@@ -1102,15 +1106,15 @@ msgstr "Add file"
 
 #: main/templates/main/quizrun_group_list.html:21
 msgid "Llistat intents prova/grup"
-msgstr "List test trials by group"
+msgstr "List test attempts by group"
 
 #: main/templates/main/quizrun_group_list.html:25
 msgid "Llistat d'intents per prova i per grup"
-msgstr "Test trials by test and group"
+msgstr "Test attempts by test and group"
 
 #: main/templates/main/quizrun_group_list.html:33
 msgid "Número d'intent"
-msgstr "Trial number"
+msgstr "Attempt number"
 
 #: main/templates/main/quizrun_group_list.html:34
 msgid "Data finalització"
@@ -1122,7 +1126,7 @@ msgstr "Correct answers"
 
 #: main/templates/main/quizrun_group_list.html:45
 msgid "Eliminar intent"
-msgstr "Delete trial"
+msgstr "Delete attempt"
 
 #: main/templates/main/teacher_edit.html:15
 msgid "Editar mestre"
@@ -1392,8 +1396,8 @@ msgid ""
 "La enquesta s'ha repetit tants cops com membres té el grup, no es permeten "
 "més repeticions."
 msgstr ""
-"The poll has been repeated as many times as the number of members in the group,  "
-"more repetitions are not allowed."
+"The poll has been repeated as many times as the number of members in the "
+"group,  more repetitions are not allowed."
 
 #: main/views.py:733
 msgid "Aquesta prova té un requisit que no s'ha completat: "

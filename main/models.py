@@ -110,7 +110,8 @@ class Quiz(models.Model):
         for user in taken_by:
             best_run = QuizRun.objects.filter(taken_by__id=user['taken_by__id']).filter(quiz=self).order_by('-questions_right', '-date_finished').first()
             best_runs.append(best_run)
-        best_runs.sort(key=lambda x: ( x.taken_by.profile.group_public_name if x.taken_by.profile.group_public_name is not None else x.taken_by.username) )
+        #sorting by center name and group/user name
+        best_runs.sort(key=lambda x: ( x.taken_by.profile.center, x.taken_by.profile.group_public_name if x.taken_by.profile.group_public_name is not None else x.taken_by.username) )
         return best_runs
 
     @property
@@ -299,6 +300,14 @@ class Profile(models.Model):
     groups_string = models.CharField(max_length=1000, null=True, blank=True)
     center_string = models.CharField(max_length=1000, null=True, blank=True)
     n_students_in_group = models.IntegerField(default=3)
+
+    @property
+    def center(self):
+        if self.is_teacher:
+            return self.teacher_belongs_to.name
+        if self.is_group:
+            return self.group_teacher.profile.teacher_belongs_to.name
+        return ''
 
     @property
     def groups_list(self):

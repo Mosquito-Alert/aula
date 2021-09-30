@@ -33,6 +33,7 @@
         <table style="width:100%;">
             <tr>
                 <th></th>
+                <th>{% trans 'Center' %}</th>
                 <th>{% trans 'Grup' %}</th>
                 <th>{% trans 'Millor puntuació' %}</th>
                 <th>{% trans 'Millor intent' %}</th>
@@ -47,11 +48,12 @@
                     <tr>
                         <td>
                             {% if quizrun.taken_by.profile.is_group %}
-                                <img src="{{ quizrun.taken_by.profile.group_picture_thumbnail.url }}">
+                                <img src="{{ quizrun.taken_by.profile.group_picture_thumbnail.url }}" width="100px">
                             {% else %}
-                                <img src="{% static 'main/icons/noun_Teacher_36665.svg' %}" width="150px">
+                                <img src="{% static 'main/icons/noun_Teacher_36665.svg' %}" width="100px">
                             {% endif %}
                         </td>
+                        <td>{{ quizrun.taken_by.profile.center }}</td>
                         <td>{% if quizrun.taken_by.profile.is_group %}{{ quizrun.taken_by.profile.group_public_name }}{% else %}{{ quizrun.taken_by.username }}{% endif %}</td>
                         <td>{{ quizrun.questions_right }}/{{ quizrun.questions_number }}</td>
                         <td>{{ quizrun.run_number }}</td>
@@ -69,11 +71,12 @@
                     <tr>
                         <td>
                             {% if quizrun.taken_by.profile.is_group %}
-                                <img src="{{ quizrun.taken_by.profile.group_picture_thumbnail.url }}">
+                                <img src="{{ quizrun.taken_by.profile.group_picture_thumbnail.url }}" width="100px">
                             {% else %}
-                                <img src="{% static 'main/icons/noun_Teacher_36665.svg' %}" width="150px">
+                                <img src="{% static 'main/icons/noun_Teacher_36665.svg' %}" width="100px">
                             {% endif %}
                         </td>
+                        <td>{{ quizrun.taken_by.profile.center }}</td>
                         <td>{% if quizrun.taken_by.profile.is_group %}{{ quizrun.taken_by.profile.group_public_name }}{% else %}{{ quizrun.taken_by.username }}{% endif %}</td>
                         <td>{{ quizrun.questions_right }}/{{ quizrun.questions_number }}</td>
                         <td>{{ quizrun.run_number }}</td>

@@ -4,10 +4,11 @@
 {% block title %}{% trans 'Resultats test' %}{% endblock %}
 
 {% block main_jumbo %}
-<img class="img_icons" src="{% static 'main/icons/noun_test_3271143.svg' %}"> {% trans 'Resultats test' %} - {{ quiz_info.name }} - {% trans 'Grup' %}: {{ group_info.username }}
+<img class="img_icons" src="{% static 'main/icons/noun_test_3271143.svg' %}"> {% trans 'Resultats test' %} - {{ quiz_info.name }}
 {% endblock %}
 {% block sub_jumbo %}
-
+<p><strong>{% trans 'Grup' %}: {{ group_info.profile.group_public_name }} ({{ group_info.username }})</strong></p>
+<p><strong>{% trans 'Center' %}: {{ group_info.profile.center }}</strong></p>
 {% endblock %}
 
 {% block main %}
