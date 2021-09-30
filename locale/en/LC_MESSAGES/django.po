@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-30 07:29+0000\n"
+"POT-Creation-Date: 2021-09-30 09:27+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -250,26 +250,26 @@ msgstr ""
 "want!)"
 
 #: main/templates/main/alum_hub.html:24 main/templates/main/alum_hub.html:38
-#: main/templates/main/alum_hub.html:49 main/templates/main/alum_hub.html:60
-#: main/templates/main/alum_hub.html:83
+#: main/templates/main/alum_hub.html:49 main/templates/main/alum_hub.html:71
+#: main/templates/main/alum_hub.html:94
 #: main/templates/main/teacher_polls.html:22
 #: main/templates/main/teacher_polls.html:44
 msgid "Títol"
 msgstr "Title"
 
-#: main/templates/main/alum_hub.html:24
+#: main/templates/main/alum_hub.html:24 main/templates/main/alum_hub.html:49
 #: main/templates/main/test_results_detail_view.html:19
 msgid "intent"
 msgstr "try"
 
 #: main/templates/main/alum_hub.html:25 main/templates/main/alum_hub.html:39
-#: main/templates/main/alum_hub.html:50 main/templates/main/alum_hub.html:61
+#: main/templates/main/alum_hub.html:50 main/templates/main/alum_hub.html:72
 #: main/templates/main/teacher_polls.html:23
 msgid "Començada"
 msgstr "Started"
 
 #: main/templates/main/alum_hub.html:26 main/templates/main/alum_hub.html:40
-#: main/templates/main/alum_hub.html:51 main/templates/main/alum_hub.html:62
+#: main/templates/main/alum_hub.html:51 main/templates/main/alum_hub.html:73
 #: main/templates/main/teacher_polls.html:24
 msgid "Finalitzada"
 msgstr "Finished"
@@ -278,7 +278,7 @@ msgstr "Finished"
 msgid "Puntuació"
 msgstr "Score"
 
-#: main/templates/main/alum_hub.html:30
+#: main/templates/main/alum_hub.html:30 main/templates/main/alum_hub.html:56
 msgid "Repetir la prova!"
 msgstr "Repeat the test!"
 
@@ -290,54 +290,54 @@ msgstr "Browse material"
 msgid "Repassar"
 msgstr "Review"
 
-#: main/templates/main/alum_hub.html:54
+#: main/templates/main/alum_hub.html:62
 #: main/templates/main/teacher_polls.html:27
 msgid "Veure resultats enquesta"
 msgstr "Check poll result"
 
-#: main/templates/main/alum_hub.html:54
+#: main/templates/main/alum_hub.html:62
 #: main/templates/main/teacher_polls.html:27
 msgid "Resultats"
 msgstr "Results"
 
-#: main/templates/main/alum_hub.html:65
+#: main/templates/main/alum_hub.html:76
 msgid "Descarregar fitxer"
 msgstr "Download file"
 
-#: main/templates/main/alum_hub.html:72
+#: main/templates/main/alum_hub.html:83
 msgid "Encara no heu acabat cap prova!"
 msgstr "You have not finished any test yet!"
 
-#: main/templates/main/alum_hub.html:79
+#: main/templates/main/alum_hub.html:90
 msgid "Aquestes són les proves que encara no heu fet"
 msgstr "These are the tests you still have not completed"
 
-#: main/templates/main/alum_hub.html:88 main/templates/main/alum_hub.html:90
-#: main/templates/main/alum_hub.html:97 main/templates/main/alum_hub.html:99
+#: main/templates/main/alum_hub.html:99 main/templates/main/alum_hub.html:101
+#: main/templates/main/alum_hub.html:108 main/templates/main/alum_hub.html:110
 #: main/templates/main/teacher_polls.html:48
 #: main/templates/main/teacher_polls.html:53
 msgid "Fer la prova!"
 msgstr "Take the test!"
 
-#: main/templates/main/alum_hub.html:93
+#: main/templates/main/alum_hub.html:104
 #: main/templates/main/teacher_polls.html:50
 msgid "Aquest material està bloquejat, abans cal fer la prova amb nom"
 msgstr "This material is locked. First, you must complete the test with name"
 
-#: main/templates/main/alum_hub.html:106
+#: main/templates/main/alum_hub.html:117
 msgid "No teniu proves per fer!"
 msgstr "No pending tests!"
 
-#: main/templates/main/alum_hub.html:111
+#: main/templates/main/alum_hub.html:122
 msgid "Aquestes són les proves que esteu fent però no heu acabat"
 msgstr "These are the tests which are in progress but not yet finished"
 
-#: main/templates/main/alum_hub.html:118 main/templates/main/alum_hub.html:120
+#: main/templates/main/alum_hub.html:129 main/templates/main/alum_hub.html:131
 #: main/templates/main/teacher_polls.html:70
 msgid "Continuar fent la prova!"
 msgstr "Continue the test!"
 
-#: main/templates/main/alum_hub.html:126
+#: main/templates/main/alum_hub.html:137
 #: main/templates/main/teacher_polls.html:75
 msgid "No teniu proves que calgui acabar!"
 msgstr "You don't have any pending tests!"
@@ -1316,9 +1316,9 @@ msgid "password"
 msgstr "password"
 
 #: main/views.py:189 main/views.py:199 main/views.py:237 main/views.py:287
-#: main/views.py:781 main/views.py:817 main/views.py:851 main/views.py:1011
-#: main/views.py:1056 main/views.py:1168 main/views.py:1179 main/views.py:1192
-#: main/views.py:1859
+#: main/views.py:787 main/views.py:823 main/views.py:857 main/views.py:1017
+#: main/views.py:1062 main/views.py:1174 main/views.py:1185 main/views.py:1198
+#: main/views.py:1865
 msgid "Estàs intentant accedir a una pàgina a la que no tens permís."
 msgstr "You are trying to access a restricted page"
 
@@ -1330,12 +1330,12 @@ msgstr "Looks like this test does not exist"
 msgid "Sembla que aquesta prova no està completada."
 msgstr "Looks like this test is not complete"
 
-#: main/views.py:394 main/views.py:411 main/views.py:1720 main/views.py:1743
-#: main/views.py:1874
+#: main/views.py:394 main/views.py:411 main/views.py:1726 main/views.py:1749
+#: main/views.py:1880
 msgid "No existeix aquesta prova."
 msgstr "This test does not exist"
 
-#: main/views.py:398 main/views.py:1724 main/views.py:1747 main/views.py:1879
+#: main/views.py:398 main/views.py:1730 main/views.py:1753 main/views.py:1885
 msgid ""
 "El test seleccionat no l'ha realitzat cap grup i encara no té resultats."
 msgstr ""
@@ -1388,21 +1388,29 @@ msgstr ""
 "from the group menu"
 
 #: main/views.py:727
+msgid ""
+"La enquesta s'ha repetit tants cops com membres té el grup, no es permeten "
+"més repeticions."
+msgstr ""
+"The poll has been repeated as many times as the number of members in the group,  "
+"more repetitions are not allowed."
+
+#: main/views.py:733
 msgid "Aquesta prova té un requisit que no s'ha completat: "
 msgstr "This test has a prerequisite which has not yet been completed: "
 
-#: main/views.py:733
+#: main/views.py:739
 msgid ""
 "Estàs intentant començar una prova creada per un professor que no és el teu "
 "tutor."
 msgstr ""
 "You are trying to take a test created by a teacher which is not your tutor."
 
-#: main/views.py:757
+#: main/views.py:763
 msgid "Estàs intentant editar una prova que no existeix."
 msgstr "You are trying to edit a non-existing test."
 
-#: main/views.py:1799 main/views.py:1849
+#: main/views.py:1805 main/views.py:1855
 msgid "Anònim"
 msgstr "Anonymous"
 
