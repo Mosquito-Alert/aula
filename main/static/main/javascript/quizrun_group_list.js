@@ -11,11 +11,11 @@ $(document).ready( function () {
                 }
             },
             success: function( data, textStatus, jqXHR ) {
-                toastr.success('Intent eliminat');
+                toastr.success(gettext('Intent eliminat'));
                 $("#runsList").load(" #runsList");
             },
             error: function(jqXHR, textStatus, errorThrown){
-                toastr.error('Error eliminant l\'intent');
+                toastr.error(gettext('Error eliminant l\'intent'));
             }
         });
     };
@@ -24,12 +24,12 @@ $(document).ready( function () {
     $('tbody').on('click', 'td button.delete_quizrun', function () {
         var id = $(this).attr('id');
 
-        var message = "Segur que vols eliminar les dades d'aquest intent?";
+        var message = gettext("Segur que vols eliminar les dades d'aquest intent?");
 
         $('<div></div>').appendTo('body')
             .html('<div><h6>'+message+'</h6></div>')
             .dialog({
-                modal: true, title: "Eliminant dades d'intent...", zIndex: 10000, autoOpen: true,
+                modal: true, title: gettext("Eliminant dades d'intent..."), zIndex: 10000, autoOpen: true,
                 width: 'auto', resizable: false,
                 buttons: {
                     Si: function () {
@@ -60,7 +60,7 @@ var confirmDialog = function(message,id, to_state){
     $('<div></div>').appendTo('body')
         .html('<div><h6>'+message+'</h6></div>')
         .dialog({
-            modal: true, title: 'Inactivant alumne...', zIndex: 10000, autoOpen: true,
+            modal: true, title: gettext('Inactivant alumne...'), zIndex: 10000, autoOpen: true,
             width: 'auto', resizable: false,
             buttons: {
                 Yes: function () {

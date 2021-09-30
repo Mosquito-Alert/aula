@@ -16,7 +16,7 @@ $(document).ready(function() {
                 $('#id_group_public_name').val(group_name);
             },
             error: function(jqXHR, textStatus, errorThrown){
-                toastr.error('Error recuperant nom de grup');
+                toastr.error(gettext('Error recuperant nom de grup'));
             }
         });
     };
@@ -52,7 +52,7 @@ $(document).ready(function() {
     });
 
     $(document).on('click', '.deleteFoto', function() {
-        if( confirm("Eliminar la foto?") ){
+        if( confirm(gettext("Eliminar la foto?")) ){
             $("#gallery tbody").html('');
         }
     });

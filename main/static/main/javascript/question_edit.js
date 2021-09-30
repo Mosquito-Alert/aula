@@ -54,7 +54,7 @@ $(document).ready(function() {
     });
 
     $(document).on('click', '.deleteFoto', function() {
-        if( confirm("Eliminar la foto?") ){
+        if( confirm(gettext("Eliminar la foto?")) ){
             $("#gallery tbody").html('');
             $('#id_photo_path').val('');
         }

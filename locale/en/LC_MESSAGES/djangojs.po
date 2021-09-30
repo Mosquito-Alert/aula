@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-30 09:32+0000\n"
+"POT-Creation-Date: 2021-09-30 09:53+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,73 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: main/static/main/javascript/alum_list.js:43
+msgid "Alumne desactivat!"
+msgstr "Student deactivated!"
+
+#: main/static/main/javascript/alum_list.js:45
+msgid "Alumne activat!"
+msgstr "Student activated!"
+
+#: main/static/main/javascript/alum_list.js:50
+msgid "Error modificant alumne"
+msgstr "Error updating student"
+
+#: main/static/main/javascript/alum_list.js:59
+#: main/static/main/javascript/quizrun_group_list.js:63
+msgid "Inactivant alumne..."
+msgstr "Deactivating student..."
+
+#: main/static/main/javascript/alum_list.js:114
+#: main/static/main/javascript/group_list.js:99
+#: main/static/main/javascript/teacher_list.js:86
+msgid "Desactivar usuari"
+msgstr "Deactivate user"
+
+#: main/static/main/javascript/alum_list.js:122
+#: main/static/main/javascript/group_list.js:107
+#: main/static/main/javascript/quiz_list.js:104
+#: main/static/main/javascript/teacher_list.js:94
+msgid "Editar"
+msgstr "Edit"
+
+#: main/static/main/javascript/alum_list.js:129
+#: main/static/main/javascript/teacher_list.js:101
+msgid "Canviar password"
+msgstr "Change password"
+
+#: main/static/main/javascript/alum_list.js:133
+#: main/static/main/javascript/teacher_list.js:105
+msgid "Nom usuari"
+msgstr "Username"
+
+#: main/static/main/javascript/alum_list.js:137
+msgid "Professor"
+msgstr "Teacher"
+
+#: main/static/main/javascript/alum_list.js:141
+msgid "Grups"
+msgstr "Groups"
+
+#: main/static/main/javascript/alum_list.js:162
+#: main/static/main/javascript/teacher_list.js:113
+msgid "Usuari actiu?"
+msgstr "User active?"
+
+#: main/static/main/javascript/alum_list.js:180
+#: main/static/main/javascript/teacher_list.js:131
+msgid ""
+"El professor està actiu i es marcarà com a inactiu. Això vol dir que no es "
+"podrà loginar. Segur que vols continuar?"
+msgstr "Teacher is active and will be marked as inactive. Continue?"
+
+#: main/static/main/javascript/alum_list.js:182
+#: main/static/main/javascript/teacher_list.js:133
+msgid ""
+"El professor està inactiu i es marcarà com a actiu. Això vol dir que no es "
+"podrà loginar. Segur que vols continuar?"
+msgstr "Teacher is inactive and will be marked as active. Continue?"
 
 #: main/static/main/javascript/center_list.js:16
 msgid "Centre activat!"
@@ -60,6 +127,25 @@ msgid ""
 "El centre està inactiu i es marcarà com a actiu. Segur que vols continuar?"
 msgstr "Center is inactive and will be marked as active. Continue?"
 
+#: main/static/main/javascript/group_edit.js:55
+#: main/static/main/javascript/group_new.js:47
+#: main/static/main/javascript/quiz_assign_admin.js:46
+msgid "Error recuperant llista de tutors per centre"
+msgstr "Error recovering tutor list by center"
+
+#: main/static/main/javascript/group_edit.js:64
+#: main/static/main/javascript/group_new.js:86
+#: main/static/main/javascript/group_new_teacher.js:55
+#: main/static/main/javascript/question_edit.js:57
+#: main/static/main/javascript/question_new.js:67
+msgid "Eliminar la foto?"
+msgstr "Delete picture"
+
+#: main/static/main/javascript/group_edit.js:103
+#: main/static/main/javascript/group_new.js:111
+msgid "Si us plau, tria el tutor del grup del desplegable"
+msgstr "Please, choose the group tutor from the dropbox"
+
 #: main/static/main/javascript/group_list.js:24
 msgid "Grup desactivat!"
 msgstr "Group deactivated!"
@@ -75,17 +161,6 @@ msgstr "Error updating group"
 #: main/static/main/javascript/group_list.js:40
 msgid "Inactivant grup..."
 msgstr "Deactivating group..."
-
-#: main/static/main/javascript/group_list.js:99
-#: main/static/main/javascript/teacher_list.js:86
-msgid "Desactivar usuari"
-msgstr "Deactivate user"
-
-#: main/static/main/javascript/group_list.js:107
-#: main/static/main/javascript/quiz_list.js:104
-#: main/static/main/javascript/teacher_list.js:94
-msgid "Editar"
-msgstr "Edit"
 
 #: main/static/main/javascript/group_list.js:112
 msgid "Nom usuari del grup"
@@ -130,6 +205,76 @@ msgstr "Group is active and will be marked as inactive. Continue?"
 msgid ""
 "El grup està inactiu i es marcarà com a actiu. Segur que vols continuar?"
 msgstr "Group is inactive and will be marked as active. Continue?"
+
+#: main/static/main/javascript/group_new.js:19
+#: main/static/main/javascript/group_new_teacher.js:19
+#: main/static/main/javascript/quiz_assign_admin.js:20
+msgid "Error recuperant nom de grup"
+msgstr "Error retrieving group name"
+
+#: main/static/main/javascript/group_new.js:74
+msgid "Eliminar"
+msgstr "Delete"
+
+#: main/static/main/javascript/question_editor.js:103
+msgid "No has afegit cap resposta per la pregunta"
+msgstr "You didn't add any answer for the question"
+
+#: main/static/main/javascript/question_editor.js:112
+msgid "L'etiqueta de la pregunta no pot estar en blanc"
+msgstr "The question label can't be blank"
+
+#: main/static/main/javascript/question_editor.js:118
+msgid "El text de la pregunta no pot estar en blanc"
+msgstr "The question text can't be blank"
+
+#: main/static/main/javascript/question_editor.js:127
+msgid "L'etiqueta està repetida, ha de ser única"
+msgstr "The label is repeated, must be unique"
+
+#: main/static/main/javascript/question_editor.js:138
+msgid "Cal marcar com a mínim una resposta com a correcta"
+msgstr "You must mark at least one answer as correct"
+
+#: main/static/main/javascript/question_editor.js:150
+msgid "S'esborrarà la pregunta! Segur?"
+msgstr "Question will be deleted! Are you sure?"
+
+#: main/static/main/javascript/quiz_assign_admin.js:39
+msgid "Select tutor..."
+msgstr "Select tutor..."
+
+#: main/static/main/javascript/quiz_assign_admin.js:146
+msgid "Tria primer un centre..."
+msgstr "Choose a center first..."
+
+#: main/static/main/javascript/quiz_edit.js:38
+#: main/static/main/javascript/quiz_edit_teacher.js:38
+msgid ""
+"ATENCIÓ: s'esborrarà la pregunta i totes les respostes. Segur que vols "
+"continuar?"
+msgstr ""
+"WARNING: you will delete the question and all the answers. Are you sure?"
+
+#: main/static/main/javascript/quiz_edit.js:52
+#: main/static/main/javascript/quiz_edit_teacher.js:52
+msgid "Pregunta eliminada!"
+msgstr "Question deleted!"
+
+#: main/static/main/javascript/quiz_edit.js:60
+#: main/static/main/javascript/quiz_edit_teacher.js:60
+msgid "Error eliminant pregunta"
+msgstr "Error deleting question"
+
+#: main/static/main/javascript/quiz_edit.js:70
+#: main/static/main/javascript/quiz_edit_teacher.js:70
+msgid "Eliminant pregunta..."
+msgstr "Deleting question..."
+
+#: main/static/main/javascript/quiz_edit.js:113
+#: main/static/main/javascript/quiz_new.js:29
+msgid "Error recuperant llista de requeriments"
+msgstr "Error recovering requirement list"
 
 #: main/static/main/javascript/quiz_list.js:49
 #: main/static/main/javascript/quiz_results.js:38
@@ -198,6 +343,14 @@ msgstr "Test type"
 msgid "Veure resultats"
 msgstr "See results"
 
+#: main/static/main/javascript/quiz_results_graphics.js:31
+msgid "Resultats per grup de la prova"
+msgstr "Test results by group"
+
+#: main/static/main/javascript/quiz_results_graphics.js:41
+msgid "Respostes correctes"
+msgstr "Correct answers"
+
 #: main/static/main/javascript/quiz_take.js:31
 msgid "Error escrivint resposta"
 msgstr "Error writing answer"
@@ -217,8 +370,44 @@ msgid ""
 "Vols continuar?"
 msgstr ""
 "You are about to end the test. If you continue, you won't be able to modify "
-"it anymore (but you can repeat it later) and you will get the result on screen."
-"Continue?"
+"it anymore (but you can repeat it later) and you will get the result on "
+"screen.Continue?"
+
+#: main/static/main/javascript/quiz_take_upload.js:11
+msgid "Només es permeten fitxers zip"
+msgstr "Only zip files are allowed"
+
+#: main/static/main/javascript/quiz_take_upload.js:24
+msgid "Fitxer pujat amb èxit!"
+msgstr "File successfully uploaded"
+
+#: main/static/main/javascript/quiz_take_upload.js:51
+msgid "Prova finalitzada!"
+msgstr "Test completed!"
+
+#: main/static/main/javascript/quiz_take_upload.js:55
+msgid "Error completant prova"
+msgstr "Error completing test"
+
+#: main/static/main/javascript/quiz_take_upload.js:70
+msgid "Eliminar el fitxer?"
+msgstr "Delete file?"
+
+#: main/static/main/javascript/quizrun_group_list.js:14
+msgid "Intent eliminat"
+msgstr "Attempt deleted"
+
+#: main/static/main/javascript/quizrun_group_list.js:18
+msgid "Error eliminant l'intent"
+msgstr "Error deleting attempt"
+
+#: main/static/main/javascript/quizrun_group_list.js:27
+msgid "Segur que vols eliminar les dades d'aquest intent?"
+msgstr "Are you sure you want to delete the data from this attempt?"
+
+#: main/static/main/javascript/quizrun_group_list.js:32
+msgid "Eliminant dades d'intent..."
+msgstr "Removing attempt data..."
 
 #: main/static/main/javascript/teacher_list.js:16
 msgid "Professor desactivat!"
@@ -235,27 +424,3 @@ msgstr "Error updating teacher"
 #: main/static/main/javascript/teacher_list.js:32
 msgid "Inactivant professor..."
 msgstr "Deactivating teacher..."
-
-#: main/static/main/javascript/teacher_list.js:101
-msgid "Canviar password"
-msgstr "Change password"
-
-#: main/static/main/javascript/teacher_list.js:105
-msgid "Nom usuari"
-msgstr "Username"
-
-#: main/static/main/javascript/teacher_list.js:113
-msgid "Usuari actiu?"
-msgstr "User active?"
-
-#: main/static/main/javascript/teacher_list.js:131
-msgid ""
-"El professor està actiu i es marcarà com a inactiu. Això vol dir que no es "
-"podrà loginar. Segur que vols continuar?"
-msgstr "Teacher is active and will be marked as inactive. Continue?"
-
-#: main/static/main/javascript/teacher_list.js:133
-msgid ""
-"El professor està inactiu i es marcarà com a actiu. Això vol dir que no es "
-"podrà loginar. Segur que vols continuar?"
-msgstr "Teacher is inactive and will be marked as active. Continue?"

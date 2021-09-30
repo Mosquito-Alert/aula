@@ -260,7 +260,7 @@ msgstr "Title"
 #: main/templates/main/alum_hub.html:24 main/templates/main/alum_hub.html:49
 #: main/templates/main/test_results_detail_view.html:19
 msgid "intent"
-msgstr "try"
+msgstr "attempt"
 
 #: main/templates/main/alum_hub.html:25 main/templates/main/alum_hub.html:39
 #: main/templates/main/alum_hub.html:50 main/templates/main/alum_hub.html:72
@@ -1223,7 +1223,7 @@ msgstr "Best score"
 
 #: main/templates/main/test_result.html:38
 msgid "Millor intent"
-msgstr "Best try"
+msgstr "Best attempt"
 
 #: main/templates/main/test_result.html:39
 msgid "Prova finalitzada"

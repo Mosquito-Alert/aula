@@ -26,7 +26,7 @@ $(document).ready( function () {
                 def.resolve();
             },
             error: function(jqXHR, textStatus, errorThrown){
-                toastr.error('Error recuperant llista de requeriments');
+                toastr.error(gettext('Error recuperant llista de requeriments'));
                 $('#id_req').attr("disabled",false);
                 def.reject(textStatus);
             }

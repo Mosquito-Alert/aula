@@ -100,7 +100,7 @@
         $('.answer-error').remove();
         var one_correct = false;
         if(AEditor.data.length == 0){
-            $('#general_errors').html('<span><small class="text-danger answer-error"><strong>No has afegit cap resposta per la pregunta.</strong></small></span>');
+            $('#general_errors').html('<span><small class="text-danger answer-error"><strong>' + gettext('No has afegit cap resposta per la pregunta') + '.</strong></small></span>');
             return false;
         }
         for(var i = 0; i < AEditor.data.length; i++){
@@ -109,13 +109,13 @@
                 if ( errors['label_' + row.id] == null ){
                     errors['label_' + row.id] = [];
                 }
-                errors['label_' + row.id].push("L\'etiqueta de la pregunta no pot estar en blanc");
+                errors['label_' + row.id].push(gettext("L\'etiqueta de la pregunta no pot estar en blanc"));
             }
             if(row.text == null || row.text == ''){
                 if( errors['text_' + row.id] == null ){
                     errors['text_' + row.id] = [];
                 }
-                errors['text_' + row.id].push("El text de la pregunta no pot estar en blanc");
+                errors['text_' + row.id].push(gettext("El text de la pregunta no pot estar en blanc"));
             }
             if(row.is_correct == true){
                 one_correct = true;
@@ -124,7 +124,7 @@
                 if(errors['label_' + row.id] == null){
                     errors['label_' + row.id] = [];
                 }
-                errors['label_' + row.id].push("L\'etiqueta està repetida, ha de ser única");
+                errors['label_' + row.id].push(gettext("L\'etiqueta està repetida, ha de ser única"));
             }
             labels.push(row.label);
         }
@@ -135,7 +135,7 @@
         }
         if(!one_correct){
             if (!AEditor.is_poll){
-                $('#general_errors').html('<span><small class="text-danger answer-error"><strong>Cal marcar com a mínim una resposta com a correcta.</strong></small></span>')
+                $('#general_errors').html('<span><small class="text-danger answer-error"><strong>' + gettext('Cal marcar com a mínim una resposta com a correcta') + '.</strong></small></span>')
             }
         }
 
@@ -147,7 +147,7 @@
     }
 
     $("#answers").on("click", "button.answer_delete", function(event){
-        if(confirm("S'esborrarà la pregunta! Segur?") == true){
+        if(confirm(gettext("S'esborrarà la pregunta! Segur?")) == true){
             var button_id = $(this).attr('id');
             var row_id = button_id.split('_')[1];
             AEditor.removeAnswer(row_id);

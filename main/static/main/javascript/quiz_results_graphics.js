@@ -28,7 +28,7 @@ var graficBarras = function(){
             type: 'column'
         },
         title: {
-            text: 'Resultats per grup de la prova <strong>' + quizName + '</strong>'
+            text: gettext('Resultats per grup de la prova') + ' <strong>' + quizName + '</strong>'
         },
         xAxis: {
             categories: nombreGrupo,
@@ -38,7 +38,7 @@ var graficBarras = function(){
             min: 0,
             max: 10,
             title: {
-                text: 'Respostes correctes'
+                text: gettext('Respostes correctes')
             }
         },
         tooltip: {

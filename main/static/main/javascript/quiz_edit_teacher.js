@@ -35,7 +35,7 @@ $(document).ready(function() {
 
     $('.delete_button').click(function(){
         var question_id = $(this).attr('id');
-        confirmDialog("ATENCIÓ: s'esborrarà la pregunta i totes les respostes. Segur que vols continuar?", question_id);
+        confirmDialog(gettext("ATENCIÓ: s'esborrarà la pregunta i totes les respostes. Segur que vols continuar?"), question_id);
     });
 
     var delete_question = function(id){
@@ -49,7 +49,7 @@ $(document).ready(function() {
                 }
             },
             success: function( data, textStatus, jqXHR ) {
-                toastr.success('Pregunta eliminada!');
+                toastr.success(gettext('Pregunta eliminada!'));
                 $('#question_' + id).remove();
                 suggested_new_order = get_highest_question_number();
                 if( $('#questions').children().length == 0 ){
@@ -57,7 +57,7 @@ $(document).ready(function() {
                 }
             },
             error: function(jqXHR, textStatus, errorThrown){
-                toastr.error('Error eliminant pregunta');
+                toastr.error(gettext('Error eliminant pregunta'));
                 suggested_new_order = get_highest_question_number();
             }
         });
@@ -67,7 +67,7 @@ $(document).ready(function() {
         $('<div></div>').appendTo('body')
             .html('<div><h6>'+message+'</h6></div>')
             .dialog({
-                modal: true, title: 'Eliminant pregunta...', zIndex: 10000, autoOpen: true,
+                modal: true, title: gettext('Eliminant pregunta...'), zIndex: 10000, autoOpen: true,
                 width: 'auto', resizable: false,
                 buttons: {
                     Yes: function () {

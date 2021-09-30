@@ -17,7 +17,7 @@ $(document).ready(function() {
                 $('#id_group_public_name').val(group_name);
             },
             error: function(jqXHR, textStatus, errorThrown){
-                toastr.error('Error recuperant nom de grup');
+                toastr.error(gettext('Error recuperant nom de grup'));
             }
         });
     };
@@ -36,14 +36,14 @@ $(document).ready(function() {
             },
             success: function( data, textStatus, jqXHR ) {
                 $('#tutor').attr("disabled",false);
-                var options = ['<option value="-1">Select tutor...</option>'];
+                var options = ['<option value="-1">' + gettext('Select tutor...') + '</option>'];
                 for(var i = 0; i < data.length; i++){
                     options.push('<option value="' + data[i].id + '">' + data[i].username + '</option>')
                 }
                 $('#tutor').html(options.join());
             },
             error: function(jqXHR, textStatus, errorThrown){
-                toastr.error('Error recuperant llista de tutors per centre');
+                toastr.error(gettext('Error recuperant llista de tutors per centre'));
                 $('#tutor').attr("disabled",false);
             }
         });
@@ -143,7 +143,7 @@ $(document).ready(function() {
         $('#id_select_quiz').attr("disabled",true);
         $('#id_select_group').attr("disabled",true);
         $('#tutor').empty();
-        $('#tutor').html("<option selected>Tria primer un centre...</option>");
+        $('#tutor').html("<option selected>" + gettext('Tria primer un centre...') + "</option>");
         $('#center').val("-1");
     }
 

@@ -16,7 +16,7 @@ $(document).ready(function() {
                 $('#id_group_public_name').val(group_name);
             },
             error: function(jqXHR, textStatus, errorThrown){
-                toastr.error('Error recuperant nom de grup');
+                toastr.error(gettext('Error recuperant nom de grup'));
             }
         });
     };
@@ -44,7 +44,7 @@ $(document).ready(function() {
                 def.resolve();
             },
             error: function(jqXHR, textStatus, errorThrown){
-                toastr.error('Error recuperant llista de tutors per centre');
+                toastr.error(gettext('Error recuperant llista de tutors per centre'));
                 $('#tutor').attr("disabled",false);
                 def.reject(textStatus);
             }
@@ -71,7 +71,7 @@ $(document).ready(function() {
                     "</a>" +
                 "</td>" +
                 "<td>" +
-                    "<a href='#' class='btn btn-danger btn-sm btn-del btn-del-img imatgeRodal deleteFoto' id="+ data.result.id +">Eliminar</a>" +
+                    "<a href='#' class='btn btn-danger btn-sm btn-del btn-del-img imatgeRodal deleteFoto' id="+ data.result.id +">" + gettext('Eliminar') + "</a>" +
                 "</td>" +
             "<tr>");
             //setJSONFotos(data.result.id);
@@ -83,7 +83,7 @@ $(document).ready(function() {
     });
 
     $(document).on('click', '.deleteFoto', function() {
-        if( confirm("Eliminar la foto?") ){
+        if( confirm(gettext("Eliminar la foto?")) ){
             $("#gallery tbody").html('');
         }
     });
@@ -108,7 +108,7 @@ $(document).ready(function() {
         var selected_tutor = $('#group_teacher').val();
         if(selected_tutor==null || selected_tutor == '' || selected_tutor == '-1'){
             $("#tutor").addClass("is-invalid");
-            $("#selected_tutor").append('<p id="error_1_id_username" class="invalid-feedback"><strong>Si us plau, tria el tutor del grup del desplegable</strong></p>')
+            $("#selected_tutor").append('<p id="error_1_id_username" class="invalid-feedback"><strong>' + gettext('Si us plau, tria el tutor del grup del desplegable') + '</strong></p>')
             return false;
         }
     });

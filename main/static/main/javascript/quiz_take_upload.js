@@ -8,7 +8,7 @@ $(document).ready( function () {
             var uploadFile = data.files[0];
             var goUpload = true;
             if (!(/\.(zip)$/i).test(uploadFile.name)) {
-                toastr.error('Només es permeten fitxers zip');
+                toastr.error(gettext('Només es permeten fitxers zip'));
                 goUpload = false;
             }
             if (goUpload == true) {
@@ -21,7 +21,7 @@ $(document).ready( function () {
             "<tr id='tr_" + data.result.id + "'>" +
                 "<td>" +
                     "<a target='_blank' href='" + data.result.url +  "'>" +
-                        "Fitxer pujat amb èxit!" +
+                        gettext("Fitxer pujat amb èxit!") +
                     "</a> <i class='fas fa-thumbs-up'></i>" +
                 "</td>" +
                 "<td>" +
@@ -48,11 +48,11 @@ $(document).ready( function () {
                 }
             },
             success: function( data, textStatus, jqXHR ) {
-                toastr.success('Prova finalitzada!');
+                toastr.success(gettext('Prova finalitzada!'));
                 window.location.href = _quiz_complete_url;
             },
             error: function(jqXHR, textStatus, errorThrown){
-                toastr.error('Error completant prova');
+                toastr.error(gettext('Error completant prova'));
             }
         });
     };
@@ -67,7 +67,7 @@ $(document).ready( function () {
     });
 
     $(document).on('click', '.deleteFile', function() {
-        if( confirm("Eliminar el fitxer?") ){
+        if( confirm(gettext("Eliminar el fitxer?")) ){
             $("#gallery tbody").html('');
             $('.end_button').hide();
         }

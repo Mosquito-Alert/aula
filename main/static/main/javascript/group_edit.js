@@ -52,7 +52,7 @@ $(document).ready(function() {
                 def.resolve();
             },
             error: function(jqXHR, textStatus, errorThrown){
-                toastr.error('Error recuperant llista de tutors per centre');
+                toastr.error(gettext('Error recuperant llista de tutors per centre'));
                 $('#tutor').attr("disabled",false);
                 def.reject(textStatus);
             }
@@ -61,7 +61,7 @@ $(document).ready(function() {
     };
 
     $(document).on('click', '.deleteFoto', function() {
-        if( confirm("Eliminar la foto?") ){
+        if( confirm(gettext("Eliminar la foto?")) ){
             $("#gallery tbody").html('');
             $('#id_photo_path').val('');
         }
@@ -100,7 +100,7 @@ $(document).ready(function() {
         var selected_tutor = $('#tutor').val();
         if(selected_tutor==null || selected_tutor == '' || selected_tutor == '-1'){
             $("#tutor").addClass("is-invalid");
-            $("#selected_tutor").append('<p id="error_1_id_username" class="invalid-feedback"><strong>Si us plau, tria el tutor del grup del desplegable</strong></p>')
+            $("#selected_tutor").append('<p id="error_1_id_username" class="invalid-feedback"><strong>' + gettext('Si us plau, tria el tutor del grup del desplegable') + '</strong></p>')
             return false;
         }
     });
