@@ -134,10 +134,14 @@ class GroupSerializer(serializers.ModelSerializer):
     #group_alums = serializers.SerializerMethodField('get_group_alums')
     group_picture = serializers.SerializerMethodField('get_group_picture')
     group_tutor = serializers.SerializerMethodField('get_group_tutor')
+    group_n_students = serializers.SerializerMethodField('get_group_n_students')
 
     class Meta:
         model = User
         fields = '__all__'
+
+    def get_group_n_students(self,obj):
+        return obj.profile.n_students_in_group
 
     def get_group_password(self,obj):
         return obj.profile.group_password

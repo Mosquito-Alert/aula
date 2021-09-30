@@ -298,6 +298,7 @@ class Profile(models.Model):
     group_teacher = models.ForeignKey(User, null=True, on_delete=models.SET_NULL, related_name="group_teacher")
     groups_string = models.CharField(max_length=1000, null=True, blank=True)
     center_string = models.CharField(max_length=1000, null=True, blank=True)
+    n_students_in_group = models.IntegerField(default=3)
 
     @property
     def groups_list(self):

@@ -963,6 +963,7 @@ def group_update(request, pk=None):
     group_password = None
     group_public_name = None
     username = None
+    n_students_in_group = None
     center = ""
     tutor = ""
     centers = EducationCenter.objects.all().order_by('name')
@@ -972,6 +973,7 @@ def group_update(request, pk=None):
             photo_path = group.profile.group_picture.url
         group_password = group.profile.group_password
         group_public_name = group.profile.group_public_name
+        n_students_in_group = group.profile.n_students_in_group
         username = group.username
         if group.profile.group_teacher:
             tutor = group.profile.group_teacher.id
@@ -986,6 +988,7 @@ def group_update(request, pk=None):
             user = form.save(commit=False)
             user.profile.group_password = form.cleaned_data.get('password1')
             user.profile.group_public_name = form.cleaned_data.get('group_public_name')
+            user.profile.n_students_in_group = form.cleaned_data.get('n_students_in_group')
             photo_path = form.cleaned_data.get('photo_path')
             if photo_path and photo_path != '' and photo_path != 'None':
                 if str(settings.BASE_DIR) + photo_path != settings.MEDIA_ROOT + "/group_pics/" + os.path.basename(photo_path):
@@ -1001,9 +1004,9 @@ def group_update(request, pk=None):
             user.save()
             return HttpResponseRedirect('/group/list/')
     if this_user.is_superuser:
-        return render(request, 'main/group_edit.html', {'form': form, 'group_id' : pk, 'photo_path': photo_path, 'group_password': group_password, 'group_public_name': group_public_name, 'username': username, 'centers':centers, 'tutor': tutor, 'center':center })
+        return render(request, 'main/group_edit.html', {'form': form, 'group_id' : pk, 'photo_path': photo_path, 'group_password': group_password, 'group_public_name': group_public_name, 'username': username, 'centers':centers, 'tutor': tutor, 'center':center, 'n_students_in_group': n_students_in_group })
     elif this_user.profile and this_user.profile.is_teacher:
-        return render(request, 'main/group_edit_teacher.html', {'form': form, 'group_id': pk, 'photo_path': photo_path, 'group_password': group_password, 'group_public_name': group_public_name, 'username': username })
+        return render(request, 'main/group_edit_teacher.html', {'form': form, 'group_id': pk, 'photo_path': photo_path, 'group_password': group_password, 'group_public_name': group_public_name, 'username': username, 'n_students_in_group': n_students_in_group})
     else:
         message = _("Estàs intentant accedir a una pàgina a la que no tens permís.")
         go_back_to = "my_hub"
@@ -1031,6 +1034,7 @@ def group_new(request):
             user.profile.group_password = form.cleaned_data.get('password1')
             user.profile.group_public_name = form.cleaned_data.get('group_public_name')
             user.profile.group_teacher = tutor
+            user.profile.n_students_in_group = form.cleaned_data.get('n_students_in_group')
             if photo_path != '':
                 copy(str(settings.BASE_DIR) + photo_path, settings.MEDIA_ROOT + "/group_pics/")
                 user.profile.group_picture = 'group_pics/' + os.path.basename(photo_path)
@@ -1390,7 +1394,7 @@ def alum_datatable_list(request):
 def group_datatable_list(request):
     this_user = request.user
     if request.method == 'GET':
-        search_field_list = ('username', 'group_public_name', 'group_center', 'group_tutor')
+        search_field_list = ('username', 'group_public_name', 'group_center', 'group_tutor', 'group_n_students')
         if this_user.is_superuser:
             queryset = User.objects.filter(profile__is_group=True)
         elif this_user.profile and this_user.profile.is_teacher:
@@ -1404,8 +1408,8 @@ def group_datatable_list(request):
             queryset = User.objects.filter(profile__is_group=True).filter(profile__group_teacher=this_user)
         else:
             pass #not allowed
-        field_translation_list = {'username': 'username', 'group_public_name': 'profile__group_public_name', 'group_center': 'profile__center_string', 'group_tutor':  'profile__group_teacher__username'}
-        sort_translation_list = {'username': 'username', 'group_public_name': 'profile__group_public_name', 'group_center': 'profile__center_string', 'group_tutor':  'profile__group_teacher__username'}
+        field_translation_list = {'username': 'username', 'group_public_name': 'profile__group_public_name', 'group_center': 'profile__center_string', 'group_tutor':  'profile__group_teacher__username', 'group_n_students': 'profile__n_students_in_group'}
+        sort_translation_list = {'username': 'username', 'group_public_name': 'profile__group_public_name', 'group_center': 'profile__center_string', 'group_tutor':  'profile__group_teacher__username', 'group_n_students': 'profile__n_students_in_group'}
         response = generic_datatable_list_endpoint(request, search_field_list, queryset, GroupSerializer, field_translation_list, sort_translation_list)
         return response
 

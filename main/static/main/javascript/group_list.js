@@ -88,10 +88,11 @@ $(document).ready( function () {
             ,{ 'data': 'group_tutor' }
             ,{ 'data': 'group_picture' }
             ,{ 'data': 'is_active' }
+            ,{ 'data': 'group_n_students' }
         ],
         'columnDefs': [
             {
-                'targets': 7,
+                'targets': 8,
                 'data': 'is_active',
                 'sortable': false,
                 'render': function(value){
@@ -99,7 +100,7 @@ $(document).ready( function () {
                 }
             },
             {
-                'targets': 8,
+                'targets': 9,
                 'data': 'is_active',
                 'sortable': false,
                 'render': function(value){
@@ -148,6 +149,10 @@ $(document).ready( function () {
                         return '<p><i class="fas fa-times"></i></p>';
                     }
                 }
+            },
+            {
+                'targets':7,
+                'title': gettext('N. alumnes')
             }
         ]
     } );
