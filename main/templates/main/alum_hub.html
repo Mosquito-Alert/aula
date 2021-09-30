@@ -26,11 +26,11 @@
                         <div class="col-md-3"><strong>{% trans 'Finalitzada' %}</strong>: {{ run.date_finished }}</div>
                         <div class="col-md-1"><strong>{% trans 'Puntuació' %}</strong>: {{ run.questions_right }}/{{ run.questions_number }} </div>
                         {% if run.last_run == run.run_number %}
-                        <div class="col-md-2">
+                        <div class="col-md-1">
                             <a title="{% trans 'Repetir la prova!' %}" class="btn btn-success" href="{% url 'quiz_take_splash' run.quiz.id %}" role="button">Repetir <i class="fas fa-undo"></i></a>
                         </div>
                         {% else %}
-                        <div class="col-md-2"></div>
+                        <div class="col-md-1"></div>
                         {% endif %}
                     </div>
                     {% elif run.quiz.is_material %}
@@ -39,21 +39,32 @@
                         <div class="col-md-3"><strong>{% trans 'Començada' %}</strong>: {{ run.date }}</div>
                         <div class="col-md-3"><strong>{% trans 'Finalitzada' %}</strong>: {{ run.date_finished }}</div>
                         <div class="col-md-1"></div>
-                        <div class="col-md-2">
+                        <div class="col-md-1">
                             <a title="{% trans 'Tornar a veure material' %}" class="btn btn-success" href="{% url 'quiz_browse' run.quiz.id %}" target="_blank" role="button">{% trans 'Repassar' %} <i class="far fa-eye"></i></a>
                         </div>
-                        <div class="col-md-2"></div>
+                        <div class="col-md-1"></div>
                     </div>
                     {% elif run.quiz.is_poll %}
                     <div class="row mt-3">
-                        <div class="col-md-3"><strong>{% trans 'Títol' %}</strong>: {{ run.quiz.name }}</div>
+                        <div class="col-md-3"><strong>{% trans 'Títol' %}</strong>: {{ run.quiz.name }} ( {% trans 'intent' %} {{ run.run_number }})</div>
                         <div class="col-md-3"><strong>{% trans 'Començada' %}</strong>: {{ run.date }}</div>
                         <div class="col-md-3"><strong>{% trans 'Finalitzada' %}</strong>: {{ run.date_finished }}</div>
                         <div class="col-md-1"></div>
-                        <div class="col-md-2">
+                        {% if run.last_run == run.run_number %}
+                            {% if run.run_number < user.profile.n_students_in_group %}
+                                <div class="col-md-1">
+                                    <a title="{% trans 'Repetir la prova!' %}" class="btn btn-success" href="{% url 'quiz_take_splash' run.quiz.id %}" role="button">Repetir <i class="fas fa-undo"></i></a>
+                                </div>
+                            {% else %}
+                                <div class="col-md-1"></div>
+                            {% endif %}
+                        <div class="col-md-1">
                             <a title="{% trans 'Veure resultats enquesta' %}" class="btn btn-success" href="{% url 'poll_result' run.quiz.id %}" target="_blank" role="button">{% trans 'Resultats' %} <i class="far fa-eye"></i></a>
                         </div>
-                        <div class="col-md-2"></div>
+                        {% else %}
+                        <div class="col-md-1"></div>
+                        <div class="col-md-1"></div>
+                        {% endif %}
                     </div>
                     {% elif run.quiz.is_upload %}
                     <div class="row mt-3">
@@ -61,10 +72,10 @@
                         <div class="col-md-3"><strong>{% trans 'Començada' %}</strong>: {{ run.date }}</div>
                         <div class="col-md-3"><strong>{% trans 'Finalitzada' %}</strong>: {{ run.date_finished }}</div>
                         <div class="col-md-1"></div>
-                        <div class="col-md-2">
+                        <div class="col-md-1">
                             <a title="{% trans 'Descarregar fitxer' %}" class="btn btn-success" href="{{ run.uploaded_file.url }}" target="_blank" role="button">Fitxer <i class="fas fa-cloud-download-alt"></i></a>
                         </div>
-                        <div class="col-md-2"></div>
+                        <div class="col-md-1"></div>
                     </div>
                     {% endif %}
                 {% endfor %}

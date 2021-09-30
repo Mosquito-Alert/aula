@@ -714,11 +714,17 @@ def quiz_start(request, pk=None):
             message = _("Aquesta prova no està publicada, no la pots començar.")
             go_back_to = "group_menu"
             return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
-        if quiz.type != 0:
+        if quiz.type != 0 and quiz.type != 2:
             #només es poden repetir els tests
             already_done = QuizRun.objects.filter(taken_by=this_user).filter(quiz=quiz).filter(date_finished__isnull=False).exists()
             if already_done:
                 message = _("Les proves de materials, pujada de fitxers i enquestes només es fan una vegada. Les pots repassar totes però des del menú de grup ")
+                go_back_to = "group_menu"
+                return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
+        if quiz.type == 2:
+            already_done = QuizRun.objects.filter(taken_by=this_user).filter(quiz=quiz).count() < this_user.profile.n_students_in_group
+            if already_done:
+                message = _("L'ha enquesta s'ha repetit tants cops com membres té el grup, no es permeten més repeticions.")
                 go_back_to = "group_menu"
                 return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
         if quiz.requisite:
