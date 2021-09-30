@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-30 07:37+0000\n"
+"POT-Creation-Date: 2021-09-30 09:32+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -197,6 +197,28 @@ msgstr "Test type"
 #: main/static/main/javascript/quiz_results.js:61
 msgid "Veure resultats"
 msgstr "See results"
+
+#: main/static/main/javascript/quiz_take.js:31
+msgid "Error escrivint resposta"
+msgstr "Error writing answer"
+
+#: main/static/main/javascript/quiz_take.js:51
+msgid "Error finalitzant prova"
+msgstr "Error finishing test"
+
+#: main/static/main/javascript/quiz_take.js:60
+msgid "Finalitzant prova..."
+msgstr "Finishing test..."
+
+#: main/static/main/javascript/quiz_take.js:129
+msgid ""
+"Estàs a punt de finalitzar la prova. Si continues, no la podràs modificar "
+"més (tot i que pots repetir-la més tard) i rebràs el resultat en pantalla. "
+"Vols continuar?"
+msgstr ""
+"You are about to end the test. If you continue, you won't be able to modify "
+"it anymore (but you can repeat it later) and you will get the result on screen."
+"Continue?"
 
 #: main/static/main/javascript/teacher_list.js:16
 msgid "Professor desactivat!"

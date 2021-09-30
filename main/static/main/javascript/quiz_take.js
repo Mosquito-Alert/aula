@@ -28,7 +28,7 @@ $(document).ready( function () {
             error: function(jqXHR, textStatus, errorThrown){
                 setFail();
                 setProgressPending(question_id);
-                toastr.error("Error escrivint resposta");
+                toastr.error(gettext("Error escrivint resposta"));
             }
         });
     };
@@ -48,7 +48,7 @@ $(document).ready( function () {
                 location.href = _summary_run_finish_url;
             },
             error: function(jqXHR, textStatus, errorThrown){
-                toastr.error("Error finalitzant prova");
+                toastr.error(gettext("Error finalitzant prova"));
             }
         });
     }
@@ -57,7 +57,7 @@ $(document).ready( function () {
         $('<div></div>').appendTo('body')
             .html('<div><h6>'+message+'</h6></div>')
             .dialog({
-                modal: true, title: 'Finalitzant prova...', zIndex: 10000, autoOpen: true,
+                modal: true, title: gettext('Finalitzant prova...'), zIndex: 10000, autoOpen: true,
                 width: 'auto', resizable: false,
                 buttons: {
                     Yes: function () {
@@ -126,7 +126,7 @@ $(document).ready( function () {
     }
 
     $('#done-button').click(function(){
-        var message = "Estàs a punt de finalitzar la prova. Si continues, no la podràs modificar més (tot i que pots repetir-la més tard) i rebràs el resultat en pantalla. Vols continuar?";
+        var message = gettext("Estàs a punt de finalitzar la prova. Si continues, no la podràs modificar més (tot i que pots repetir-la més tard) i rebràs el resultat en pantalla. Vols continuar?");
         confirmDialog(message, run_id);
     });
 
