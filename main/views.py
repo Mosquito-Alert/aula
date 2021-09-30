@@ -1902,7 +1902,7 @@ def delete_quizrun(request, quizrun_id=None):
 @login_required
 def test_results_detail_view(request, quiz_id=None, group_id=None):
 
-    quizruns = QuizRun.objects.filter(quiz_id=quiz_id).filter(taken_by=group_id).order_by('-run_number')
+    quizruns = QuizRun.objects.filter(quiz_id=quiz_id).filter(taken_by=group_id).exclude(date_finished__isnull=True).order_by('-run_number')
 
     quizrun_ids = quizruns.values('id')
     quizrun_answers = QuizRunAnswers.objects.filter(quizrun__id__in=quizrun_ids)
