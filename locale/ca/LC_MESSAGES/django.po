@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-30 12:25+0000\n"
+"POT-Creation-Date: 2021-09-30 14:28+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -83,8 +83,8 @@ msgstr ""
 msgid "Professor"
 msgstr ""
 
-#: main/forms.py:103 main/templates/main/test_result.html:36
-#: main/templates/main/test_results_detail_view.html:7
+#: main/forms.py:103 main/templates/main/test_result.html:43
+#: main/templates/main/test_results_detail_view.html:10
 #: main/templates/main/upload_file_solutions.html:22
 msgid "Grup"
 msgstr ""
@@ -254,7 +254,7 @@ msgid "Títol"
 msgstr ""
 
 #: main/templates/main/alum_hub.html:24 main/templates/main/alum_hub.html:49
-#: main/templates/main/test_results_detail_view.html:19
+#: main/templates/main/test_results_detail_view.html:20
 msgid "intent"
 msgstr ""
 
@@ -1198,42 +1198,65 @@ msgstr ""
 msgid "Veure gràfica de resultats"
 msgstr ""
 
-#: main/templates/main/test_result.html:37
+#: main/templates/main/test_result.html:33
+msgid "Resultats de la prova per a tots els grups"
+msgstr ""
+
+#: main/templates/main/test_result.html:35
+msgid "Resultats de la prova per als meus grups"
+msgstr ""
+
+#: main/templates/main/test_result.html:42
+#: main/templates/main/test_results_detail_view.html:11
+msgid "Center"
+msgstr ""
+
+#: main/templates/main/test_result.html:44
 msgid "Millor puntuació"
 msgstr ""
 
-#: main/templates/main/test_result.html:38
+#: main/templates/main/test_result.html:45
 msgid "Millor intent"
 msgstr ""
 
-#: main/templates/main/test_result.html:39
+#: main/templates/main/test_result.html:46
 msgid "Prova finalitzada"
 msgstr ""
 
-#: main/templates/main/test_result.html:40
+#: main/templates/main/test_result.html:47
 msgid "Vista de detall"
 msgstr ""
 
-#: main/templates/main/test_result.html:62
-#: main/templates/main/test_result.html:84
+#: main/templates/main/test_result.html:70
+#: main/templates/main/test_result.html:93
 #, fuzzy
 #| msgid "Llistat enquestas i tests"
 msgid "Llistar intents"
 msgstr "Llistat enquestes i tests"
 
-#: main/templates/main/test_results_detail_view.html:16
+#: main/templates/main/test_result.html:103
+msgid ""
+"Cap dels teus grups ha completat la prova encara, no es poden mostrar els "
+"resultats"
+msgstr ""
+
+#: main/templates/main/test_result.html:111
+msgid "Resultats globals de la prova"
+msgstr ""
+
+#: main/templates/main/test_results_detail_view.html:17
 msgid "Les respostes correctes de la prova es mostren en color"
 msgstr ""
 
-#: main/templates/main/test_results_detail_view.html:16
+#: main/templates/main/test_results_detail_view.html:17
 msgid "verd"
 msgstr ""
 
-#: main/templates/main/test_results_detail_view.html:16
+#: main/templates/main/test_results_detail_view.html:17
 msgid "mentre que la resposta de l&#39;alumne es mostra en"
 msgstr ""
 
-#: main/templates/main/test_results_detail_view.html:16
+#: main/templates/main/test_results_detail_view.html:17
 msgid "negreta"
 msgstr ""
 

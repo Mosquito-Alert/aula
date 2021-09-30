@@ -20,7 +20,7 @@
             {% endif %}
         {% endif %}
         <div class="col-md-2">
-            {% if quiz.taken_by_n_people %}
+            {% if n_of_best_runs > 0 %}
                 <p>
                     <a href="{% url 'quiz_graphic_results' idQuizz=quiz.id %}" id="{{ quiz.id }}" type="button" class="graphButton btn btn-info">{% trans 'Veure gràfica de resultats' %}</a>
                 </p>
@@ -29,6 +29,12 @@
     </div>
 
     <!--<div class="row alert alert-success ml-5">-->
+    {% if request.user.is_superuser %}
+    <div class="row"><h2>{% trans 'Resultats de la prova per a tots els grups' %}:</h2></div>
+    {% else %}
+    <div class="row"><h2>{% trans 'Resultats de la prova per als meus grups' %}:</h2></div>
+    {% endif %}
+    {% if n_of_best_runs > 0 or request.user.is_superuser %}
     <div class="row alert alert-success">
         <table style="width:100%;">
             <tr>
@@ -92,10 +98,17 @@
             {% endif %}
         </table>
     </div>
+    {% else %}
+    <div class="row alert alert-warning">
+        {% trans 'Cap dels teus grups ha completat la prova encara, no es poden mostrar els resultats' %}
+    </div>
+    {% endif %}
 
     <div class="container">
         <hr>
     </div>
+
+    <div class="row"><h2>{% trans 'Resultats globals de la prova' %}:</h2></div>
 
     {% if quiz.html_header %}
     <div class="container">
