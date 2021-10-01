@@ -1784,6 +1784,7 @@ def upload_file_solutions(request):
                     arrayGrupos.append({
                         'imagenGrupo': url_pic,
                         'nombreGrupo': grupo.profile.group_public_name,
+                        'centro': grupo.profile.center,
                         'uploadedFileFlag': True,
                         'linkFile': quizrun[0].uploaded_file,
                         'uploadDate': quizrun[0].date_finished
@@ -1797,10 +1798,12 @@ def upload_file_solutions(request):
                     arrayGrupos.append({
                         'imagenGrupo': url_pic,
                         'nombreGrupo': grupo.profile.group_public_name,
+                        'centro': grupo.profile.center,
                         'uploadedFileFlag': False,
                         'linkFile': None,
                         'uploadDate': None
                     })
+            arrayGrupos.sort(key=lambda x: (x['centro'], x['nombreGrupo']))
             #Crear array amb informacio de cada prova
             autor = _('Anònim')
             realitzat_per = str(idQuizz.taken_by_n_people)
@@ -1834,6 +1837,7 @@ def upload_file_solutions(request):
                     arrayGrupos.append({
                         'imagenGrupo': url_pic,
                         'nombreGrupo': grupo.profile.group_public_name,
+                        'centro': grupo.profile.center,
                         'uploadedFileFlag': True,
                         'linkFile': quizrun[0].uploaded_file,
                         'uploadDate': quizrun[0].date_finished
@@ -1847,10 +1851,12 @@ def upload_file_solutions(request):
                     arrayGrupos.append({
                         'imagenGrupo': url_pic,
                         'nombreGrupo': grupo.profile.group_public_name,
+                        'centro': grupo.profile.center,
                         'uploadedFileFlag': False,
                         'linkFile': None,
                         'uploadDate': None
                     })
+            arrayGrupos.sort(key=lambda x: (x['centro'], x['nombreGrupo']))
             #Crear array amb informacio de cada prova
             autor = _('Anònim')
             if idQuizz.author:

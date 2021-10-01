@@ -19,6 +19,7 @@
         <table style="width:100%;">
             <tr style="text-align: center;">
                 <th></th>
+                <th>{% trans 'Centre' %}</th>
                 <th>{% trans 'Grup' %}</th>
                 <th>{% trans 'Arxiu pujat' %}</th>
                 <th>{% trans 'Link a l&#39;arxiu' %}</th>
@@ -29,6 +30,7 @@
                     <td>
                         <img src="{{ quizrun.imagenGrupo }}">
                     </td>
+                    <td>{{ quizrun.centro }}</td>
                     <td>{{ quizrun.nombreGrupo }}</td>
                     {% if quizrun.uploadedFileFlag %}
                         <td><i class="fas fa-check" style="color: green;"></i></td>
