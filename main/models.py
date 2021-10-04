@@ -91,17 +91,18 @@ class Quiz(models.Model):
     def taken_by_n_people(self):
         return QuizRun.objects.filter(quiz=self).filter(date_finished__isnull=False).values('taken_by__id').distinct().count()
 
-    @property
-    def taken_by_n_people_per_teacher(self):
-        author = User.objects.get(id=self.author.id)
-        grupos_profe = User.objects.filter(profile__group_teacher=author)
-        for r in grupos_profe:
-            t = QuizRun.objects.filter(quiz=self).filter(date_finished__isnull=False).values('taken_by__id').distinct().count()
-            QuizRun.objects.filter(taken_by__id=r.id).filter(quiz=quiz_id).filter(
-                date_finished__isnull=False).order_by('-questions_right', '-date_finished').first()
+    def is_completed_by(self,group_id):
+        return QuizRun.objects.filter(quiz=self).filter(date_finished__isnull=False).filter(taken_by=group_id).exists()
 
-
-        return QuizRun.objects.filter(quiz=self).filter(date_finished__isnull=False).values('taken_by__id').distinct().count()
+    # @property
+    # def taken_by_n_people_per_teacher(self):
+    #     author = User.objects.get(id=self.author.id)
+    #     grupos_profe = User.objects.filter(profile__group_teacher=author)
+    #     for r in grupos_profe:
+    #         t = QuizRun.objects.filter(quiz=self).filter(date_finished__isnull=False).values('taken_by__id').distinct().count()
+    #         QuizRun.objects.filter(taken_by__id=r.id).filter(quiz=quiz_id).filter(
+    #             date_finished__isnull=False).order_by('-questions_right', '-date_finished').first()
+    #     return QuizRun.objects.filter(quiz=self).filter(date_finished__isnull=False).values('taken_by__id').distinct().count()
 
     @property
     def best_runs(self):
@@ -236,6 +237,16 @@ class Question(models.Model):
         n_total = QuizRunAnswers.objects.filter(question=self).filter(answered=True).count()
         return n_total
 
+    def total_number_of_answers_of_question_per_group(self, group_id):
+        n_total = QuizRunAnswers.objects.filter(question=self).filter(answered=True).filter(quizrun__taken_by=group_id).count()
+        return n_total
+
+    def total_number_of_answers_of_question_per_center(self, center_id):
+        center = EducationCenter.objects.get(pk=center_id)
+        groups_in_center = User.objects.filter(profile__center_string=center.name).filter(profile__is_group=True)
+        n_total = QuizRunAnswers.objects.filter(question=self).filter(answered=True).filter(quizrun__taken_by__in=groups_in_center).count()
+        return n_total
+
 
 class Answer(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='answers')
@@ -250,6 +261,32 @@ class Answer(models.Model):
     def how_many_times_answered(self):
         n_this = QuizRunAnswers.objects.filter(chosen_answer=self).filter(answered=True).count()
         return n_this
+
+    def how_many_times_answered_by_group(self,group_id):
+        n_this = QuizRunAnswers.objects.filter(chosen_answer=self).filter(quizrun__taken_by=group_id).filter(answered=True).count()
+        return n_this
+
+    def how_many_times_answered_by_center(self,center_id):
+        center = EducationCenter.objects.get(pk=center_id)
+        groups_in_center = User.objects.filter(profile__center_string=center.name).filter(profile__is_group=True)
+        n_this = QuizRunAnswers.objects.filter(chosen_answer=self).filter(quizrun__taken_by__in=groups_in_center).filter(answered=True).count()
+        return n_this
+
+    def answered_by_perc_group(self,group_id):
+        n_total = self.question.total_number_of_answers_of_question_per_group(group_id)
+        n_this = self.how_many_times_answered_by_group(group_id)
+        if n_total == 0:
+            return "0"
+        else:
+            return str(round((n_this/n_total)*100, 0))
+
+    def answered_by_perc_center(self, center_id):
+        n_total = self.question.total_number_of_answers_of_question_per_center(center_id)
+        n_this = self.how_many_times_answered_by_center(center_id)
+        if n_total == 0:
+            return "0"
+        else:
+            return str(round((n_this / n_total) * 100, 0))
 
     @property
     def answered_by_perc(self):

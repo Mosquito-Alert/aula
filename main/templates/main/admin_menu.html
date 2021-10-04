@@ -58,6 +58,15 @@
                 <a href="{% url 'upload_file_solutions' %}" class="btn btn-primary"><i class="fas fa-upload"></i></a>
             </div>
         </div>
+        <div class="card mb-4 box-shadow">
+            <div class="card-body">
+                <h5 class="card-title">{% trans 'Informes' %}</h5>
+                <img class="img_icons" src="{% static 'main/icons/noun_report_3907422.svg' %}">
+                <p class="card-text">{% trans 'Generar diversos tipus d&#39;informes sobre participació, dades avançades d&#39;enquestes, etc' %}.</p>
+                <!--<a href="{% url 'quiz_solutions' %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>-->
+                <a href="{% url 'reports' %}" class="btn btn-primary"><i class="fas fa-link"></i></a>
+            </div>
+        </div>
     </div>
 </div>
 

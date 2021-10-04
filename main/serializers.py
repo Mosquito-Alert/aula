@@ -178,6 +178,18 @@ class QuizComboSerializer(serializers.ModelSerializer):
         model = Quiz
         fields = ['id', 'name']
 
+class GroupComboSerializer(serializers.ModelSerializer):
+    public_name = serializers.SerializerMethodField('get_public_name')
+
+    class Meta:
+        model = User
+        fields = ['id','username','public_name']
+
+    def get_public_name(self,obj):
+        if obj.profile:
+            return obj.profile.group_public_name
+        else:
+            return ''
 
 class TeacherComboSerializer(serializers.ModelSerializer):
     class Meta:

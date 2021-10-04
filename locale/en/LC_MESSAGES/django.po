@@ -1006,7 +1006,7 @@ msgstr "times"
 
 #: main/templates/main/quiz_take_endsummary.html:27
 msgid "aquest és l&#39;intent"
-msgstr "this is the retry number"
+msgstr "this is the attempt number"
 
 #: main/templates/main/quiz_take_endsummary.html:29
 msgid "Era la primera vegada que feies aquesta prova"
@@ -1056,7 +1056,7 @@ msgstr "Repeat the test "
 #: main/templates/main/quiz_take_endsummary.html:71
 #: main/templates/main/quiz_take_endsummary.html:73
 msgid "Tornar a l&#39;inici"
-msgstr "Back to start"
+msgstr "Go back to start"
 
 #: main/templates/main/quiz_take_endsummary.html:68
 #: main/templates/main/quiz_take_endsummary.html:75

@@ -19,7 +19,8 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import operator
 from main.serializers import EducationCenterSerializer, TeacherSerializer, UserSerializer, AlumSerializer, \
     GroupSerializer, GroupSearchSerializer, TeacherComboSerializer, AlumSearchSerializer, QuizSerializer, \
-    QuestionSerializer, QuizSearchSerializer, QuizRunAnswerSerializer, QuizRunSerializer, QuizComboSerializer
+    QuestionSerializer, QuizSearchSerializer, QuizRunAnswerSerializer, QuizRunSerializer, QuizComboSerializer, \
+    GroupComboSerializer
 from rest_framework import status,viewsets, generics
 from django.db.models import Q
 from rest_framework.generics import GenericAPIView
@@ -722,7 +723,7 @@ def quiz_start(request, pk=None):
                 go_back_to = "group_menu"
                 return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
         if quiz.type == 2:
-            already_done = QuizRun.objects.filter(taken_by=this_user).filter(quiz=quiz).count() < this_user.profile.n_students_in_group
+            already_done = QuizRun.objects.filter(taken_by=this_user).filter(quiz=quiz).count() >= this_user.profile.n_students_in_group
             if already_done:
                 message = _("La enquesta s'ha repetit tants cops com membres té el grup, no es permeten més repeticions.")
                 go_back_to = "group_menu"
@@ -1465,16 +1466,30 @@ def alum_search(request):
         serializer = AlumSearchSerializer(queryset, many=True)
         return Response(serializer.data)
 
+
 @api_view(['GET'])
 def requirements_combo(request):
     if request.method == 'GET':
         q = request.query_params.get('author_id', -1)
-        if q == '-1':
+        if q == -1:
           # is admin
           queryset = Quiz.objects.filter(author__isnull=True).order_by('name')
         else:
           queryset = Quiz.objects.filter(author__id=q).order_by('name')
         serializer = QuizComboSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+
+@api_view(['GET'])
+def group_combo(request):
+    if request.method == 'GET':
+        q = request.query_params.get('center_id', -1)
+        if q == -1:
+            queryset = User.objects.filter(profile__is_group=True).order_by('profile__group_public_name')
+        else:
+            center = EducationCenter.objects.get(pk=q)
+            queryset = User.objects.filter(profile__center_string=center.name).order_by('profile__group_public_name')
+        serializer = GroupComboSerializer(queryset, many=True)
         return Response(serializer.data)
 
 
@@ -1486,7 +1501,7 @@ def tutor_combo(request):
             queryset = User.objects.filter(profile__is_teacher=True).filter(profile__teacher_belongs_to__id=q).order_by('username')
         else:
             queryset = User.objects.filter(profile__is_teacher=True).order_by('username')
-        serializer = TeacherComboSerializer(queryset, many=True)
+        serializer = GroupComboSerializer(queryset, many=True)
         return Response(serializer.data)
 
 
@@ -1918,3 +1933,39 @@ def test_results_detail_view(request, quiz_id=None, group_id=None):
     group = get_object_or_404(User, pk=group_id)
 
     return render(request, 'main/test_results_detail_view.html', {'quizruns': quizruns, 'answers_by_quizrun': answers_by_quizrun, 'quiz_info': quiz, 'group_info': group})
+
+@login_required
+def reports(request):
+    centers = EducationCenter.objects.filter(active=True).order_by('name')
+    polls = Quiz.objects.filter(type=2).order_by('name')
+    return render(request, 'main/reports.html', { "centers":centers, "polls":polls })
+
+
+@login_required
+def reports_poll_center_or_group(request, poll_id=None, center_id=None, group_id=None):
+    if group_id is None:
+        poll = get_object_or_404(Quiz, pk=poll_id)
+        center = get_object_or_404(EducationCenter, pk=center_id)
+        group = None
+        data = {}
+        for question in poll.sorted_questions_set:
+            for answer in question.sorted_answers_set:
+                data[str(question.id) + '_' + str(answer.id)] = {
+                    'n': answer.how_many_times_answered_by_center(center.id),
+                    'total': answer.question.total_number_of_answers_of_question_per_center(center.id),
+                    'perc': answer.answered_by_perc_center(center.id)}
+    else:
+        poll = get_object_or_404(Quiz, pk=poll_id)
+        center = get_object_or_404(EducationCenter, pk=center_id)
+        group = get_object_or_404(User, pk=group_id)
+        data = {}
+        if poll.is_completed_by(group_id):
+            for question in poll.sorted_questions_set:
+                for answer in question.sorted_answers_set:
+                    data[str(question.id) + '_' + str(answer.id)] = {
+                        'n': answer.how_many_times_answered_by_group(group.id),
+                        'total': answer.question.total_number_of_answers_of_question_per_group(group.id),
+                        'perc': answer.answered_by_perc_group(group.id)}
+
+
+    return render(request, 'main/reports/poll_center_or_group.html', {'quiz': poll, 'data': json.dumps(data),'len_data': len(data), 'group': group, 'center': center})

@@ -1,0 +1,111 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% load i18n %}
+{% block extra_css %}
+<link href="//cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css" rel="stylesheet">
+{% endblock %}
+{% block title %}{% trans 'Informes' %} - {% trans 'Resultats enquesta per centre o grup' %}{% endblock %}
+
+{% block main_jumbo %}<img class="img_icons" src="{% static 'main/icons/noun_report_3907422.svg' %}"> {% trans 'Resultats enquesta per centre o grup' %} - <strong>{{ quiz.name }}</strong>{% endblock %}
+{% block sub_jumbo %}
+    {% if group %}
+        {% trans 'Grup' %} - <strong> {{ group.profile.group_public_name }} </strong>
+    {% else %}
+        {% trans 'Center' %} - <strong> {{ center.name }} </strong>
+    {% endif %}
+{% endblock %}
+
+{% block main %}
+<div class="container">
+    {% if len_data > 0 %}
+        {% if quiz.html_header %}
+        <div class="container">
+            {{ quiz.html_header |safe }}
+        </div>
+        {% endif %}
+        {% for question in quiz.sorted_questions_set %}
+        <div id="question_{{ question.id }}" class="mb-3">
+            {% if question.doc_link %}
+                <div class="row">
+                    <div class="col-md-12">
+                        <div>
+                            <p class="ord_{{ question.question_order }}"><strong>{{ question.question_order }}.</strong> <i>{{ question.text }}</i> </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="ml-5">
+                            <p class="ord_{{ question.question_order }}"><a href="{{ question.doc_link }}" target="_blank">{{ question.doc_link }}</a></p>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="row">
+                    <div class="col-md-12">
+                        <div>
+                            {% if quiz.is_poll %}
+                            <p class="ord_{{ question.question_order }}"><strong>{{ question.question_order }}.</strong> <i>{{ question.text }}</i> </p>
+                            {% else %}
+                            <p class="ord_{{ question.question_order }}"><strong>{{ question.question_order }}.</strong> <i>{{ question.text }}</i> </p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                    {% if question.question_picture %}
+                        <div class="row">
+                            <div class="col-md-4">
+                                <img class="img-fluid" style="padding-left:20px; display: block; margin: auto; width: 300px;" src="/media{{ question.question_picture }}">
+                            </div>
+                            <div class="col-md-8">
+                                {% for answer in question.sorted_answers_set %}
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="ml-5">
+                                                <span>{{ answer.label }}) {{ answer.text }} (<span id="{{ question.id }}_{{ answer.id }}_howmany">how_many</span>/<span id="{{ question.id }}_{{ answer.id }}_total">total</span>)<div class="progress"><div id="{{ question.id }}_{{ answer.id }}_progress" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div></div> </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% else %}
+                        {% for answer in question.sorted_answers_set %}
+                            <div class="row">
+
+                                <div class="col-md-12">
+                                    <div class="ml-5">
+                                        <p>{{ answer.label }}) {{ answer.text }} (<span id="{{ question.id }}_{{ answer.id }}_howmany">how_many</span>/<span id="{{ question.id }}_{{ answer.id }}_total">total</span>)<div class="progress"><div id="{{ question.id }}_{{ answer.id }}_progress" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div></div> </p>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endif %}
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="row alert alert-success">
+            {% trans 'El grup no ha completat aquesta enquesta' %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+    {% get_current_language as LANGUAGE_CODE %}
+</script>
+<script src="{% static 'main/csrf_utils.js' %}"></script>
+<script src="{% static 'main/cookies.js' %}"></script>
+<script src="{% static 'main/javascript/poll_center_or_group.js' %}"></script>
+<script>
+    $('#languageSelector').change(function (){
+            $(this).closest('form').submit();
+        });
+        {% get_current_language as LANGUAGE_CODE %}
+        var currentLang = '{{ LANGUAGE_CODE }}';
+        $("#languageSelector option[value='" + currentLang + "']").attr("selected","selected");
+
+    var data = JSON.parse('{{ data | safe }}')
+</script>
+{% endblock %}

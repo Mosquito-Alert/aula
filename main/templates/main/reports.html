@@ -1,0 +1,61 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% load i18n %}
+{% block extra_css %}
+<link href="//cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css" rel="stylesheet">
+{% endblock %}
+{% block title %}{% trans 'Informes' %}{% endblock %}
+
+{% block main_jumbo %}<img class="img_icons" src="{% static 'main/icons/noun_report_3907422.svg' %}"> {% trans 'Informes' %}{% endblock %}
+{% block sub_jumbo %}{% endblock %}
+
+{% block main %}
+<div class="container">
+    <div class="form row alert alert-success">
+        <div class="col-md-12"><h4>{% trans 'Enquestes per grup o centre' %}:</h4></div>
+        <div class="col-md-3 form-group">
+            <label for="select_poll_center">{% trans 'Enquesta' %}*:</label>
+            <select class="form-control" id="select_poll">
+                <option value="">...</option>
+                {% for poll in polls %}
+                <option value="{{ poll.id }}">{{ poll.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-3 form-group">
+            <label for="select_poll_center">{% trans 'Tria un centre' %}*:</label>
+            <select class="form-control" id="select_poll_center">
+                <option value="">...</option>
+                {% for center in centers %}
+                <option value="{{ center.id }}">{{ center.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-3 form-group">
+            <label for="select_poll_group">{% trans 'Tria un grup' %}: <span id="loading_group" class="spinner-border spinner-border-sm" style="display:none;" role="status" aria-hidden="true"></span> </label>
+            <select class="form-control" id="select_poll_group"><option value="">...</option></select>
+        </div>
+        <div class="col-md-3 form-group">
+            <label>&nbsp;</label>
+            <button type="button" id="poll_group_class" class="form-control btn btn-primary">{% trans 'Generar informe' %} <i class="fas fa-bolt"></i></button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+    {% get_current_language as LANGUAGE_CODE %}
+</script>
+<script src="{% static 'main/csrf_utils.js' %}"></script>
+<script src="{% static 'main/cookies.js' %}"></script>
+<script src="{% static 'main/javascript/reports.js' %}"></script>
+<script>
+    $('#languageSelector').change(function (){
+            $(this).closest('form').submit();
+        });
+        {% get_current_language as LANGUAGE_CODE %}
+        var currentLang = '{{ LANGUAGE_CODE }}';
+        $("#languageSelector option[value='" + currentLang + "']").attr("selected","selected");
+
+</script>
+{% endblock %}
