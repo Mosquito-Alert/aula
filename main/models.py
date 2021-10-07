@@ -8,16 +8,31 @@ from datetime import datetime
 from django.utils.translation import gettext_lazy as _
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
+from slugify import slugify
+import datetime
+
 
 class EducationCenter(models.Model):
     name = models.CharField(max_length=500)
     location = models.PointField(srid=4326, null=True)
+    hashtag = models.CharField(max_length=20, null=True, blank=True)
     active = models.BooleanField(default=True)
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
+
+    def center_slug(self):
+        now = datetime.datetime.now()
+        year = str(now.year - 2000)
+        try:
+            slug = slugify(self.name)
+            bits = slug.split("-")
+            initials = [ b[0] for b in bits ]
+            return "#" + "".join(initials) + year
+        except:
+            return "#acme" + year
 
 
 QUIZ_TYPES = (

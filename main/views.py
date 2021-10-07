@@ -1374,7 +1374,7 @@ def quiz_datatable_list(request):
 @api_view(['GET'])
 def centers_datatable_list(request):
     if request.method == 'GET':
-        search_field_list = ('name',)
+        search_field_list = ('name','hashtag')
         queryset = EducationCenter.objects.all()
         response = generic_datatable_list_endpoint(request, search_field_list, queryset, EducationCenterSerializer)
         return response

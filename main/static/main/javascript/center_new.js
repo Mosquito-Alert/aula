@@ -62,5 +62,24 @@ $(document).ready(function() {
         console.log("eliminado");
     });
 
+    $("#id_name").blur(function(evt){
+        var hash = generate_hashtag();
+        $('#id_hashtag').val(hash);
+    });
+
+    var generate_hashtag = function(){
+        var nom = $('#id_name').val();
+        if(nom.trim() != ''){
+            var year = new Date().getFullYear() - 2000;
+            var bits = nom.split(' ');
+            var inicials = [];
+            for(var i = 0; i < bits.length; i++){
+                inicials.push(bits[i][0]);
+            }
+            return "#" + inicials.join("") + year;
+        }
+        return "";
+    }
+
 
 });

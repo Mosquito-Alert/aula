@@ -36,7 +36,6 @@
 {% endblock %}
 {% block extra_js %}
 <script src="//cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
-<script src="{% static 'main/javascript/datatable_language_options.js' %}"></script>
 <script>
     {% get_current_language as LANGUAGE_CODE %}
     var _group_list_url = '{% url 'group_datatable_list' %}';

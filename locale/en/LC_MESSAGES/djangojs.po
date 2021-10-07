@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-30 09:53+0000\n"
+"POT-Creation-Date: 2021-10-07 09:19+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -101,28 +101,32 @@ msgstr "Error updating center"
 msgid "Inactivant centre..."
 msgstr "Deactivating center..."
 
-#: main/static/main/javascript/center_list.js:106
+#: main/static/main/javascript/center_list.js:107
 msgid "Nom"
 msgstr "Name"
 
-#: main/static/main/javascript/center_list.js:120
+#: main/static/main/javascript/center_list.js:111
+msgid "Hashtag"
+msgstr "Hashtag"
+
+#: main/static/main/javascript/center_list.js:125
 msgid "Data creació"
 msgstr "Creation date"
 
-#: main/static/main/javascript/center_list.js:130
+#: main/static/main/javascript/center_list.js:135
 msgid "Data modificació"
 msgstr "Modification date"
 
-#: main/static/main/javascript/center_list.js:140
+#: main/static/main/javascript/center_list.js:145
 msgid "Centre actiu?"
 msgstr "Is active?"
 
-#: main/static/main/javascript/center_list.js:158
+#: main/static/main/javascript/center_list.js:163
 msgid ""
 "El centre està actiu i es marcarà com a inactiu. Segur que vols continuar?"
 msgstr "Center is active and will be marked as inactive. Continue?"
 
-#: main/static/main/javascript/center_list.js:160
+#: main/static/main/javascript/center_list.js:165
 msgid ""
 "El centre està inactiu i es marcarà com a actiu. Segur que vols continuar?"
 msgstr "Center is inactive and will be marked as active. Continue?"
@@ -408,6 +412,10 @@ msgstr "Are you sure you want to delete the data from this attempt?"
 #: main/static/main/javascript/quizrun_group_list.js:32
 msgid "Eliminant dades d'intent..."
 msgstr "Removing attempt data..."
+
+#: main/static/main/javascript/reports.js:35
+msgid "Error recuperant llista de grups per centre"
+msgstr "Error recovering group list by center"
 
 #: main/static/main/javascript/teacher_list.js:16
 msgid "Professor desactivat!"

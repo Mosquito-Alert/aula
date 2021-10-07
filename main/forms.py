@@ -70,10 +70,11 @@ class QuizAdminForm(ModelForm):
 
 class EducationCenterForm(ModelForm):
     name = forms.CharField(label=_("Nom"), widget=forms.TextInput(attrs={'class': 'form-control'}), required=True)
+    hashtag = forms.CharField(label=_("Hashtag"), widget=forms.TextInput(attrs={'class': 'form-control'}), required=False)
     location = forms.CharField(widget=forms.HiddenInput(), required=False)
     class Meta:
         model = EducationCenter
-        fields = ['name']
+        fields = ['name','hashtag']
 
 
 class SimplifiedGroupForm(ModelForm):

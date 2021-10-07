@@ -74,6 +74,7 @@ var table = $('#center_list').DataTable( {
     },
     'columns': [
         { 'data': 'name' }
+        ,{ 'data': 'hashtag' }
         ,{ 'data': 'pos_x' }
         ,{ 'data': 'pos_y' }
         ,{ 'data': 'created_date' }
@@ -82,7 +83,7 @@ var table = $('#center_list').DataTable( {
     ],
     'columnDefs': [
         {
-            'targets': 6,
+            'targets': 7,
             'data': 'active',
             'sortable': false,
             'render': function(value){
@@ -90,7 +91,7 @@ var table = $('#center_list').DataTable( {
             }
         },
         {
-            'targets': 7,
+            'targets': 8,
             'data': 'active',
             'sortable': false,
             'render': function(value){
@@ -107,16 +108,20 @@ var table = $('#center_list').DataTable( {
         },
         {
             'targets':1,
+            'title': gettext('Hashtag')
+        },
+        {
+            'targets':2,
             'title': 'X',
             'sortable': false
         },
         {
-            'targets':2,
+            'targets':3,
             'title': 'Y',
             'sortable': false
         },
         {
-            'targets':3,
+            'targets':4,
             'title': gettext('Data creació'),
             'sortable': true,
             "render": function(value){
@@ -126,7 +131,7 @@ var table = $('#center_list').DataTable( {
             }
         },
         {
-            'targets':4,
+            'targets':5,
             'title': gettext('Data modificació'),
             'sortable': true,
             "render": function(value){
@@ -136,7 +141,7 @@ var table = $('#center_list').DataTable( {
             }
         },
         {
-            'targets':5,
+            'targets':6,
             'title': gettext('Centre actiu?'),
             'render': function(value){
                 if(value == true){
