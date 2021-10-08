@@ -1,0 +1,73 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% load i18n %}
+{% block extra_css %}
+<style>
+    .flex_wrapper{
+        display: flex;
+        flex-wrap: nowrap;
+    }
+    .quiz_box{
+        margin: 5px;
+        font-size: 10px;
+    }
+    .state_icon{
+        text-align: center;
+    }
+</style>
+{% endblock %}
+{% block title %}{% trans 'Informes' %} - {% trans 'Progrés de proves per centre' %}{% endblock %}
+
+{% block main_jumbo %}<img class="img_icons" src="{% static 'main/icons/noun_report_3907422.svg' %}"> {% trans 'Progrés de proves per centre' %}{% endblock %}
+{% block sub_jumbo %}
+    {% trans 'Center' %} - <strong> {{ center.name }} </strong>
+{% endblock %}
+
+{% block main %}
+<div class="container">
+    <div class="row">
+    <p>{% trans 'Com es llegeix aquest informe' %}?</p>
+    </div>
+    <p class="alert-success"><i class="fas fa-check"></i> {% trans 'El grup ha completat la prova' %}</p>
+    <p class="alert-warning"><i class="fas fa-hourglass"></i> {% trans 'El grup ha respost algunes preguntes, però no ha acabat' %}</p>
+    <p class="alert-danger"><i class="fas fa-times"></i> {% trans 'El grup no ha començat encara a fer la prova' %}</p>
+    <hr>
+</div>
+<div class="container">
+    {% for group in center.center_groups %}
+    <div class="row">
+        <i>{{ group.profile.group_public_name }}</i>
+    </div>
+    <div class="row">
+        <div class="flex_wrapper">
+            {% for quiz in group.profile.available_tests %}
+            <div class="card mb-1 box-shadow quiz_box" id="{{ group.id }}_{{ quiz.id }}_color">
+                <div class="card-body">
+                    <p><strong>{{ quiz.name }}</strong></p>
+                    <p class="state_icon" id="{{ group.id }}_{{ quiz.id }}_state"></p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <hr>
+    {% endfor %}
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+    {% get_current_language as LANGUAGE_CODE %}
+</script>
+<script src="{% static 'main/csrf_utils.js' %}"></script>
+<script src="{% static 'main/cookies.js' %}"></script>
+<script src="{% static 'main/javascript/progress_center.js' %}"></script>
+<script>
+    $('#languageSelector').change(function (){
+            $(this).closest('form').submit();
+        });
+    {% get_current_language as LANGUAGE_CODE %}
+    var currentLang = '{{ LANGUAGE_CODE }}';
+    $("#languageSelector option[value='" + currentLang + "']").attr("selected","selected");
+    var data = JSON.parse('{{ data | safe }}')
+</script>
+{% endblock %}

@@ -9,6 +9,7 @@ from django.utils.translation import gettext_lazy as _
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
 from slugify import slugify
+from django.db.models import Q
 import datetime
 
 
@@ -33,6 +34,9 @@ class EducationCenter(models.Model):
             return "#" + "".join(initials) + year
         except:
             return "#acme" + year
+
+    def center_groups(self):
+        return User.objects.filter(profile__center_string=self.name).filter(profile__is_group=True).order_by('profile__group_public_name')
 
 
 QUIZ_TYPES = (
@@ -374,6 +378,13 @@ class Profile(models.Model):
             return User.objects.filter(profile__is_group=True).filter(profile__group_teacher=self.user).count()
         else:
             return 0
+
+    @property
+    def available_tests(self):
+        if self.is_teacher:
+            return None
+        elif self.is_group:
+            return Quiz.objects.filter(Q(author=self.group_teacher) | Q(author__isnull=True)).filter(published=True).exclude(type=4).order_by('name')
 
 
 def get_string_from_groups(profile):

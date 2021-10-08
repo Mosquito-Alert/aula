@@ -2,7 +2,6 @@
 {% load static %}
 {% load i18n %}
 {% block extra_css %}
-<link href="//cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css" rel="stylesheet">
 {% endblock %}
 {% block title %}{% trans 'Informes' %} - {% trans 'Resultats enquesta per centre o grup' %}{% endblock %}
 
@@ -85,8 +84,12 @@
             </div>
         {% endfor %}
     {% else %}
-        <div class="row alert alert-success">
-            {% trans 'El grup no ha completat aquesta enquesta' %}
+        <div class="row alert alert-warning">
+            {%if group %}
+                {% trans 'El grup no ha completat aquesta enquesta' %}
+            {%else%}
+                {% trans 'Ningú del centre ha completat aquesta enquesta' %}
+            {%endif%}
         </div>
     {% endif %}
 </div>

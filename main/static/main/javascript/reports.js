@@ -9,6 +9,11 @@ $(document).ready( function () {
         window.open(url, '_blank').focus();
     }
 
+    var generate_progress_center = function(center_id){
+        var url = '/reports/center_progress/' + center_id + '/';
+        window.open(url, '_blank').focus();
+    }
+
     var load_groups_by_center = function(center_id){
         $('#select_poll_group').attr("disabled",true);
         $('#loading_group').show();
@@ -50,5 +55,10 @@ $(document).ready( function () {
         var center_id = $('#select_poll_center').val();
         var group_id = $('#select_poll_group').val();
         generate_query_poll_center_or_group(poll_id,center_id,group_id);
+    } );
+
+    $('#progress_center').click( function(){
+        var center_id = $('#select_progress_center').val();
+        generate_progress_center(center_id);
     } );
 });

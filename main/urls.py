@@ -67,6 +67,7 @@ urlpatterns = [
     path('reports/', views.reports, name='reports'),
     path('reports/poll_center_or_group/<int:poll_id>/<int:center_id>/<int:group_id>/', views.reports_poll_center_or_group, name='reports_poll_center_or_group'),
     path('reports/poll_center_or_group/<int:poll_id>/<int:center_id>/', views.reports_poll_center_or_group, name='reports_poll_center_or_group'),
+    path('reports/center_progress/<int:center_id>/', views.center_progress, name='center_progress'),
     path('alum/new/', views.alum_new, name='alum_new'),
     path('alum/list/', views.alum_list, name='alum_list'),
     path('alum/update/<int:pk>/', views.alum_update, name='alum_update'),

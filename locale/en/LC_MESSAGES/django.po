@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-07 09:18+0000\n"
+"POT-Creation-Date: 2021-10-08 09:17+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -89,7 +89,7 @@ msgstr "Username"
 msgid "Professor"
 msgstr "Teacher"
 
-#: main/forms.py:104 main/templates/main/reports/poll_center_or_group.html:12
+#: main/forms.py:104 main/templates/main/reports/poll_center_or_group.html:11
 #: main/templates/main/test_result.html:43
 #: main/templates/main/test_results_detail_view.html:10
 #: main/templates/main/upload_file_solutions.html:23
@@ -144,27 +144,27 @@ msgstr ""
 msgid "Enllaç a document extern"
 msgstr "Link to an external document"
 
-#: main/models.py:39
+#: main/models.py:43
 msgid "Test"
 msgstr "Test"
 
-#: main/models.py:40
+#: main/models.py:44
 msgid "Material"
 msgstr "Material"
 
-#: main/models.py:41 main/templates/main/reports.html:17
+#: main/models.py:45 main/templates/main/reports.html:17
 msgid "Enquesta"
 msgstr "Poll"
 
-#: main/models.py:42
+#: main/models.py:46
 msgid "Pujar fitxer"
 msgstr "Upload file"
 
-#: main/models.py:43
+#: main/models.py:47
 msgid "Enquesta professorat"
 msgstr "Teacher poll"
 
-#: main/models.py:68
+#: main/models.py:72
 msgid "Tipus invàlid"
 msgstr "Invalid type"
 
@@ -228,17 +228,16 @@ msgstr "See the progress of students and groups"
 
 #: main/templates/main/admin_menu.html:63 main/templates/main/reports.html:7
 #: main/templates/main/reports.html:9
-#: main/templates/main/reports/poll_center_or_group.html:7
-#, fuzzy
-#| msgid "sInfo"
+#: main/templates/main/reports/poll_center_or_group.html:6
+#: main/templates/main/reports/progress_center.html:19
 msgid "Informes"
-msgstr "Showing _START_ to _END_ of _TOTAL_ records"
+msgstr "Reports"
 
 #: main/templates/main/admin_menu.html:65
 msgid ""
 "Generar diversos tipus d&#39;informes sobre participació, dades avançades "
 "d&#39;enquestes, etc"
-msgstr ""
+msgstr "Generate several reports about participation, advanced poll data, etc."
 
 #: main/templates/main/alum_edit.html:7
 msgid "Editar alumne"
@@ -1152,24 +1151,29 @@ msgstr "Delete attempt"
 msgid "Enquestes per grup o centre"
 msgstr "Polls by group or center"
 
-#: main/templates/main/reports.html:26
+#: main/templates/main/reports.html:26 main/templates/main/reports.html:46
 msgid "Tria un centre"
 msgstr "Choose center"
 
 #: main/templates/main/reports.html:35
 msgid "Tria un grup"
-msgstr "Editing group"
+msgstr "Choose group"
 
-#: main/templates/main/reports.html:40
+#: main/templates/main/reports.html:40 main/templates/main/reports.html:56
 msgid "Generar informe"
 msgstr "Generate report"
 
-#: main/templates/main/reports/poll_center_or_group.html:7
-#: main/templates/main/reports/poll_center_or_group.html:9
+#: main/templates/main/reports.html:44
+msgid "Progrés de proves"
+msgstr "Test progress"
+
+#: main/templates/main/reports/poll_center_or_group.html:6
+#: main/templates/main/reports/poll_center_or_group.html:8
 msgid "Resultats enquesta per centre o grup"
 msgstr "Poll results by center or group"
 
-#: main/templates/main/reports/poll_center_or_group.html:14
+#: main/templates/main/reports/poll_center_or_group.html:13
+#: main/templates/main/reports/progress_center.html:23
 #: main/templates/main/test_result.html:42
 #: main/templates/main/test_results_detail_view.html:11
 msgid "Center"
@@ -1178,6 +1182,31 @@ msgstr "Center"
 #: main/templates/main/reports/poll_center_or_group.html:89
 msgid "El grup no ha completat aquesta enquesta"
 msgstr "The group has not yet completed this poll"
+
+#: main/templates/main/reports/poll_center_or_group.html:91
+msgid "Ningú del centre ha completat aquesta enquesta"
+msgstr "No one in the center has yet completed this poll"
+
+#: main/templates/main/reports/progress_center.html:19
+#: main/templates/main/reports/progress_center.html:21
+msgid "Progrés de proves per centre"
+msgstr "Test progress by center"
+
+#: main/templates/main/reports/progress_center.html:29
+msgid "Com es llegeix aquest informe"
+msgstr "How to read this report"
+
+#: main/templates/main/reports/progress_center.html:31
+msgid "El grup ha completat la prova"
+msgstr "The group has fully completed this test"
+
+#: main/templates/main/reports/progress_center.html:32
+msgid "El grup ha respost algunes preguntes, però no ha acabat"
+msgstr "The group answered some questions, but still has not finished"
+
+#: main/templates/main/reports/progress_center.html:33
+msgid "El grup no ha començat encara a fer la prova"
+msgstr "The group has not yet started the test"
 
 #: main/templates/main/teacher_edit.html:15
 msgid "Editar mestre"

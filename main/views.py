@@ -1940,6 +1940,24 @@ def reports(request):
     polls = Quiz.objects.filter(type=2).order_by('name')
     return render(request, 'main/reports.html', { "centers":centers, "polls":polls })
 
+@login_required
+def center_progress(request, center_id=None):
+    center = get_object_or_404(EducationCenter, pk=center_id)
+    center_groups = center.center_groups()
+    data = {}
+    for group in center_groups:
+        quizzes_doable_by_group = group.profile.available_tests
+        for quiz in quizzes_doable_by_group:
+            state = 'pending'
+            quiz_in_progress = QuizRun.objects.filter(taken_by=group).filter(date_finished__isnull=True).filter(quiz=quiz).exists()
+            quiz_done = QuizRun.objects.filter(taken_by=group).filter(date_finished__isnull=False).filter(quiz=quiz).exists()
+            if quiz_in_progress:
+                state = 'progress'
+            elif quiz_done:
+                state = 'done'
+            data[ str(group.id) + '_' + str(quiz.id) ] = { 'state': state }
+    return render(request, 'main/reports/progress_center.html', {'center': center, 'data': json.dumps(data)})
+
 
 @login_required
 def reports_poll_center_or_group(request, poll_id=None, center_id=None, group_id=None):
@@ -1948,12 +1966,15 @@ def reports_poll_center_or_group(request, poll_id=None, center_id=None, group_id
         center = get_object_or_404(EducationCenter, pk=center_id)
         group = None
         data = {}
-        for question in poll.sorted_questions_set:
-            for answer in question.sorted_answers_set:
-                data[str(question.id) + '_' + str(answer.id)] = {
-                    'n': answer.how_many_times_answered_by_center(center.id),
-                    'total': answer.question.total_number_of_answers_of_question_per_center(center.id),
-                    'perc': answer.answered_by_perc_center(center.id)}
+        groups_in_center = User.objects.filter(profile__is_group=True).filter(profile__center_string=center.name).values('id').distinct()
+        quizruns_in_center_completed = QuizRun.objects.filter(quiz=poll).filter(taken_by_id__in=groups_in_center).exclude(date_finished__isnull=True).count()
+        if quizruns_in_center_completed > 0:
+            for question in poll.sorted_questions_set:
+                for answer in question.sorted_answers_set:
+                    data[str(question.id) + '_' + str(answer.id)] = {
+                        'n': answer.how_many_times_answered_by_center(center.id),
+                        'total': answer.question.total_number_of_answers_of_question_per_center(center.id),
+                        'perc': answer.answered_by_perc_center(center.id)}
     else:
         poll = get_object_or_404(Quiz, pk=poll_id)
         center = get_object_or_404(EducationCenter, pk=center_id)
