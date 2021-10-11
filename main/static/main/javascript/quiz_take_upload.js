@@ -14,8 +14,10 @@ $(document).ready( function () {
             if (goUpload == true) {
                 data.submit();
             }
+            $('#spinner').hide();
         },
         done: function (e, data) {
+          $('#spinner').show();
           if (data.result.is_valid) {
             $("#gallery tbody").html(
             "<tr id='tr_" + data.result.id + "'>" +
@@ -33,6 +35,7 @@ $(document).ready( function () {
           }else{
             alert(data.result.error_imagen);
           }
+          $('#spinner').hide();
         }
     });
 
@@ -61,9 +64,13 @@ $(document).ready( function () {
         $("#fileupload").click();
     });
 
-    $("#done-button").click(function () {
+    var complete_upload = function(){
         var file_path = $('#file_name').val();
         complete(quizrun_id,file_path);
+    }
+
+    $("#done-button").click(function () {
+        complete_upload();
     });
 
     $(document).on('click', '.deleteFile', function() {

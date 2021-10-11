@@ -1061,7 +1061,7 @@ msgstr "You can see the poll results in the main Menu"
 
 #: main/templates/main/quiz_take_endsummary.html:56
 msgid "Has pujat el fitxer!"
-msgstr "You uploaded the file!"
+msgstr "You successfully uploaded the file!"
 
 #: main/templates/main/quiz_take_endsummary.html:63
 msgid "Ara pots"

@@ -1,12 +1,16 @@
 $(document).ready( function () {
 
     var generate_query_poll_center_or_group = function(poll_id, center_id, group_id){
-        if(group_id == null || group_id == ''){
-            var url = '/reports/poll_center_or_group/' + poll_id + '/' + center_id + '/';
+        if( (center_id == null || center_id == '') && (group_id == null || group_id == '') ){
+            toastr.error(gettext('Cal triar com a mínim un centre, i opcionalment un grup dins del centre'));
         }else{
-            var url = '/reports/poll_center_or_group/' + poll_id + '/' + center_id + '/' + group_id + '/';
+            if(group_id == null || group_id == ''){
+                var url = '/reports/poll_center_or_group/' + poll_id + '/' + center_id + '/';
+            }else{
+                var url = '/reports/poll_center_or_group/' + poll_id + '/' + center_id + '/' + group_id + '/';
+            }
+            window.open(url, '_blank').focus();
         }
-        window.open(url, '_blank').focus();
     }
 
     var generate_progress_center = function(center_id){
@@ -15,33 +19,38 @@ $(document).ready( function () {
     }
 
     var load_groups_by_center = function(center_id){
-        $('#select_poll_group').attr("disabled",true);
-        $('#loading_group').show();
-        $.ajax({
-            url: '/api/group_combo/',
-            data: { 'center_id': parseInt(center_id) },
-            method: 'GET',
-            beforeSend: function(xhr, settings) {
-                if (!csrfSafeMethod(settings.type)) {
-                    var csrftoken = getCookie('csrftoken');
-                    xhr.setRequestHeader('X-CSRFToken', csrftoken);
+        if (center_id == '' || center_id == null){
+            var options = ['<option value="">...</option>'];
+            $('#select_poll_group').html(options.join());
+        }else{
+            $('#select_poll_group').attr("disabled",true);
+            $('#loading_group').show();
+            $.ajax({
+                url: '/api/group_combo/',
+                data: { 'center_id': parseInt(center_id) },
+                method: 'GET',
+                beforeSend: function(xhr, settings) {
+                    if (!csrfSafeMethod(settings.type)) {
+                        var csrftoken = getCookie('csrftoken');
+                        xhr.setRequestHeader('X-CSRFToken', csrftoken);
+                    }
+                },
+                success: function( data, textStatus, jqXHR ) {
+                    $('#select_poll_group').attr("disabled",false);
+                    $('#loading_group').hide();
+                    var options = ['<option value="">...</option>'];
+                    for(var i = 0; i < data.length; i++){
+                        options.push('<option value="' + data[i].id + '">' + data[i].public_name + '</option>')
+                    }
+                    $('#select_poll_group').html(options.join());
+                },
+                error: function(jqXHR, textStatus, errorThrown){
+                    toastr.error(gettext('Error recuperant llista de grups per centre'));
+                    $('#select_poll_group').attr("disabled",false);
+                    $('#loading_group').hide();
                 }
-            },
-            success: function( data, textStatus, jqXHR ) {
-                $('#select_poll_group').attr("disabled",false);
-                $('#loading_group').hide();
-                var options = ['<option value="">...</option>'];
-                for(var i = 0; i < data.length; i++){
-                    options.push('<option value="' + data[i].id + '">' + data[i].public_name + '</option>')
-                }
-                $('#select_poll_group').html(options.join());
-            },
-            error: function(jqXHR, textStatus, errorThrown){
-                toastr.error(gettext('Error recuperant llista de grups per centre'));
-                $('#select_poll_group').attr("disabled",false);
-                $('#loading_group').hide();
-            }
-        });
+            });
+        }
     };
 
     $("#select_poll_center").change(function () {

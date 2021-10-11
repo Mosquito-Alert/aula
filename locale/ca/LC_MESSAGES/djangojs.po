@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-07 09:19+0000\n"
+"POT-Creation-Date: 2021-10-11 07:46+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -377,19 +377,19 @@ msgstr ""
 msgid "Només es permeten fitxers zip"
 msgstr ""
 
-#: main/static/main/javascript/quiz_take_upload.js:24
+#: main/static/main/javascript/quiz_take_upload.js:26
 msgid "Fitxer pujat amb èxit!"
 msgstr ""
 
-#: main/static/main/javascript/quiz_take_upload.js:51
+#: main/static/main/javascript/quiz_take_upload.js:54
 msgid "Prova finalitzada!"
 msgstr ""
 
-#: main/static/main/javascript/quiz_take_upload.js:55
+#: main/static/main/javascript/quiz_take_upload.js:58
 msgid "Error completant prova"
 msgstr ""
 
-#: main/static/main/javascript/quiz_take_upload.js:70
+#: main/static/main/javascript/quiz_take_upload.js:77
 msgid "Eliminar el fitxer?"
 msgstr ""
 
@@ -409,7 +409,11 @@ msgstr ""
 msgid "Eliminant dades d'intent..."
 msgstr ""
 
-#: main/static/main/javascript/reports.js:35
+#: main/static/main/javascript/reports.js:5
+msgid "Cal triar com a mínim un centre, i opcionalment un grup dins del centre"
+msgstr ""
+
+#: main/static/main/javascript/reports.js:48
 msgid "Error recuperant llista de grups per centre"
 msgstr ""
 
