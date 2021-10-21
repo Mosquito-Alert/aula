@@ -188,8 +188,7 @@ msgstr "Centers"
 #: main/templates/main/admin_menu.html:17
 msgid "Permet entrar els centres en què els professors imparteixen classe"
 msgstr ""
-"Allows the user to specify the education center in which the professors "
-"impart classes"
+"Education centers"
 
 #: main/templates/main/admin_menu.html:24
 msgid "Professors"
@@ -197,7 +196,7 @@ msgstr "Teachers"
 
 #: main/templates/main/admin_menu.html:26
 msgid "Permet crear un usuari per a un professor."
-msgstr "Allows the creation of a professor user."
+msgstr "Professor users."
 
 #: main/templates/main/admin_menu.html:33
 #: main/templates/main/teacher_menu.html:15
@@ -206,12 +205,12 @@ msgstr "Student groups"
 
 #: main/templates/main/admin_menu.html:35
 msgid "Permet crear un grup a partir de varis alumnes"
-msgstr "Allows the creation of a group from several students"
+msgstr "Student groups"
 
 #: main/templates/main/admin_menu.html:44
 #: main/templates/main/quiz_assign_admin.html:54
 msgid "Proves"
-msgstr "Tests"
+msgstr "Available tests"
 
 #: main/templates/main/admin_menu.html:46
 msgid "Crea una prova."

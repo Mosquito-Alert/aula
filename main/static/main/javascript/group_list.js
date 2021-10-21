@@ -96,7 +96,11 @@ $(document).ready( function () {
                 'data': 'is_active',
                 'sortable': false,
                 'render': function(value){
-                    return '<button title="' + gettext('Desactivar usuari') + '" class="delete_button btn btn-danger"><i class="fas fa-backspace"></i></button>';
+                    if(admin_edit){
+                        return '<button title="' + gettext('Desactivar usuari') + '" class="delete_button btn btn-danger"><i class="fas fa-backspace"></i></button>';
+                    }else{
+                        return '';
+                    }
                 }
             },
             {
@@ -104,7 +108,11 @@ $(document).ready( function () {
                 'data': 'is_active',
                 'sortable': false,
                 'render': function(value){
-                    return '<button title="' + gettext('Editar') + '" class="edit_button btn btn-info"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>';
+                    if(admin_edit){
+                        return '<button title="' + gettext('Editar') + '" class="edit_button btn btn-info"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>';
+                    }else{
+                        return '';
+                    }
                 }
             },
             {

@@ -101,14 +101,22 @@ $(document).ready( function () {
                 'targets': 7,
                 'sortable': false,
                 'render': function(value){
-                    return '<button title="' + gettext('Editar') + '" class="edit_button btn btn-info"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>';
+                    if(admin_edit){
+                        return '<button title="' + gettext('Editar') + '" class="edit_button btn btn-info"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>';
+                    }else{
+                        return '<button title="' + gettext('View') + '" class="detail_button btn btn-info"><i class="far fa-eye" aria-hidden="true"></i></button>';
+                    }
                 }
             },
             {
                 'targets': 8,
                 'sortable': false,
                 'render': function(value){
-                    return '<button title="' + gettext('Eliminar prova') + '" class="delete_button btn btn-danger"><i class="fas fa-backspace"></i></button>';
+                    if(admin_edit){
+                        return '<button title="' + gettext('Eliminar prova') + '" class="delete_button btn btn-danger"><i class="fas fa-backspace"></i></button>';
+                    }else{
+                        return '';
+                    }
                 }
             },
         ]
@@ -166,6 +174,14 @@ $(document).ready( function () {
         }else{
             window.location.href = _quiz_update_url + id + '/';
         }
+    });
+
+    $('#quiz_list tbody').on('click', 'td button.detail_button', function () {
+        var tr = $(this).closest('tr');
+        var row = table.row( tr );
+        var id = row.data().id
+        var published = row.data().published;
+        window.open(_quiz_browse_url + id, '_blank').focus();
     });
 
     $('#quiz_list tbody').on('click', 'td button.delete_button', function () {

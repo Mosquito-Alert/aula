@@ -87,7 +87,11 @@ var table = $('#center_list').DataTable( {
             'data': 'active',
             'sortable': false,
             'render': function(value){
-                return '<button class="delete_button btn btn-danger"><i class="fas fa-backspace"></i></button>';
+                if(admin_edit){
+                    return '<button class="delete_button btn btn-danger"><i class="fas fa-backspace"></i></button>';
+                }else{
+                    return '';
+                }
             }
         },
         {
@@ -95,10 +99,14 @@ var table = $('#center_list').DataTable( {
             'data': 'active',
             'sortable': false,
             'render': function(value){
-                if(value==true){
-                    return '<button class="edit_button btn btn-info"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>';
+                if(admin_edit){
+                    if(value==true){
+                        return '<button class="edit_button btn btn-info"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>';
+                    }else{
+                        return '<button class="edit_button btn btn-info disabled"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>';
+                    }
                 }else{
-                    return '<button class="edit_button btn btn-info disabled"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>';
+                    return '';
                 }
             }
         },

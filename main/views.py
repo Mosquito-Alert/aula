@@ -412,6 +412,8 @@ def quiz_browse(request, quiz_id=None):
         message = _("No existeix aquesta prova.")
         go_back_to = "group_menu"
         return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
+    if this_user.is_superuser:
+        return render(request, 'main/quiz_browse.html', {'quiz': quiz})
     if not QuizRun.objects.filter(quiz=quiz).exists():
         message = _("No tens assignada aquesta prova, de manera que no la pots visualitzar.")
         go_back_to = "group_menu"

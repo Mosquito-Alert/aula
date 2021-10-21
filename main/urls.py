@@ -21,6 +21,7 @@ urlpatterns = [
     #path('alum_menu', views.alum_menu, name='alum_menu'),
     path('group_menu', views.group_menu, name='group_menu'),
     path('quiz/browse/<int:quiz_id>/', views.quiz_browse, name='quiz_browse'),
+    path('quiz/browse/', views.quiz_browse, name='quiz_browse_no_id'),
     path('quiz/poll_result/<int:quiz_id>/', views.poll_result, name='poll_result'),
     path('quiz/new/', views.quiz_new, name='quiz_new'),
     path('quiz/list/', views.quiz_list, name='quiz_list'),

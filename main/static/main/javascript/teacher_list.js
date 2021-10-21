@@ -83,7 +83,11 @@ var table = $('#teacher_list').DataTable( {
             'data': 'is_active',
             'sortable': false,
             'render': function(value){
-                return '<button title="' + gettext('Desactivar usuari') + '" class="delete_button btn btn-danger"><i class="fas fa-backspace"></i></button>';
+                if(admin_edit){
+                    return '<button title="' + gettext('Desactivar usuari') + '" class="delete_button btn btn-danger"><i class="fas fa-backspace"></i></button>';
+                }else{
+                    return '';
+                }
             }
         },
         {
@@ -91,14 +95,24 @@ var table = $('#teacher_list').DataTable( {
             'data': 'is_active',
             'sortable': false,
             'render': function(value){
-                return '<button title="' + gettext('Editar') + '" class="edit_button btn btn-info"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>';
+                if(admin_edit){
+                    return '<button title="' + gettext('Editar') + '" class="edit_button btn btn-info"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>';
+                }else{
+                    return '';
+                }
             }
         },
         {
             'targets': 5,
             'data': null,
             'sortable': false,
-            'defaultContent': '<button title="' + gettext('Canviar password') + '" class="chgpsswd_button btn btn-danger"><i class="fa fa-asterisk"></i></button>'
+            'render': function(value){
+                if(admin_edit){
+                    return '<button title="' + gettext('Canviar password') + '" class="chgpsswd_button btn btn-danger"><i class="fa fa-asterisk"></i></button>';
+                }else{
+                    return '';
+                }
+            }
         },
         {
             'targets':0,
