@@ -71,6 +71,7 @@ $(document).ready(function() {
                 editableLayers.addLayer(l);
             }
         );
+        map.setView(geoJSONLayer.getBounds().getCenter(), 8);
     }
 
     $("#id_name").blur(function(evt){
