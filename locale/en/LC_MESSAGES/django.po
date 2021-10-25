@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-08 09:17+0000\n"
+"POT-Creation-Date: 2021-10-25 07:50+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -90,7 +90,7 @@ msgid "Professor"
 msgstr "Teacher"
 
 #: main/forms.py:104 main/templates/main/reports/poll_center_or_group.html:11
-#: main/templates/main/test_result.html:43
+#: main/templates/main/test_result.html:45
 #: main/templates/main/test_results_detail_view.html:10
 #: main/templates/main/upload_file_solutions.html:23
 msgid "Grup"
@@ -152,7 +152,7 @@ msgstr "Test"
 msgid "Material"
 msgstr "Material"
 
-#: main/models.py:45 main/templates/main/reports.html:17
+#: main/models.py:45 main/templates/main/reports.html:18
 msgid "Enquesta"
 msgstr "Poll"
 
@@ -187,8 +187,7 @@ msgstr "Centers"
 
 #: main/templates/main/admin_menu.html:17
 msgid "Permet entrar els centres en què els professors imparteixen classe"
-msgstr ""
-"Education centers"
+msgstr "Education centers"
 
 #: main/templates/main/admin_menu.html:24
 msgid "Professors"
@@ -229,10 +228,12 @@ msgstr "See the progress of students and groups"
 #: main/templates/main/reports.html:9
 #: main/templates/main/reports/poll_center_or_group.html:6
 #: main/templates/main/reports/progress_center.html:19
+#: main/templates/main/teacher_menu.html:43
 msgid "Informes"
 msgstr "Reports"
 
 #: main/templates/main/admin_menu.html:65
+#: main/templates/main/teacher_menu.html:45
 msgid ""
 "Generar diversos tipus d&#39;informes sobre participació, dades avançades "
 "d&#39;enquestes, etc"
@@ -507,9 +508,9 @@ msgstr "List/Edit/Delete centers"
 msgid "Llista de centres"
 msgstr "List centers"
 
-#: main/templates/main/center_list.html:27
-#: main/templates/main/group_list.html:31 main/templates/main/quiz_list.html:27
-#: main/templates/main/teacher_list.html:27
+#: main/templates/main/center_list.html:28
+#: main/templates/main/group_list.html:32 main/templates/main/quiz_list.html:28
+#: main/templates/main/teacher_list.html:28
 msgid "Afegir"
 msgstr "Add"
 
@@ -992,7 +993,7 @@ msgid "Fes clic per obrir l&#39;enllaç"
 msgstr "Clic to open the link"
 
 #: main/templates/main/quiz_take.html:210
-#: main/templates/main/quiz_take_upload.html:36
+#: main/templates/main/quiz_take_upload.html:43
 msgid "Has completat el material! Fes clic en aquest botó per acabar..."
 msgstr "You completed the material! Click on this button to finish..."
 
@@ -1118,7 +1119,13 @@ msgstr "Data upload"
 msgid "Pujada de dades per la prova"
 msgstr "Data upload for test"
 
-#: main/templates/main/quiz_take_upload.html:30
+#: main/templates/main/quiz_take_upload.html:28
+#, fuzzy
+#| msgid "Pujar fitxer"
+msgid "Pujant fitxer"
+msgstr "Upload file"
+
+#: main/templates/main/quiz_take_upload.html:37
 msgid "Afegir fitxer"
 msgstr "Add file"
 
@@ -1150,21 +1157,36 @@ msgstr "Delete attempt"
 msgid "Enquestes per grup o centre"
 msgstr "Polls by group or center"
 
-#: main/templates/main/reports.html:26 main/templates/main/reports.html:46
+#: main/templates/main/reports.html:16
+msgid "help_enquestes_group_centre"
+msgstr "This report shows poll results by group or center. To see the results for an individual group, choose "
+"the group in the dropbox below. If the option 'All groups' is selected, the results will be aggregated for "
+"the whole education center."
+
+#: main/templates/main/reports.html:28 main/templates/main/reports.html:60
 msgid "Tria un centre"
 msgstr "Choose center"
 
-#: main/templates/main/reports.html:35
+#: main/templates/main/reports.html:38
 msgid "Tria un grup"
 msgstr "Choose group"
 
-#: main/templates/main/reports.html:40 main/templates/main/reports.html:56
+#: main/templates/main/reports.html:41
+msgid "Tots els grups"
+msgstr "All groups"
+
+#: main/templates/main/reports.html:52 main/templates/main/reports.html:71
 msgid "Generar informe"
 msgstr "Generate report"
 
-#: main/templates/main/reports.html:44
+#: main/templates/main/reports.html:56
 msgid "Progrés de proves"
 msgstr "Test progress"
+
+#: main/templates/main/reports.html:57
+msgid "help_test_progress"
+msgstr "This report shows which groups have completed their available tests. For each group "
+"and test, the reports indicates if the test is in progress, completed, or pending."
 
 #: main/templates/main/reports/poll_center_or_group.html:6
 #: main/templates/main/reports/poll_center_or_group.html:8
@@ -1173,7 +1195,7 @@ msgstr "Poll results by center or group"
 
 #: main/templates/main/reports/poll_center_or_group.html:13
 #: main/templates/main/reports/progress_center.html:23
-#: main/templates/main/test_result.html:42
+#: main/templates/main/test_result.html:44
 #: main/templates/main/test_results_detail_view.html:11
 msgid "Center"
 msgstr "Center"
@@ -1296,46 +1318,46 @@ msgstr "Completed"
 msgid "grups"
 msgstr "groups"
 
-#: main/templates/main/test_result.html:25
+#: main/templates/main/test_result.html:26
 msgid "Veure gràfica de resultats"
 msgstr "See results graph"
 
-#: main/templates/main/test_result.html:33
+#: main/templates/main/test_result.html:35
 msgid "Resultats de la prova per a tots els grups"
 msgstr "Test results for all groups"
 
-#: main/templates/main/test_result.html:35
+#: main/templates/main/test_result.html:37
 msgid "Resultats de la prova per als meus grups"
 msgstr "Test results for my groups"
 
-#: main/templates/main/test_result.html:44
+#: main/templates/main/test_result.html:46
 msgid "Millor puntuació"
 msgstr "Best score"
 
-#: main/templates/main/test_result.html:45
+#: main/templates/main/test_result.html:47
 msgid "Millor intent"
 msgstr "Best attempt"
 
-#: main/templates/main/test_result.html:46
+#: main/templates/main/test_result.html:48
 msgid "Prova finalitzada"
 msgstr "Finished test"
 
-#: main/templates/main/test_result.html:47
+#: main/templates/main/test_result.html:49
 msgid "Vista de detall"
 msgstr "Detail view"
 
-#: main/templates/main/test_result.html:70
-#: main/templates/main/test_result.html:93
+#: main/templates/main/test_result.html:72
+#: main/templates/main/test_result.html:95
 msgid "Llistar intents"
 msgstr "List attempts"
 
-#: main/templates/main/test_result.html:103
+#: main/templates/main/test_result.html:105
 msgid ""
 "Cap dels teus grups ha completat la prova encara, no es poden mostrar els "
 "resultats"
 msgstr "None of your tutored groups has completed the test, can't show results"
 
-#: main/templates/main/test_result.html:111
+#: main/templates/main/test_result.html:113
 msgid "Resultats globals de la prova"
 msgstr "Global test results"
 
@@ -1417,9 +1439,9 @@ msgid "password"
 msgstr "password"
 
 #: main/views.py:190 main/views.py:200 main/views.py:238 main/views.py:288
-#: main/views.py:788 main/views.py:824 main/views.py:858 main/views.py:1018
-#: main/views.py:1063 main/views.py:1175 main/views.py:1186 main/views.py:1199
-#: main/views.py:1886
+#: main/views.py:790 main/views.py:826 main/views.py:860 main/views.py:1020
+#: main/views.py:1065 main/views.py:1177 main/views.py:1188 main/views.py:1201
+#: main/views.py:1888
 msgid "Estàs intentant accedir a una pàgina a la que no tens permís."
 msgstr "You are trying to access a restricted page"
 
@@ -1431,44 +1453,44 @@ msgstr "Looks like this test does not exist"
 msgid "Sembla que aquesta prova no està completada."
 msgstr "Looks like this test is not complete"
 
-#: main/views.py:395 main/views.py:412 main/views.py:1741 main/views.py:1764
-#: main/views.py:1901
+#: main/views.py:395 main/views.py:412 main/views.py:1743 main/views.py:1766
+#: main/views.py:1903
 msgid "No existeix aquesta prova."
 msgstr "This test does not exist"
 
-#: main/views.py:399 main/views.py:1745 main/views.py:1768 main/views.py:1906
+#: main/views.py:399 main/views.py:1747 main/views.py:1770 main/views.py:1908
 msgid ""
 "El test seleccionat no l'ha realitzat cap grup i encara no té resultats."
 msgstr ""
 "The selected test has not been taken by any group and does not have results."
 
-#: main/views.py:416
+#: main/views.py:418
 msgid "No tens assignada aquesta prova, de manera que no la pots visualitzar."
 msgstr "This test has not been assigned to you, therefore you can't take it"
 
-#: main/views.py:571 main/views.py:618 main/views.py:656
+#: main/views.py:573 main/views.py:620 main/views.py:658
 msgid ""
 "Estàs intentant accedir a una prova creada per un professor que no és el teu "
 "tutor."
 msgstr ""
 "You are trying to access a test created by a teacher which is not your tutor."
 
-#: main/views.py:575
+#: main/views.py:577
 msgid ""
 "No es permet la pujada de materials a professors. Si vols pujar els "
 "materials d'un si us plau grup fes servir l'usuari del grup corresponent."
 msgstr ""
 
-#: main/views.py:579 main/views.py:622
+#: main/views.py:581 main/views.py:624
 msgid "Aquesta prova no existeix!"
 msgstr "This test does not exist!"
 
-#: main/views.py:589 main/views.py:629
+#: main/views.py:591 main/views.py:631
 msgid ""
 "Ho sentim, però les proves de pujada de fitxer només es poden fer una vegada."
 msgstr "Sorry, the data upload test can only be taken once."
 
-#: main/views.py:678
+#: main/views.py:680
 msgid ""
 "Aquesta prova està marcada com a finalitzada, o sigui que no la pots "
 "modificar. Si vols, la pots repetir."
@@ -1476,11 +1498,11 @@ msgstr ""
 "This test is marked as finished, so you can't modify it. If you want, you "
 "can repeat it."
 
-#: main/views.py:715
+#: main/views.py:717
 msgid "Aquesta prova no està publicada, no la pots començar."
 msgstr "This test is not yet published, you can't take it."
 
-#: main/views.py:722
+#: main/views.py:724
 msgid ""
 "Les proves de materials, pujada de fitxers i enquestes només es fan una "
 "vegada. Les pots repassar totes però des del menú de grup "
@@ -1488,7 +1510,7 @@ msgstr ""
 "Material, File upload and polls can only be taken once. You can review them "
 "from the group menu"
 
-#: main/views.py:728
+#: main/views.py:730
 msgid ""
 "La enquesta s'ha repetit tants cops com membres té el grup, no es permeten "
 "més repeticions."
@@ -1496,22 +1518,22 @@ msgstr ""
 "The poll has been repeated as many times as the number of members in the "
 "group,  more repetitions are not allowed."
 
-#: main/views.py:734
+#: main/views.py:736
 msgid "Aquesta prova té un requisit que no s'ha completat: "
 msgstr "This test has a prerequisite which has not yet been completed: "
 
-#: main/views.py:740
+#: main/views.py:742
 msgid ""
 "Estàs intentant començar una prova creada per un professor que no és el teu "
 "tutor."
 msgstr ""
 "You are trying to take a test created by a teacher which is not your tutor."
 
-#: main/views.py:764
+#: main/views.py:766
 msgid "Estàs intentant editar una prova que no existeix."
 msgstr "You are trying to edit a non-existing test."
 
-#: main/views.py:1823 main/views.py:1876
+#: main/views.py:1825 main/views.py:1878
 msgid "Anònim"
 msgstr "Anonymous"
 

@@ -229,7 +229,7 @@
 <script>
     {% get_current_language as LANGUAGE_CODE %}
     var currentLang = '{{ LANGUAGE_CODE }}';
-    var admin_edit = {% if user.is_superuser and user.is_staff %}true{% else %}false{% endif %};
+    var admin_edit = {% if user.is_superuser and user.is_staff or user.profile.is_teacher %}true{% else %}false{% endif %};
 </script>
 <script src="{% static 'main/javascript/language_identifier.js' %}"></script>
 {% block extra_js %}

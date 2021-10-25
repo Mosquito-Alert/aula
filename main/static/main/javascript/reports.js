@@ -61,13 +61,23 @@ $(document).ready( function () {
 
     $('#poll_group_class').click( function(){
         var poll_id = $('#select_poll').val();
-        var center_id = $('#select_poll_center').val();
+        var center_id;
+        if(user_is_teacher){
+            center_id = my_center;
+        }else{
+            center_id = $('#select_poll_center').val();
+        }
         var group_id = $('#select_poll_group').val();
         generate_query_poll_center_or_group(poll_id,center_id,group_id);
     } );
 
     $('#progress_center').click( function(){
-        var center_id = $('#select_progress_center').val();
+        var center_id;
+        if(user_is_teacher){
+            center_id = my_center;
+        }else{
+            center_id = $('#select_progress_center').val();
+        }
         generate_progress_center(center_id);
     } );
 });

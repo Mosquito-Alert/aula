@@ -878,7 +878,7 @@ def teacher_new(request):
             # process the data in form.cleaned_data as required
             # ...
             # redirect to a new URL:
-            return HttpResponseRedirect('/admin_menu')
+            return HttpResponseRedirect('/teacher/list/')
 
     # if a GET (or any other method) we'll create a blank form
     else:
@@ -922,7 +922,7 @@ def center_new(request):
             # process the data in form.cleaned_data as required
             # ...
             # redirect to a new URL:
-            return HttpResponseRedirect('/admin_menu')
+            return HttpResponseRedirect('/center/list/')
 
     # if a GET (or any other method) we'll create a blank form
     else:
@@ -1938,9 +1938,13 @@ def test_results_detail_view(request, quiz_id=None, group_id=None):
 
 @login_required
 def reports(request):
+    this_user = request.user
+    my_groups = None
+    if this_user.profile.is_teacher:
+        my_groups = User.objects.filter(profile__is_group=True).filter(profile__group_teacher=this_user).order_by('profile__group_public_name')
     centers = EducationCenter.objects.filter(active=True).order_by('name')
     polls = Quiz.objects.filter(type=2).order_by('name')
-    return render(request, 'main/reports.html', { "centers":centers, "polls":polls })
+    return render(request, 'main/reports.html', { "centers":centers, "polls":polls, "my_groups":my_groups })
 
 @login_required
 def center_progress(request, center_id=None):

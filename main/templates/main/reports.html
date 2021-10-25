@@ -13,6 +13,7 @@
 <div class="container">
     <div class="form row alert alert-success">
         <div class="col-md-12"><h4>{% trans 'Enquestes per grup o centre' %}:</h4></div>
+        <div class="col-md-12"><p>{% trans 'help_enquestes_group_centre' %}</p></div>
         <div class="col-md-3 form-group">
             <label for="select_poll_center">{% trans 'Enquesta' %}*:</label>
             <select class="form-control" id="select_poll">
@@ -22,6 +23,7 @@
                 {% endfor %}
             </select>
         </div>
+        {% if not user.profile.is_teacher %}
         <div class="col-md-3 form-group">
             <label for="select_poll_center">{% trans 'Tria un centre' %}*:</label>
             <select class="form-control" id="select_poll_center">
@@ -31,9 +33,19 @@
                 {% endfor %}
             </select>
         </div>
+        {% endif %}
         <div class="col-md-3 form-group">
             <label for="select_poll_group">{% trans 'Tria un grup' %}: <span id="loading_group" class="spinner-border spinner-border-sm" style="display:none;" role="status" aria-hidden="true"></span> </label>
-            <select class="form-control" id="select_poll_group"><option value="">...</option></select>
+            {% if user.profile.is_teacher %}
+                <select class="form-control" id="select_poll_group">
+                    <option value="">{% trans 'Tots els grups' %}</option>
+                    {% for group in my_groups %}
+                        <option value="{{ group.id }}">{{ group.profile.group_public_name }}</option>
+                    {% endfor %}
+                </select>
+            {% else %}
+                <select class="form-control" id="select_poll_group"><option value="">...</option></select>
+            {% endif %}
         </div>
         <div class="col-md-3 form-group">
             <label>&nbsp;</label>
@@ -42,6 +54,8 @@
     </div>
     <div class="form row alert alert-success">
         <div class="col-md-12"><h4>{% trans 'Progrés de proves' %}:</h4></div>
+        <div class="col-md-12"><p>{% trans 'help_test_progress' %}</p></div>
+        {% if not user.profile.is_teacher %}
         <div class="col-md-3 form-group">
             <label for="select_progress_center">{% trans 'Tria un centre' %}*:</label>
             <select class="form-control" id="select_progress_center">
@@ -51,6 +65,7 @@
                 {% endfor %}
             </select>
         </div>
+        {% endif %}
         <div class="col-md-3 form-group">
             <label>&nbsp;</label>
             <button type="button" id="progress_center" class="form-control btn btn-primary">{% trans 'Generar informe' %} <i class="fas fa-bolt"></i></button>
@@ -72,6 +87,12 @@
         {% get_current_language as LANGUAGE_CODE %}
         var currentLang = '{{ LANGUAGE_CODE }}';
         $("#languageSelector option[value='" + currentLang + "']").attr("selected","selected");
+
+    var user_is_teacher = false;
+    {% if user.profile.is_teacher %}
+        user_is_teacher = true;
+        var my_center = {{ user.profile.teacher_belongs_to.id }};
+    {% endif %}
 
 </script>
 {% endblock %}
