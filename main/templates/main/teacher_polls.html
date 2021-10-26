@@ -67,7 +67,7 @@
                     <div class="row mt-3">
                         <div class="col-md-6">{{ run.quiz.name }} (intent {{ run.run_number }})</div>
                         <div class="col-md-6">
-                            <a title="{% trans 'Continuar fent la prova!' %}" class="btn btn-success" href="{% url 'quiz_take' run.quiz.id 1 run.id %}" role="button">Continuar <i class="fas fa-arrow-right"></i></a>
+                            <a title="{% trans 'Continuar fent la prova!' %}" class="btn btn-success" href="{% url 'quiz_take' run.quiz.id 1 run.id %}" role="button">{% trans 'Continuar' %} <i class="fas fa-arrow-right"></i></a>
                         </div>
                     </div>
                 {% endfor %}

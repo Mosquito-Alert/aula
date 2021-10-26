@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-25 07:50+0000\n"
+"POT-Creation-Date: 2021-10-26 09:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -633,6 +633,11 @@ msgstr ""
 msgid "Creant nou grup"
 msgstr ""
 
+#: main/templates/main/group_new.html:19
+#: main/templates/main/group_new_teacher.html:19
+msgid "Suggerir camps"
+msgstr ""
+
 #: main/templates/main/group_new.html:60
 #: main/templates/main/quiz_assign_admin.html:49
 msgid "Tria primer un centre"
@@ -1138,8 +1143,11 @@ msgstr ""
 
 #: main/templates/main/reports.html:16
 msgid "help_enquestes_group_centre"
-msgstr "Aquest informe mostra resultats de les enquestes per grups i centres. Per veure els resultats per un grup individual, cal seleccionar "
-"el grup al desplegable de sota. Si es selecciona la opció 'Tots els grups', es mostraran resultats agregats per a tot el centre educatiu."
+msgstr ""
+"Aquest informe mostra resultats de les enquestes per grups i centres. Per "
+"veure els resultats per un grup individual, cal seleccionar el grup al "
+"desplegable de sota. Si es selecciona la opció 'Tots els grups', es "
+"mostraran resultats agregats per a tot el centre educatiu."
 
 #: main/templates/main/reports.html:28 main/templates/main/reports.html:60
 msgid "Tria un centre"
@@ -1163,8 +1171,10 @@ msgstr ""
 
 #: main/templates/main/reports.html:57
 msgid "help_test_progress"
-msgstr "Aquest informe mostra quins grups han completat les proves disponibles. Per cada grup "
-"i prova, el informe indica si la prova està en progrés, completada, o pendent."
+msgstr ""
+"Aquest informe mostra quins grups han completat les proves disponibles. Per "
+"cada grup i prova, el informe indica si la prova està en progrés, "
+"completada, o pendent."
 
 #: main/templates/main/reports/poll_center_or_group.html:6
 #: main/templates/main/reports/poll_center_or_group.html:8
@@ -1274,6 +1284,10 @@ msgstr ""
 
 #: main/templates/main/teacher_polls.html:64
 msgid "Aquestes són les enquestes que esteu fent però no heu acabat"
+msgstr ""
+
+#: main/templates/main/teacher_polls.html:70
+msgid "Continuar"
 msgstr ""
 
 #: main/templates/main/test_result.html:4

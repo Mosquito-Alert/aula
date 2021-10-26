@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-25 07:50+0000\n"
+"POT-Creation-Date: 2021-10-26 09:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -639,6 +639,11 @@ msgstr "Create group"
 msgid "Creant nou grup"
 msgstr "Creating new group"
 
+#: main/templates/main/group_new.html:19
+#: main/templates/main/group_new_teacher.html:19
+msgid "Suggerir camps"
+msgstr "Recommend fields"
+
 #: main/templates/main/group_new.html:60
 #: main/templates/main/quiz_assign_admin.html:49
 msgid "Tria primer un centre"
@@ -1159,9 +1164,11 @@ msgstr "Polls by group or center"
 
 #: main/templates/main/reports.html:16
 msgid "help_enquestes_group_centre"
-msgstr "This report shows poll results by group or center. To see the results for an individual group, choose "
-"the group in the dropbox below. If the option 'All groups' is selected, the results will be aggregated for "
-"the whole education center."
+msgstr ""
+"This report shows poll results by group or center. To see the results for an "
+"individual group, choose the group in the dropbox below. If the option 'All "
+"groups' is selected, the results will be aggregated for the whole education "
+"center."
 
 #: main/templates/main/reports.html:28 main/templates/main/reports.html:60
 msgid "Tria un centre"
@@ -1185,8 +1192,10 @@ msgstr "Test progress"
 
 #: main/templates/main/reports.html:57
 msgid "help_test_progress"
-msgstr "This report shows which groups have completed their available tests. For each group "
-"and test, the reports indicates if the test is in progress, completed, or pending."
+msgstr ""
+"This report shows which groups have completed their available tests. For "
+"each group and test, the reports indicates if the test is in progress, "
+"completed, or pending."
 
 #: main/templates/main/reports/poll_center_or_group.html:6
 #: main/templates/main/reports/poll_center_or_group.html:8
@@ -1297,6 +1306,10 @@ msgstr "No available polls!"
 #: main/templates/main/teacher_polls.html:64
 msgid "Aquestes són les enquestes que esteu fent però no heu acabat"
 msgstr "These are your ongoing polls"
+
+#: main/templates/main/teacher_polls.html:70
+msgid "Continuar"
+msgstr "Continue"
 
 #: main/templates/main/test_result.html:4
 #: main/templates/main/test_result.html:6

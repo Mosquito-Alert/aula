@@ -16,7 +16,7 @@
 
 {% block main %}
 <div class="container">
-    <button type="button" class="btn btn-primary suggest-fields">Suggerir camps <i class="fas fa-bolt"></i></button>
+    <button type="button" class="btn btn-primary suggest-fields">{% trans 'Suggerir camps' %}<i class="fas fa-bolt"></i></button>
     <div class="col-xs-12" style="height:50px;"></div>
     <form id="group_form" class="form" action="{% url 'group_new' %}" method="post">
         {% csrf_token %}
