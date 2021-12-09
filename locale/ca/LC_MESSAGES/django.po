@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-26 09:01+0000\n"
+"POT-Creation-Date: 2021-12-09 09:56+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -204,15 +204,17 @@ msgstr ""
 
 #: main/templates/main/admin_menu.html:44
 #: main/templates/main/quiz_assign_admin.html:54
+#: main/templates/main/teacher_menu.html:24
 msgid "Proves"
 msgstr ""
 
 #: main/templates/main/admin_menu.html:46
+#: main/templates/main/teacher_menu.html:26
 msgid "Crea una prova."
 msgstr ""
 
 #: main/templates/main/admin_menu.html:53
-#: main/templates/main/teacher_menu.html:32
+#: main/templates/main/teacher_menu.html:41
 msgid "Veure solucions de proves"
 msgstr ""
 
@@ -224,14 +226,14 @@ msgstr ""
 #: main/templates/main/reports.html:9
 #: main/templates/main/reports/poll_center_or_group.html:6
 #: main/templates/main/reports/progress_center.html:19
-#: main/templates/main/teacher_menu.html:43
+#: main/templates/main/teacher_menu.html:52
 #, fuzzy
 #| msgid "sInfo"
 msgid "Informes"
 msgstr "Mostrant de _START_ a _END_ de _TOTAL_ registres"
 
 #: main/templates/main/admin_menu.html:65
-#: main/templates/main/teacher_menu.html:45
+#: main/templates/main/teacher_menu.html:54
 msgid ""
 "Generar diversos tipus d&#39;informes sobre participació, dades avançades "
 "d&#39;enquestes, etc"
@@ -731,6 +733,22 @@ msgstr ""
 #: main/templates/main/question_poll_new.html:25
 msgid "Respostes"
 msgstr ""
+
+#: main/templates/main/question_edit.html:80
+#: main/templates/main/question_poll_new.html:43
+msgid "Etiqueta"
+msgstr ""
+
+#: main/templates/main/question_edit.html:87
+#: main/templates/main/question_poll_new.html:50
+msgid "Text de la resposta"
+msgstr ""
+
+#: main/templates/main/question_edit.html:94
+#, fuzzy
+#| msgid "Respostes correctes"
+msgid "Resposta correcta?"
+msgstr "Respostes correctes"
 
 #: main/templates/main/question_link_new.html:6
 #: main/templates/main/question_new.html:13
@@ -1243,15 +1261,15 @@ msgid ""
 "usuaris de l&#39;aplicació, que poden fer proves de coneixements."
 msgstr ""
 
-#: main/templates/main/teacher_menu.html:24
+#: main/templates/main/teacher_menu.html:33
 msgid "Enquestes"
 msgstr ""
 
-#: main/templates/main/teacher_menu.html:26
+#: main/templates/main/teacher_menu.html:35
 msgid "Fer i consultar resultats d&#39;enquestes al professorat"
 msgstr ""
 
-#: main/templates/main/teacher_menu.html:34
+#: main/templates/main/teacher_menu.html:43
 msgid ""
 "Veure les proves que han fet els grups, així com les puntuacions obtingudes."
 msgstr ""
