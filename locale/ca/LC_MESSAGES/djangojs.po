@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-25 09:50+0200\n"
+"POT-Creation-Date: 2022-02-23 10:29+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -419,6 +419,10 @@ msgstr ""
 
 #: main/static/main/javascript/reports.js:48
 msgid "Error recuperant llista de grups per centre"
+msgstr ""
+
+#: main/static/main/javascript/reports.js:72
+msgid "Cal seleccionar una enquesta i un centre"
 msgstr ""
 
 #: main/static/main/javascript/teacher_list.js:16

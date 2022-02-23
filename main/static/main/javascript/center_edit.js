@@ -86,7 +86,7 @@ $(document).ready(function() {
             var bits = nom.split(' ');
             var inicials = [];
             for(var i = 0; i < bits.length; i++){
-                inicials.push(bits[i][0]);
+                inicials.push(bits[i][0].toLowerCase());
             }
             return "#" + inicials.join("") + year;
         }

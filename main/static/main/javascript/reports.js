@@ -68,7 +68,11 @@ $(document).ready( function () {
             center_id = $('#select_poll_center').val();
         }
         var group_id = $('#select_poll_group').val();
-        generate_query_poll_center_or_group(poll_id,center_id,group_id);
+        if(poll_id == '' || center_id == ''){
+            toastr.error(gettext('Cal seleccionar una enquesta i un centre'));
+        }else{
+            generate_query_poll_center_or_group(poll_id,center_id,group_id);
+        }
     } );
 
     $('#progress_center').click( function(){

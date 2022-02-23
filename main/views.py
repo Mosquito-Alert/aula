@@ -1957,10 +1957,14 @@ def center_progress(request, center_id=None):
             state = 'pending'
             quiz_in_progress = QuizRun.objects.filter(taken_by=group).filter(date_finished__isnull=True).filter(quiz=quiz).exists()
             quiz_done = QuizRun.objects.filter(taken_by=group).filter(date_finished__isnull=False).filter(quiz=quiz).exists()
-            if quiz_in_progress:
-                state = 'progress'
-            elif quiz_done:
+            # quiz_done is checked first because it might happen that the group has started a new quiz run and left it blank
+            # this way, if at least one is done it's considered completed, and only if not a single run has been completed is
+            # considered 'in progress'
+            if quiz_done:
                 state = 'done'
+            elif quiz_in_progress:
+                state = 'progress'
+
             data[ str(group.id) + '_' + str(quiz.id) ] = { 'state': state }
     return render(request, 'main/reports/progress_center.html', {'center': center, 'data': json.dumps(data)})
 
