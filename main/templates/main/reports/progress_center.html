@@ -14,6 +14,9 @@
     .state_icon{
         text-align: center;
     }
+    .result_link{
+        text-align: center;
+    }
 </style>
 {% endblock %}
 {% block title %}{% trans 'Informes' %} - {% trans 'Progrés de proves per centre' %}{% endblock %}
@@ -45,6 +48,7 @@
                 <div class="card-body">
                     <p><strong>{{ quiz.name }}</strong></p>
                     <p class="state_icon" id="{{ group.id }}_{{ quiz.id }}_state"></p>
+                    <p id="{{ group.id }}_{{ quiz.id }}_linkp" class="result_link"><a id="{{ group.id }}_{{ quiz.id }}_link" href="" target="_blank"><i class="fas fa-2x fa-eye" aria-hidden="true"></i></a></p>
                 </div>
             </div>
             {% endfor %}
