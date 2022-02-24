@@ -73,5 +73,6 @@
     var currentLang = '{{ LANGUAGE_CODE }}';
     $("#languageSelector option[value='" + currentLang + "']").attr("selected","selected");
     var data = JSON.parse('{{ data | safe }}')
+    var center_id = {{ center.id }};
 </script>
 {% endblock %}

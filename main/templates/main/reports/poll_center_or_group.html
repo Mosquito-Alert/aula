@@ -7,11 +7,10 @@
 
 {% block main_jumbo %}<img class="img_icons" src="{% static 'main/icons/noun_report_3907422.svg' %}"> {% trans 'Resultats enquesta per centre o grup' %} - <strong>{{ quiz.name }}</strong>{% endblock %}
 {% block sub_jumbo %}
-    {% if group %}
-        {% trans 'Grup' %} - <strong> {{ group.profile.group_public_name }} </strong>
-    {% else %}
-        {% trans 'Center' %} - <strong> {{ center.name }} </strong>
-    {% endif %}
+{% if group %}
+<p>{% trans 'Grup' %} - <strong> {{ group.profile.group_public_name }} </strong></p>
+{% endif %}
+<p>{% trans 'Center' %} - <strong> {{ center.name }} </strong></p>
 {% endblock %}
 
 {% block main %}
