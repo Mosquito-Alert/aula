@@ -227,9 +227,10 @@ def teacher_polls(request):
     this_user = request.user
     if is_teacher_test(this_user):
         # filter(type=2).filter(professor_poll=True).
+        teacher_campaign = this_user.profile.campaign
         polls_in_progress_ids = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=True).values('quiz__id').distinct()
         polls_done_ids = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=False).values('quiz__id').distinct()
-        available_polls = Quiz.objects.filter(type=4).filter(author__isnull=True).filter(published=True).exclude(id__in=polls_in_progress_ids).exclude(id__in=polls_done_ids).order_by('id')
+        available_polls = Quiz.objects.filter(campaign=teacher_campaign).filter(type=4).filter(author__isnull=True).filter(published=True).exclude(id__in=polls_in_progress_ids).exclude(id__in=polls_done_ids).order_by('id')
         in_progress_polls = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=True).order_by('-date')
         done_polls = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=False).order_by('-date')
         done_poll_ids = [a.quiz.id for a in done_polls]
@@ -244,10 +245,11 @@ def teacher_polls(request):
 @login_required
 def group_menu(request):
     this_user = request.user
+    this_user_campaign = this_user.profile.campaign
     teach = this_user.profile.group_teacher
     quizzes_in_progress_ids = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=True).values('quiz__id').distinct()
     quizzes_done_ids = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=False).values('quiz__id').distinct()
-    available_quizzes = Quiz.objects.filter(Q(author=teach) | Q(author__isnull=True)).filter(published=True).exclude(type=4).exclude(id__in=quizzes_in_progress_ids).exclude(id__in=quizzes_done_ids).order_by('id')
+    available_quizzes = Quiz.objects.filter(Q(author=teach) | Q(author__isnull=True)).filter(published=True).filter(campaign=this_user_campaign).exclude(type=4).exclude(id__in=quizzes_in_progress_ids).exclude(id__in=quizzes_done_ids).order_by('id')
     in_progress_quizruns = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=True).order_by('-date')
     done_quizruns = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=False).order_by('-date')
     done_quizzes_ids = [ a.quiz.id for a in done_quizruns ]
@@ -994,7 +996,7 @@ def group_update(request, pk=None):
     n_students_in_group = None
     center = ""
     tutor = ""
-    centers = EducationCenter.objects.all().order_by('name')
+    centers = EducationCenter.objects.filter(campaign__active=True).order_by('name')
     if pk:
         group = get_object_or_404(User, pk=pk)
         if group.profile and group.profile.group_picture:
@@ -1044,7 +1046,7 @@ def group_update(request, pk=None):
 def group_new(request):
     this_user = request.user
     photo_path = None
-    centers = EducationCenter.objects.all().order_by('name')
+    centers = EducationCenter.objects.filter(campaign__active=True).order_by('name')
     group_teacher = -1
     group_teacher_center_id = -1
     if request.method == 'POST':
@@ -1228,7 +1230,7 @@ def quiz_solutions(request):
 def teachers_datatable_list(request):
     if request.method == 'GET':
         search_field_list = ('username','center')
-        queryset = User.objects.filter(profile__is_teacher=True)
+        queryset = User.objects.filter(profile__is_teacher=True).filter(profile__campaign__active=True)
         field_translation_list = {'username': 'username', 'center': 'profile__teacher_belongs_to__name'}
         sort_translation_list = {'username': 'username', 'center': 'profile__teacher_belongs_to__name'}
         response = generic_datatable_list_endpoint(request, search_field_list, queryset, TeacherSerializer, field_translation_list, sort_translation_list)
@@ -1383,9 +1385,9 @@ def quiz_datatable_list(request):
         field_translation_list = {'name': 'name', 'author.username': 'author__username', 'education_center': 'author__profile__teacher_belongs_to__name'}
         sort_translation_list = {'name': 'name', 'author.username': 'author__username', 'education_center': 'author__profile__teacher_belongs_to__name' }
         if this_user.is_superuser:
-            queryset = Quiz.objects.select_related('author').all()
+            queryset = Quiz.objects.select_related('author').filter(campaign__active=True).all()
         elif this_user.profile.is_teacher:
-            queryset = Quiz.objects.select_related('author').filter(author=this_user)
+            queryset = Quiz.objects.select_related('author').filter(campaign__active=True).filter(author=this_user)
         else:
             pass  # this should not happen
         response = generic_datatable_list_endpoint(request, search_field_list, queryset, QuizSerializer, field_translation_list, sort_translation_list)
@@ -1396,7 +1398,7 @@ def quiz_datatable_list(request):
 def centers_datatable_list(request):
     if request.method == 'GET':
         search_field_list = ('name','hashtag')
-        queryset = EducationCenter.objects.all()
+        queryset = EducationCenter.objects.filter(campaign__active=True).all()
         response = generic_datatable_list_endpoint(request, search_field_list, queryset, EducationCenterSerializer)
         return response
 
@@ -1424,7 +1426,7 @@ def group_datatable_list(request):
     if request.method == 'GET':
         search_field_list = ('username', 'group_public_name', 'group_center', 'group_tutor', 'group_n_students')
         if this_user.is_superuser:
-            queryset = User.objects.filter(profile__is_group=True)
+            queryset = User.objects.filter(profile__is_group=True).filter(profile__campaign__active=True)
         elif this_user.profile and this_user.profile.is_teacher:
             #groups that contain any of the tutorees
             # tutorized_alums = User.objects.filter(profile__is_alum=True).filter(profile__alum_teacher=this_user)
@@ -1433,7 +1435,7 @@ def group_datatable_list(request):
             #     groups = t_alum.profile.alum_in_group.all().values('id')
             #     group_ids += [a['id'] for a in groups]
             # queryset = User.objects.filter(profile__is_group=True).filter(id__in=group_ids)
-            queryset = User.objects.filter(profile__is_group=True).filter(profile__group_teacher=this_user)
+            queryset = User.objects.filter(profile__is_group=True).filter(profile__group_teacher=this_user).filter(profile__campaign__active=True)
         else:
             pass #not allowed
         field_translation_list = {'username': 'username', 'group_public_name': 'profile__group_public_name', 'group_center': 'profile__center_string', 'group_tutor':  'profile__group_teacher__username', 'group_n_students': 'profile__n_students_in_group'}
@@ -1492,9 +1494,9 @@ def alum_search(request):
 def requirements_combo(request):
     if request.method == 'GET':
         q = request.query_params.get('author_id', -1)
-        if q == -1:
+        if q == '-1':
           # is admin
-          queryset = Quiz.objects.filter(author__isnull=True).order_by('name')
+          queryset = Quiz.objects.filter(author__isnull=True).filter(campaign__active=True).order_by('name')
         else:
           queryset = Quiz.objects.filter(author__id=q).order_by('name')
         serializer = QuizComboSerializer(queryset, many=True)
@@ -1741,9 +1743,9 @@ def quiz_datatable_results(request):
 
         if this_user.is_superuser:
             #queryset = Quiz.objects.select_related('author').all()
-            queryset = Quiz.objects.filter(Q(type=0) | Q(type=2) | Q(type=4))
+            queryset = Quiz.objects.filter(Q(type=0) | Q(type=2) | Q(type=4)).filter(campaign__active=True)
         elif this_user.profile.is_teacher:
-            queryset = Quiz.objects.select_related('author').filter(Q(author=this_user) | Q(author__isnull=True)).filter(Q(type=0) | Q(type=2))
+            queryset = Quiz.objects.select_related('author').filter(Q(author=this_user) | Q(author__isnull=True)).filter(Q(type=0) | Q(type=2)).filter(campaign__active=True)
         else:
             pass  # this should not happen
         response = generic_datatable_list_endpoint(request, search_field_list, queryset, QuizSerializer, field_translation_list, sort_translation_list)
@@ -1800,7 +1802,7 @@ def upload_file_solutions(request):
     uploadedFileFlag = False
 
     if this_user.is_superuser:
-        my_quizzes = Quiz.objects.filter(type=3).order_by('name')
+        my_quizzes = Quiz.objects.filter(type=3).filter(campaign__active=True).order_by('name')
         # Recorrer cada upload File test
         for idQuizz in my_quizzes:
             arrayGrupos = []
@@ -1853,7 +1855,8 @@ def upload_file_solutions(request):
                 'grupos': arrayGrupos
             })
     elif this_user.profile and this_user.profile.is_teacher:
-        my_quizzes = Quiz.objects.filter(Q(author=this_user) | Q(author__isnull=True)).filter(type=3).order_by('name')
+        teacher_campaign = this_user.profile.campaign
+        my_quizzes = Quiz.objects.filter(Q(author=this_user) | Q(author__isnull=True)).filter(type=3).filter(campaign=teacher_campaign).order_by('name')
 
         for idQuizz in my_quizzes:
             arrayGrupos = []
@@ -1960,9 +1963,9 @@ def reports(request):
     this_user = request.user
     my_groups = None
     if this_user.profile.is_teacher:
-        my_groups = User.objects.filter(profile__is_group=True).filter(profile__group_teacher=this_user).order_by('profile__group_public_name')
-    centers = EducationCenter.objects.filter(active=True).order_by('name')
-    polls = Quiz.objects.filter(type=2).order_by('name')
+        my_groups = User.objects.filter(profile__is_group=True).filter(profile__group_teacher=this_user).filter(profile__campaign__active=True).order_by('profile__group_public_name')
+    centers = EducationCenter.objects.filter(active=True).filter(campaign__active=True).order_by('name')
+    polls = Quiz.objects.filter(type=2).filter(campaign__active=True).order_by('name')
     return render(request, 'main/reports.html', { "centers":centers, "polls":polls, "my_groups":my_groups })
 
 @login_required

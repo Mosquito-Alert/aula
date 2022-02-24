@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-02-23 10:29+0000\n"
+"POT-Creation-Date: 2022-02-24 13:43+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -423,6 +423,10 @@ msgstr ""
 
 #: main/static/main/javascript/reports.js:72
 msgid "Cal seleccionar una enquesta i un centre"
+msgstr ""
+
+#: main/static/main/javascript/reports.js:86
+msgid "Cal seleccionar un centre"
 msgstr ""
 
 #: main/static/main/javascript/teacher_list.js:16

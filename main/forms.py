@@ -36,7 +36,7 @@ class QuizNewForm(ModelForm):
     name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), required=True)
     html_header = forms.CharField(widget=TinyMCE(attrs={'cols': 80, 'rows': 20}))
     published = forms.BooleanField(label=_("Prova publicada?"),widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}), required=False)
-    requisite = forms.ModelChoiceField(label=_("Cal completar la prova del desplegable per poder fer aquesta prova"),queryset=Quiz.objects.all().order_by('name'),widget=forms.Select(attrs={'class': 'form-control'}), required=False)
+    requisite = forms.ModelChoiceField(label=_("Cal completar la prova del desplegable per poder fer aquesta prova"),queryset=Quiz.objects.filter(campaign__active=True).order_by('name'),widget=forms.Select(attrs={'class': 'form-control'}), required=False)
     type = forms.ChoiceField(choices=QUIZ_TYPES, widget=forms.Select(attrs={'class': 'form-control'}))
 
     def __init__(self, *args, **kwargs):
@@ -61,7 +61,7 @@ class QuizAdminForm(ModelForm):
     html_header = forms.CharField(widget=TinyMCE(attrs={'cols': 80, 'rows': 20}), required=False)
     requisite = forms.IntegerField(widget=forms.HiddenInput(), required=False)
     type = forms.ChoiceField(choices=QUIZ_TYPES, widget=forms.Select(attrs={'class': 'form-control'}))
-    author = forms.ModelChoiceField(label=_("Autor"), queryset=User.objects.filter(profile__is_teacher=True).order_by('username'),widget=forms.Select(attrs={'class': 'form-control'}), required=False)
+    author = forms.ModelChoiceField(label=_("Autor"), queryset=User.objects.filter(profile__is_teacher=True).filter(profile__campaign__active=True).order_by('username'),widget=forms.Select(attrs={'class': 'form-control'}), required=False)
 
     class Meta:
         model = Quiz
@@ -242,7 +242,7 @@ class SimplifiedTeacherForm(ModelForm):
     password1 = forms.CharField(label=_("Password"), strip=False,widget=forms.PasswordInput(attrs={'autocomplete': 'new-password', 'class': 'form-control'}),)
     password2 = forms.CharField(label=_("Repetir password"), strip=False,widget=forms.PasswordInput(attrs={'autocomplete': 'new-password', 'class': 'form-control'}), )
     username = forms.CharField(label=_("Username"), strip=False,widget=forms.TextInput(attrs={'class': 'form-control' }), )
-    belongs_to = forms.ModelChoiceField(label=_("Centre al que pertany"), queryset=EducationCenter.objects.all().order_by('name'),widget=forms.Select(attrs={'class': 'form-control'}))
+    belongs_to = forms.ModelChoiceField(label=_("Centre al que pertany"), queryset=EducationCenter.objects.filter(campaign__active=True).order_by('name'),widget=forms.Select(attrs={'class': 'form-control'}))
 
     class Meta:
         model = User
@@ -351,7 +351,7 @@ class TeacherForm(forms.ModelForm):
 
 class TeacherUpdateForm(forms.ModelForm):
     username = forms.CharField(label=_("Username"), strip=False, widget=forms.TextInput(attrs={'class': 'form-control'}), )
-    belongs_to = forms.ModelChoiceField(label=_("Centre al que pertany"),queryset=EducationCenter.objects.all().order_by('name'),widget=forms.Select(attrs={'class': 'form-control'}))
+    belongs_to = forms.ModelChoiceField(label=_("Centre al que pertany"),queryset=EducationCenter.objects.filter(campaign__active=True).order_by('name'),widget=forms.Select(attrs={'class': 'form-control'}))
 
     class Meta:
         model = User
