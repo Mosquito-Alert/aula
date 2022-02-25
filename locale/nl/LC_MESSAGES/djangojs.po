@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-02-23 10:29+0000\n"
+"POT-Creation-Date: 2022-02-25 10:33+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -36,13 +36,13 @@ msgid "Inactivant alumne..."
 msgstr ""
 
 #: main/static/main/javascript/alum_list.js:114
-#: main/static/main/javascript/group_list.js:100
+#: main/static/main/javascript/group_list.js:101
 #: main/static/main/javascript/teacher_list.js:87
 msgid "Desactivar usuari"
 msgstr ""
 
 #: main/static/main/javascript/alum_list.js:122
-#: main/static/main/javascript/group_list.js:112
+#: main/static/main/javascript/group_list.js:113
 #: main/static/main/javascript/quiz_list.js:105
 #: main/static/main/javascript/teacher_list.js:99
 msgid "Editar"
@@ -106,6 +106,7 @@ msgid "Nom"
 msgstr ""
 
 #: main/static/main/javascript/center_list.js:119
+#: main/static/main/javascript/group_list.js:168
 msgid "Hashtag"
 msgstr ""
 
@@ -166,46 +167,46 @@ msgstr ""
 msgid "Inactivant grup..."
 msgstr ""
 
-#: main/static/main/javascript/group_list.js:120
+#: main/static/main/javascript/group_list.js:121
 msgid "Nom usuari del grup"
 msgstr ""
 
-#: main/static/main/javascript/group_list.js:124
+#: main/static/main/javascript/group_list.js:125
 msgid "Password"
 msgstr ""
 
-#: main/static/main/javascript/group_list.js:128
+#: main/static/main/javascript/group_list.js:129
 msgid "Nom públic"
 msgstr ""
 
-#: main/static/main/javascript/group_list.js:132
+#: main/static/main/javascript/group_list.js:133
 #: main/static/main/javascript/quiz_list.js:64
 #: main/static/main/javascript/teacher_list.js:123
 msgid "Centre"
 msgstr ""
 
-#: main/static/main/javascript/group_list.js:136
+#: main/static/main/javascript/group_list.js:137
 msgid "Tutor"
 msgstr ""
 
-#: main/static/main/javascript/group_list.js:140
+#: main/static/main/javascript/group_list.js:141
 msgid "Imatge del grup"
 msgstr ""
 
-#: main/static/main/javascript/group_list.js:152
+#: main/static/main/javascript/group_list.js:153
 msgid "Grup actiu?"
 msgstr ""
 
-#: main/static/main/javascript/group_list.js:163
+#: main/static/main/javascript/group_list.js:164
 msgid "N. alumnes"
 msgstr ""
 
-#: main/static/main/javascript/group_list.js:174
+#: main/static/main/javascript/group_list.js:179
 msgid ""
 "El grup està actiu i es marcarà com a inactiu. Segur que vols continuar?"
 msgstr ""
 
-#: main/static/main/javascript/group_list.js:176
+#: main/static/main/javascript/group_list.js:181
 msgid ""
 "El grup està inactiu i es marcarà com a actiu. Segur que vols continuar?"
 msgstr ""

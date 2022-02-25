@@ -76,7 +76,8 @@ $(document).ready(function() {
             for(var i = 0; i < bits.length; i++){
                 inicials.push(bits[i][0]);
             }
-            return "#" + inicials.join("") + year;
+            var hash = inicials.join("");
+            return "#" + hash.toLowerCase() + year;
         }
         return "";
     }

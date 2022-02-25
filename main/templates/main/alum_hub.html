@@ -10,8 +10,9 @@
 <div class="container">
     <div class="row justify-content-left">
         <div class="col-md-11">
-            <h4><p>{% trans 'Hola' %}, <span class="badge badge-primary"><strong>{{ user.profile.group_public_name }}</strong></span>!</p></h4>
-            <h4><p>{% trans 'El vostre professor assignat és ' %} <span class="badge badge-primary"><strong>{{ user.profile.group_teacher.username }}</strong></span></p></h4>
+            <h5><p>{% trans 'Hola' %}, <span class="badge badge-primary"><strong>{{ user.profile.group_public_name }}</strong></span>!</p></h5>
+            <h5><p>{% trans 'El vostre hashtag és ' %} <span class="badge badge-primary"><strong>{{ user.profile.group_hashtag }}</strong></span></p></h5>
+            <h5><p>{% trans 'El vostre professor assignat és ' %} <span class="badge badge-primary"><strong>{{ user.profile.group_teacher.username }}</strong></span></p></h5>
         </div>
     </div>
     <div class="row alert alert-success done">

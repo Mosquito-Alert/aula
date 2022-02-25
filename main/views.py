@@ -1135,7 +1135,8 @@ def group_list_pdf(request):
                 'password_grupo': g['group_password'],
                 'nombre_grupo': g['username'],
                 'name_profe': g['group_tutor'],
-                'center': g['group_center']
+                'center': g['group_center'],
+                'hashtag': g['group_hashtag'],
             })
 
         '''teacher_info.append({
@@ -1143,7 +1144,7 @@ def group_list_pdf(request):
             'centro': records[0]['group_center']
         })'''
 
-        html_string = render_to_string("pdf_templates/group_credentials_list_admin.html", {'titulo': 'Llistat de credencials', 'grupos': grupos_info})
+        html_string = render_to_string("pdf_templates/group_credentials_list_admin.html", {'titulo': _('Llistat de credencials'), 'grupos': grupos_info})
         pdf_file = HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf()
         response.write(pdf_file)
 

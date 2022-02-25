@@ -16,7 +16,7 @@ import datetime
 class EducationCenter(models.Model):
     name = models.CharField(max_length=500)
     location = models.PointField(srid=4326, null=True)
-    hashtag = models.CharField(max_length=20, null=True, blank=True)
+    hashtag = models.CharField(max_length=20, null=True, blank=True, unique=True)
     active = models.BooleanField(default=True)
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
@@ -356,6 +356,7 @@ class Profile(models.Model):
     groups_string = models.CharField(max_length=1000, null=True, blank=True)
     center_string = models.CharField(max_length=1000, null=True, blank=True)
     n_students_in_group = models.IntegerField(default=3)
+    group_hashtag = models.CharField(max_length=20, null=True, blank=True, unique=True)
 
     @property
     def center(self):
@@ -411,7 +412,32 @@ def save_user_profile(sender, instance, **kwargs):
     # instance.profile.save()
     if instance.profile.is_group:
         center_string = None
+        education_center = None
         if instance.profile.group_teacher and instance.profile.group_teacher.profile.teacher_belongs_to:
-            center_string = instance.profile.group_teacher.profile.teacher_belongs_to.name
+            education_center = instance.profile.group_teacher.profile.teacher_belongs_to
+            center_string = education_center.name
         instance.profile.center_string = center_string
+        if education_center is not None:
+            groups = education_center.center_groups()
+            if groups.count() == 0:
+                instance.profile.group_hashtag = education_center.hashtag + "_1"
+            else:
+                higher_index = -1
+                no_one_has_hashtag = True
+                for group in groups:
+                    group_hashtag = group.profile.group_hashtag
+                    if group_hashtag is not None:
+                        no_one_has_hashtag = False
+                        if "_" in group_hashtag:
+                            s = group_hashtag.split("_")
+                            try:
+                                value = int(s[1])
+                                if value > higher_index:
+                                    higher_index = value
+                            except ValueError:
+                                pass
+                if no_one_has_hashtag:
+                    instance.profile.group_hashtag = education_center.hashtag + "_1"
+                elif higher_index != -1:
+                    instance.profile.group_hashtag = education_center.hashtag + "_" + str(higher_index + 1)
     instance.profile.save()

@@ -89,10 +89,11 @@ $(document).ready( function () {
             ,{ 'data': 'group_picture' }
             ,{ 'data': 'is_active' }
             ,{ 'data': 'group_n_students' }
+            ,{ 'data': 'group_hashtag' }
         ],
         'columnDefs': [
             {
-                'targets': 8,
+                'targets': 9,
                 'data': 'is_active',
                 'sortable': false,
                 'render': function(value){
@@ -104,7 +105,7 @@ $(document).ready( function () {
                 }
             },
             {
-                'targets': 9,
+                'targets': 10,
                 'data': 'is_active',
                 'sortable': false,
                 'render': function(value){
@@ -161,6 +162,10 @@ $(document).ready( function () {
             {
                 'targets':7,
                 'title': gettext('N. alumnes')
+            },
+            {
+                'targets':8,
+                'title': gettext('Hashtag')
             }
         ]
     } );
