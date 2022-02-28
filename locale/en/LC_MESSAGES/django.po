@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-02-25 10:33+0000\n"
+"POT-Creation-Date: 2022-02-28 15:06+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -431,19 +431,19 @@ msgstr "About"
 msgid "Espai professorat"
 msgstr "Teacher section"
 
-#: main/templates/main/base.html:176
+#: main/templates/main/base.html:177
 msgid "Tancar sessió"
 msgstr "Logout"
 
-#: main/templates/main/base.html:181
+#: main/templates/main/base.html:182
 msgid "Iniciar sessió"
 msgstr "Login"
 
-#: main/templates/main/base.html:190 main/templates/main/index.html:6
+#: main/templates/main/base.html:191 main/templates/main/index.html:6
 msgid "Benvingut a Aula"
 msgstr "Welcome to Aula"
 
-#: main/templates/main/base.html:191 main/templates/main/index.html:7
+#: main/templates/main/base.html:192 main/templates/main/index.html:7
 msgid ""
 "Aquesta és la web per a un projecte d&#39;educació en el context d&#39;una "
 "beca FECYT"
@@ -451,47 +451,47 @@ msgstr ""
 "This website was created for an education project in the context of a FECYT "
 "grant"
 
-#: main/templates/main/base.html:212
+#: main/templates/main/base.html:213
 msgid "sLengthMenu"
 msgstr "Show _MENU_ records"
 
-#: main/templates/main/base.html:213
+#: main/templates/main/base.html:214
 msgid "sZeroRecords"
 msgstr "No records found"
 
-#: main/templates/main/base.html:214
+#: main/templates/main/base.html:215
 msgid "sInfo"
 msgstr "Showing _START_ to _END_ of _TOTAL_ records"
 
-#: main/templates/main/base.html:215
+#: main/templates/main/base.html:216
 msgid "sInfoEmpty"
 msgstr "Showing 0 to 0 of 0 records"
 
-#: main/templates/main/base.html:216
+#: main/templates/main/base.html:217
 msgid "sInfoFiltered"
 msgstr "(filtered of _MAX_ total records)"
 
-#: main/templates/main/base.html:217
+#: main/templates/main/base.html:218
 msgid "loadingRecords"
 msgstr "Loading..."
 
-#: main/templates/main/base.html:219
+#: main/templates/main/base.html:220
 msgid "Filtrar"
 msgstr "Filter"
 
-#: main/templates/main/base.html:222
+#: main/templates/main/base.html:223
 msgid "Primer"
 msgstr "First"
 
-#: main/templates/main/base.html:223
+#: main/templates/main/base.html:224
 msgid "Anterior"
 msgstr "Previous"
 
-#: main/templates/main/base.html:224
+#: main/templates/main/base.html:225
 msgid "Següent"
 msgstr "Next"
 
-#: main/templates/main/base.html:225
+#: main/templates/main/base.html:226
 msgid "Últim"
 msgstr "Last"
 
@@ -1157,10 +1157,8 @@ msgid "Pujada de dades per la prova"
 msgstr "Data upload for test"
 
 #: main/templates/main/quiz_take_upload.html:28
-#, fuzzy
-#| msgid "Pujar fitxer"
 msgid "Pujant fitxer"
-msgstr "Upload file"
+msgstr "Uploading file"
 
 #: main/templates/main/quiz_take_upload.html:37
 msgid "Afegir fitxer"
@@ -1575,10 +1573,8 @@ msgid "Estàs intentant editar una prova que no existeix."
 msgstr "You are trying to edit a non-existing test."
 
 #: main/views.py:1147
-#, fuzzy
-#| msgid "Llista de centres"
 msgid "Llistat de credencials"
-msgstr "List centers"
+msgstr "Credentials list"
 
 #: main/views.py:1845 main/views.py:1898
 msgid "Anònim"

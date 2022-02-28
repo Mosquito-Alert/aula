@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-02-25 10:33+0000\n"
+"POT-Creation-Date: 2022-02-28 15:06+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -229,10 +229,8 @@ msgstr ""
 #: main/templates/main/reports/poll_center_or_group.html:6
 #: main/templates/main/reports/progress_center.html:22
 #: main/templates/main/teacher_menu.html:52
-#, fuzzy
-#| msgid "sInfo"
 msgid "Informes"
-msgstr "Mostrant de _START_ a _END_ de _TOTAL_ registres"
+msgstr "Informes"
 
 #: main/templates/main/admin_menu.html:65
 #: main/templates/main/teacher_menu.html:54
@@ -427,65 +425,65 @@ msgstr ""
 msgid "Espai professorat"
 msgstr ""
 
-#: main/templates/main/base.html:176
+#: main/templates/main/base.html:177
 msgid "Tancar sessió"
 msgstr ""
 
-#: main/templates/main/base.html:181
+#: main/templates/main/base.html:182
 msgid "Iniciar sessió"
 msgstr ""
 
-#: main/templates/main/base.html:190 main/templates/main/index.html:6
+#: main/templates/main/base.html:191 main/templates/main/index.html:6
 msgid "Benvingut a Aula"
 msgstr ""
 
-#: main/templates/main/base.html:191 main/templates/main/index.html:7
+#: main/templates/main/base.html:192 main/templates/main/index.html:7
 msgid ""
 "Aquesta és la web per a un projecte d&#39;educació en el context d&#39;una "
 "beca FECYT"
 msgstr ""
 
-#: main/templates/main/base.html:212
+#: main/templates/main/base.html:213
 msgid "sLengthMenu"
 msgstr "Mostra _MENU_ registres"
 
-#: main/templates/main/base.html:213
+#: main/templates/main/base.html:214
 msgid "sZeroRecords"
 msgstr "No s'han trobat registres."
 
-#: main/templates/main/base.html:214
+#: main/templates/main/base.html:215
 msgid "sInfo"
 msgstr "Mostrant de _START_ a _END_ de _TOTAL_ registres"
 
-#: main/templates/main/base.html:215
+#: main/templates/main/base.html:216
 msgid "sInfoEmpty"
 msgstr "Mostrant 0 a 0 de 0 registres"
 
-#: main/templates/main/base.html:216
+#: main/templates/main/base.html:217
 msgid "sInfoFiltered"
 msgstr "(filtrat de _MAX_ total registres)"
 
-#: main/templates/main/base.html:217
+#: main/templates/main/base.html:218
 msgid "loadingRecords"
 msgstr "Carregant..."
 
-#: main/templates/main/base.html:219
+#: main/templates/main/base.html:220
 msgid "Filtrar"
 msgstr "Filtrar"
 
-#: main/templates/main/base.html:222
+#: main/templates/main/base.html:223
 msgid "Primer"
 msgstr "Primer"
 
-#: main/templates/main/base.html:223
+#: main/templates/main/base.html:224
 msgid "Anterior"
 msgstr "Anterior"
 
-#: main/templates/main/base.html:224
+#: main/templates/main/base.html:225
 msgid "Següent"
 msgstr "Següent"
 
-#: main/templates/main/base.html:225
+#: main/templates/main/base.html:226
 msgid "Últim"
 msgstr "Últim"
 
@@ -761,10 +759,8 @@ msgid "Text de la resposta"
 msgstr ""
 
 #: main/templates/main/question_edit.html:94
-#, fuzzy
-#| msgid "Respostes correctes"
 msgid "Resposta correcta?"
-msgstr "Respostes correctes"
+msgstr "Resposta correcta?"
 
 #: main/templates/main/question_link_new.html:6
 #: main/templates/main/question_new.html:13
@@ -1367,10 +1363,8 @@ msgstr ""
 
 #: main/templates/main/test_result.html:72
 #: main/templates/main/test_result.html:95
-#, fuzzy
-#| msgid "Llistat enquestas i tests"
 msgid "Llistar intents"
-msgstr "Llistat enquestes i tests"
+msgstr "Llistar intents"
 
 #: main/templates/main/test_result.html:105
 msgid ""
