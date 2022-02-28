@@ -1,0 +1,28 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.css" integrity="sha256-b88RdwbRJEzRx95nCuuva+hO5ExvXXnpX+78h8DjyOE=" crossorigin="anonymous" />
+{% endblock %}
+{% block title %}{% trans 'Editar campanya' %}{% endblock %}
+
+{% block main_jumbo %}<img class="img_icons" src="{% static 'main/icons/noun-calendar-4636389.svg' %}"> {% trans 'Editant campanya' %}{% endblock %}
+{% block sub_jumbo %}{% endblock %}
+
+{% block main %}
+<div class="container">
+    <form id="group_form" class="form" action="{% url 'campaign_update' campaign_id %}" method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <input role="button" class="btn btn-success mt-2" type="submit" value="{% trans 'Desar' %}" />
+    </form>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.js" integrity="sha256-/7FLTdzP6CfC1VBAj/rsp3Rinuuu9leMRGd354hvk0k=" crossorigin="anonymous"></script>
+<script src="{% static 'main/javascript/utils.js' %}"></script>
+<script src="{% static 'main/csrf_utils.js' %}"></script>
+<script src="{% static 'main/javascript/campaign_edit.js' %}"></script>
+{% endblock %}

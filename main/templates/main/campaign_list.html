@@ -1,0 +1,47 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block extra_css %}
+<link href="//cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css" rel="stylesheet">
+<style>
+    tr.row-disabled{
+        color: gray !important;
+    }
+
+    .row{
+        padding-right: 15px;
+        margin-bottom: 2%;
+    }
+</style>
+{% endblock %}
+{% block title %}{% trans 'Llistar/Editar/Esborrar campanyes' %}{% endblock %}
+
+{% block main_jumbo %}<img class="img_icons" src="{% static 'main/icons/noun-calendar-4636389.svg' %}"> {% trans 'Llista de campanyes' %}{% endblock %}
+{% block sub_jumbo %}{% endblock %}
+
+{% block main %}
+<div class="container">
+    <div class="row justify-content-end">
+        {% if user.is_superuser and user.is_staff %}
+        <div class="col-lg-2" style="text-align:right;">
+            <a href="{% url 'campaign_new' %}" type="button" class="btn btn-info">{% trans 'Afegir' %} <i class="fas fa-plus"></i></a>
+        </div>
+        {% endif %}
+    </div>
+    <table class="table table-striped table-bordered" id="campaign_list" style="width:100%;"></table>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="//cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+<script>
+    {% get_current_language as LANGUAGE_CODE %}
+    var _campaign_list_url = '{% url 'campaign_datatable_list' %}';
+    var _campaign_update_url = '{% url 'campaign_update_no_id' %}';
+    var _toggle_active = '{% url 'toggle_campaign_active' %}';
+</script>
+<script src="{% static 'main/csrf_utils.js' %}"></script>
+<script src="{% static 'main/cookies.js' %}"></script>
+<script src="{% static 'main/javascript/campaign_list.js' %}"></script>
+{% endblock %}

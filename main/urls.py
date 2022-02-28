@@ -102,6 +102,7 @@ urlpatterns = [
     path('api/group_combo/', views.group_combo, name="group_combo"),
     path('api/complete_upload/', views.complete_upload, name="complete_upload"),
     path('api/requirements_combo/', views.requirements_combo, name="requirements_combo"),
+    path('api/toggle_campaign_active/', views.toggle_campaign_active, name="toggle_campaign_active"),
     path('makepdf', views.group_credentials_list, name='generatePDF'),
     path('quiz/graphic_results/<int:idQuizz>/', views.quiz_graphic_results, name='quiz_graphic_results'),
     path('quiz/results/', views.quiz_results, name='quiz_results'),
@@ -111,5 +112,10 @@ urlpatterns = [
     path('tinymce/', include('tinymce.urls')),
     path('quiz/test_result/<int:quiz_id>/<int:group_id>/', views.quizrun_group_list, name='quizrun_group_list'),
     path('quizrun/delete/<int:quizrun_id>/', views.delete_quizrun, name='delete_quizrun'),
-    path('quiz/test_result/<int:quiz_id>/<int:group_id>/detail/', views.test_results_detail_view, name='test_results_detail_view')
+    path('quiz/test_result/<int:quiz_id>/<int:group_id>/detail/', views.test_results_detail_view, name='test_results_detail_view'),
+    path('campaign/new/', views.campaign_new, name='campaign_new'),
+    path('campaign/list/', views.campaign_list, name='campaign_list'),
+    path('campaign/update/<int:pk>/', views.campaign_update, name='campaign_update'),
+    path('campaign/update/', views.campaign_update, name='campaign_update_no_id'),
+    path('campaign/datatablelist/', views.campaign_datatable_list, name='campaign_datatable_list'),
 ]

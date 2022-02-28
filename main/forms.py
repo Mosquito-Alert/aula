@@ -438,3 +438,21 @@ class QuestionForm(forms.ModelForm):
                 if q.question_order == cleaned_data:
                     raise forms.ValidationError(_('Ja hi ha una pregunta amb aquest número d\'ordre per aquesta prova. Tria un número diferent'))
         return cleaned_data
+
+
+class CampaignForm(forms.ModelForm):
+    name = forms.CharField(label=_("Nom de la campanya"), strip=False, widget=forms.TextInput(attrs={'class': 'form-control'}), required=True)
+    start_date = forms.DateTimeField(input_formats=['%d/%m/%Y'], required=False, localize=True)
+    end_date = forms.DateTimeField(input_formats=['%d/%m/%Y'], required=False, localize=True)
+
+    class Meta:
+        model = Campaign
+        fields = ['name','start_date','end_date']
+
+    def clean_end_date(self):
+        cleaned_data_start = self.cleaned_data.get('start_date')
+        cleaned_data_end = self.cleaned_data.get('end_date')
+        if cleaned_data_end is not None and cleaned_data_start is not None:
+            if cleaned_data_start >= cleaned_data_end:
+                raise forms.ValidationError(_('La data d\'inici no pot ser posterior o igual a la data de fi'))
+        return cleaned_data_end

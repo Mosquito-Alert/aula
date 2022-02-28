@@ -5,10 +5,10 @@ from main.forms import QuizForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from aula import settings
-from main.models import EducationCenter, Word, Quiz, Answer, Question, QuizRun, QuizRunAnswers, Profile, get_string_from_groups
+from main.models import EducationCenter, Word, Quiz, Answer, Question, QuizRun, QuizRunAnswers, Profile, get_string_from_groups, Campaign
 from main.forms import TeacherForm, SimplifiedTeacherForm, EducationCenterForm, TeacherUpdateForm, ChangePasswordForm, \
     SimplifiedAlumForm, SimplifiedGroupForm, AlumUpdateForm, QuestionForm, QuestionLinkForm, SimplifiedAlumFormForTeacher, \
-    SimplifiedAlumFormForAdmin, AlumUpdateFormAdmin, QuizAdminForm, QuestionPollForm, QuizNewForm, QuestionUploadForm
+    SimplifiedAlumFormForAdmin, AlumUpdateFormAdmin, QuizAdminForm, QuestionPollForm, QuizNewForm, QuestionUploadForm, CampaignForm
 from django.contrib.gis.geos import GEOSGeometry
 from rest_framework.decorators import api_view, permission_classes
 from querystring_parser import parser
@@ -20,7 +20,7 @@ import operator
 from main.serializers import EducationCenterSerializer, TeacherSerializer, UserSerializer, AlumSerializer, \
     GroupSerializer, GroupSearchSerializer, TeacherComboSerializer, AlumSearchSerializer, QuizSerializer, \
     QuestionSerializer, QuizSearchSerializer, QuizRunAnswerSerializer, QuizRunSerializer, QuizComboSerializer, \
-    GroupComboSerializer
+    GroupComboSerializer, CampaignSerializer
 from rest_framework import status,viewsets, generics
 from django.db.models import Q
 from rest_framework.generics import GenericAPIView
@@ -2029,3 +2029,77 @@ def reports_poll_center_or_group(request, poll_id=None, center_id=None, group_id
 
 
     return render(request, 'main/reports/poll_center_or_group.html', {'quiz': poll, 'data': json.dumps(data),'len_data': len(data), 'group': group, 'center': center})
+
+
+@login_required
+def campaign_new(request):
+    this_user = request.user
+    if this_user.is_superuser:
+        if request.method == 'POST':
+            form = CampaignForm(request.POST)
+            if form.is_valid():
+                form.save()
+                return HttpResponseRedirect('/campaign/list')
+        else:
+            form = CampaignForm()
+        return render(request, 'main/campaign_new.html', {'form': form})
+    else:
+        message = _("Estàs intentant accedir a una pàgina a la que no tens permís.")
+        go_back_to = "my_hub"
+        return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
+
+
+@login_required
+def campaign_list(request):
+    return render(request, 'main/campaign_list.html', {})
+
+@api_view(['GET'])
+def campaign_datatable_list(request):
+    this_user = request.user
+
+    if request.method == 'GET':
+
+        search_field_list = ('name', 'start_date','end_date', 'active')
+        field_translation_list = {'name': 'name', 'start_date': 'start_date', 'end_date': 'end_date', 'active': 'active'}
+        sort_translation_list = {'name': 'name', 'start_date': 'start_date', 'end_date': 'end_date', 'active': 'active'}
+
+        if this_user.is_superuser:
+            queryset = Campaign.objects.all().order_by('name')
+        else:
+            pass  # this should not happen
+        response = generic_datatable_list_endpoint(request, search_field_list, queryset, CampaignSerializer, field_translation_list, sort_translation_list)
+    return response
+
+
+@api_view(['POST'])
+def toggle_campaign_active(request):
+    if request.method == 'POST':
+        id = request.POST.get('id', -1)
+        if id == -1:
+            raise ParseError(detail='Campaign id not specified')
+        campaign = get_object_or_404(Campaign,pk=id)
+        if campaign.active:
+            raise ParseError(detail='Operation not allowed')
+        Campaign.objects.all().update(active=False)
+        campaign.active = True
+        campaign.save()
+        return Response({"ok":True})
+
+@login_required
+def campaign_update(request, pk=None):
+    this_user = request.user
+    if pk:
+        campaign = get_object_or_404(Campaign, pk=pk)
+    else:
+        raise forms.ValidationError("No existeix aquest grup")
+    form = CampaignForm(request.POST or None, instance=campaign)
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/campaign/list/')
+    if this_user.is_superuser:
+        return render(request, 'main/campaign_edit.html', {'form': form, 'campaign_id' : pk })
+    else:
+        message = _("Estàs intentant accedir a una pàgina a la que no tens permís.")
+        go_back_to = "my_hub"
+        return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})

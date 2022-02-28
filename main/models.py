@@ -20,7 +20,7 @@ class Campaign(models.Model):
     end_date = models.DateField(null=True, blank=True)
 
     def __str__(self):
-        return "{0} {1}".format(self.name, self.active)
+        return self.name
 
 
 def get_current_active_campaign():
@@ -408,6 +408,19 @@ class Profile(models.Model):
         elif self.is_group:
             group_campaign = self.campaign
             return Quiz.objects.filter(Q(author=self.group_teacher) | Q(author__isnull=True)).filter(campaign=group_campaign).filter(published=True).exclude(type=4).order_by('name')
+
+    # for normal users, the campaign is assigned and never changed. The admin can change the current campaign at a given time
+    @property
+    def get_user_campaign(self):
+        if self.user.is_superuser:
+            try:
+                campaign = Campaign.objects.get(active=True)
+                return campaign
+            except Campaign.DoesNotExist:
+                return None
+        else:
+            return self.campaign
+
 
 
 def get_string_from_groups(profile):
