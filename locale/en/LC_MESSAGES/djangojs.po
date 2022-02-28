@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-02-24 13:43+0000\n"
+"POT-Creation-Date: 2022-02-28 15:14+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -42,6 +42,7 @@ msgid "Desactivar usuari"
 msgstr "Deactivate user"
 
 #: main/static/main/javascript/alum_list.js:122
+#: main/static/main/javascript/campaign_list.js:50
 #: main/static/main/javascript/group_list.js:112
 #: main/static/main/javascript/quiz_list.js:105
 #: main/static/main/javascript/teacher_list.js:99
@@ -84,6 +85,30 @@ msgid ""
 "El professor està inactiu i es marcarà com a actiu. Això vol dir que no es "
 "podrà loginar. Segur que vols continuar?"
 msgstr "Teacher is inactive and will be marked as active. Continue?"
+
+#: main/static/main/javascript/campaign_list.js:32
+msgid "Campanya activa"
+msgstr "Campaign activated!"
+
+#: main/static/main/javascript/campaign_list.js:55
+msgid "Nom de la campanya"
+msgstr "Campaign name"
+
+#: main/static/main/javascript/campaign_list.js:59
+msgid "Data inici"
+msgstr "Start date"
+
+#: main/static/main/javascript/campaign_list.js:63
+msgid "Data fi"
+msgstr "End date"
+
+#: main/static/main/javascript/campaign_list.js:72
+msgid ""
+"La campanya que has clicat s'establirà com a activa. Segur que vols "
+"continuar?"
+msgstr ""
+"The campaign you clicked on will be established as active. Are you sure you "
+"want to continue?"
 
 #: main/static/main/javascript/center_list.js:16
 msgid "Centre activat!"
@@ -312,7 +337,7 @@ msgstr "Link to test"
 
 #: main/static/main/javascript/quiz_list.js:107
 msgid "View"
-msgstr ""
+msgstr "View"
 
 #: main/static/main/javascript/quiz_list.js:116
 msgid "Eliminar prova"

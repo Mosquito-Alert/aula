@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-02-24 13:43+0000\n"
+"POT-Creation-Date: 2022-02-28 15:14+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,29 +19,21 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: main/static/main/javascript/alum_list.js:43
-#, fuzzy
-#| msgid "Grup desactivat!"
 msgid "Alumne desactivat!"
-msgstr "¡Grupo activado!"
+msgstr "¡Alumno desactivado!"
 
 #: main/static/main/javascript/alum_list.js:45
-#, fuzzy
-#| msgid "Centre activat!"
 msgid "Alumne activat!"
-msgstr "¡Centro activado!"
+msgstr "¡Alumno activado!"
 
 #: main/static/main/javascript/alum_list.js:50
-#, fuzzy
-#| msgid "Error modificant centre"
 msgid "Error modificant alumne"
-msgstr "Error modificando centro"
+msgstr "Error modificando alumno"
 
 #: main/static/main/javascript/alum_list.js:59
 #: main/static/main/javascript/quizrun_group_list.js:63
-#, fuzzy
-#| msgid "Inactivant centre..."
 msgid "Inactivant alumne..."
-msgstr "Desactivando centro..."
+msgstr "Desactivando alumno..."
 
 #: main/static/main/javascript/alum_list.js:114
 #: main/static/main/javascript/group_list.js:100
@@ -50,6 +42,7 @@ msgid "Desactivar usuari"
 msgstr "Desactivar usuario"
 
 #: main/static/main/javascript/alum_list.js:122
+#: main/static/main/javascript/campaign_list.js:50
 #: main/static/main/javascript/group_list.js:112
 #: main/static/main/javascript/quiz_list.js:105
 #: main/static/main/javascript/teacher_list.js:99
@@ -67,14 +60,12 @@ msgid "Nom usuari"
 msgstr "Nombre usuario"
 
 #: main/static/main/javascript/alum_list.js:137
-#, fuzzy
-#| msgid "Professor activat!"
 msgid "Professor"
-msgstr "¡Profesor activado!"
+msgstr "Profesor"
 
 #: main/static/main/javascript/alum_list.js:141
 msgid "Grups"
-msgstr ""
+msgstr "Grupos"
 
 #: main/static/main/javascript/alum_list.js:162
 #: main/static/main/javascript/teacher_list.js:127
@@ -99,6 +90,30 @@ msgstr ""
 "El profesor está inactivo y se marcará como activo. ¿Seguro que quieres "
 "continuar?"
 
+#: main/static/main/javascript/campaign_list.js:32
+msgid "Campanya activa"
+msgstr "¡Campaign activated!"
+
+#: main/static/main/javascript/campaign_list.js:55
+msgid "Nom de la campanya"
+msgstr "Campaign name"
+
+#: main/static/main/javascript/campaign_list.js:59
+msgid "Data inici"
+msgstr "Fecha inicio"
+
+#: main/static/main/javascript/campaign_list.js:63
+msgid "Data fi"
+msgstr "Fecha finalización"
+
+#: main/static/main/javascript/campaign_list.js:72
+msgid ""
+"La campanya que has clicat s'establirà com a activa. Segur que vols "
+"continuar?"
+msgstr ""
+"La campaña en la que has clicado se establecerá como activa. Seguro que quieres "
+"continuar?"
+
 #: main/static/main/javascript/center_list.js:16
 msgid "Centre activat!"
 msgstr "¡Centro activado!"
@@ -121,7 +136,7 @@ msgstr "Nombre"
 
 #: main/static/main/javascript/center_list.js:119
 msgid "Hashtag"
-msgstr ""
+msgstr "Hashtag"
 
 #: main/static/main/javascript/center_list.js:133
 msgid "Data creació"
@@ -153,22 +168,20 @@ msgstr ""
 #: main/static/main/javascript/group_new.js:47
 #: main/static/main/javascript/quiz_assign_admin.js:46
 msgid "Error recuperant llista de tutors per centre"
-msgstr ""
+msgstr "Error recuperando lista de tutores por centro"
 
 #: main/static/main/javascript/group_edit.js:64
 #: main/static/main/javascript/group_new.js:86
 #: main/static/main/javascript/group_new_teacher.js:55
 #: main/static/main/javascript/question_edit.js:57
 #: main/static/main/javascript/question_new.js:67
-#, fuzzy
-#| msgid "Eliminar prova"
 msgid "Eliminar la foto?"
-msgstr "Eliminar prueba"
+msgstr "Eliminar la foto?"
 
 #: main/static/main/javascript/group_edit.js:103
 #: main/static/main/javascript/group_new.js:111
 msgid "Si us plau, tria el tutor del grup del desplegable"
-msgstr ""
+msgstr "Por favor, escoge el tutor del grupo del desplegable"
 
 #: main/static/main/javascript/group_list.js:24
 msgid "Grup desactivat!"
@@ -218,7 +231,7 @@ msgstr "¿Grupo activo?"
 
 #: main/static/main/javascript/group_list.js:163
 msgid "N. alumnes"
-msgstr ""
+msgstr "N. alumnos"
 
 #: main/static/main/javascript/group_list.js:174
 msgid ""
@@ -237,48 +250,44 @@ msgstr ""
 #: main/static/main/javascript/group_new.js:19
 #: main/static/main/javascript/group_new_teacher.js:19
 #: main/static/main/javascript/quiz_assign_admin.js:20
-#, fuzzy
-#| msgid "Error modificant grup"
 msgid "Error recuperant nom de grup"
-msgstr "Error modificando grupo"
+msgstr "Error recuperando nombre del grupo"
 
 #: main/static/main/javascript/group_new.js:74
-#, fuzzy
-#| msgid "Eliminar prova"
 msgid "Eliminar"
-msgstr "Eliminar prueba"
+msgstr "Eliminar"
 
 #: main/static/main/javascript/question_editor.js:103
 msgid "No has afegit cap resposta per la pregunta"
-msgstr ""
+msgstr "No has añadido ninguna respuesta para la pregunta"
 
 #: main/static/main/javascript/question_editor.js:112
 msgid "L'etiqueta de la pregunta no pot estar en blanc"
-msgstr ""
+msgstr "La etiqueta de la pregunta no puede estar en blanco"
 
 #: main/static/main/javascript/question_editor.js:118
 msgid "El text de la pregunta no pot estar en blanc"
-msgstr ""
+msgstr "El texto de la pregunta no puede estar en blanco"
 
 #: main/static/main/javascript/question_editor.js:127
 msgid "L'etiqueta està repetida, ha de ser única"
-msgstr ""
+msgstr "La etiqueta está repetida, debe ser única"
 
 #: main/static/main/javascript/question_editor.js:138
 msgid "Cal marcar com a mínim una resposta com a correcta"
-msgstr ""
+msgstr "Hay qye marcar como mínimo una respuesta como correcta"
 
 #: main/static/main/javascript/question_editor.js:150
 msgid "S'esborrarà la pregunta! Segur?"
-msgstr ""
+msgstr "¡Se borrará la pregunta! ¿Seguro?"
 
 #: main/static/main/javascript/quiz_assign_admin.js:39
 msgid "Select tutor..."
-msgstr ""
+msgstr "Selecciona tutor..."
 
 #: main/static/main/javascript/quiz_assign_admin.js:146
 msgid "Tria primer un centre..."
-msgstr ""
+msgstr "Escoge primero un centro..."
 
 #: main/static/main/javascript/quiz_edit.js:38
 #: main/static/main/javascript/quiz_edit_teacher.js:38
@@ -286,32 +295,28 @@ msgid ""
 "ATENCIÓ: s'esborrarà la pregunta i totes les respostes. Segur que vols "
 "continuar?"
 msgstr ""
+"ATENCIÓN: se borrará la pregunta y todas las respuestas. ¿Seguro que "
+"quieres continuar?"
 
 #: main/static/main/javascript/quiz_edit.js:52
 #: main/static/main/javascript/quiz_edit_teacher.js:52
-#, fuzzy
-#| msgid "Prova eliminada!"
 msgid "Pregunta eliminada!"
-msgstr "¡Prueba eliminada!"
+msgstr "¡Pregunta eliminada!"
 
 #: main/static/main/javascript/quiz_edit.js:60
 #: main/static/main/javascript/quiz_edit_teacher.js:60
-#, fuzzy
-#| msgid "Error eliminant prova"
 msgid "Error eliminant pregunta"
-msgstr "Error eliminando prueba"
+msgstr "Error eliminando pregunta"
 
 #: main/static/main/javascript/quiz_edit.js:70
 #: main/static/main/javascript/quiz_edit_teacher.js:70
-#, fuzzy
-#| msgid "Eliminant prova..."
 msgid "Eliminant pregunta..."
-msgstr "Eliminando prueba..."
+msgstr "Eliminando pregunta..."
 
 #: main/static/main/javascript/quiz_edit.js:113
 #: main/static/main/javascript/quiz_new.js:29
 msgid "Error recuperant llista de requeriments"
-msgstr ""
+msgstr "Error recuperando lista de requerimientos"
 
 #: main/static/main/javascript/quiz_list.js:49
 #: main/static/main/javascript/quiz_results.js:38
@@ -345,7 +350,7 @@ msgstr "Enlace a la prueba"
 
 #: main/static/main/javascript/quiz_list.js:107
 msgid "View"
-msgstr ""
+msgstr "Ver"
 
 #: main/static/main/javascript/quiz_list.js:116
 msgid "Eliminar prova"
@@ -386,29 +391,23 @@ msgstr "Ver resultados"
 
 #: main/static/main/javascript/quiz_results_graphics.js:31
 msgid "Resultats per grup de la prova"
-msgstr ""
+msgstr "Resultados por grupo de la prueba"
 
 #: main/static/main/javascript/quiz_results_graphics.js:41
 msgid "Respostes correctes"
-msgstr ""
+msgstr "Respuestas correctas"
 
 #: main/static/main/javascript/quiz_take.js:31
-#, fuzzy
-#| msgid "Error eliminant prova"
 msgid "Error escrivint resposta"
-msgstr "Error eliminando prueba"
+msgstr "Error escribiendo respuesta"
 
 #: main/static/main/javascript/quiz_take.js:51
-#, fuzzy
-#| msgid "Error eliminant prova"
 msgid "Error finalitzant prova"
-msgstr "Error eliminando prueba"
+msgstr "Error finalizando prueba"
 
 #: main/static/main/javascript/quiz_take.js:60
-#, fuzzy
-#| msgid "Eliminant prova..."
 msgid "Finalitzant prova..."
-msgstr "Eliminando prueba..."
+msgstr "Finalizando prueba..."
 
 #: main/static/main/javascript/quiz_take.js:129
 msgid ""
@@ -416,70 +415,61 @@ msgid ""
 "més (tot i que pots repetir-la més tard) i rebràs el resultat en pantalla. "
 "Vols continuar?"
 msgstr ""
+"Estás a punto de finalizar la prueba. Si continúas, no podrás modificarla "
+"más (aunque puedes repetirla más tarde) y verás el resultado en pantalla. "
+"¿Quieres continuar?"
 
 #: main/static/main/javascript/quiz_take_upload.js:11
 msgid "Només es permeten fitxers zip"
-msgstr ""
+msgstr "Sólo se permiten ficheros zip"
 
 #: main/static/main/javascript/quiz_take_upload.js:26
 msgid "Fitxer pujat amb èxit!"
-msgstr ""
+msgstr "¡Fichero subido con éxito!"
 
 #: main/static/main/javascript/quiz_take_upload.js:54
-#, fuzzy
-#| msgid "Prova eliminada!"
 msgid "Prova finalitzada!"
-msgstr "¡Prueba eliminada!"
+msgstr "¡Prueba finalizada!"
 
 #: main/static/main/javascript/quiz_take_upload.js:58
-#, fuzzy
-#| msgid "Error eliminant prova"
 msgid "Error completant prova"
-msgstr "Error eliminando prueba"
+msgstr "Error completando prueba"
 
 #: main/static/main/javascript/quiz_take_upload.js:77
-#, fuzzy
-#| msgid "Eliminar prova"
 msgid "Eliminar el fitxer?"
-msgstr "Eliminar prueba"
+msgstr "¿Eliminar el fichero?"
 
 #: main/static/main/javascript/quizrun_group_list.js:14
 msgid "Intent eliminat"
-msgstr ""
+msgstr "Intento eliminado"
 
 #: main/static/main/javascript/quizrun_group_list.js:18
-#, fuzzy
-#| msgid "Error eliminant prova"
 msgid "Error eliminant l'intent"
-msgstr "Error eliminando prueba"
+msgstr "Error eliminando el intento"
 
 #: main/static/main/javascript/quizrun_group_list.js:27
 msgid "Segur que vols eliminar les dades d'aquest intent?"
-msgstr ""
+msgstr "¿Seguro que quieres eliminaro los datos de este intento?"
 
 #: main/static/main/javascript/quizrun_group_list.js:32
-#, fuzzy
-#| msgid "Eliminant prova..."
 msgid "Eliminant dades d'intent..."
-msgstr "Eliminando prueba..."
+msgstr "Eliminando datos del intento..."
 
 #: main/static/main/javascript/reports.js:5
 msgid "Cal triar com a mínim un centre, i opcionalment un grup dins del centre"
-msgstr ""
+msgstr "Hay que seleccionar como mínimo un centro, y opcionalmente un grupo dentro del centro"
 
 #: main/static/main/javascript/reports.js:48
 msgid "Error recuperant llista de grups per centre"
-msgstr ""
+msgstr "Error recuperando lista de grupos por centro"
 
 #: main/static/main/javascript/reports.js:72
 msgid "Cal seleccionar una enquesta i un centre"
 msgstr "Es obligatorio seleccionar un centro"
 
 #: main/static/main/javascript/reports.js:86
-#, fuzzy
-#| msgid "Cal seleccionar una enquesta i un centre"
 msgid "Cal seleccionar un centre"
-msgstr "Es obligatorio seleccionar una encuesta y un centro"
+msgstr "Es obligatorio seleccionar un centro"
 
 #: main/static/main/javascript/teacher_list.js:16
 msgid "Professor desactivat!"
