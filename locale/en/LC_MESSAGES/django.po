@@ -527,13 +527,6 @@ msgstr "List/Edit/Delete campaigns"
 msgid "Llista de campanyes"
 msgstr "Campaign list"
 
-#: main/templates/main/campaign_list.html:29
-#: main/templates/main/center_list.html:28
-#: main/templates/main/group_list.html:32 main/templates/main/quiz_list.html:28
-#: main/templates/main/teacher_list.html:28
-msgid "Afegir"
-msgstr "Add"
-
 #: main/templates/main/campaign_new.html:10
 msgid "Crear campanya"
 msgstr "Create campaign"

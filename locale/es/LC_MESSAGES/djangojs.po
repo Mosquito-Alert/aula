@@ -91,11 +91,11 @@ msgstr ""
 
 #: main/static/main/javascript/campaign_list.js:32
 msgid "Campanya activa"
-msgstr "¡Campaign activated!"
+msgstr "Campaña activa"
 
 #: main/static/main/javascript/campaign_list.js:55
 msgid "Nom de la campanya"
-msgstr "Campaign name"
+msgstr "Nombre de la campaña"
 
 #: main/static/main/javascript/campaign_list.js:59
 msgid "Data inici"

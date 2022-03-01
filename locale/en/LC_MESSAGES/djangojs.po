@@ -87,7 +87,7 @@ msgstr "Teacher is inactive and will be marked as active. Continue?"
 
 #: main/static/main/javascript/campaign_list.js:32
 msgid "Campanya activa"
-msgstr "Campaign activated!"
+msgstr "Active campaign"
 
 #: main/static/main/javascript/campaign_list.js:55
 msgid "Nom de la campanya"
