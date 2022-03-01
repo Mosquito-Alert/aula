@@ -147,6 +147,14 @@ msgstr ""
 msgid "Enllaç a document extern"
 msgstr "Enlace a un documento externo"
 
+#: main/forms.py:444
+msgid "Nom de la campanya"
+msgstr "Nombre de la campaña"
+
+#: main/forms.py:457
+msgid "La data d'inici no pot ser posterior o igual a la data de fi"
+msgstr "La fecha de inicio no puede ser posterior o igual a la fecha final"
+
 #: main/models.py:43
 msgid "Test"
 msgstr "Test"
@@ -183,6 +191,14 @@ msgstr "Espacio de administradores"
 #: main/templates/main/admin_menu.html:6
 msgid "Menú principal administrador"
 msgstr "Menú principal administrador"
+
+#: main/templates/main/admin_menu.html:15
+msgid "Campaigns"
+msgstr "Campañas"
+
+#: main/templates/main/admin_menu.html:17
+msgid "Entrar i gestionar campanyes"
+msgstr "Añadir y gestionar campañas"
 
 #: main/templates/main/admin_menu.html:15
 msgid "Centres"
@@ -497,6 +513,37 @@ msgstr "Siguiente"
 #: main/templates/main/base.html:226
 msgid "Últim"
 msgstr "Último"
+
+#: main/templates/main/campaign_edit.html:9
+msgid "Editar campanya"
+msgstr "Editar campaña"
+
+#: main/templates/main/campaign_edit.html:11
+msgid "Editant campanya"
+msgstr "Editando campaña"
+
+#: main/templates/main/campaign_list.html:19
+msgid "Llistar/Editar/Esborrar campanyes"
+msgstr "Listar/Editar/Borrar campañas"
+
+#: main/templates/main/campaign_list.html:21
+msgid "Llista de campanyes"
+msgstr "Lista de campañas"
+
+#: main/templates/main/campaign_list.html:29
+#: main/templates/main/center_list.html:28
+#: main/templates/main/group_list.html:32 main/templates/main/quiz_list.html:28
+#: main/templates/main/teacher_list.html:28
+msgid "Afegir"
+msgstr "Añadir"
+
+#: main/templates/main/campaign_new.html:10
+msgid "Crear campanya"
+msgstr "Crear campaña"
+
+#: main/templates/main/campaign_new.html:15
+msgid "Creant nova campanya"
+msgstr "Creando nueva campaña"
 
 #: main/templates/main/center_edit.html:15
 msgid "Editar centre"
@@ -1200,6 +1247,10 @@ msgstr "Encuestas por grupo o centro"
 #: main/templates/main/reports.html:16
 msgid "help_enquestes_group_centre"
 msgstr ""
+"Este informe muestra resultados de las encuestas por grupos y centros. Para "
+"ver los resultados de un grupo individual, hay que seleccionar el grupo en el "
+"desplegable de más abajo. Si se selecciona la opción 'Todos los grupos', se "
+"mostrarán resultados agregados para todo el centro educativo"
 
 #: main/templates/main/reports.html:28 main/templates/main/reports.html:60
 msgid "Tria un centre"
@@ -1224,6 +1275,9 @@ msgstr "Progreso de pruebas"
 #: main/templates/main/reports.html:57
 msgid "help_test_progress"
 msgstr ""
+"Este informe muestra qué grupos han completado las pruebas disponibles. Para "
+"cada grupo y prueba, el informe indica si la prueba está en progreso, "
+"completada o pendiente"
 
 #: main/templates/main/reports/poll_center_or_group.html:6
 #: main/templates/main/reports/poll_center_or_group.html:8
@@ -1232,11 +1286,11 @@ msgstr "Resultados encuesta por centro o grupo"
 
 #: main/templates/main/reports/poll_center_or_group.html:88
 msgid "El grup no ha completat aquesta enquesta"
-msgstr ""
+msgstr "El grupo no ha completado esta encuesta"
 
 #: main/templates/main/reports/poll_center_or_group.html:90
 msgid "Ningú del centre ha completat aquesta enquesta"
-msgstr ""
+msgstr "Nadie del centro ha completado esta encuesta"
 
 #: main/templates/main/reports/progress_center.html:22
 #: main/templates/main/reports/progress_center.html:24
@@ -1245,19 +1299,19 @@ msgstr "Progreso de pruebas por centro"
 
 #: main/templates/main/reports/progress_center.html:32
 msgid "Com es llegeix aquest informe"
-msgstr ""
+msgstr "Como se lee este informe"
 
 #: main/templates/main/reports/progress_center.html:34
 msgid "El grup ha completat la prova"
-msgstr ""
+msgstr "El grupo ha completado la prueba"
 
 #: main/templates/main/reports/progress_center.html:35
 msgid "El grup ha respost algunes preguntes, però no ha acabat"
-msgstr ""
+msgstr "El grupo ha respondido algunas preguntas, pero no ha terminado"
 
 #: main/templates/main/reports/progress_center.html:36
 msgid "El grup no ha començat encara a fer la prova"
-msgstr ""
+msgstr "El grupo todavía no ha empezado a hacer la prueba"
 
 #: main/templates/main/teacher_edit.html:15
 msgid "Editar mestre"
@@ -1394,6 +1448,8 @@ msgid ""
 "Cap dels teus grups ha completat la prova encara, no es poden mostrar els "
 "resultats"
 msgstr ""
+"Ninguno de tus grupos ha completado todavía la prueba, no pueden mostrarse "
+"resultados"
 
 #: main/templates/main/test_result.html:113
 msgid "Resultats globals de la prova"
@@ -1521,6 +1577,8 @@ msgid ""
 "No es permet la pujada de materials a professors. Si vols pujar els "
 "materials d'un si us plau grup fes servir l'usuari del grup corresponent."
 msgstr ""
+"No se permite la subida de materiales a profesores. Si quieres subir "
+"los materiales de un grupo, por favor usa el usuario del grupo correspondiente."
 
 #: main/views.py:600 main/views.py:643
 msgid "Aquesta prova no existeix!"
@@ -1558,6 +1616,8 @@ msgid ""
 "La enquesta s'ha repetit tants cops com membres té el grup, no es permeten "
 "més repeticions."
 msgstr ""
+"La encuesta se ha repetido tantas veces como miembros tiene el grupo, no se permiten "
+"más repeticiones."
 
 #: main/views.py:755
 msgid "Aquesta prova té un requisit que no s'ha completat: "

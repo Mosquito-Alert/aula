@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from main.models import EducationCenter, Quiz, Question, QuizRunAnswers, QuizRun
+from main.models import EducationCenter, Quiz, Question, QuizRunAnswers, QuizRun, Campaign
 from django.contrib.auth.models import User
 from django.urls import reverse
 
@@ -224,4 +224,10 @@ class QuizRunAnswerSerializer(serializers.ModelSerializer):
 class QuizRunSerializer(serializers.ModelSerializer):
     class Meta:
         model = QuizRun
+        fields = '__all__'
+
+
+class CampaignSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Campaign
         fields = '__all__'

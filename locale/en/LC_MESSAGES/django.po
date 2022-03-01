@@ -49,7 +49,7 @@ msgstr "Name"
 #: main/forms.py:73 main/templates/pdf_templates/group_credentials_list.html:42
 #: main/templates/pdf_templates/group_credentials_list_admin.html:37
 msgid "Hashtag"
-msgstr ""
+msgstr "Hashtag"
 
 #: main/forms.py:81
 msgid "Password (Es recomana un password curt, de 4 caràcters:)"
@@ -146,6 +146,14 @@ msgstr ""
 msgid "Enllaç a document extern"
 msgstr "Link to an external document"
 
+#: main/forms.py:444
+msgid "Nom de la campanya"
+msgstr "Campaign name"
+
+#: main/forms.py:457
+msgid "La data d'inici no pot ser posterior o igual a la data de fi"
+msgstr "Start date can't be later or equal than the end date"
+
 #: main/models.py:43
 msgid "Test"
 msgstr "Test"
@@ -184,6 +192,14 @@ msgid "Menú principal administrador"
 msgstr "Administrator menu"
 
 #: main/templates/main/admin_menu.html:15
+msgid "Campaigns"
+msgstr "Campaigns"
+
+#: main/templates/main/admin_menu.html:17
+msgid "Entrar i gestionar campanyes"
+msgstr "Add and manage campaigns"
+
+#: main/templates/main/admin_menu.html:24
 msgid "Centres"
 msgstr "Centers"
 
@@ -494,6 +510,37 @@ msgstr "Next"
 #: main/templates/main/base.html:226
 msgid "Últim"
 msgstr "Last"
+
+#: main/templates/main/campaign_edit.html:9
+msgid "Editar campanya"
+msgstr "Edit campaign"
+
+#: main/templates/main/campaign_edit.html:11
+msgid "Editant campanya"
+msgstr "Editing campaign"
+
+#: main/templates/main/campaign_list.html:19
+msgid "Llistar/Editar/Esborrar campanyes"
+msgstr "List/Edit/Delete campaigns"
+
+#: main/templates/main/campaign_list.html:21
+msgid "Llista de campanyes"
+msgstr "Campaign list"
+
+#: main/templates/main/campaign_list.html:29
+#: main/templates/main/center_list.html:28
+#: main/templates/main/group_list.html:32 main/templates/main/quiz_list.html:28
+#: main/templates/main/teacher_list.html:28
+msgid "Afegir"
+msgstr "Add"
+
+#: main/templates/main/campaign_new.html:10
+msgid "Crear campanya"
+msgstr "Create campaign"
+
+#: main/templates/main/campaign_new.html:15
+msgid "Creant nova campanya"
+msgstr "Creating new campaign"
 
 #: main/templates/main/center_edit.html:15
 msgid "Editar centre"
@@ -1519,6 +1566,8 @@ msgid ""
 "No es permet la pujada de materials a professors. Si vols pujar els "
 "materials d'un si us plau grup fes servir l'usuari del grup corresponent."
 msgstr ""
+"Material upload is not allowed for professors. If you want to upload "
+"materials please use that group's user"
 
 #: main/views.py:600 main/views.py:643
 msgid "Aquesta prova no existeix!"

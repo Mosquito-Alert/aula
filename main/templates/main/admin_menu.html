@@ -12,6 +12,15 @@
     <div class="card-deck mb-3 text-center">
         <div class="card mb-4 box-shadow">
             <div class="card-body">
+                <h5 class="card-title">{% trans 'Campaigns' %}</h5>
+                <img class="img_icons" src="{% static 'main/icons/noun-calendar-4636389.svg' %}">
+                <p class="card-text">{% trans 'Entrar i gestionar campanyes' %}</p>
+                {% if user.is_superuser and user.is_staff %}<a href="{% url 'campaign_new' %}" class="btn btn-primary"><i class="fas fa-plus"></i></a>{% endif %}
+                <a href="{% url 'campaign_list' %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+            </div>
+        </div>
+        <div class="card mb-4 box-shadow">
+            <div class="card-body">
                 <h5 class="card-title">{% trans 'Centres' %}</h5>
                 <img class="img_icons" src="{% static 'main/icons/noun_School_1443077.svg' %}">
                 <p class="card-text">{% trans 'Permet entrar els centres en què els professors imparteixen classe' %}</p>

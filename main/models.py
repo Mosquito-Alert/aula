@@ -13,6 +13,23 @@ from django.db.models import Q
 import datetime
 
 
+class Campaign(models.Model):
+    name = models.CharField(max_length=500)
+    active = models.BooleanField(default=False)
+    start_date = models.DateField(null=True, blank=True)
+    end_date = models.DateField(null=True, blank=True)
+
+    def __str__(self):
+        return self.name
+
+
+def get_current_active_campaign():
+    try:
+        return Campaign.objects.get(active=True).id
+    except Campaign.DoesNotExist:
+        return None
+
+
 class EducationCenter(models.Model):
     name = models.CharField(max_length=500)
     location = models.PointField(srid=4326, null=True)
@@ -20,6 +37,7 @@ class EducationCenter(models.Model):
     active = models.BooleanField(default=True)
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
+    campaign = models.ForeignKey(Campaign, default=get_current_active_campaign, null=True, blank=True, on_delete=models.SET_NULL, related_name="education_centers")
 
     def __str__(self):
         return self.name
@@ -39,6 +57,8 @@ class EducationCenter(models.Model):
         return User.objects.filter(profile__center_string=self.name).filter(profile__is_group=True).order_by('profile__group_public_name')
 
 
+
+
 QUIZ_TYPES = (
     (0, _('Test')),
     (1, _('Material')),
@@ -56,6 +76,7 @@ class Quiz(models.Model):
     type = models.IntegerField(choices=QUIZ_TYPES)
     # To take this quiz, you need to previously complete 'requisite'
     requisite = models.ForeignKey('main.Quiz', null=True, blank=True, on_delete=models.SET_NULL, related_name='allows')
+    campaign = models.ForeignKey(Campaign, default=get_current_active_campaign, null=True, blank=True, on_delete=models.SET_NULL, related_name="quizzes")
 
     def __str__(self):
         return "{0} - {1}".format(self.name, self.type_text)
@@ -357,6 +378,7 @@ class Profile(models.Model):
     center_string = models.CharField(max_length=1000, null=True, blank=True)
     n_students_in_group = models.IntegerField(default=3)
     group_hashtag = models.CharField(max_length=20, null=True, blank=True, unique=True)
+    campaign = models.ForeignKey(Campaign, default=get_current_active_campaign, null=True, blank=True, on_delete=models.SET_NULL, related_name="profiles")
 
     @property
     def center(self):
@@ -385,7 +407,21 @@ class Profile(models.Model):
         if self.is_teacher:
             return None
         elif self.is_group:
-            return Quiz.objects.filter(Q(author=self.group_teacher) | Q(author__isnull=True)).filter(published=True).exclude(type=4).order_by('name')
+            group_campaign = self.campaign
+            return Quiz.objects.filter(Q(author=self.group_teacher) | Q(author__isnull=True)).filter(campaign=group_campaign).filter(published=True).exclude(type=4).order_by('name')
+
+    # for normal users, the campaign is assigned and never changed. The admin can change the current campaign at a given time
+    @property
+    def get_user_campaign(self):
+        if self.user.is_superuser:
+            try:
+                campaign = Campaign.objects.get(active=True)
+                return campaign
+            except Campaign.DoesNotExist:
+                return None
+        else:
+            return self.campaign
+
 
 
 def get_string_from_groups(profile):

@@ -85,6 +85,28 @@ msgid ""
 "podrà loginar. Segur que vols continuar?"
 msgstr ""
 
+#: main/static/main/javascript/campaign_list.js:32
+msgid "Campanya activa"
+msgstr ""
+
+#: main/static/main/javascript/campaign_list.js:55
+msgid "Nom de la campanya"
+msgstr ""
+
+#: main/static/main/javascript/campaign_list.js:59
+msgid "Data inici"
+msgstr ""
+
+#: main/static/main/javascript/campaign_list.js:63
+msgid "Data fi"
+msgstr ""
+
+#: main/static/main/javascript/campaign_list.js:72
+msgid ""
+"La campanya que has clicat s'establirà com a activa. Segur que vols "
+"continuar?"
+msgstr ""
+
 #: main/static/main/javascript/center_list.js:16
 msgid "Centre activat!"
 msgstr ""
@@ -424,6 +446,10 @@ msgstr ""
 
 #: main/static/main/javascript/reports.js:72
 msgid "Cal seleccionar una enquesta i un centre"
+msgstr ""
+
+#: main/static/main/javascript/reports.js:86
+msgid "Cal seleccionar un centre"
 msgstr ""
 
 #: main/static/main/javascript/teacher_list.js:16

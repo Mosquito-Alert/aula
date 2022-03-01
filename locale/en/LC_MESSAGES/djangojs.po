@@ -85,6 +85,30 @@ msgid ""
 "podrà loginar. Segur que vols continuar?"
 msgstr "Teacher is inactive and will be marked as active. Continue?"
 
+#: main/static/main/javascript/campaign_list.js:32
+msgid "Campanya activa"
+msgstr "Campaign activated!"
+
+#: main/static/main/javascript/campaign_list.js:55
+msgid "Nom de la campanya"
+msgstr "Campaign name"
+
+#: main/static/main/javascript/campaign_list.js:59
+msgid "Data inici"
+msgstr "Start date"
+
+#: main/static/main/javascript/campaign_list.js:63
+msgid "Data fi"
+msgstr "End date"
+
+#: main/static/main/javascript/campaign_list.js:72
+msgid ""
+"La campanya que has clicat s'establirà com a activa. Segur que vols "
+"continuar?"
+msgstr ""
+"The campaign you clicked on will be established as active. Are you sure you "
+"want to continue?"
+
 #: main/static/main/javascript/center_list.js:16
 msgid "Centre activat!"
 msgstr "Center activated!"
@@ -431,6 +455,10 @@ msgstr "Error recovering group list by center"
 #: main/static/main/javascript/reports.js:72
 msgid "Cal seleccionar una enquesta i un centre"
 msgstr "You must select a poll and a center"
+
+#: main/static/main/javascript/reports.js:86
+msgid "Cal seleccionar un centre"
+msgstr "You must select a center"
 
 #: main/static/main/javascript/teacher_list.js:16
 msgid "Professor desactivat!"

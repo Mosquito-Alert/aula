@@ -82,6 +82,10 @@ $(document).ready( function () {
         }else{
             center_id = $('#select_progress_center').val();
         }
-        generate_progress_center(center_id);
+        if(center_id == '' || center_id == null){
+            toastr.error(gettext('Cal seleccionar un centre'));
+        }else{
+            generate_progress_center(center_id);
+        }
     } );
 });

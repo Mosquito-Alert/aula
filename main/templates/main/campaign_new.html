@@ -1,0 +1,27 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.css" integrity="sha256-b88RdwbRJEzRx95nCuuva+hO5ExvXXnpX+78h8DjyOE=" crossorigin="anonymous" />
+{% endblock %}
+
+{% block title %}{% trans 'Crear campanya' %}{% endblock %}
+
+{% block main %}
+<div class="col-xs-12" style="height:50px;"></div>
+<div class="container">
+    <h2><img class="img_icons" src="{% static 'main/icons/noun-calendar-4636389.svg' %}"> {% trans 'Creant nova campanya' %}:</h2>
+    <form class="form" action="{% url 'campaign_new' %}" method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <input role="button" class="btn btn-success mt-2" type="submit" value="{% trans 'Desar' %}" />
+    </form>
+</div>
+{% endblock %}
+{% block extra_js %}
+<!-- Fengyuan Chen's Datepicker -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.js" integrity="sha256-/7FLTdzP6CfC1VBAj/rsp3Rinuuu9leMRGd354hvk0k=" crossorigin="anonymous"></script>
+<script src="{% static 'main/javascript/campaign_new.js' %}"></script>
+{% endblock %}

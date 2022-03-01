@@ -142,7 +142,15 @@ msgstr ""
 msgid "Enllaç a document extern"
 msgstr ""
 
-#: main/models.py:43
+#: main/forms.py:444
+msgid "Nom de la campanya"
+msgstr ""
+
+#: main/forms.py:457
+msgid "La data d'inici no pot ser posterior o igual a la data de fi"
+msgstr ""
+
+#: main/models.py:63
 msgid "Test"
 msgstr ""
 
@@ -180,6 +188,14 @@ msgid "Menú principal administrador"
 msgstr ""
 
 #: main/templates/main/admin_menu.html:15
+msgid "Campaigns"
+msgstr ""
+
+#: main/templates/main/admin_menu.html:17
+msgid "Entrar i gestionar campanyes"
+msgstr ""
+
+#: main/templates/main/admin_menu.html:24
 msgid "Centres"
 msgstr ""
 
@@ -486,6 +502,37 @@ msgstr "Següent"
 #: main/templates/main/base.html:226
 msgid "Últim"
 msgstr "Últim"
+
+#: main/templates/main/campaign_edit.html:9
+msgid "Editar campanya"
+msgstr ""
+
+#: main/templates/main/campaign_edit.html:11
+msgid "Editant campanya"
+msgstr ""
+
+#: main/templates/main/campaign_list.html:19
+msgid "Llistar/Editar/Esborrar campanyes"
+msgstr ""
+
+#: main/templates/main/campaign_list.html:21
+msgid "Llista de campanyes"
+msgstr ""
+
+#: main/templates/main/campaign_list.html:29
+#: main/templates/main/center_list.html:28
+#: main/templates/main/group_list.html:32 main/templates/main/quiz_list.html:28
+#: main/templates/main/teacher_list.html:28
+msgid "Afegir"
+msgstr ""
+
+#: main/templates/main/campaign_new.html:10
+msgid "Crear campanya"
+msgstr ""
+
+#: main/templates/main/campaign_new.html:15
+msgid "Creant nova campanya"
+msgstr ""
 
 #: main/templates/main/center_edit.html:15
 msgid "Editar centre"
