@@ -1512,7 +1512,7 @@ def group_combo(request):
             queryset = User.objects.filter(profile__is_group=True).order_by('profile__group_public_name')
         else:
             center = EducationCenter.objects.get(pk=q)
-            queryset = User.objects.filter(profile__center_string=center.name).order_by('profile__group_public_name')
+            queryset = User.objects.filter(profile__center_string=center.name).filter(profile__campaign=center.campaign).order_by('profile__group_public_name')
         serializer = GroupComboSerializer(queryset, many=True)
         return Response(serializer.data)
 

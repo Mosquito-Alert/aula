@@ -54,7 +54,7 @@ class EducationCenter(models.Model):
             return "#acme" + year
 
     def center_groups(self):
-        return User.objects.filter(profile__center_string=self.name).filter(profile__is_group=True).order_by('profile__group_public_name')
+        return User.objects.filter(profile__center_string=self.name).filter(profile__campaign=self.campaign).filter(profile__is_group=True).order_by('profile__group_public_name')
 
 
 
