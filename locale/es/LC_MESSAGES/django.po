@@ -390,7 +390,7 @@ msgstr "Continuar haciendo la prueba"
 #: main/templates/main/alum_hub.html:138
 #: main/templates/main/teacher_polls.html:75
 msgid "No teniu proves que calgui acabar!"
-msgstr "!No tenéis pruebas por acabar!"
+msgstr "!No tenéis pruebas por terminar!"
 
 #: main/templates/main/alum_list.html:14
 msgid "Llistar/Editar/Esborrar alumnes"
@@ -1530,7 +1530,7 @@ msgstr "Password"
 #: main/views.py:1084 main/views.py:1197 main/views.py:1208 main/views.py:1221
 #: main/views.py:1908
 msgid "Estàs intentant accedir a una pàgina a la que no tens permís."
-msgstr "Estás intentando acceder a una página a la que no tienes permiso."
+msgstr "Estás intentando acceder a una página para la que no tienes permiso."
 
 #: main/views.py:372
 msgid "Sembla que aquesta prova no existeix."

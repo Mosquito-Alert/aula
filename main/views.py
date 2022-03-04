@@ -1161,7 +1161,8 @@ def group_list_pdf(request):
             grupos_info.append({
                 'nombre_publico_grupo': g['group_public_name'],
                 'password_grupo': g['group_password'],
-                'nombre_grupo': g['username']
+                'nombre_grupo': g['username'],
+                'hashtag': g['group_hashtag']
             })
 
         teacher_info = {
@@ -2052,7 +2053,13 @@ def campaign_new(request):
 
 @login_required
 def campaign_list(request):
-    return render(request, 'main/campaign_list.html', {})
+    this_user = request.user
+    if this_user.is_superuser:
+        return render(request, 'main/campaign_list.html', {})
+    else:
+        message = _("Estàs intentant accedir a una pàgina a la que no tens permís.")
+        go_back_to = "my_hub"
+        return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
 
 @api_view(['GET'])
 def campaign_datatable_list(request):
