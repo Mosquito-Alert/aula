@@ -1056,14 +1056,17 @@ def group_new(request):
         group_teacher_center_id = request.POST.get('group_center')
         if this_user.is_superuser:
             tutor = User.objects.get(pk=int(group_teacher))
+            campaign = Campaign.objects.get(active=True)
         elif this_user.profile and this_user.profile.is_teacher:
             tutor = this_user
+            campaign = this_user.profile.campaign
         if form.is_valid():
             user = form.save()
             user.profile.is_group = True
             user.profile.group_password = form.cleaned_data.get('password1')
             user.profile.group_public_name = form.cleaned_data.get('group_public_name')
             user.profile.group_teacher = tutor
+            user.profile.campaign = campaign
             user.profile.n_students_in_group = form.cleaned_data.get('n_students_in_group')
             if photo_path != '':
                 copy(str(settings.BASE_DIR) + photo_path, settings.MEDIA_ROOT + "/group_pics/")
@@ -1437,7 +1440,7 @@ def group_datatable_list(request):
             #     groups = t_alum.profile.alum_in_group.all().values('id')
             #     group_ids += [a['id'] for a in groups]
             # queryset = User.objects.filter(profile__is_group=True).filter(id__in=group_ids)
-            queryset = User.objects.filter(profile__is_group=True).filter(profile__group_teacher=this_user).filter(profile__campaign__active=True)
+            queryset = User.objects.filter(profile__is_group=True).filter(profile__group_teacher=this_user).filter(profile__campaign=this_user.profile.campaign)
         else:
             pass #not allowed
         field_translation_list = {'username': 'username', 'group_public_name': 'profile__group_public_name', 'group_center': 'profile__center_string', 'group_tutor':  'profile__group_teacher__username', 'group_n_students': 'profile__n_students_in_group'}
@@ -1808,7 +1811,7 @@ def upload_file_solutions(request):
         # Recorrer cada upload File test
         for idQuizz in my_quizzes:
             arrayGrupos = []
-            grupos_profe = User.objects.filter(profile__group_teacher__isnull=False).order_by('profile__group_public_name')
+            grupos_profe = User.objects.filter(profile__group_teacher__isnull=False).filter(profile__campaign__active=True).order_by('profile__group_public_name')
 
             #Afegir flag per saber quins grups han fet la entrega
             for grupo in grupos_profe:
@@ -1862,7 +1865,7 @@ def upload_file_solutions(request):
 
         for idQuizz in my_quizzes:
             arrayGrupos = []
-            grupos_profe = User.objects.filter(profile__group_teacher=this_user).order_by('profile__group_public_name')
+            grupos_profe = User.objects.filter(profile__group_teacher=this_user).filter(profile__campaign=teacher_campaign).order_by('profile__group_public_name')
 
             #Afegir flag per saber quins grups han fet la entrega
             for grupo in grupos_profe:
