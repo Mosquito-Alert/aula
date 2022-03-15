@@ -1392,7 +1392,7 @@ def quiz_datatable_list(request):
         if this_user.is_superuser:
             queryset = Quiz.objects.select_related('author').filter(campaign__active=True).all()
         elif this_user.profile.is_teacher:
-            queryset = Quiz.objects.select_related('author').filter(campaign__active=True).filter(author=this_user)
+            queryset = Quiz.objects.select_related('author').filter(campaign=this_user.profile.campaign).filter(author=this_user)
         else:
             pass  # this should not happen
         response = generic_datatable_list_endpoint(request, search_field_list, queryset, QuizSerializer, field_translation_list, sort_translation_list)
@@ -1750,7 +1750,7 @@ def quiz_datatable_results(request):
             #queryset = Quiz.objects.select_related('author').all()
             queryset = Quiz.objects.filter(Q(type=0) | Q(type=2) | Q(type=4)).filter(campaign__active=True)
         elif this_user.profile.is_teacher:
-            queryset = Quiz.objects.select_related('author').filter(Q(author=this_user) | Q(author__isnull=True)).filter(Q(type=0) | Q(type=2)).filter(campaign__active=True)
+            queryset = Quiz.objects.select_related('author').filter(Q(author=this_user) | Q(author__isnull=True)).filter(Q(type=0) | Q(type=2)).filter(campaign=this_user.profile.campaign)
         else:
             pass  # this should not happen
         response = generic_datatable_list_endpoint(request, search_field_list, queryset, QuizSerializer, field_translation_list, sort_translation_list)
@@ -1968,9 +1968,13 @@ def reports(request):
     this_user = request.user
     my_groups = None
     if this_user.profile.is_teacher:
+        my_groups = User.objects.filter(profile__is_group=True).filter(profile__group_teacher=this_user).filter(profile__campaign=this_user.profile.campaign).order_by('profile__group_public_name')
+        centers = EducationCenter.objects.filter(active=True).filter(campaign=this_user.profile.campaign).order_by('name')
+        polls = Quiz.objects.filter(type=2).filter(campaign=this_user.profile.campaign).order_by('name')
+    elif this_user.is_superuser:
         my_groups = User.objects.filter(profile__is_group=True).filter(profile__group_teacher=this_user).filter(profile__campaign__active=True).order_by('profile__group_public_name')
-    centers = EducationCenter.objects.filter(active=True).filter(campaign__active=True).order_by('name')
-    polls = Quiz.objects.filter(type=2).filter(campaign__active=True).order_by('name')
+        centers = EducationCenter.objects.filter(active=True).filter(campaign__active=True).order_by('name')
+        polls = Quiz.objects.filter(type=2).filter(campaign__active=True).order_by('name')
     return render(request, 'main/reports.html', { "centers":centers, "polls":polls, "my_groups":my_groups })
 
 @login_required
@@ -2102,7 +2106,7 @@ def campaign_update(request, pk=None):
     if pk:
         campaign = get_object_or_404(Campaign, pk=pk)
     else:
-        raise forms.ValidationError("No existeix aquest grup")
+        raise forms.ValidationError("No existeix aquesta campanya")
     form = CampaignForm(request.POST or None, instance=campaign)
     if request.method == 'POST':
         if form.is_valid():
