@@ -10,9 +10,10 @@ from django.contrib.gis.geos import GEOSGeometry
 import csv
 
 
-USERS_FILE = app_config.proj_path + '/util_scripts/docents_2022.csv'
+#USERS_FILE = app_config.proj_path + '/util_scripts/docents_2022.csv'
+USERS_FILE = app_config.proj_path + '/util_scripts/docents_2022_add.csv'
 #USERS_FILE = app_config.proj_path + '/util_scripts/test_profe.csv'
-OUT_FILE = app_config.proj_path + '/util_scripts/teachers_out.csv'
+OUT_FILE = app_config.proj_path + '/util_scripts/teachers_out_2.csv'
 
 
 def clean_teacher_name(original_name):
