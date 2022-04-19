@@ -1127,7 +1127,7 @@ def group_list_pdf(request):
     response['Content-Disposition'] = 'filename="test.pdf"'
 
     if this_user.is_superuser:
-        queryset = User.objects.filter(profile__is_group=True)
+        queryset = User.objects.filter(profile__is_group=True).filter(is_active=True)
 
         data = generic_datatable_list_endpoint(request, search_field_list, queryset, GroupSerializer, field_translation_list, sort_translation_list, paginate=False)
         records = data.data['data']
