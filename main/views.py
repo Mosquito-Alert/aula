@@ -752,7 +752,7 @@ def quiz_start(request, pk=None):
                 go_back_to = "group_menu"
                 return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
         if quiz.requisite:
-          done = QuizRun.objects.filter(quiz=quiz.requisite).filter(date_finished__isnull=False).exists()
+          done = QuizRun.objects.filter(quiz=quiz.requisite).filter(date_finished__isnull=False).filter(taken_by=this_user).exists()
           if not done:
             message = _("Aquesta prova té un requisit que no s'ha completat: ") + quiz.requisite.name
             go_back_to = "group_menu"
