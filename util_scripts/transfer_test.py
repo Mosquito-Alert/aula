@@ -196,22 +196,25 @@ answers_update_data_26_to_46 = [
     (	399	,	1758	,	85	,	335	),
 ]
 
+# select user_id from main_profile where campaign_id=2 and is_group=true
+# all campaign 2
+
 def main():
-    sql = 'update main_quizrun set quiz_id = 45 where quiz_id = 24 and taken_by_id in (711,719,712,717,714,718,713,715,720,716);'
+    sql = 'update main_quizrun set quiz_id = 45 where quiz_id = 24 and taken_by_id in ( select user_id from main_profile where campaign_id=2 and is_group=true );'
     print(sql)
-    sql = 'update main_quizrunanswers set question_id={0},chosen_answer_id={1} where question_id ={2} and chosen_answer_id={3} and quizrun_id in (select id from main_quizrun where taken_by_id in (711,719,712,717,714,718,713,715,720,716));'
+    sql = 'update main_quizrunanswers set question_id={0},chosen_answer_id={1} where question_id ={2} and chosen_answer_id={3} and quizrun_id in (select id from main_quizrun where taken_by_id in ( select user_id from main_profile where campaign_id=2 and is_group=true ));'
     for d in answers_update_data_24_to_45:
         print(sql.format( d[0], d[1], d[2], d[3] ))
 
-    sql = 'update main_quizrun set quiz_id = 42 where quiz_id = 12 and taken_by_id in (711,719,712,717,714,718,713,715,720,716);'
+    sql = 'update main_quizrun set quiz_id = 42 where quiz_id = 12 and taken_by_id in ( select user_id from main_profile where campaign_id=2 and is_group=true );'
     print(sql)
-    sql = 'update main_quizrunanswers set question_id={0},chosen_answer_id={1} where question_id ={2} and chosen_answer_id={3} and quizrun_id in (select id from main_quizrun where taken_by_id in (711,719,712,717,714,718,713,715,720,716));'
+    sql = 'update main_quizrunanswers set question_id={0},chosen_answer_id={1} where question_id ={2} and chosen_answer_id={3} and quizrun_id in (select id from main_quizrun where taken_by_id in ( select user_id from main_profile where campaign_id=2 and is_group=true ));'
     for d in answers_update_data_12_to_42:
         print(sql.format(d[0], d[1], d[2], d[3]))
 
-    sql = 'update main_quizrun set quiz_id = 46 where quiz_id = 26 and taken_by_id in (711,719,712,717,714,718,713,715,720,716);'
+    sql = 'update main_quizrun set quiz_id = 46 where quiz_id = 26 and taken_by_id in ( select user_id from main_profile where campaign_id=2 and is_group=true );'
     print(sql)
-    sql = 'update main_quizrunanswers set question_id={0},chosen_answer_id={1} where question_id ={2} and chosen_answer_id={3} and quizrun_id in (select id from main_quizrun where taken_by_id in (711,719,712,717,714,718,713,715,720,716));'
+    sql = 'update main_quizrunanswers set question_id={0},chosen_answer_id={1} where question_id ={2} and chosen_answer_id={3} and quizrun_id in (select id from main_quizrun where taken_by_id in ( select user_id from main_profile where campaign_id=2 and is_group=true ));'
     for d in answers_update_data_26_to_46:
         print(sql.format(d[0], d[1], d[2], d[3]))
 

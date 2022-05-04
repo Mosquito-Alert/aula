@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-02-28 15:06+0000\n"
+"POT-Creation-Date: 2022-05-04 13:45+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,15 +18,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: aula/settings.py:154
+#: aula/settings.py:155
 msgid "Spanish"
 msgstr "Spanish"
 
-#: aula/settings.py:155
+#: aula/settings.py:156
 msgid "Catalan"
 msgstr "Catalan"
 
-#: aula/settings.py:156
+#: aula/settings.py:157
 msgid "English"
 msgstr "English"
 
@@ -154,27 +154,27 @@ msgstr "Campaign name"
 msgid "La data d'inici no pot ser posterior o igual a la data de fi"
 msgstr "Start date can't be later or equal than the end date"
 
-#: main/models.py:43
+#: main/models.py:63
 msgid "Test"
 msgstr "Test"
 
-#: main/models.py:44
+#: main/models.py:64
 msgid "Material"
 msgstr "Material"
 
-#: main/models.py:45 main/templates/main/reports.html:18
+#: main/models.py:65 main/templates/main/reports.html:18
 msgid "Enquesta"
 msgstr "Poll"
 
-#: main/models.py:46
+#: main/models.py:66
 msgid "Pujar fitxer"
 msgstr "Upload file"
 
-#: main/models.py:47
+#: main/models.py:67
 msgid "Enquesta professorat"
 msgstr "Teacher poll"
 
-#: main/models.py:72
+#: main/models.py:93
 msgid "Tipus invàlid"
 msgstr "Invalid type"
 
@@ -203,48 +203,48 @@ msgstr "Add and manage campaigns"
 msgid "Centres"
 msgstr "Centers"
 
-#: main/templates/main/admin_menu.html:17
+#: main/templates/main/admin_menu.html:26
 msgid "Permet entrar els centres en què els professors imparteixen classe"
 msgstr "Education centers"
 
-#: main/templates/main/admin_menu.html:24
+#: main/templates/main/admin_menu.html:33
 msgid "Professors"
 msgstr "Teachers"
 
-#: main/templates/main/admin_menu.html:26
+#: main/templates/main/admin_menu.html:35
 msgid "Permet crear un usuari per a un professor."
 msgstr "Professor users."
 
-#: main/templates/main/admin_menu.html:33
+#: main/templates/main/admin_menu.html:42
 #: main/templates/main/teacher_menu.html:15
 msgid "Grups d&#39;alumnes"
 msgstr "Student groups"
 
-#: main/templates/main/admin_menu.html:35
+#: main/templates/main/admin_menu.html:44
 msgid "Permet crear un grup a partir de varis alumnes"
 msgstr "Student groups"
 
-#: main/templates/main/admin_menu.html:44
+#: main/templates/main/admin_menu.html:53
 #: main/templates/main/quiz_assign_admin.html:54
 #: main/templates/main/teacher_menu.html:24
 msgid "Proves"
 msgstr "Available tests"
 
-#: main/templates/main/admin_menu.html:46
+#: main/templates/main/admin_menu.html:55
 #: main/templates/main/teacher_menu.html:26
 msgid "Crea una prova."
 msgstr "Create test"
 
-#: main/templates/main/admin_menu.html:53
+#: main/templates/main/admin_menu.html:62
 #: main/templates/main/teacher_menu.html:41
 msgid "Veure solucions de proves"
 msgstr "Check test solutions"
 
-#: main/templates/main/admin_menu.html:55
+#: main/templates/main/admin_menu.html:64
 msgid "Veure el progrés d&#39;alumnes i grups"
 msgstr "See the progress of students and groups"
 
-#: main/templates/main/admin_menu.html:63 main/templates/main/reports.html:7
+#: main/templates/main/admin_menu.html:72 main/templates/main/reports.html:7
 #: main/templates/main/reports.html:9
 #: main/templates/main/reports/poll_center_or_group.html:6
 #: main/templates/main/reports/progress_center.html:22
@@ -252,7 +252,7 @@ msgstr "See the progress of students and groups"
 msgid "Informes"
 msgstr "Reports"
 
-#: main/templates/main/admin_menu.html:65
+#: main/templates/main/admin_menu.html:74
 #: main/templates/main/teacher_menu.html:54
 msgid ""
 "Generar diversos tipus d&#39;informes sobre participació, dades avançades "
@@ -404,7 +404,10 @@ msgstr "Create student"
 msgid "Creant nou usuari per alumne"
 msgstr "Creating new user for student"
 
-#: main/templates/main/alum_new.html:19 main/templates/main/center_edit.html:29
+#: main/templates/main/alum_new.html:19
+#: main/templates/main/campaign_edit.html:19
+#: main/templates/main/campaign_new.html:19
+#: main/templates/main/center_edit.html:29
 #: main/templates/main/center_new.html:29
 #: main/templates/main/group_edit.html:87
 #: main/templates/main/group_edit_teacher.html:68
@@ -447,19 +450,19 @@ msgstr "About"
 msgid "Espai professorat"
 msgstr "Teacher section"
 
-#: main/templates/main/base.html:177
+#: main/templates/main/base.html:186
 msgid "Tancar sessió"
 msgstr "Logout"
 
-#: main/templates/main/base.html:182
+#: main/templates/main/base.html:191
 msgid "Iniciar sessió"
 msgstr "Login"
 
-#: main/templates/main/base.html:191 main/templates/main/index.html:6
+#: main/templates/main/base.html:200 main/templates/main/index.html:6
 msgid "Benvingut a Aula"
 msgstr "Welcome to Aula"
 
-#: main/templates/main/base.html:192 main/templates/main/index.html:7
+#: main/templates/main/base.html:201 main/templates/main/index.html:7
 msgid ""
 "Aquesta és la web per a un projecte d&#39;educació en el context d&#39;una "
 "beca FECYT"
@@ -467,47 +470,47 @@ msgstr ""
 "This website was created for an education project in the context of a FECYT "
 "grant"
 
-#: main/templates/main/base.html:213
+#: main/templates/main/base.html:222
 msgid "sLengthMenu"
 msgstr "Show _MENU_ records"
 
-#: main/templates/main/base.html:214
+#: main/templates/main/base.html:223
 msgid "sZeroRecords"
 msgstr "No records found"
 
-#: main/templates/main/base.html:215
+#: main/templates/main/base.html:224
 msgid "sInfo"
 msgstr "Showing _START_ to _END_ of _TOTAL_ records"
 
-#: main/templates/main/base.html:216
+#: main/templates/main/base.html:225
 msgid "sInfoEmpty"
 msgstr "Showing 0 to 0 of 0 records"
 
-#: main/templates/main/base.html:217
+#: main/templates/main/base.html:226
 msgid "sInfoFiltered"
 msgstr "(filtered of _MAX_ total records)"
 
-#: main/templates/main/base.html:218
+#: main/templates/main/base.html:227
 msgid "loadingRecords"
 msgstr "Loading..."
 
-#: main/templates/main/base.html:220
+#: main/templates/main/base.html:229
 msgid "Filtrar"
 msgstr "Filter"
 
-#: main/templates/main/base.html:223
+#: main/templates/main/base.html:232
 msgid "Primer"
 msgstr "First"
 
-#: main/templates/main/base.html:224
+#: main/templates/main/base.html:233
 msgid "Anterior"
 msgstr "Previous"
 
-#: main/templates/main/base.html:225
+#: main/templates/main/base.html:234
 msgid "Següent"
 msgstr "Next"
 
-#: main/templates/main/base.html:226
+#: main/templates/main/base.html:235
 msgid "Últim"
 msgstr "Last"
 
@@ -526,6 +529,13 @@ msgstr "List/Edit/Delete campaigns"
 #: main/templates/main/campaign_list.html:21
 msgid "Llista de campanyes"
 msgstr "Campaign list"
+
+#: main/templates/main/campaign_list.html:29
+#: main/templates/main/center_list.html:28
+#: main/templates/main/group_list.html:32 main/templates/main/quiz_list.html:28
+#: main/templates/main/teacher_list.html:28
+msgid "Afegir"
+msgstr "Add"
 
 #: main/templates/main/campaign_new.html:10
 msgid "Crear campanya"
@@ -555,12 +565,6 @@ msgstr "List/Edit/Delete centers"
 #: main/templates/main/center_list.html:21
 msgid "Llista de centres"
 msgstr "List centers"
-
-#: main/templates/main/center_list.html:28
-#: main/templates/main/group_list.html:32 main/templates/main/quiz_list.html:28
-#: main/templates/main/teacher_list.html:28
-msgid "Afegir"
-msgstr "Add"
 
 #: main/templates/main/center_new.html:15
 msgid "Crear centre"
@@ -1516,45 +1520,45 @@ msgstr "username"
 msgid "password"
 msgstr "password"
 
-#: main/views.py:190 main/views.py:200 main/views.py:238 main/views.py:288
-#: main/views.py:809 main/views.py:845 main/views.py:879 main/views.py:1039
-#: main/views.py:1084 main/views.py:1197 main/views.py:1208 main/views.py:1221
-#: main/views.py:1908
+#: main/views.py:190 main/views.py:200 main/views.py:239 main/views.py:290
+#: main/views.py:815 main/views.py:851 main/views.py:885 main/views.py:1045
+#: main/views.py:1093 main/views.py:1207 main/views.py:1218 main/views.py:1231
+#: main/views.py:1919 main/views.py:2060 main/views.py:2071 main/views.py:2122
 msgid "Estàs intentant accedir a una pàgina a la que no tens permís."
 msgstr "You are trying to access a restricted page"
 
-#: main/views.py:372
+#: main/views.py:374
 msgid "Sembla que aquesta prova no existeix."
 msgstr "Looks like this test does not exist"
 
-#: main/views.py:376
+#: main/views.py:378
 msgid "Sembla que aquesta prova no està completada."
 msgstr "Looks like this test is not complete"
 
-#: main/views.py:396 main/views.py:414 main/views.py:431 main/views.py:1763
-#: main/views.py:1786 main/views.py:1923
+#: main/views.py:398 main/views.py:416 main/views.py:433 main/views.py:1773
+#: main/views.py:1796 main/views.py:1934
 msgid "No existeix aquesta prova."
 msgstr "This test does not exist"
 
-#: main/views.py:400 main/views.py:418 main/views.py:1767 main/views.py:1790
-#: main/views.py:1928
+#: main/views.py:402 main/views.py:420 main/views.py:1777 main/views.py:1800
+#: main/views.py:1939
 msgid ""
 "El test seleccionat no l'ha realitzat cap grup i encara no té resultats."
 msgstr ""
 "The selected test has not been taken by any group and does not have results."
 
-#: main/views.py:437
+#: main/views.py:439
 msgid "No tens assignada aquesta prova, de manera que no la pots visualitzar."
 msgstr "This test has not been assigned to you, therefore you can't take it"
 
-#: main/views.py:592 main/views.py:639 main/views.py:677
+#: main/views.py:594 main/views.py:641 main/views.py:679
 msgid ""
 "Estàs intentant accedir a una prova creada per un professor que no és el teu "
 "tutor."
 msgstr ""
 "You are trying to access a test created by a teacher which is not your tutor."
 
-#: main/views.py:596
+#: main/views.py:598
 msgid ""
 "No es permet la pujada de materials a professors. Si vols pujar els "
 "materials d'un si us plau grup fes servir l'usuari del grup corresponent."
@@ -1562,16 +1566,16 @@ msgstr ""
 "Material upload is not allowed for professors. If you want to upload "
 "materials please use that group's user"
 
-#: main/views.py:600 main/views.py:643
+#: main/views.py:602 main/views.py:645
 msgid "Aquesta prova no existeix!"
 msgstr "This test does not exist!"
 
-#: main/views.py:610 main/views.py:650
+#: main/views.py:612 main/views.py:652
 msgid ""
 "Ho sentim, però les proves de pujada de fitxer només es poden fer una vegada."
 msgstr "Sorry, the data upload test can only be taken once."
 
-#: main/views.py:699
+#: main/views.py:701
 msgid ""
 "Aquesta prova està marcada com a finalitzada, o sigui que no la pots "
 "modificar. Si vols, la pots repetir."
@@ -1579,11 +1583,11 @@ msgstr ""
 "This test is marked as finished, so you can't modify it. If you want, you "
 "can repeat it."
 
-#: main/views.py:736
+#: main/views.py:738
 msgid "Aquesta prova no està publicada, no la pots començar."
 msgstr "This test is not yet published, you can't take it."
 
-#: main/views.py:743
+#: main/views.py:745
 msgid ""
 "Les proves de materials, pujada de fitxers i enquestes només es fan una "
 "vegada. Les pots repassar totes però des del menú de grup "
@@ -1591,7 +1595,7 @@ msgstr ""
 "Material, File upload and polls can only be taken once. You can review them "
 "from the group menu"
 
-#: main/views.py:749
+#: main/views.py:751
 msgid ""
 "La enquesta s'ha repetit tants cops com membres té el grup, no es permeten "
 "més repeticions."
@@ -1599,26 +1603,34 @@ msgstr ""
 "The poll has been repeated as many times as the number of members in the "
 "group,  more repetitions are not allowed."
 
-#: main/views.py:755
+#: main/views.py:757
 msgid "Aquesta prova té un requisit que no s'ha completat: "
 msgstr "This test has a prerequisite which has not yet been completed: "
 
-#: main/views.py:761
+#: main/views.py:763
 msgid ""
 "Estàs intentant començar una prova creada per un professor que no és el teu "
 "tutor."
 msgstr ""
 "You are trying to take a test created by a teacher which is not your tutor."
 
-#: main/views.py:785
+#: main/views.py:767
+msgid ""
+"La prova que estàs intentant començar forma part d'una campanya anterior, o "
+"sigui que no la pots fer. Si us plau, pregunta al teu professor."
+msgstr ""
+"You are trying to start a test from a past campaign, so you can't take it."
+"Please, ask your professor."
+
+#: main/views.py:791
 msgid "Estàs intentant editar una prova que no existeix."
 msgstr "You are trying to edit a non-existing test."
 
-#: main/views.py:1147
+#: main/views.py:1156
 msgid "Llistat de credencials"
 msgstr "Credentials list"
 
-#: main/views.py:1845 main/views.py:1898
+#: main/views.py:1855 main/views.py:1909
 msgid "Anònim"
 msgstr "Anonymous"
 

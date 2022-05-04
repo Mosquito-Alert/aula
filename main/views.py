@@ -763,6 +763,10 @@ def quiz_start(request, pk=None):
             message = _("Estàs intentant començar una prova creada per un professor que no és el teu tutor.")
             go_back_to = "group_menu"
             return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to':go_back_to })
+        if quiz.campaign.id != this_user.profile.campaign.id:
+            message = _("La prova que estàs intentant començar forma part d'una campanya anterior, o sigui que no la pots fer. Si us plau, pregunta al teu professor.")
+            go_back_to = "group_menu"
+            return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
         #check if user has a pending run. If yes, send there
         pending_quizruns = QuizRun.objects.filter(taken_by=this_user).filter(quiz=quiz).filter(date_finished__isnull=True)
         if pending_quizruns.exists():
