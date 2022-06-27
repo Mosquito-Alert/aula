@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-04 13:45+0000\n"
+"POT-Creation-Date: 2022-06-27 07:10+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -164,6 +164,7 @@ msgid "Material"
 msgstr "Material"
 
 #: main/models.py:65 main/templates/main/reports.html:18
+#: main/templates/main/reports.html:60
 msgid "Enquesta"
 msgstr "Encuesta"
 
@@ -434,7 +435,7 @@ msgstr "Creando nuevo usuario alumno"
 msgid "Desar"
 msgstr "Guardar"
 
-#: main/templates/main/base.html:90
+#: main/templates/main/base.html:90 main/templates/main/map.html:27
 msgid "Aula"
 msgstr "Aula"
 
@@ -1249,7 +1250,8 @@ msgstr ""
 "el desplegable de más abajo. Si se selecciona la opción 'Todos los grupos', "
 "se mostrarán resultados agregados para todo el centro educativo"
 
-#: main/templates/main/reports.html:28 main/templates/main/reports.html:60
+#: main/templates/main/reports.html:28 main/templates/main/reports.html:69
+#: main/templates/main/reports.html:88
 msgid "Tria un centre"
 msgstr "Elige un centro"
 
@@ -1261,15 +1263,25 @@ msgstr "Escoge un grupo"
 msgid "Tots els grups"
 msgstr "Todos los grupos"
 
-#: main/templates/main/reports.html:52 main/templates/main/reports.html:71
+#: main/templates/main/reports.html:52 main/templates/main/reports.html:79
+#: main/templates/main/reports.html:99
 msgid "Generar informe"
 msgstr ""
 
-#: main/templates/main/reports.html:56
+#: main/templates/main/reports.html:57
+msgid "Enquestes de professorat per centre"
+msgstr "Encuestas de profesorado por centro"
+
+#: main/templates/main/reports.html:58
+msgid "help_enquestes_professorat_centre"
+msgstr ""
+"Este informe muestra resultados de las encuestas de profesores por centro."
+
+#: main/templates/main/reports.html:84
 msgid "Progrés de proves"
 msgstr "Progreso de pruebas"
 
-#: main/templates/main/reports.html:57
+#: main/templates/main/reports.html:85
 msgid "help_test_progress"
 msgstr ""
 "Este informe muestra qué grupos han completado las pruebas disponibles. Para "
@@ -1532,7 +1544,7 @@ msgstr "Password"
 #: main/views.py:190 main/views.py:200 main/views.py:239 main/views.py:290
 #: main/views.py:815 main/views.py:851 main/views.py:885 main/views.py:1045
 #: main/views.py:1093 main/views.py:1207 main/views.py:1218 main/views.py:1231
-#: main/views.py:1919 main/views.py:2060 main/views.py:2071 main/views.py:2122
+#: main/views.py:1934 main/views.py:2077 main/views.py:2088 main/views.py:2139
 msgid "Estàs intentant accedir a una pàgina a la que no tens permís."
 msgstr "Estás intentando acceder a una página para la que no tienes permiso."
 
@@ -1544,13 +1556,13 @@ msgstr "Parece que esta prueba no existe."
 msgid "Sembla que aquesta prova no està completada."
 msgstr "Parece que esta prueba no está completada."
 
-#: main/views.py:398 main/views.py:416 main/views.py:433 main/views.py:1773
-#: main/views.py:1796 main/views.py:1934
+#: main/views.py:398 main/views.py:416 main/views.py:433 main/views.py:1788
+#: main/views.py:1811 main/views.py:1949
 msgid "No existeix aquesta prova."
 msgstr "No existe esta prueba."
 
-#: main/views.py:402 main/views.py:420 main/views.py:1777 main/views.py:1800
-#: main/views.py:1939
+#: main/views.py:402 main/views.py:420 main/views.py:1792 main/views.py:1815
+#: main/views.py:1954
 msgid ""
 "El test seleccionat no l'ha realitzat cap grup i encara no té resultats."
 msgstr ""
@@ -1633,8 +1645,8 @@ msgid ""
 "La prova que estàs intentant començar forma part d'una campanya anterior, o "
 "sigui que no la pots fer. Si us plau, pregunta al teu professor."
 msgstr ""
-"La prueba que estás intentando empezar forma parte de una campaña anterior, o"
-"sea que no deberías hacerla. Por favor, pregunta a tu profesor."
+"La prueba que estás intentando empezar forma parte de una campaña anterior, "
+"osea que no deberías hacerla. Por favor, pregunta a tu profesor."
 
 #: main/views.py:791
 msgid "Estàs intentant editar una prova que no existeix."
@@ -1644,7 +1656,7 @@ msgstr "Estás intentando acceder a una prueba que no existe."
 msgid "Llistat de credencials"
 msgstr "Lista de credenciales"
 
-#: main/views.py:1855 main/views.py:1909
+#: main/views.py:1870 main/views.py:1924
 msgid "Anònim"
 msgstr "Anónimo"
 
