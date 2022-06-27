@@ -52,6 +52,34 @@
             <button type="button" id="poll_group_class" class="form-control btn btn-primary">{% trans 'Generar informe' %} <i class="fas fa-bolt"></i></button>
         </div>
     </div>
+    {% if not user.profile.is_teacher %}
+    <div class="form row alert alert-success">
+        <div class="col-md-12"><h4>{% trans 'Enquestes de professorat per centre' %}:</h4></div>
+        <div class="col-md-12"><p>{% trans 'help_enquestes_professorat_centre' %}</p></div>
+        <div class="col-md-4 form-group">
+            <label for="select_teacher_poll">{% trans 'Enquesta' %}*:</label>
+            <select class="form-control" id="select_teacher_poll">
+                <option value="">...</option>
+                {% for poll in teacher_polls %}
+                <option value="{{ poll.id }}">{{ poll.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-5 form-group">
+            <label for="select_teacher_poll_center">{% trans 'Tria un centre' %}*:</label>
+            <select class="form-control" id="select_teacher_poll_center">
+                <option value="">...</option>
+                {% for center in centers %}
+                <option value="{{ center.id }}">{{ center.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-3 form-group">
+            <label>&nbsp;</label>
+            <button type="button" id="teacher_poll_group_class" class="form-control btn btn-primary">{% trans 'Generar informe' %} <i class="fas fa-bolt"></i></button>
+        </div>
+    </div>
+    {% endif %}
     <div class="form row alert alert-success">
         <div class="col-md-12"><h4>{% trans 'Progrés de proves' %}:</h4></div>
         <div class="col-md-12"><p>{% trans 'help_test_progress' %}</p></div>

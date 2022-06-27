@@ -1305,6 +1305,21 @@ def api_writeanswer(request):
 
         return Response(response)
 
+
+def map(request):
+    centers = EducationCenter.objects.exclude(location__isnull=True)
+    serializer = EducationCenterSerializer(centers, many=True)
+    centers = json.dumps(serializer.data)
+    return render(request, 'main/map.html', { 'centers' :  centers})
+
+
+def map_campaign(request, campaign):
+    centers = EducationCenter.objects.filter(campaign__id=campaign).exclude(location__isnull=True)
+    serializer = EducationCenterSerializer(centers, many=True)
+    centers = json.dumps(serializer.data)
+    return render(request, 'main/map.html', {'centers': centers})
+
+
 @api_view(['POST'])
 def complete_upload(request):
     if request.method == 'POST':
@@ -1975,11 +1990,13 @@ def reports(request):
         my_groups = User.objects.filter(profile__is_group=True).filter(profile__group_teacher=this_user).filter(profile__campaign=this_user.profile.campaign).order_by('profile__group_public_name')
         centers = EducationCenter.objects.filter(active=True).filter(campaign=this_user.profile.campaign).order_by('name')
         polls = Quiz.objects.filter(type=2).filter(campaign=this_user.profile.campaign).order_by('name')
+        teacher_polls = None
     elif this_user.is_superuser:
         my_groups = User.objects.filter(profile__is_group=True).filter(profile__group_teacher=this_user).filter(profile__campaign__active=True).order_by('profile__group_public_name')
         centers = EducationCenter.objects.filter(active=True).filter(campaign__active=True).order_by('name')
         polls = Quiz.objects.filter(type=2).filter(campaign__active=True).order_by('name')
-    return render(request, 'main/reports.html', { "centers":centers, "polls":polls, "my_groups":my_groups })
+        teacher_polls = Quiz.objects.filter(type=4).filter(campaign__active=True).order_by('name')
+    return render(request, 'main/reports.html', { "centers":centers, "polls":polls, "teacher_polls": teacher_polls, "my_groups":my_groups })
 
 @login_required
 def center_progress(request, center_id=None):

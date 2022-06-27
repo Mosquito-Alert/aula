@@ -88,4 +88,15 @@ $(document).ready( function () {
             generate_progress_center(center_id);
         }
     } );
+
+    $('#teacher_poll_group_class').click( function (){
+        var poll_id = $('#select_teacher_poll').val();
+        var center_id = $('#select_teacher_poll_center').val();
+        var group_id = null;
+        if(poll_id == '' || center_id == ''){
+            toastr.error(gettext('Cal seleccionar una enquesta i un centre'));
+        }else{
+            generate_query_poll_center_or_group(poll_id,center_id,group_id);
+        }
+    });
 });

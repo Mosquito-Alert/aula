@@ -118,4 +118,6 @@ urlpatterns = [
     path('campaign/update/<int:pk>/', views.campaign_update, name='campaign_update'),
     path('campaign/update/', views.campaign_update, name='campaign_update_no_id'),
     path('campaign/datatablelist/', views.campaign_datatable_list, name='campaign_datatable_list'),
+    path('map/', views.map, name='map'),
+    path('map/<int:campaign>/', views.map_campaign, name='map_campaign'),
 ]
