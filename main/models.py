@@ -287,6 +287,12 @@ class Question(models.Model):
         n_total = QuizRunAnswers.objects.filter(question=self).filter(answered=True).filter(quizrun__taken_by__in=groups_in_center).count()
         return n_total
 
+    def total_number_of_answers_of_question_per_center_teachers(self, center_id):
+        center = EducationCenter.objects.get(pk=center_id)
+        teachers_in_center = User.objects.filter(profile__is_teacher=True).filter(profile__teacher_belongs_to=center)
+        n_total = QuizRunAnswers.objects.filter(question=self).filter(answered=True).filter(quizrun__taken_by__in=teachers_in_center).count()
+        return n_total
+
 
 class Answer(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='answers')
@@ -312,6 +318,12 @@ class Answer(models.Model):
         n_this = QuizRunAnswers.objects.filter(chosen_answer=self).filter(quizrun__taken_by__in=groups_in_center).filter(answered=True).count()
         return n_this
 
+    def how_many_times_answered_by_center_teachers(self,center_id):
+        center = EducationCenter.objects.get(pk=center_id)
+        teachers_in_center = User.objects.filter(profile__is_teacher=True).filter(profile__teacher_belongs_to=center)
+        n_this = QuizRunAnswers.objects.filter(chosen_answer=self).filter(quizrun__taken_by__in=teachers_in_center).filter(answered=True).count()
+        return n_this
+
     def answered_by_perc_group(self,group_id):
         n_total = self.question.total_number_of_answers_of_question_per_group(group_id)
         n_this = self.how_many_times_answered_by_group(group_id)
@@ -319,6 +331,14 @@ class Answer(models.Model):
             return "0"
         else:
             return str(round((n_this/n_total)*100, 0))
+
+    def answered_by_perc_center_teachers(self,center_id):
+        n_total = self.question.total_number_of_answers_of_question_per_center_teachers(center_id)
+        n_this = self.how_many_times_answered_by_center_teachers(center_id)
+        if n_total == 0:
+            return "0"
+        else:
+            return str(round((n_this / n_total) * 100, 0))
 
     def answered_by_perc_center(self, center_id):
         n_total = self.question.total_number_of_answers_of_question_per_center(center_id)

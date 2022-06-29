@@ -13,6 +13,15 @@ $(document).ready( function () {
         }
     }
 
+    var generate_query_teacher_poll = function(poll_id, center_id){
+        if( center_id == null || center_id == '' ){
+            var url = '/reports/teacher_poll_center/' + poll_id + '/';
+        }else{
+            var url = '/reports/teacher_poll_center/' + poll_id + '/' + center_id + '/';
+        }
+        window.open(url, '_blank').focus();
+    }
+
     var generate_progress_center = function(center_id){
         var url = '/reports/center_progress/' + center_id + '/';
         window.open(url, '_blank').focus();
@@ -92,11 +101,10 @@ $(document).ready( function () {
     $('#teacher_poll_group_class').click( function (){
         var poll_id = $('#select_teacher_poll').val();
         var center_id = $('#select_teacher_poll_center').val();
-        var group_id = null;
-        if(poll_id == '' || center_id == ''){
-            toastr.error(gettext('Cal seleccionar una enquesta i un centre'));
+        if(poll_id == ''){
+            toastr.error(gettext('Cal seleccionar una enquesta'));
         }else{
-            generate_query_poll_center_or_group(poll_id,center_id,group_id);
+            generate_query_teacher_poll(poll_id,center_id);
         }
     });
 });

@@ -2029,6 +2029,37 @@ def center_progress(request, center_id=None):
 
 
 @login_required
+def reports_teacher_poll_center(request, poll_id=None, center_id=None):
+    if center_id is None:
+        poll = get_object_or_404(Quiz, pk=poll_id)
+        center = None
+        data = {}
+        quizrun_completed_by_teachers = QuizRun.objects.filter(quiz=poll).exclude(date_finished__isnull=True).count()
+        if quizrun_completed_by_teachers > 0:
+            for question in poll.sorted_questions_set:
+                for answer in question.sorted_answers_set:
+                    data[str(question.id) + '_' + str(answer.id)] = {
+                        'n': answer.how_many_times_answered,
+                        'total': answer.question.total_number_of_answers_of_question,
+                        'perc': answer.answered_by_perc}
+    else:
+        poll = get_object_or_404(Quiz, pk=poll_id)
+        center = get_object_or_404(EducationCenter, pk=center_id)
+        data = {}
+        teachers_in_center = User.objects.filter(profile__is_teacher=True).filter(profile__teacher_belongs_to=center).values('id').distinct()
+        quizruns_in_center_completed_by_teacher = QuizRun.objects.filter(quiz=poll).filter(taken_by_id__in=teachers_in_center).exclude(date_finished__isnull=True).count()
+        if quizruns_in_center_completed_by_teacher > 0:
+            for question in poll.sorted_questions_set:
+                for answer in question.sorted_answers_set:
+                    data[str(question.id) + '_' + str(answer.id)] = {
+                        'n': answer.how_many_times_answered_by_center_teachers(center.id),
+                        'total': answer.question.total_number_of_answers_of_question_per_center_teachers(center.id),
+                        'perc': answer.answered_by_perc_center_teachers(center.id)}
+
+    return render(request, 'main/reports/poll_center_or_group.html', {'quiz': poll, 'data': json.dumps(data), 'len_data': len(data), 'center': center})
+
+
+@login_required
 def reports_poll_center_or_group(request, poll_id=None, center_id=None, group_id=None):
     if group_id is None:
         poll = get_object_or_404(Quiz, pk=poll_id)
