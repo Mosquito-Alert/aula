@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-27 07:10+0000\n"
+"POT-Creation-Date: 2022-06-29 09:15+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1504,7 +1504,7 @@ msgstr ""
 #: main/views.py:190 main/views.py:200 main/views.py:239 main/views.py:290
 #: main/views.py:815 main/views.py:851 main/views.py:885 main/views.py:1045
 #: main/views.py:1093 main/views.py:1207 main/views.py:1218 main/views.py:1231
-#: main/views.py:1934 main/views.py:2077 main/views.py:2088 main/views.py:2139
+#: main/views.py:1934 main/views.py:2108 main/views.py:2119 main/views.py:2170
 msgid "Estàs intentant accedir a una pàgina a la que no tens permís."
 msgstr ""
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-02-25 10:33+0000\n"
+"POT-Creation-Date: 2022-06-29 09:17+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -42,6 +42,7 @@ msgid "Desactivar usuari"
 msgstr "Desactivar usuario"
 
 #: main/static/main/javascript/alum_list.js:122
+#: main/static/main/javascript/campaign_list.js:50
 #: main/static/main/javascript/group_list.js:113
 #: main/static/main/javascript/quiz_list.js:105
 #: main/static/main/javascript/teacher_list.js:99
@@ -110,8 +111,8 @@ msgid ""
 "La campanya que has clicat s'establirà com a activa. Segur que vols "
 "continuar?"
 msgstr ""
-"La campaña en la que has clicado se establecerá como activa. Seguro que quieres "
-"continuar?"
+"La campaña en la que has clicado se establecerá como activa. Seguro que "
+"quieres continuar?"
 
 #: main/static/main/javascript/center_list.js:16
 msgid "Centre activat!"
@@ -253,6 +254,7 @@ msgstr ""
 msgid "Error recuperant nom de grup"
 msgstr "Error recuperando nombre de grupo"
 
+#: main/static/main/javascript/group_new.js:74
 msgid "Eliminar"
 msgstr "Eliminar"
 
@@ -294,8 +296,8 @@ msgid ""
 "ATENCIÓ: s'esborrarà la pregunta i totes les respostes. Segur que vols "
 "continuar?"
 msgstr ""
-"ATENCIÓN: se borrará la pregunta y todas las respuestas. ¿Seguro que "
-"quieres continuar?"
+"ATENCIÓN: se borrará la pregunta y todas las respuestas. ¿Seguro que quieres "
+"continuar?"
 
 #: main/static/main/javascript/quiz_edit.js:52
 #: main/static/main/javascript/quiz_edit_teacher.js:52
@@ -456,19 +458,25 @@ msgstr "Eliminando datos de intento..."
 
 #: main/static/main/javascript/reports.js:5
 msgid "Cal triar com a mínim un centre, i opcionalment un grup dins del centre"
-msgstr "Hay que seleccionar como mínimo un centro, y opcionalmente un grupo dentro del centro"
+msgstr ""
+"Hay que seleccionar como mínimo un centro, y opcionalmente un grupo dentro "
+"del centro"
 
-#: main/static/main/javascript/reports.js:48
+#: main/static/main/javascript/reports.js:57
 msgid "Error recuperant llista de grups per centre"
 msgstr "Error recuperando lista de grupos por centro"
 
-#: main/static/main/javascript/reports.js:72
+#: main/static/main/javascript/reports.js:81
 msgid "Cal seleccionar una enquesta i un centre"
 msgstr "Es obligatorio seleccionar una encuesta y un centro"
 
-#: main/static/main/javascript/reports.js:86
+#: main/static/main/javascript/reports.js:95
 msgid "Cal seleccionar un centre"
 msgstr "Es obligatorio seleccionar un centro"
+
+#: main/static/main/javascript/reports.js:105
+msgid "Cal seleccionar una enquesta"
+msgstr "Es obligatorio seleccionar una encuesta"
 
 #: main/static/main/javascript/teacher_list.js:16
 msgid "Professor desactivat!"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-02-25 10:33+0000\n"
+"POT-Creation-Date: 2022-06-29 09:17+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -42,6 +42,7 @@ msgid "Desactivar usuari"
 msgstr ""
 
 #: main/static/main/javascript/alum_list.js:122
+#: main/static/main/javascript/campaign_list.js:50
 #: main/static/main/javascript/group_list.js:113
 #: main/static/main/javascript/quiz_list.js:105
 #: main/static/main/javascript/teacher_list.js:99
@@ -83,6 +84,28 @@ msgstr ""
 msgid ""
 "El professor està inactiu i es marcarà com a actiu. Això vol dir que no es "
 "podrà loginar. Segur que vols continuar?"
+msgstr ""
+
+#: main/static/main/javascript/campaign_list.js:32
+msgid "Campanya activa"
+msgstr ""
+
+#: main/static/main/javascript/campaign_list.js:55
+msgid "Nom de la campanya"
+msgstr ""
+
+#: main/static/main/javascript/campaign_list.js:59
+msgid "Data inici"
+msgstr ""
+
+#: main/static/main/javascript/campaign_list.js:63
+msgid "Data fi"
+msgstr ""
+
+#: main/static/main/javascript/campaign_list.js:72
+msgid ""
+"La campanya que has clicat s'establirà com a activa. Segur que vols "
+"continuar?"
 msgstr ""
 
 #: main/static/main/javascript/center_list.js:16
@@ -418,12 +441,20 @@ msgstr ""
 msgid "Cal triar com a mínim un centre, i opcionalment un grup dins del centre"
 msgstr ""
 
-#: main/static/main/javascript/reports.js:48
+#: main/static/main/javascript/reports.js:57
 msgid "Error recuperant llista de grups per centre"
 msgstr ""
 
-#: main/static/main/javascript/reports.js:72
+#: main/static/main/javascript/reports.js:81
 msgid "Cal seleccionar una enquesta i un centre"
+msgstr ""
+
+#: main/static/main/javascript/reports.js:95
+msgid "Cal seleccionar un centre"
+msgstr ""
+
+#: main/static/main/javascript/reports.js:105
+msgid "Cal seleccionar una enquesta"
 msgstr ""
 
 #: main/static/main/javascript/teacher_list.js:16
