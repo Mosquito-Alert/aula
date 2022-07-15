@@ -11,6 +11,7 @@ from main.forms import TeacherForm, SimplifiedTeacherForm, EducationCenterForm, 
     SimplifiedAlumFormForAdmin, AlumUpdateFormAdmin, QuizAdminForm, QuestionPollForm, QuizNewForm, QuestionUploadForm, CampaignForm
 from django.contrib.gis.geos import GEOSGeometry
 from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
 from querystring_parser import parser
 import json
 import functools
@@ -1319,6 +1320,25 @@ def map_campaign(request, campaign):
     centers = json.dumps(serializer.data)
     return render(request, 'main/map.html', {'centers': centers})
 
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def center_info(request, pk=None):
+    if request.method == 'GET':
+        center = None
+        if pk is None:
+            raise ParseError(detail='Center id is mandatory')
+        try:
+            center = EducationCenter.objects.get(pk=pk)
+            context = {
+                'center_name': center.name,
+                'hashtag': center.hashtag
+            }
+            html_data = render_to_string('main/map_bulma_card.html',context=context)
+            serializer = EducationCenterSerializer(center)
+            return Response({'ec': serializer.data, 'html': html_data})
+        except EducationCenter.DoesNotExist:
+            raise ParseError(detail='Center Not found')
 
 @api_view(['POST'])
 def complete_upload(request):

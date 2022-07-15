@@ -44,9 +44,13 @@
     var currentLang = '{{ LANGUAGE_CODE }}';
     var admin_edit = {% if user.is_superuser and user.is_staff or user.profile.is_teacher %}true{% else %}false{% endif %};
     var _center_data = JSON.parse('{{ centers | escapejs }}');
+    var _school_icon_url = "{% static 'main/icons/school_marker.png' %}";
+    var _selected_school_icon_url = "{% static 'main/icons/selected_school_marker.png' %}";
+    var center_info_url = "{% url 'center_info' %}";
 </script>
+<script src="{% static 'main/csrf_utils.js' %}"></script>
 <script src="{% static 'main/leaflet/leaflet.js' %}"></script>
-<script src="{% static 'main/leaflet_popup_sidebar/js/leaflet-sidebar.min.js' %}"></script>
+<script src="{% static 'main/leaflet_popup_sidebar/js/leaflet-sidebar.js' %}"></script>
 <script src="{% static 'main/javascript/map.js' %}"></script>
 {% block extra_js %}
 {% endblock %}
