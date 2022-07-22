@@ -7,9 +7,9 @@ var marker_cluster_layer;
 $(document).ready(function() {
 
     var layer_to_label = {
-        "storm_drain_dry":'Imbornal con agua',
-        "storm_drain_water":'Imbornal seco',
-        "breeding_site_other":'Otro tipo de punto de cría'
+        "storm_drain_dry": 'Imbornal seco',
+        "storm_drain_water": 'Imbornal con agua',
+        "breeding_site_other": 'Otro tipo de punto de cría'
     };
 
     var base = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -217,6 +217,31 @@ $(document).ready(function() {
             window.open(map_url + selected_value + "/","_self")
         }
     });
+
+    L.Control.Watermark = L.Control.extend({
+        options:{
+            url: '',
+            img_width: '300px'
+        },
+        onAdd: function(map) {
+            var img = L.DomUtil.create('img');
+            //img.src = '/static/main/icons/mcin-fecyt-web.png';
+            img.src = this.options.url;
+            img.style.width = this.options.img_width;
+            //console.log(this.url);
+            return img;
+        },
+        onRemove: function(map) {
+            // Nothing to do here
+        }
+    });
+
+    L.control.watermark = function(opts) {
+        return new L.Control.Watermark(opts);
+    }
+
+    L.control.watermark({ position: 'bottomleft', url: '/static/main/icons/logo_ASPB.svg', img_width: '200px' }).addTo(map)
+    L.control.watermark({ position: 'bottomleft', url: '/static/main/icons/mcin-fecyt-web.png', img_width: '400px' }).addTo(map)
 
     adjust_ui();
 });
