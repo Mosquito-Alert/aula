@@ -25,6 +25,8 @@
     <link href="{% static 'main/leaflet/leaflet.css' %}" rel="stylesheet">
     <link href="{% static 'main/Leaflet.Draw.static/src/leaflet.draw.css' %}" rel="stylesheet">
     <link href="{% static 'main/leaflet_popup_sidebar/css/leaflet-sidebar.css' %}" rel="stylesheet">
+    <link href="{% static 'main/markercluster/MarkerCluster.css' %}" rel="stylesheet">
+    <link href="{% static 'main/markercluster/MarkerCluster.Default.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <style>
         #filter_control_year{
@@ -84,6 +86,7 @@
 </script>
 <script src="{% static 'main/csrf_utils.js' %}"></script>
 <script src="{% static 'main/leaflet/leaflet.js' %}"></script>
+<script src="{% static 'main/markercluster/leaflet.markercluster.js' %}"></script>
 <script src="{% static 'main/leaflet_popup_sidebar/js/leaflet-sidebar.js' %}"></script>
 <script src="{% static 'main/javascript/map.js' %}"></script>
 {% block extra_js %}

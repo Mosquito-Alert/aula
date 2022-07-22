@@ -2,6 +2,7 @@ var bar;
 var selected_marker;
 var default_bounds;
 var breeding_site_markers_layer;
+var marker_cluster_layer;
 
 $(document).ready(function() {
 
@@ -37,9 +38,9 @@ $(document).ready(function() {
           '</div>' +
           '<div class="card-content">' +
             '<div class="content">' +
-                '<p>Tipo: <b>' + layer_to_label[this_bs.private_webmap_layer] + '</b></p>' +
-                '<p>Fecha de observación: <b>' + this_bs.observation_date + '</b></p>' +
-                '<p>Observaciones del alumno: <b>' + this_bs.note + '</b></p>' +
+                '<p><b>Tipo:</b> ' + layer_to_label[this_bs.private_webmap_layer] + '</p>' +
+                '<p><b>Fecha de observación:</b> ' + this_bs.observation_date + '</p>' +
+                '<p><b>Observaciones del alumno:</b> ' + this_bs.note + '</p>' +
             '</div>' +
           '</div>' +
         '</div>';
@@ -49,6 +50,7 @@ $(document).ready(function() {
 	    var breeding_sites_by_hash = _bs_data[hashtag];
 	    var bounds = L.latLngBounds();
         var breeding_site_markers = [];
+        marker_cluster_layer = L.markerClusterGroup();
         if(breeding_sites_by_hash){
             for(var i=0; i<breeding_sites_by_hash.length; i++){
                 var this_bs = breeding_sites_by_hash[i];
@@ -65,9 +67,11 @@ $(document).ready(function() {
                 //var marker = L.marker([ this_bs.lat, this_bs.lon] );
                 breeding_site_markers.push(marker);
                 bounds.extend( [ this_bs.lat, this_bs.lon] );
+                marker_cluster_layer.addLayer(marker);
             }
-            breeding_site_markers_layer = L.layerGroup(breeding_site_markers);
-            map.addLayer(breeding_site_markers_layer);
+            //breeding_site_markers_layer = L.layerGroup(breeding_site_markers);
+            //map.addLayer(breeding_site_markers_layer);
+            map.addLayer(marker_cluster_layer);
             map.fitBounds(bounds, {
                 "animate":true,
                 "pan": {
@@ -182,8 +186,9 @@ $(document).ready(function() {
                 if(selected_marker){
                     map.fitBounds(default_bounds);
                 }
-                if(breeding_site_markers_layer){
-                    map.removeLayer(breeding_site_markers_layer);
+                if(marker_cluster_layer){
+                    //map.removeLayer(breeding_site_markers_layer);
+                    map.removeLayer(marker_cluster_layer);
                 }
             });
             var layer = e.target;
