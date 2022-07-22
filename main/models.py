@@ -42,9 +42,12 @@ class EducationCenter(models.Model):
     def __str__(self):
         return self.name
 
-    def center_slug(self):
+    def center_slug(self, year=True):
         now = datetime.datetime.now()
-        year = str(now.year - 2000)
+        if year:
+            year = str(now.year - 2000)
+        else:
+            year = ''
         try:
             slug = slugify(self.name)
             bits = slug.split("-")
@@ -55,6 +58,17 @@ class EducationCenter(models.Model):
 
     def center_groups(self):
         return User.objects.filter(profile__center_string=self.name).filter(profile__campaign=self.campaign).filter(profile__is_group=True).order_by('profile__group_public_name')
+
+    def n_groups_center(self):
+        return self.center_groups().count()
+
+    def n_students_center(self):
+        total = 0
+        groups = self.center_groups();
+        for g in groups:
+            total += g.profile.n_students_in_group
+        return total
+
 
 
 
@@ -498,3 +512,15 @@ def save_user_profile(sender, instance, created, **kwargs):
                 elif higher_index != -1:
                     instance.profile.group_hashtag = education_center.hashtag + "_" + str(higher_index + 1)
     instance.profile.save()
+
+
+class BreedingSites(models.Model):
+    version_uuid = models.CharField(max_length=36, blank=True, unique=True)
+    observation_date = models.DateTimeField(null=True, blank=True)
+    lon = models.FloatField(blank=True, null=True)
+    lat = models.FloatField(blank=True, null=True)
+    private_webmap_layer = models.CharField(max_length=255, blank=True)
+    photo_url = models.CharField(max_length=255, blank=True)
+    note = models.TextField()
+    center_hashtag = models.CharField(max_length=100, blank=True)
+    campaign = models.ForeignKey(Campaign, null=True, blank=True, on_delete=models.SET_NULL, related_name="breeding_sites")

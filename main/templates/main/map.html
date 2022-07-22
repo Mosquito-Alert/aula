@@ -14,6 +14,9 @@
             width: 100%;
             height: 800px;
         }
+        .content ul li {
+            list-style-type: none;
+        }
     </style>
 <!--    <link href="{% static 'main/bootstrap-4.3.1/css/bootstrap.min.css' %}" rel="stylesheet">-->
     <link href="{% static 'main/jquery-ui/themes/base/jquery-ui.min.css' %}" rel="stylesheet">
@@ -23,6 +26,21 @@
     <link href="{% static 'main/Leaflet.Draw.static/src/leaflet.draw.css' %}" rel="stylesheet">
     <link href="{% static 'main/leaflet_popup_sidebar/css/leaflet-sidebar.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <style>
+        #filter_control_year{
+            position: absolute;
+            left: 10px;
+            top: 85px;
+            width: 200px;
+            z-index: 999;
+            padding: 3px;
+            border-radius: 4px;
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+            box-shadow: 0 1px 7px rgba(0, 0, 0, 0.65);
+            background-color: #FFFFFF;
+        }
+    </style>
     {% endblock %}
     <title>{% block title %}{% trans 'Aula' %}{% endblock %}</title>
 <!--    <link href="{% static 'main/toastr/toastr.min.css' %}" rel="stylesheet">-->
@@ -32,6 +50,14 @@
 {% block main %}
 <div id="map"></div>
 {% endblock %}
+<div id="filter_control_year" class="leaflet-control">
+    Filtrar por año:
+    <select id="year_list">
+        <option value="">------</option>
+        <option value="2021">2021</option>
+        <option value="2022">2022</option>
+    </select>
+</div>
 </main>
 <script src="{% static 'main/jquery/jquery-3.5.1.min.js' %}"></script>
 <!--<script src="{% static 'main/bootstrap-4.3.1/js/bootstrap.bundle.min.js' %}"></script>-->
@@ -44,9 +70,17 @@
     var currentLang = '{{ LANGUAGE_CODE }}';
     var admin_edit = {% if user.is_superuser and user.is_staff or user.profile.is_teacher %}true{% else %}false{% endif %};
     var _center_data = JSON.parse('{{ centers | escapejs }}');
+    var _count_data = JSON.parse('{{ count_data | escapejs }}');
+    var _bs_data = JSON.parse('{{ bs | escapejs }}');
     var _school_icon_url = "{% static 'main/icons/school_marker.png' %}";
+    var _full_school_icon_url = "{% static 'main/icons/school_marker_full.png' %}";
     var _selected_school_icon_url = "{% static 'main/icons/selected_school_marker.png' %}";
     var center_info_url = "{% url 'center_info' %}";
+    var _sd_water_icon_url = "{% static 'main/icons/marker_site_water.svg' %}";
+    var _sd_dry_icon_url = "{% static 'main/icons/marker_site_dry.svg' %}";
+    var _sd_other_icon_url = "{% static 'main/icons/marker_site_other.svg' %}";
+    var current_year = {{ current_year }};
+    var map_url = "{% url 'map_campaign_year' %}";
 </script>
 <script src="{% static 'main/csrf_utils.js' %}"></script>
 <script src="{% static 'main/leaflet/leaflet.js' %}"></script>

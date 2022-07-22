@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from main.models import EducationCenter, Quiz, Question, QuizRunAnswers, QuizRun, Campaign
+from main.models import EducationCenter, Quiz, Question, QuizRunAnswers, QuizRun, Campaign, BreedingSites
 from django.contrib.auth.models import User
 from django.urls import reverse
 
@@ -231,3 +231,14 @@ class CampaignSerializer(serializers.ModelSerializer):
     class Meta:
         model = Campaign
         fields = '__all__'
+
+
+class BreedingSiteSerializer(serializers.ModelSerializer):
+    observation_date = serializers.SerializerMethodField('get_observation_date')
+
+    class Meta:
+        model = BreedingSites
+        fields = '__all__'
+
+    def get_observation_date(self,obj):
+        return obj.observation_date.strftime("%d/%m/%Y")

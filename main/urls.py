@@ -120,8 +120,10 @@ urlpatterns = [
     path('campaign/update/<int:pk>/', views.campaign_update, name='campaign_update'),
     path('campaign/update/', views.campaign_update, name='campaign_update_no_id'),
     path('campaign/datatablelist/', views.campaign_datatable_list, name='campaign_datatable_list'),
-    path('map/', views.map, name='map'),
-    path('map/<int:campaign>/', views.map_campaign, name='map_campaign'),
+    #path('map/', views.map, name='map'),
+    path('map/', views.map_campaign_year, name='map_campaign_year'),
+    #path('map/<int:campaign>/', views.map_campaign, name='map_campaign'),
+    path('map/<int:year>/', views.map_campaign_year, name='map_campaign_year'),
     path('api/center_info/', views.center_info, name='center_info' ),
     path('api/center_info/<int:pk>/', views.center_info, name='center_info' ),
 ]

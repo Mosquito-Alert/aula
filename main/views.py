@@ -8,7 +8,8 @@ from aula import settings
 from main.models import EducationCenter, Word, Quiz, Answer, Question, QuizRun, QuizRunAnswers, Profile, get_string_from_groups, Campaign
 from main.forms import TeacherForm, SimplifiedTeacherForm, EducationCenterForm, TeacherUpdateForm, ChangePasswordForm, \
     SimplifiedAlumForm, SimplifiedGroupForm, AlumUpdateForm, QuestionForm, QuestionLinkForm, SimplifiedAlumFormForTeacher, \
-    SimplifiedAlumFormForAdmin, AlumUpdateFormAdmin, QuizAdminForm, QuestionPollForm, QuizNewForm, QuestionUploadForm, CampaignForm
+    SimplifiedAlumFormForAdmin, AlumUpdateFormAdmin, QuizAdminForm, QuestionPollForm, QuizNewForm, QuestionUploadForm, CampaignForm, \
+    BreedingSites
 from django.contrib.gis.geos import GEOSGeometry
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
@@ -21,7 +22,7 @@ import operator
 from main.serializers import EducationCenterSerializer, TeacherSerializer, UserSerializer, AlumSerializer, \
     GroupSerializer, GroupSearchSerializer, TeacherComboSerializer, AlumSearchSerializer, QuizSerializer, \
     QuestionSerializer, QuizSearchSerializer, QuizRunAnswerSerializer, QuizRunSerializer, QuizComboSerializer, \
-    GroupComboSerializer, CampaignSerializer
+    GroupComboSerializer, CampaignSerializer, BreedingSiteSerializer
 from rest_framework import status,viewsets, generics
 from django.db.models import Q
 from rest_framework.generics import GenericAPIView
@@ -1311,15 +1312,92 @@ def map(request):
     centers = EducationCenter.objects.exclude(location__isnull=True)
     serializer = EducationCenterSerializer(centers, many=True)
     centers = json.dumps(serializer.data)
-    return render(request, 'main/map.html', { 'centers' :  centers})
+    count_data = get_center_bs_sites_count()
+    count = json.dumps(count_data)
+    bs = get_center_bs_sites()
+    return render(request, 'main/map.html', { 'centers' :  centers, 'count_data': count, 'bs': bs})
+
+
+def get_center_bs_sites_count():
+    count_data = {}
+    breeding_sites = BreedingSites.objects.values('center_hashtag').order_by('center_hashtag').annotate(the_count=Count('center_hashtag'))
+    for b in breeding_sites:
+        count_data[ b['center_hashtag'] ] = b['the_count']
+    return count_data
+
+
+def get_center_bs_sites(campaigns=None):
+    sites = {}
+    if campaigns:
+        breeding_sites = BreedingSites.objects.filter(campaign__in=campaigns).order_by('center_hashtag')
+    else:
+        breeding_sites = BreedingSites.objects.order_by('center_hashtag')
+    for b in breeding_sites:
+        try:
+            sites[b.center_hashtag]
+        except KeyError:
+            sites[b.center_hashtag] = []
+        serializer = BreedingSiteSerializer(b, many=False)
+        sites[b.center_hashtag].append( serializer.data )
+    return json.dumps(sites)
+
+
+def map_campaign_year(request, year=None):
+    if year is None:
+        centers = EducationCenter.objects.exclude(location__isnull=True)
+        serializer = EducationCenterSerializer(centers, many=True)
+        centers = json.dumps(serializer.data)
+        count_data = get_center_bs_sites_count()
+        count = json.dumps(count_data)
+        bs = get_center_bs_sites()
+        current_year = 0
+        return render(request, 'main/map.html', {'centers': centers, 'count_data': count, 'bs': bs, 'current_year': current_year})
+    else:
+        campaigns_year = Campaign.objects.filter(start_date__year=year)
+        centers = EducationCenter.objects.filter(campaign__in=campaigns_year).exclude(location__isnull=True)
+        serializer = EducationCenterSerializer(centers, many=True)
+        centers = json.dumps(serializer.data)
+        count_data = get_center_bs_sites_count()
+        count = json.dumps(count_data)
+        bs = get_center_bs_sites(campaigns_year)
+        return render(request, 'main/map.html', {'centers': centers, 'count_data': count, 'bs': bs, 'current_year': year})
 
 
 def map_campaign(request, campaign):
     centers = EducationCenter.objects.filter(campaign__id=campaign).exclude(location__isnull=True)
     serializer = EducationCenterSerializer(centers, many=True)
     centers = json.dumps(serializer.data)
-    return render(request, 'main/map.html', {'centers': centers})
+    count_data = get_center_bs_sites_count()
+    count = json.dumps(count_data)
+    bs = get_center_bs_sites(campaign)
+    return render(request, 'main/map.html', {'centers': centers, 'count_data': count, 'bs': bs})
 
+
+def get_number_of_points_center(center):
+    hashtag = center.hashtag
+    sd_water = BreedingSites.objects.filter(center_hashtag=hashtag).filter(private_webmap_layer='storm_drain_water').count()
+    sd_dry = BreedingSites.objects.filter(center_hashtag=hashtag).filter(private_webmap_layer='storm_drain_dry').count()
+    sd_other = BreedingSites.objects.filter(center_hashtag=hashtag).filter(private_webmap_layer='breeding_site_other').count()
+    total = BreedingSites.objects.filter(center_hashtag=hashtag).count()
+    data = {
+        "total":  total,
+        "sd_water": sd_water,
+        "sd_dry": sd_dry,
+        "sd_other": sd_other
+    }
+    return data
+
+
+def get_participation_years(center):
+    center_hash_no_year = center.center_slug(year=False)
+    campaigns_by_center = EducationCenter.objects.filter(hashtag__startswith=center_hash_no_year).values('campaign').distinct()
+    campaigns = Campaign.objects.filter(id__in=campaigns_by_center)
+    years = []
+    for c in campaigns:
+        years.append( str(c.start_date.year) )
+    if len(years) > 0:
+        return ','.join(years)
+    return ''
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
@@ -1330,9 +1408,18 @@ def center_info(request, pk=None):
             raise ParseError(detail='Center id is mandatory')
         try:
             center = EducationCenter.objects.get(pk=pk)
+            participation_years = get_participation_years(center)
+            n_points_data = get_number_of_points_center(center)
             context = {
                 'center_name': center.name,
-                'hashtag': center.hashtag
+                'hashtag': center.hashtag,
+                'n_points_total': n_points_data['total'],
+                'n_points_water': n_points_data['sd_water'],
+                'n_points_dry': n_points_data['sd_dry'],
+                'n_points_other': n_points_data['sd_other'],
+                'n_groups': center.n_groups_center(),
+                'n_students': center.n_students_center(),
+                'participation_years': participation_years
             }
             html_data = render_to_string('main/map_bulma_card.html',context=context)
             serializer = EducationCenterSerializer(center)
