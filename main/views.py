@@ -9,7 +9,7 @@ from main.models import EducationCenter, Word, Quiz, Answer, Question, QuizRun, 
 from main.forms import TeacherForm, SimplifiedTeacherForm, EducationCenterForm, TeacherUpdateForm, ChangePasswordForm, \
     SimplifiedAlumForm, SimplifiedGroupForm, AlumUpdateForm, QuestionForm, QuestionLinkForm, SimplifiedAlumFormForTeacher, \
     SimplifiedAlumFormForAdmin, AlumUpdateFormAdmin, QuizAdminForm, QuestionPollForm, QuizNewForm, QuestionUploadForm, CampaignForm, \
-    BreedingSites
+    BreedingSites, Awards
 from django.contrib.gis.geos import GEOSGeometry
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
@@ -22,7 +22,7 @@ import operator
 from main.serializers import EducationCenterSerializer, TeacherSerializer, UserSerializer, AlumSerializer, \
     GroupSerializer, GroupSearchSerializer, TeacherComboSerializer, AlumSearchSerializer, QuizSerializer, \
     QuestionSerializer, QuizSearchSerializer, QuizRunAnswerSerializer, QuizRunSerializer, QuizComboSerializer, \
-    GroupComboSerializer, CampaignSerializer, BreedingSiteSerializer
+    GroupComboSerializer, CampaignSerializer, BreedingSiteSerializer, AwardSerializer
 from rest_framework import status,viewsets, generics
 from django.db.models import Q
 from rest_framework.generics import GenericAPIView
@@ -1315,7 +1315,18 @@ def map(request):
     count_data = get_center_bs_sites_count()
     count = json.dumps(count_data)
     bs = get_center_bs_sites()
-    return render(request, 'main/map.html', { 'centers' :  centers, 'count_data': count, 'bs': bs})
+    awards_data = json.dumps(get_center_awards())
+    return render(request, 'main/map.html', { 'centers' :  centers, 'count_data': count, 'bs': bs, 'awards_data': awards_data})
+
+
+def get_center_awards():
+    center_awards = {}
+    awards_on_centers = Awards.objects.all().values('center').distinct()
+    education_center_with_awards = EducationCenter.objects.filter(id__in=awards_on_centers)
+    for a in education_center_with_awards:
+        center_hash = a.hashtag
+        center_awards[center_hash] = True
+    return center_awards
 
 
 def get_center_bs_sites_count():
@@ -1351,7 +1362,8 @@ def map_campaign_year(request, year=None):
         count = json.dumps(count_data)
         bs = get_center_bs_sites()
         current_year = 0
-        return render(request, 'main/map.html', {'centers': centers, 'count_data': count, 'bs': bs, 'current_year': current_year})
+        awards_data = json.dumps(get_center_awards())
+        return render(request, 'main/map.html', {'centers': centers, 'count_data': count, 'bs': bs, 'current_year': current_year, 'awards_data': awards_data})
     else:
         campaigns_year = Campaign.objects.filter(start_date__year=year)
         centers = EducationCenter.objects.filter(campaign__in=campaigns_year).exclude(location__isnull=True)
@@ -1360,7 +1372,8 @@ def map_campaign_year(request, year=None):
         count_data = get_center_bs_sites_count()
         count = json.dumps(count_data)
         bs = get_center_bs_sites(campaigns_year)
-        return render(request, 'main/map.html', {'centers': centers, 'count_data': count, 'bs': bs, 'current_year': year})
+        awards_data = json.dumps(get_center_awards())
+        return render(request, 'main/map.html', {'centers': centers, 'count_data': count, 'bs': bs, 'current_year': year, 'awards_data': awards_data})
 
 
 def map_campaign(request, campaign):
@@ -1370,7 +1383,8 @@ def map_campaign(request, campaign):
     count_data = get_center_bs_sites_count()
     count = json.dumps(count_data)
     bs = get_center_bs_sites(campaign)
-    return render(request, 'main/map.html', {'centers': centers, 'count_data': count, 'bs': bs})
+    awards_data = json.dumps(get_center_awards())
+    return render(request, 'main/map.html', {'centers': centers, 'count_data': count, 'bs': bs, 'awards_data': awards_data})
 
 
 def get_number_of_points_center(center):
@@ -1410,6 +1424,7 @@ def center_info(request, pk=None):
             center = EducationCenter.objects.get(pk=pk)
             participation_years = get_participation_years(center)
             n_points_data = get_number_of_points_center(center)
+            awards = Awards.objects.filter(center=center).order_by('age_bracket', 'award')
             context = {
                 'center_name': center.name,
                 'hashtag': center.hashtag,
@@ -1419,7 +1434,8 @@ def center_info(request, pk=None):
                 'n_points_other': n_points_data['sd_other'],
                 'n_groups': center.n_groups_center(),
                 'n_students': center.n_students_center(),
-                'participation_years': participation_years
+                'participation_years': participation_years,
+                'awards': awards
             }
             html_data = render_to_string('main/map_bulma_card.html',context=context)
             serializer = EducationCenterSerializer(center)

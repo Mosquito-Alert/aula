@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from main.models import EducationCenter, Quiz, Question, QuizRunAnswers, QuizRun, Campaign, BreedingSites
+from main.models import EducationCenter, Quiz, Question, QuizRunAnswers, QuizRun, Campaign, BreedingSites, Awards
 from django.contrib.auth.models import User
 from django.urls import reverse
 
@@ -242,3 +242,9 @@ class BreedingSiteSerializer(serializers.ModelSerializer):
 
     def get_observation_date(self,obj):
         return obj.observation_date.strftime("%d/%m/%Y")
+
+
+class AwardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Awards
+        fields = '__all__'

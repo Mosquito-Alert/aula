@@ -524,3 +524,11 @@ class BreedingSites(models.Model):
     note = models.TextField()
     center_hashtag = models.CharField(max_length=100, blank=True)
     campaign = models.ForeignKey(Campaign, null=True, blank=True, on_delete=models.SET_NULL, related_name="breeding_sites")
+
+
+class Awards(models.Model):
+    age_bracket = models.CharField(max_length=36, blank=True)
+    format = models.CharField(max_length=100, blank=True)
+    award = models.CharField(max_length=100, blank=True)
+    group = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE, related_name="group_awards")
+    center = models.ForeignKey(EducationCenter, null=True, blank=True, on_delete=models.CASCADE, related_name="center_awards")

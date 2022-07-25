@@ -1,10 +1,5 @@
 <hr>
 <div class="card">
-  <!--<div class="card-image">
-    <figure class="image is-4by3">
-      <img style="background-color: #FFA07A; padding: 2px;" src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
-    </figure>
-  </div>-->
   <div class="card-content">
     <div class="media">
       <div class="media-left">
@@ -21,16 +16,64 @@
     <div class="content">
         <ul>
             {% if participation_years %}
-            <li>Años de participación: {{ participation_years }}</li>
+            <article class="message">
+                <div class="message-header">
+                    <li class="is-info">Años de participación: {{ participation_years }}</li>
+                </div>
+            </article>
             {% endif %}
-            <li>Puntos de cría: <b>{{ n_points_total }}</b></li>
-            <ul>
-                <li><img src="/static/main/icons/marker_site_water.svg"> Imbornales con agua: {{ n_points_water }}</li>
-                <li><img src="/static/main/icons/marker_site_dry.svg"> Imbornales secos: {{ n_points_dry }}</li>
-                <li><img src="/static/main/icons/marker_site_other.svg"> Otros puntos de cría: {{ n_points_other }}</li>
-            </ul>
-            <li><img src="/static/main/icons/noun_group_737669.svg" width="40"> Número de grupos: <b>{{ n_groups }}</b></li>
-            <li><img src="/static/main/icons/noun_graduate_66572.svg" width="40"> Número de alumnos: <b>{{ n_students }}</b></li>
+            <article class="message">
+              <div class="message-header">
+                <p>Puntos de cría (totales {{ n_points_total }}):</p>
+              </div>
+              <div class="message-body">
+                <ul>
+                    <li class="is-size-7"><img src="/static/main/icons/marker_site_water.svg"> Imbornales con agua: {{ n_points_water }}</li>
+                    <li class="is-size-7"><img src="/static/main/icons/marker_site_dry.svg"> Imbornales secos: {{ n_points_dry }}</li>
+                    <li class="is-size-7"><img src="/static/main/icons/marker_site_other.svg"> Otros puntos de cría: {{ n_points_other }}</li>
+                </ul>
+              </div>
+            </article>
+            <article class="message">
+              <div class="message-header">
+                <p>Participación:</p>
+              </div>
+              <div class="message-body">
+                  <ul>
+                    <li class="is-size-7"><img src="/static/main/icons/noun_group_737669.svg" width="25"> Número de grupos: <b>{{ n_groups }}</b></li>
+                    <li class="is-size-7"><img src="/static/main/icons/noun_graduate_66572.svg" width="25"> Número de alumnos: <b>{{ n_students }}</b></li>
+                  </ul>
+              </div>
+            </article>
+            {% if awards %}
+                <hr>
+                <article class="message">
+                  <div class="message-header">
+                    <p>Premios otorgados:</p>
+                  </div>
+                  <div class="message-body">
+                    <ul>
+                    {% for award in awards %}
+                        {%if award.award == 'Originalidad' %}
+                            <li class="is-size-7" style="color: green"><img src="/static/main/icons/noun_solution_2998552.svg" width="25px"> <b>{{ award.award }}</b> (formato: {{ award.format }}) al grupo <b>{{ award.group.profile.group_public_name }}</b> ({{ award.age_bracket }})</li>
+                        {%elif award.award == 'Primer premio' %}
+                            <li class="is-size-7" style="color: #C9B037"><img src="/static/main/icons/noun-medal-5019175.svg" width="25px"> <b>{{ award.award }}</b> (formato: {{ award.format }}) al grupo <b>{{ award.group.profile.group_public_name }}</b> ({{ award.age_bracket }})</li>
+                        {%elif award.award == 'Segundo premio' %}
+                            <li class="is-size-7" style="color: #B4B4B4"><img src="/static/main/icons/noun-medal-5019175.svg" width="25px"> <b>{{ award.award }}</b> (formato: {{ award.format }}) al grupo <b>{{ award.group.profile.group_public_name }}</b> ({{ award.age_bracket }})</li>
+                        {%elif award.award == 'Tercer premio' %}
+                            <li class="is-size-7" style="color: #AD8A56"><img src="/static/main/icons/noun-medal-5019175.svg" width="25px"> <b>{{ award.award }}</b> (formato: {{ award.format }}) al grupo <b>{{ award.group.profile.group_public_name }}</b> ({{ award.age_bracket }})</li>
+                        {%elif award.award == 'Cuarto premio' %}
+                            <li class="is-size-7" style="color: #AD8A56"><img src="/static/main/icons/noun-medal-5019175.svg" width="25px"> <b>{{ award.award }}</b> (formato: {{ award.format }}) al grupo <b>{{ award.group.profile.group_public_name }}</b> ({{ award.age_bracket }})</li>
+                        {%elif award.award == 'Diploma' %}
+                            <li class="is-size-7" style="color: green"><img src="/static/main/icons/noun-diploma-1167133.svg" width="25px"> <b>{{ award.award }}</b> (formato: {{ award.format }}) al grupo <b>{{ award.group.profile.group_public_name }}</b> ({{ award.age_bracket }})</li>
+                        {% else %}
+                            <li class="is-size-7"> <b>{{ award.award }}</b> (formato: {{ award.format }}) al grupo <b>{{ award.group.profile.group_public_name }}</b> ({{ award.age_bracket }})</li>
+                        {% endif %}
+                    {% endfor %}
+                    </ul>
+                  </div>
+                </article>
+            {% endif %}
         </ul>
     </div>
   </div>

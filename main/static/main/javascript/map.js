@@ -147,6 +147,12 @@ $(document).ready(function() {
         iconSize:     [55, 80]
     });
 
+    var school_icon_laureate = L.icon({
+        iconUrl: _laureate_school_icon_url,
+        iconAnchor:     [35, 80],
+        iconSize:     [70, 80]
+    });
+
     var full_school_icon = L.icon({
         iconUrl: _full_school_icon_url,
         iconAnchor:     [27, 80],
@@ -164,8 +170,13 @@ $(document).ready(function() {
     for(var i = 0; i < _center_data.length; i++){
         var ec = _center_data[i];
         var m;
-        if( _count_data[ec.hashtag] != null ){
-            m = new myMarker([ec.pos_x, ec.pos_y],{icon:full_school_icon, id: ec.id, hashtag: ec.hashtag});
+//        if( _count_data[ec.hashtag] != null ){
+//            m = new myMarker([ec.pos_x, ec.pos_y],{icon:full_school_icon, id: ec.id, hashtag: ec.hashtag});
+//        }else{
+//            m = new myMarker([ec.pos_x, ec.pos_y],{icon:school_icon, id: ec.id, hashtag: ec.hashtag});
+//        }
+        if(_awards_data[ec.hashtag] != null){
+            m = new myMarker([ec.pos_x, ec.pos_y],{icon:school_icon_laureate, id: ec.id, hashtag: ec.hashtag});
         }else{
             m = new myMarker([ec.pos_x, ec.pos_y],{icon:school_icon, id: ec.id, hashtag: ec.hashtag});
         }
@@ -183,9 +194,9 @@ $(document).ready(function() {
             );
             bar = L.control.sidebar({ container: 'sidebar', position: 'right', }).addTo(map);
             bar.on('closing',function(e){
-                if(selected_marker){
-                    map.fitBounds(default_bounds);
-                }
+//                if(selected_marker){
+//                    map.fitBounds(default_bounds);
+//                }
                 if(marker_cluster_layer){
                     //map.removeLayer(breeding_site_markers_layer);
                     map.removeLayer(marker_cluster_layer);
