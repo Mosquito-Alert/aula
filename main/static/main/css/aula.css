@@ -26,3 +26,38 @@
 .dropbtn{
     font-size: 0.9em !important;
 }
+
+.test_container{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.card_test {
+    width: 195px;
+    margin: 7px;
+    font-size: 14px;
+}
+
+.test_button_container{
+    display: flex;
+}
+
+.test_button_wrapper{
+    margin: 2px;
+}
+
+.card.card_test.done {
+    background-color: green;
+}
+
+.card.card_test.available {
+    background-color: white;
+}
+
+.card.card_test.in_progress {
+    background-color: orange;
+}
+
+.card.card_test.blocked {
+    background-color: grey;
+}

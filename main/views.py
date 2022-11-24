@@ -243,12 +243,51 @@ def teacher_polls(request):
         return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
 
 
+def quiz_is_repeatable_for_user(quiz, this_user):
+    if quiz.type == 2:
+        if this_user.profile.is_group:
+            n_completed_quizruns_for_test = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=False).count()
+            if n_completed_quizruns_for_test >= this_user.profile.n_students_in_group:
+                return False
+    return True
+
+
+def get_ordered_quiz_sequence(this_user):
+    this_user_campaign = this_user.profile.campaign
+    teach = this_user.profile.group_teacher
+    all_quizzes_ordered = Quiz.objects.filter(Q(author=teach) | Q(author__isnull=True)).filter(published=True).filter(campaign=this_user_campaign).exclude(type=4).order_by('order')
+    quizzes_in_progress_ids = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=True).values('quiz__id').distinct()
+    in_progress = [ q['quiz__id'] for q in quizzes_in_progress_ids ]
+    quizzes_done_ids = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=False).values('quiz__id').distinct()
+    done = [ q['quiz__id'] for q in quizzes_done_ids ]
+    available_quizzes = Quiz.objects.filter(Q(author=teach) | Q(author__isnull=True)).filter(published=True).filter(campaign=this_user_campaign).exclude(type=4).exclude(id__in=quizzes_in_progress_ids).exclude(id__in=quizzes_done_ids).order_by('id')
+    available_ids =  [ q.id for q in available_quizzes ]
+    ordered_quizzes = []
+    for quiz in all_quizzes_ordered:
+        # quiz_status - locked/startable/repeatable/in_progress/done
+        if quiz.requisite and not quiz.requisite.id in done:
+            ordered_quizzes.append( {'quiz': quiz, 'status': 'blocked', 'blocked_by' : quiz.requisite})
+        else:
+            if quiz.id in available_ids:
+                ordered_quizzes.append( { 'quiz': quiz, 'status': 'available', 'repeatable': quiz_is_repeatable_for_user(quiz,this_user) })
+            elif quiz.id in in_progress:
+                in_progress_quizrun = QuizRun.objects.get(taken_by=this_user, date_finished__isnull=True, quiz=quiz)
+                ordered_quizzes.append({'quiz': quiz, 'status': 'in_progress', 'repeatable': False, 'quizrun':in_progress_quizrun })
+            elif quiz.id in done:
+                if quiz.is_upload:
+                    done_upload = QuizRun.objects.get(taken_by=this_user, date_finished__isnull=False, quiz=quiz)
+                    ordered_quizzes.append({'quiz': quiz, 'status': 'done', 'repeatable': False, 'file_url': done_upload.uploaded_file.url})
+                else:
+                    ordered_quizzes.append({'quiz': quiz, 'status': 'done', 'repeatable': quiz_is_repeatable_for_user(quiz,this_user)})
+    return ordered_quizzes
+
 
 @login_required
 def group_menu(request):
     this_user = request.user
     this_user_campaign = this_user.profile.campaign
     teach = this_user.profile.group_teacher
+    all_quizzes_ordered = get_ordered_quiz_sequence(this_user)
     quizzes_in_progress_ids = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=True).values('quiz__id').distinct()
     quizzes_done_ids = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=False).values('quiz__id').distinct()
     available_quizzes = Quiz.objects.filter(Q(author=teach) | Q(author__isnull=True)).filter(published=True).filter(campaign=this_user_campaign).exclude(type=4).exclude(id__in=quizzes_in_progress_ids).exclude(id__in=quizzes_done_ids).order_by('id')
@@ -257,7 +296,14 @@ def group_menu(request):
     done_quizzes_ids = [ a.quiz.id for a in done_quizruns ]
     #in_progress_quizzes = Quiz.objects.filter(id__in=quizzes_in_progress_ids).order_by('id')
     #done_quizzes = Quiz.objects.filter(id__in=quizzes_done_ids).order_by('id')
-    return render(request, 'main/alum_hub.html', {'available_quizzes':available_quizzes, 'in_progress_quizruns':in_progress_quizruns, 'done_quizruns': done_quizruns, 'done_quizzes_ids': done_quizzes_ids})
+    return render(request, 'main/alum_hub.html',
+                  {
+                      'available_quizzes':available_quizzes,
+                      'in_progress_quizruns':in_progress_quizruns,
+                      'done_quizruns': done_quizruns,
+                      'done_quizzes_ids': done_quizzes_ids,
+                      'all_quizzes_ordered': all_quizzes_ordered
+                  })
 
 
 @login_required

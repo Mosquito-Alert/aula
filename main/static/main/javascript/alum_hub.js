@@ -20,6 +20,12 @@ $(document).ready( function () {
         });
     };
 
+    $('div.test_button_container').on('click', 'button.btn.btn-success.take_upload', function () {
+        var taken_by = $(this).data('taken_by');
+        var quiz_id =  $(this).data('quiz_id');
+        create_run(quiz_id,taken_by);
+    });
+
     $('div.col-md-6.alert.alert-info.todo').on('click', 'div.row.mt-3 div.col-md-6.done_quizzes button.btn.btn-success.take_upload', function () {
         var taken_by = $(this).data('taken_by');
         var quiz_id =  $(this).data('quiz_id');

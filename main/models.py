@@ -91,6 +91,7 @@ class Quiz(models.Model):
     # To take this quiz, you need to previously complete 'requisite'
     requisite = models.ForeignKey('main.Quiz', null=True, blank=True, on_delete=models.SET_NULL, related_name='allows')
     campaign = models.ForeignKey(Campaign, default=get_current_active_campaign, null=True, blank=True, on_delete=models.SET_NULL, related_name="quizzes")
+    order = models.IntegerField('Sequence in which the quizzes are meant to be taken', blank=True, null=True)
 
     def __str__(self):
         return "{0} - {1}".format(self.name, self.type_text)
