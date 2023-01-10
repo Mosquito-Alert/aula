@@ -11,6 +11,7 @@ from tinymce.widgets import TinyMCE
 
 class QuizForm(ModelForm):
     name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), required=True)
+    seq = forms.IntegerField(widget=forms.TextInput(attrs={'class': 'form-control'}), required=True)
     html_header = forms.CharField(widget=TinyMCE(attrs={'cols': 80, 'rows': 20}))
     published = forms.BooleanField(label=_("Prova publicada?"),widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}), required=False)
     requisite = forms.ModelChoiceField(label=_("Cal completar la prova del desplegable per poder fer aquesta prova"), queryset=Quiz.objects.all().order_by('name'), widget=forms.Select(attrs={'class': 'form-control'}), required=False)
@@ -28,12 +29,13 @@ class QuizForm(ModelForm):
 
     class Meta:
         model = Quiz
-        fields = ['name', 'html_header', 'published', 'requisite']
+        fields = ['name', 'seq', 'html_header', 'published', 'requisite']
 
 
 
 class QuizNewForm(ModelForm):
     name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), required=True)
+    seq = forms.IntegerField(widget=forms.TextInput(attrs={'class': 'form-control'}), required=True)
     html_header = forms.CharField(widget=TinyMCE(attrs={'cols': 80, 'rows': 20}))
     published = forms.BooleanField(label=_("Prova publicada?"),widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}), required=False)
     requisite = forms.ModelChoiceField(label=_("Cal completar la prova del desplegable per poder fer aquesta prova"),queryset=Quiz.objects.filter(campaign__active=True).order_by('name'),widget=forms.Select(attrs={'class': 'form-control'}), required=False)
@@ -52,11 +54,12 @@ class QuizNewForm(ModelForm):
 
     class Meta:
         model = Quiz
-        fields = ['name', 'published', 'html_header', 'requisite', 'type']
+        fields = ['name', 'seq', 'published', 'html_header', 'requisite', 'type']
 
 
 class QuizAdminForm(ModelForm):
     name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), required=True)
+    seq = forms.IntegerField(widget=forms.TextInput(attrs={'class': 'form-control'}), required=True)
     published = forms.BooleanField(label=_("Prova publicada?"),widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}), required=False)
     html_header = forms.CharField(widget=TinyMCE(attrs={'cols': 80, 'rows': 20}), required=False)
     requisite = forms.IntegerField(widget=forms.HiddenInput(), required=False)
@@ -65,7 +68,7 @@ class QuizAdminForm(ModelForm):
 
     class Meta:
         model = Quiz
-        fields = ['name', 'html_header', 'published', 'type', 'author']
+        fields = ['name', 'seq', 'html_header', 'published', 'type', 'author']
 
 
 class EducationCenterForm(ModelForm):

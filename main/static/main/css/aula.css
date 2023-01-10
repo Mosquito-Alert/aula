@@ -33,13 +33,18 @@
 }
 
 .card_test {
-    width: 195px;
-    margin: 7px;
+    width: 200px;
+    margin: 10px;
     font-size: 14px;
+    border: solid 2px grey;
 }
 
 .test_button_container{
     display: flex;
+}
+
+.result_wrapper{
+    margin: 2px;
 }
 
 .test_button_wrapper{
@@ -60,4 +65,8 @@
 
 .card.card_test.blocked {
     background-color: grey;
+}
+
+.subjumbo {
+    font-size: 18px;
 }

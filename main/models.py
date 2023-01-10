@@ -91,7 +91,7 @@ class Quiz(models.Model):
     # To take this quiz, you need to previously complete 'requisite'
     requisite = models.ForeignKey('main.Quiz', null=True, blank=True, on_delete=models.SET_NULL, related_name='allows')
     campaign = models.ForeignKey(Campaign, default=get_current_active_campaign, null=True, blank=True, on_delete=models.SET_NULL, related_name="quizzes")
-    order = models.IntegerField('Sequence in which the quizzes are meant to be taken', blank=True, null=True)
+    seq = models.IntegerField('Sequence in which the quizzes are meant to be taken', blank=True, null=True)
 
     def __str__(self):
         return "{0} - {1}".format(self.name, self.type_text)
@@ -158,6 +158,9 @@ class Quiz(models.Model):
     #         QuizRun.objects.filter(taken_by__id=r.id).filter(quiz=quiz_id).filter(
     #             date_finished__isnull=False).order_by('-questions_right', '-date_finished').first()
     #     return QuizRun.objects.filter(quiz=self).filter(date_finished__isnull=False).values('taken_by__id').distinct().count()
+    def best_run(self, user_id):
+        best_run = QuizRun.objects.filter(taken_by__id=user_id).filter(quiz=self).order_by('-questions_right').first()
+        return best_run
 
     @property
     def best_runs(self):

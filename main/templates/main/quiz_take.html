@@ -1,4 +1,4 @@
-{% extends "main/base.html" %}
+{% extends "main/alum_sub.html" %}
 {% load static %}
 {% load i18n %}
 {% block extra_css %}
@@ -113,7 +113,6 @@
 {% block title %}{% trans 'Realitzant prova' %}{% endblock %}
 
 {% block main_jumbo %}{% trans 'Estàs fent la prova' %} - {{ quiz.name }}{% endblock %}
-{% block sub_jumbo %}{% endblock %}
 
 {% block main %}
 <div class="col-xs-12" style="height:50px;"></div>
