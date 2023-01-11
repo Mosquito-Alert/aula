@@ -15,6 +15,7 @@
 <div class="container">
     <form id="group_form" class="form" action="{% url 'campaign_update' campaign_id %}" method="post">
         {% csrf_token %}
+        {{ form.media }}
         {{ form|crispy }}
         <input role="button" class="btn btn-success mt-2" type="submit" value="{% trans 'Desar' %}" />
     </form>

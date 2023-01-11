@@ -193,6 +193,13 @@
     </div>
     -->
 </div>
+</div>
+{% if campaign.html_header_groups %}
+<hr>
+<div class="container">
+    {{ campaign.html_header_groups |safe }}
+</div>
+{% endif %}
 {% endblock %}
 {% block extra_js %}
 <script>

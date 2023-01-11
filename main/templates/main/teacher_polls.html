@@ -129,6 +129,12 @@
     </div>
     -->
 </div>
+{% if teacher_campaign.html_header_teachers %}
+<hr>
+<div class="container">
+    {{ teacher_campaign.html_header_teachers |safe }}
+</div>
+{% endif %}
 {% endblock %}
 {% block extra_js %}
 <script src="{% static 'main/csrf_utils.js' %}"></script>

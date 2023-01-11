@@ -18,6 +18,8 @@ class Campaign(models.Model):
     active = models.BooleanField(default=False)
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
+    html_header_groups = models.TextField(blank=True, null=True)
+    html_header_teachers = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return self.name

@@ -242,7 +242,8 @@ def teacher_polls(request):
             'in_progress_quizruns':in_progress_polls,
             'done_quizruns': done_polls,
             'done_quizzes_ids': done_poll_ids,
-            'all_quizzes_ordered': all_quizzes_ordered
+            'all_quizzes_ordered': all_quizzes_ordered,
+            'teacher_campaign': teacher_campaign
         }
         return render(request, 'main/teacher_polls.html', context)
     else:
@@ -325,7 +326,8 @@ def group_menu(request):
                       'done_quizruns': done_quizruns,
                       'done_quizzes_ids': done_quizzes_ids,
                       'all_quizzes_ordered': all_quizzes_ordered,
-                      'done_test_scores': done_test_scores
+                      'done_test_scores': done_test_scores,
+                      'campaign': this_user_campaign
                   })
 
 

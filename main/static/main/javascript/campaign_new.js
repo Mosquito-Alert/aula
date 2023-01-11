@@ -7,4 +7,15 @@ $(document).ready(function() {
           format:'dd/mm/yyyy',
         });
     });
+
+    tinymce.init({
+      selector: '#id_html_header_groups',
+      plugins: 'image'
+    });
+
+    tinymce.init({
+      selector: '#id_html_header_teachers',
+      plugins: 'image'
+    });
+
 });

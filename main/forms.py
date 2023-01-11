@@ -445,12 +445,14 @@ class QuestionForm(forms.ModelForm):
 
 class CampaignForm(forms.ModelForm):
     name = forms.CharField(label=_("Nom de la campanya"), strip=False, widget=forms.TextInput(attrs={'class': 'form-control'}), required=True)
+    html_header_groups = forms.CharField(widget=TinyMCE(attrs={'cols': 80, 'rows': 20}), required=False)
+    html_header_teachers = forms.CharField(widget=TinyMCE(attrs={'cols': 80, 'rows': 20}), required=False)
     start_date = forms.DateTimeField(input_formats=['%d/%m/%Y'], required=False, localize=True)
     end_date = forms.DateTimeField(input_formats=['%d/%m/%Y'], required=False, localize=True)
 
     class Meta:
         model = Campaign
-        fields = ['name','start_date','end_date']
+        fields = ['name','start_date','end_date','html_header_groups','html_header_teachers']
 
     def clean_end_date(self):
         cleaned_data_start = self.cleaned_data.get('start_date')
