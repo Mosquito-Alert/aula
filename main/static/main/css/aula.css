@@ -39,6 +39,13 @@
     border: solid 2px grey;
 }
 
+.card_test_readonly {
+    width: 100px;
+    margin: 5px;
+    font-size: 10px;
+    border: solid 2px grey;
+}
+
 .test_button_container{
     display: flex;
 }
@@ -65,6 +72,21 @@
 
 .card.card_test.blocked {
     background-color: grey;
+}
+
+.card.card_test_readonly.accent {
+    background-color: white;
+    border: solid 2px green;
+}
+
+.card.card_test_readonly.faded {
+    margin-top: 5px;
+    background-color: grey;
+    color: #343a40bf;
+}
+
+.compact {
+    padding: 6px;
 }
 
 .subjumbo {

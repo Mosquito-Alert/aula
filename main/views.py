@@ -780,6 +780,7 @@ def quiz_take(request, quiz_id=None, question_number=1, run_id=None):
     completed_questions = QuizRunAnswers.objects.filter(quizrun=quiz_run).filter(answered=True).values('question__id')
     completed_questions_list = [a['question__id'] for a in completed_questions]
     all_questions_answered = quiz_run.all_questions_answered()
+    all_quizzes_ordered = get_ordered_quiz_sequence(this_user)
 
     return render(request, 'main/quiz_take.html',
                   {
@@ -795,7 +796,8 @@ def quiz_take(request, quiz_id=None, question_number=1, run_id=None):
                       'questions_total': questions_total,
                       'questions': questions,
                       'completed_questions_list': completed_questions_list,
-                      'all_questions_answered': all_questions_answered
+                      'all_questions_answered': all_questions_answered,
+                      'all_quizzes_ordered': all_quizzes_ordered
                   })
 
 
