@@ -1,4 +1,4 @@
-{% extends "main/base.html" %}
+{% extends "main/alum_sub.html" %}
 {% load static %}
 {% load i18n %}
 {% block extra_css %}
@@ -14,7 +14,6 @@
 {% block title %}{% trans 'Prova finalitzada, resultats' %}{% endblock %}
 
 {% block main_jumbo %}<img class="img_icons" src="{% static 'main/icons/noun_finish_2079079.svg' %}" width="10%">{% trans 'Prova finalitzada!' %}{% endblock %}
-{% block sub_jumbo %}{% endblock %}
 
 {% block main %}
 <div class="container">

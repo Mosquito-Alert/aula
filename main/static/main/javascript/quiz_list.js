@@ -36,6 +36,7 @@ $(document).ready( function () {
         },
         'columns': [
             { 'data': 'name' },
+            { 'data': 'seq' },
             { 'data': 'author.username' },
             { 'data': 'education_center' },
             { 'data': 'requisite' },
@@ -50,6 +51,10 @@ $(document).ready( function () {
             },
             {
                 'targets':1,
+                'title': gettext('Ordre')
+            },
+            {
+                'targets':2,
                 'title': gettext('Autor'),
                 'render': function(value){
                     if(value){
@@ -60,11 +65,11 @@ $(document).ready( function () {
                 }
             },
             {
-                'targets':2,
+                'targets':3,
                 'title': gettext('Centre')
             },
             {
-                'targets':3,
+                'targets':4,
                 'title': gettext('Requisits'),
                 'render': function(value){
                     if(value){
@@ -75,7 +80,7 @@ $(document).ready( function () {
                 }
             },
             {
-            'targets':4,
+            'targets':5,
             'title': gettext('Prova publicada?'),
             'render': function(value){
                     if(value == true){
@@ -86,11 +91,11 @@ $(document).ready( function () {
                 }
             },
             {
-            'targets':5,
+            'targets':6,
             'title': gettext('Tipus prova')
             },
             {
-            'targets':6,
+            'targets':7,
             'sortable': false,
             'title': gettext('Enllaç a la prova'),
             'render': function(value){
@@ -98,7 +103,7 @@ $(document).ready( function () {
                 }
             },
             {
-                'targets': 7,
+                'targets': 8,
                 'sortable': false,
                 'render': function(value){
                     if(admin_edit){
@@ -109,7 +114,7 @@ $(document).ready( function () {
                 }
             },
             {
-                'targets': 8,
+                'targets': 9,
                 'sortable': false,
                 'render': function(value){
                     if(admin_edit){

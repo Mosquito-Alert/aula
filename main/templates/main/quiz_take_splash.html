@@ -1,10 +1,9 @@
-{% extends "main/base.html" %}
+{% extends "main/alum_sub.html" %}
 {% load static %}
 {% load i18n %}
 {% block title %}{% trans 'Realitzar prova' %}{% endblock %}
 
 {% block main_jumbo %}<img class="img_icons" src="{% static 'main/icons/noun_starting_1512102.svg' %}">{% trans 'Inici de prova' %} - {{ quiz.name }}{% endblock %}
-{% block sub_jumbo %}{% endblock %}
 
 {% block main %}
 <div class="container">

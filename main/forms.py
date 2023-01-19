@@ -7,10 +7,13 @@ from django.core.exceptions import ValidationError
 from django.utils.translation import gettext, gettext_lazy as _
 from main.models import QUIZ_TYPES
 from tinymce.widgets import TinyMCE
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Fieldset, Field
 
 
 class QuizForm(ModelForm):
     name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), required=True)
+    seq = forms.IntegerField(widget=forms.TextInput(attrs={'class': 'form-control'}), required=True)
     html_header = forms.CharField(widget=TinyMCE(attrs={'cols': 80, 'rows': 20}))
     published = forms.BooleanField(label=_("Prova publicada?"),widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}), required=False)
     requisite = forms.ModelChoiceField(label=_("Cal completar la prova del desplegable per poder fer aquesta prova"), queryset=Quiz.objects.all().order_by('name'), widget=forms.Select(attrs={'class': 'form-control'}), required=False)
@@ -28,12 +31,13 @@ class QuizForm(ModelForm):
 
     class Meta:
         model = Quiz
-        fields = ['name', 'html_header', 'published', 'requisite']
+        fields = ['name', 'seq', 'html_header', 'published', 'requisite']
 
 
 
 class QuizNewForm(ModelForm):
     name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), required=True)
+    seq = forms.IntegerField(widget=forms.TextInput(attrs={'class': 'form-control'}), required=True)
     html_header = forms.CharField(widget=TinyMCE(attrs={'cols': 80, 'rows': 20}))
     published = forms.BooleanField(label=_("Prova publicada?"),widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}), required=False)
     requisite = forms.ModelChoiceField(label=_("Cal completar la prova del desplegable per poder fer aquesta prova"),queryset=Quiz.objects.filter(campaign__active=True).order_by('name'),widget=forms.Select(attrs={'class': 'form-control'}), required=False)
@@ -52,11 +56,12 @@ class QuizNewForm(ModelForm):
 
     class Meta:
         model = Quiz
-        fields = ['name', 'published', 'html_header', 'requisite', 'type']
+        fields = ['name', 'seq', 'published', 'html_header', 'requisite', 'type']
 
 
 class QuizAdminForm(ModelForm):
     name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), required=True)
+    seq = forms.IntegerField(widget=forms.TextInput(attrs={'class': 'form-control'}), required=True)
     published = forms.BooleanField(label=_("Prova publicada?"),widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}), required=False)
     html_header = forms.CharField(widget=TinyMCE(attrs={'cols': 80, 'rows': 20}), required=False)
     requisite = forms.IntegerField(widget=forms.HiddenInput(), required=False)
@@ -65,7 +70,7 @@ class QuizAdminForm(ModelForm):
 
     class Meta:
         model = Quiz
-        fields = ['name', 'html_header', 'published', 'type', 'author']
+        fields = ['name', 'seq', 'html_header', 'published', 'type', 'author']
 
 
 class EducationCenterForm(ModelForm):
@@ -441,13 +446,30 @@ class QuestionForm(forms.ModelForm):
 
 
 class CampaignForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Fieldset(
+                '',
+                'name',
+                'start_date',
+                'end_date',
+                'html_header_groups',
+                'html_header_teachers'
+            )
+        )
+
     name = forms.CharField(label=_("Nom de la campanya"), strip=False, widget=forms.TextInput(attrs={'class': 'form-control'}), required=True)
+    html_header_groups = forms.CharField(widget=TinyMCE(attrs={'cols': 80, 'rows': 20}), required=False)
+    html_header_teachers = forms.CharField(widget=TinyMCE(attrs={'cols': 80, 'rows': 20}), required=False)
     start_date = forms.DateTimeField(input_formats=['%d/%m/%Y'], required=False, localize=True)
     end_date = forms.DateTimeField(input_formats=['%d/%m/%Y'], required=False, localize=True)
 
     class Meta:
         model = Campaign
-        fields = ['name','start_date','end_date']
+        fields = ['name','start_date','end_date','html_header_groups','html_header_teachers']
 
     def clean_end_date(self):
         cleaned_data_start = self.cleaned_data.get('start_date')

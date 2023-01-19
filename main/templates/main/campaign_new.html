@@ -15,6 +15,7 @@
     <h2><img class="img_icons" src="{% static 'main/icons/noun-calendar-4636389.svg' %}"> {% trans 'Creant nova campanya' %}:</h2>
     <form class="form" action="{% url 'campaign_new' %}" method="post">
         {% csrf_token %}
+        {{ form.media }}
         {{ form|crispy }}
         <input role="button" class="btn btn-success mt-2" type="submit" value="{% trans 'Desar' %}" />
     </form>

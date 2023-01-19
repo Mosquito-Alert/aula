@@ -26,3 +26,69 @@
 .dropbtn{
     font-size: 0.9em !important;
 }
+
+.test_container{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.card_test {
+    width: 200px;
+    margin: 10px;
+    font-size: 14px;
+    border: solid 2px grey;
+}
+
+.card_test_readonly {
+    width: 100px;
+    margin: 5px;
+    font-size: 10px;
+    border: solid 2px grey;
+}
+
+.test_button_container{
+    display: flex;
+}
+
+.result_wrapper{
+    margin: 2px;
+}
+
+.test_button_wrapper{
+    margin: 2px;
+}
+
+.card.card_test.done {
+    background-color: green;
+}
+
+.card.card_test.available {
+    background-color: white;
+}
+
+.card.card_test.in_progress {
+    background-color: orange;
+}
+
+.card.card_test.blocked {
+    background-color: grey;
+}
+
+.card.card_test_readonly.accent {
+    background-color: white;
+    border: solid 2px green;
+}
+
+.card.card_test_readonly.faded {
+    margin-top: 5px;
+    background-color: grey;
+    color: #343a40bf;
+}
+
+.compact {
+    padding: 6px;
+}
+
+.subjumbo {
+    font-size: 18px;
+}

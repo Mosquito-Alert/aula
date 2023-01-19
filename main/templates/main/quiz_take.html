@@ -1,4 +1,4 @@
-{% extends "main/base.html" %}
+{% extends "main/alum_sub.html" %}
 {% load static %}
 {% load i18n %}
 {% block extra_css %}
@@ -113,7 +113,6 @@
 {% block title %}{% trans 'Realitzant prova' %}{% endblock %}
 
 {% block main_jumbo %}{% trans 'Estàs fent la prova' %} - {{ quiz.name }}{% endblock %}
-{% block sub_jumbo %}{% endblock %}
 
 {% block main %}
 <div class="col-xs-12" style="height:50px;"></div>
@@ -209,6 +208,18 @@
         <div class="mx-auto">
             <button id="done-button" role="button" class="btn btn-success mt-2">{% trans 'Has completat el material! Fes clic en aquest botó per acabar...' %}</button>
         </div>
+    </div>
+    <hr>
+    <div class="justify-content-left test_container ariadna">
+        {% for q in all_quizzes_ordered %}
+        <div class="card card_test_readonly {% if question.quiz.id == q.quiz.id %}accent{% else %}faded{% endif %}">
+            <div class="card-body compact">
+                <h5 class="card-title"><i>{{ q.quiz.seq }}</i></h5>
+                <hr>
+                <p class="card-text">{{ q.quiz.name }}</p>
+            </div>
+        </div>
+        {% endfor %}
     </div>
 </div>
 {% endblock %}

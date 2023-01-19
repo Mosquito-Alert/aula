@@ -1,13 +1,13 @@
-{% extends "main/base.html" %}
+{% extends "main/alum_sub.html" %}
 {% load static %}
 {% load i18n %}
 {% block title %}{% trans 'Espai grups' %}{% endblock %}
 
 {% block main_jumbo %}<img class="img_icons" src="{% static 'main/icons/noun_group_737669.svg' %}"> {% trans 'Menú principal grups' %}{% endblock %}
-{% block sub_jumbo %}{% endblock %}
 
 {% block main %}
 <div class="container">
+    <!--
     <div class="row justify-content-left">
         <div class="col-md-11">
             <h5><p>{% trans 'Hola' %}, <span class="badge badge-primary"><strong>{{ user.profile.group_public_name }}</strong></span>!</p></h5>
@@ -15,6 +15,57 @@
             <h5><p>{% trans 'El vostre professor assignat és ' %} <span class="badge badge-primary"><strong>{{ user.profile.group_teacher.username }}</strong></span></p></h5>
         </div>
     </div>
+    -->
+    <div class="justify-content-left test_container">
+        {% for elem in all_quizzes_ordered %}
+        <div class="card card_test {{ elem.status }}">
+            <div class="card-body">
+                <h4 class="card-title"><i>{{ elem.quiz.seq }}</i></h4>
+                <hr>
+                <p class="card-text">{{ elem.quiz.name }}</p>
+                <div class="result_container">
+                    {% if elem.quiz.is_test %}
+                        {% for d in done_test_scores %}
+                        {% if d.id == elem.quiz.id %}
+                            <div class="result_wrapper"><strong>{% trans 'Millor puntuació' %}</strong>: {{ d.best_run.questions_right }}/{{ d.best_run.questions_number }}</div>
+                        {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <div class="test_button_container">
+                    <!--<div class="test_button_wrapper"><a title="{% trans 'Veure resultats enquesta' %}" class="btn btn-success" href="#" target="_blank" role="button">{% trans 'Resultats' %} <i class="far fa-eye"></i></a></div>
+                    <div class="test_button_wrapper"><a title="{% trans 'Repetir la prova!' %}" class="btn btn-success" href="#" role="button">Repetir <i class="fas fa-undo"></i></a></div>
+                    <div class="test_button_wrapper"><a title="{% trans 'Fer la prova!' %}" class="btn btn-success" href="#" role="button">Fer <i class="fas fa-cog"></i></a></div>-->
+                    {% if elem.status == 'blocked' %}
+                        <a title="{% trans 'Aquest material està bloquejat, abans cal fer la prova amb nom' %} '{{ elem.blocked_by.name }}'" class="btn btn-secondary" href="" role="button"><i class="fas fa-lock"></i></a>
+                    {% elif elem.status == 'available' %}
+                        {% if elem.quiz.is_upload %}
+                        <button title="{% trans 'Fer la prova!' %}" data-quiz_id="{{ elem.quiz.id }}" data-taken_by="{{ user.id }}" class="btn btn-success take_upload" role="button"><i class="fas fa-cog" aria-hidden="true"></i></button>
+                        {% else %}
+                        <div class="test_button_wrapper"><a title="{% trans 'Fer la prova!' %}" class="btn btn-success" href="{% url 'quiz_take_splash' elem.quiz.id %}" role="button"><i class="fas fa-cog"></i></a></div>
+                        {% endif %}
+                    {% elif elem.status == 'in_progress' %}
+                        {% if elem.quiz.is_upload %}
+                        <a title="{% trans 'Continuar fent la prova!' %}" class="btn btn-success" href="{% url 'quiz_upload_link' elem.quiz.id %}" role="button">Continuar <i class="fas fa-arrow-right"></i></a>
+                        {% else %}
+                        <a title="{% trans 'Continuar fent la prova!' %}" class="btn btn-success" href="{% url 'quiz_take' elem.quiz.id 1 elem.quizrun.id %}" role="button">Continuar <i class="fas fa-arrow-right"></i></a>
+                        {% endif %}
+                    {% elif elem.status == 'done' %}
+                        {% if elem.quiz.is_poll %}
+                        <div class="test_button_wrapper"><a title="{% trans 'Veure resultats enquesta' %}" class="btn btn-success" href="{% url 'poll_result' elem.quiz.id %}" target="_blank" role="button">{% trans 'Resultats' %} <i class="far fa-eye"></i></a></div>
+                        {% elif elem.quiz.is_upload %}
+                        <div class="test_button_wrapper"><a title="{% trans 'Descarregar fitxer' %}" class="btn btn-success" href="{{ elem.file_url }}" target="_blank" role="button">Fitxer <i class="fas fa-cloud-download-alt"></i></a></div>
+                        {% endif %}
+                        {% if elem.repeatable %}
+                        <div class="test_button_wrapper"><a title="{% trans 'Repetir la prova!' %}" class="btn btn-success" href="{% url 'quiz_take_splash' elem.quiz.id %}" role="button">Repetir <i class="fas fa-undo"></i></a></div>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <!--
     <div class="row alert alert-success done">
         <div class="col-md-12">
             <p><strong>{% trans 'Aquestes són les proves que ja heu acabat (i que podeu repetir, si voleu!)' %}:</strong></p>
@@ -97,18 +148,18 @@
                             {% if quiz.requisite %}
                                 {% if quiz.requisite.id in done_quizzes_ids %}
                                     {% if quiz.is_upload %}
-                                    <button title="{% trans 'Fer la prova!' %}" data-quiz_id="{{ quiz.id }}" data-taken_by="{{ user.id }}" class="btn btn-success take_upload" role="button"><i class="fa fa-lightbulb-o" aria-hidden="true"></i></button>
+                                    <button title="{% trans 'Fer la prova!' %}" data-quiz_id="{{ quiz.id }}" data-taken_by="{{ user.id }}" class="btn btn-success take_upload" role="button"><i class="fas fa-cog" aria-hidden="true"></i></button>
                                     {% else %}
-                                    <a title="{% trans 'Fer la prova!' %}" class="btn btn-success" href="{% url 'quiz_take_splash' quiz.id %}" role="button"><i class="fa fa-lightbulb-o" aria-hidden="true"></i></a>
+                                    <a title="{% trans 'Fer la prova!' %}" class="btn btn-success" href="{% url 'quiz_take_splash' quiz.id %}" role="button"><i class="fas fa-cog" aria-hidden="true"></i></a>
                                     {% endif %}
                                 {% else %}
                                     <a title="{% trans 'Aquest material està bloquejat, abans cal fer la prova amb nom' %} '{{ quiz.requisite.name }}'" class="btn btn-secondary" href="" role="button"><i class="fas fa-lock"></i></a>
                                 {% endif %}
                             {% else %}
                                 {% if quiz.is_upload %}
-                                <button title="{% trans 'Fer la prova!' %}" data-quiz_id="{{ quiz.id }}" data-taken_by="{{ user.id }}" class="btn btn-success take_upload" role="button"><i class="fa fa-lightbulb-o" aria-hidden="true"></i></button>
+                                <button title="{% trans 'Fer la prova!' %}" data-quiz_id="{{ quiz.id }}" data-taken_by="{{ user.id }}" class="btn btn-success take_upload" role="button"><i class="fas fa-cog" aria-hidden="true"></i></button>
                                 {% else %}
-                                <a title="{% trans 'Fer la prova!' %}" class="btn btn-success" href="{% url 'quiz_take_splash' quiz.id %}" role="button"><i class="fa fa-lightbulb-o" aria-hidden="true"></i></a>
+                                <a title="{% trans 'Fer la prova!' %}" class="btn btn-success" href="{% url 'quiz_take_splash' quiz.id %}" role="button"><i class="fas fa-cog" aria-hidden="true"></i></a>
                                 {% endif %}
                             {% endif %}
                         </div>
@@ -140,7 +191,15 @@
             {% endif %}
         </div>
     </div>
+    -->
 </div>
+</div>
+{% if campaign.html_header_groups %}
+<hr>
+<div class="container">
+    {{ campaign.html_header_groups |safe }}
+</div>
+{% endif %}
 {% endblock %}
 {% block extra_js %}
 <script>

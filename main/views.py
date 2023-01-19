@@ -230,18 +230,73 @@ def teacher_polls(request):
     if is_teacher_test(this_user):
         # filter(type=2).filter(professor_poll=True).
         teacher_campaign = this_user.profile.campaign
+        all_quizzes_ordered = get_ordered_quiz_sequence(this_user)
         polls_in_progress_ids = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=True).values('quiz__id').distinct()
         polls_done_ids = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=False).values('quiz__id').distinct()
         available_polls = Quiz.objects.filter(campaign=teacher_campaign).filter(type=4).filter(author__isnull=True).filter(published=True).exclude(id__in=polls_in_progress_ids).exclude(id__in=polls_done_ids).order_by('id')
         in_progress_polls = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=True).order_by('-date')
         done_polls = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=False).order_by('-date')
         done_poll_ids = [a.quiz.id for a in done_polls]
-        return render(request, 'main/teacher_polls.html', {'available_quizzes':available_polls, 'in_progress_quizruns':in_progress_polls, 'done_quizruns': done_polls, 'done_quizzes_ids': done_poll_ids})
+        context = {
+            'available_quizzes':available_polls,
+            'in_progress_quizruns':in_progress_polls,
+            'done_quizruns': done_polls,
+            'done_quizzes_ids': done_poll_ids,
+            'all_quizzes_ordered': all_quizzes_ordered,
+            'teacher_campaign': teacher_campaign
+        }
+        return render(request, 'main/teacher_polls.html', context)
     else:
         message = _("Estàs intentant accedir a una pàgina a la que no tens permís.")
         go_back_to = "index"
         return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
 
+
+def quiz_is_repeatable_for_user(quiz, this_user):
+    if quiz.type == 2:
+        if this_user.profile.is_group:
+            n_completed_quizruns_for_test = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=False).count()
+            if n_completed_quizruns_for_test >= this_user.profile.n_students_in_group:
+                return False
+    elif quiz.type == 4:
+        n_completed_quizruns_for_test = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=False).count()
+        if n_completed_quizruns_for_test > 0:
+            return False
+    return True
+
+
+def get_ordered_quiz_sequence(this_user):
+    this_user_campaign = this_user.profile.campaign
+    teach = None
+    if this_user.profile.is_group:
+        teach = this_user.profile.group_teacher
+        all_quizzes_ordered = Quiz.objects.filter(Q(author=teach) | Q(author__isnull=True)).filter(published=True).filter(campaign=this_user_campaign).exclude(type=4).order_by('seq')
+    else: #is teacher
+        all_quizzes_ordered = Quiz.objects.filter(author__isnull=True).filter(published=True).filter(campaign=this_user_campaign).filter(type=4).order_by('seq')
+    quizzes_in_progress_ids = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=True).values('quiz__id').distinct()
+    in_progress = [ q['quiz__id'] for q in quizzes_in_progress_ids ]
+    quizzes_done_ids = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=False).values('quiz__id').distinct()
+    done = [ q['quiz__id'] for q in quizzes_done_ids ]
+    available_quizzes = Quiz.objects.filter(Q(author=teach) | Q(author__isnull=True)).filter(published=True).filter(campaign=this_user_campaign).exclude(type=4).exclude(id__in=quizzes_in_progress_ids).exclude(id__in=quizzes_done_ids).order_by('id')
+    available_ids =  [ q.id for q in available_quizzes ]
+    ordered_quizzes = []
+    for quiz in all_quizzes_ordered:
+        # quiz_status - locked/startable/repeatable/in_progress/done
+        if quiz.requisite and not quiz.requisite.id in done:
+            ordered_quizzes.append( {'quiz': quiz, 'status': 'blocked', 'blocked_by' : quiz.requisite})
+        else:
+            if quiz.id in available_ids:
+                ordered_quizzes.append( { 'quiz': quiz, 'status': 'available', 'repeatable': quiz_is_repeatable_for_user(quiz,this_user) })
+            elif quiz.id in in_progress:
+                in_progress_quizrun = QuizRun.objects.get(taken_by=this_user, date_finished__isnull=True, quiz=quiz)
+                ordered_quizzes.append({'quiz': quiz, 'status': 'in_progress', 'repeatable': False, 'quizrun':in_progress_quizrun })
+            elif quiz.id in done:
+                if quiz.is_upload:
+                    done_upload = QuizRun.objects.get(taken_by=this_user, date_finished__isnull=False, quiz=quiz)
+                    ordered_quizzes.append({'quiz': quiz, 'status': 'done', 'repeatable': False, 'file_url': done_upload.uploaded_file.url})
+                else:
+                    ordered_quizzes.append({'quiz': quiz, 'status': 'done', 'repeatable': quiz_is_repeatable_for_user(quiz,this_user)})
+    return ordered_quizzes
 
 
 @login_required
@@ -249,15 +304,31 @@ def group_menu(request):
     this_user = request.user
     this_user_campaign = this_user.profile.campaign
     teach = this_user.profile.group_teacher
+    all_quizzes_ordered = get_ordered_quiz_sequence(this_user)
     quizzes_in_progress_ids = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=True).values('quiz__id').distinct()
     quizzes_done_ids = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=False).values('quiz__id').distinct()
     available_quizzes = Quiz.objects.filter(Q(author=teach) | Q(author__isnull=True)).filter(published=True).filter(campaign=this_user_campaign).exclude(type=4).exclude(id__in=quizzes_in_progress_ids).exclude(id__in=quizzes_done_ids).order_by('id')
     in_progress_quizruns = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=True).order_by('-date')
     done_quizruns = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=False).order_by('-date')
     done_quizzes_ids = [ a.quiz.id for a in done_quizruns ]
+
+    done_test_ids = QuizRun.objects.filter(taken_by=this_user).filter(quiz__type=0).filter(date_finished__isnull=False).values('quiz__id').distinct()
+    done_tests = Quiz.objects.filter(id__in=done_test_ids)
+    done_test_scores = []
+    for d in done_tests:
+        done_test_scores.append({'id': d.id, 'best_run': d.best_run(this_user.id) })
     #in_progress_quizzes = Quiz.objects.filter(id__in=quizzes_in_progress_ids).order_by('id')
     #done_quizzes = Quiz.objects.filter(id__in=quizzes_done_ids).order_by('id')
-    return render(request, 'main/alum_hub.html', {'available_quizzes':available_quizzes, 'in_progress_quizruns':in_progress_quizruns, 'done_quizruns': done_quizruns, 'done_quizzes_ids': done_quizzes_ids})
+    return render(request, 'main/alum_hub.html',
+                  {
+                      'available_quizzes':available_quizzes,
+                      'in_progress_quizruns':in_progress_quizruns,
+                      'done_quizruns': done_quizruns,
+                      'done_quizzes_ids': done_quizzes_ids,
+                      'all_quizzes_ordered': all_quizzes_ordered,
+                      'done_test_scores': done_test_scores,
+                      'campaign': this_user_campaign
+                  })
 
 
 @login_required
@@ -709,6 +780,7 @@ def quiz_take(request, quiz_id=None, question_number=1, run_id=None):
     completed_questions = QuizRunAnswers.objects.filter(quizrun=quiz_run).filter(answered=True).values('question__id')
     completed_questions_list = [a['question__id'] for a in completed_questions]
     all_questions_answered = quiz_run.all_questions_answered()
+    all_quizzes_ordered = get_ordered_quiz_sequence(this_user)
 
     return render(request, 'main/quiz_take.html',
                   {
@@ -724,7 +796,8 @@ def quiz_take(request, quiz_id=None, question_number=1, run_id=None):
                       'questions_total': questions_total,
                       'questions': questions,
                       'completed_questions_list': completed_questions_list,
-                      'all_questions_answered': all_questions_answered
+                      'all_questions_answered': all_questions_answered,
+                      'all_quizzes_ordered': all_quizzes_ordered
                   })
 
 
@@ -1529,8 +1602,8 @@ def quiz_datatable_list(request):
     this_user = request.user
     if request.method == 'GET':
         search_field_list = ('name','author.username')
-        field_translation_list = {'name': 'name', 'author.username': 'author__username', 'education_center': 'author__profile__teacher_belongs_to__name'}
-        sort_translation_list = {'name': 'name', 'author.username': 'author__username', 'education_center': 'author__profile__teacher_belongs_to__name' }
+        field_translation_list = {'name': 'name', 'seq': 'seq', 'author.username': 'author__username', 'education_center': 'author__profile__teacher_belongs_to__name'}
+        sort_translation_list = {'name': 'name', 'seq': 'seq', 'author.username': 'author__username', 'education_center': 'author__profile__teacher_belongs_to__name' }
         if this_user.is_superuser:
             queryset = Quiz.objects.select_related('author').filter(campaign__active=True).all()
         elif this_user.profile.is_teacher:
