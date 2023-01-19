@@ -7,6 +7,8 @@ from django.core.exceptions import ValidationError
 from django.utils.translation import gettext, gettext_lazy as _
 from main.models import QUIZ_TYPES
 from tinymce.widgets import TinyMCE
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Fieldset, Field
 
 
 class QuizForm(ModelForm):
@@ -444,6 +446,21 @@ class QuestionForm(forms.ModelForm):
 
 
 class CampaignForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Fieldset(
+                '',
+                'name',
+                'start_date',
+                'end_date',
+                'html_header_groups',
+                'html_header_teachers'
+            )
+        )
+
     name = forms.CharField(label=_("Nom de la campanya"), strip=False, widget=forms.TextInput(attrs={'class': 'form-control'}), required=True)
     html_header_groups = forms.CharField(widget=TinyMCE(attrs={'cols': 80, 'rows': 20}), required=False)
     html_header_teachers = forms.CharField(widget=TinyMCE(attrs={'cols': 80, 'rows': 20}), required=False)
