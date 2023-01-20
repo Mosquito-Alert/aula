@@ -1,4 +1,4 @@
-{% extends "main/base.html" %}
+{% extends "main/teacher_sub.html" %}
 {% load static %}
 {% load i18n %}
 {% load crispy_forms_tags %}
@@ -19,7 +19,6 @@
 {% block title %}{% trans 'Llistar/Editar/Esborrar grups' %}{% endblock %}
 
 {% block main_jumbo %}<img class="img_icons" src="{% static 'main/icons/noun_group_737669.svg' %}"> {% trans 'Llista de grups' %}{% endblock %}
-{% block sub_jumbo %}{% endblock %}
 
 {% block main %}
 <div class="container">

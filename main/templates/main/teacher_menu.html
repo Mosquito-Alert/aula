@@ -1,10 +1,9 @@
-{% extends "main/base.html" %}
+{% extends "main/teacher_sub.html" %}
 {% load static %}
 {% load i18n %}
 {% block title %}Espai professorat{% endblock %}
 
 {% block main_jumbo %}<img class="img_icons" src="{% static 'main/icons/noun_Teacher_36665.svg' %}"> {% trans 'Menú principal professor' %}{% endblock %}
-{% block sub_jumbo %}{% endblock %}
 
 {% block main %}
 <!-- Main jumbotron for a primary marketing message or call to action -->
@@ -12,11 +11,13 @@
     <div class="card-deck mb-3 text-center">
         <div class="card mb-4 box-shadow">
             <div class="card-body">
-                <h5 class="card-title">{% trans 'Grups d&#39;alumnes' %}</h5>
-                <img src="{% static 'main/icons/noun_group_737669.svg' %}" width="25%">
-                <p class="card-text">{% trans 'Permet crear i editar grups d&#39;alumnes. Els grups d&#39;alumnes són usuaris de l&#39;aplicació, que poden fer proves de coneixements.' %}</p>
-                <a href="{% url 'group_new' %}" class="btn btn-primary"><i class="fas fa-plus"></i></a>
-                <a href="{% url 'group_list' %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                <a href="{% url 'group_list' %}">
+                    <h5 class="card-title">{% trans 'Grups d&#39;alumnes' %}</h5>
+                    <img src="{% static 'main/icons/noun_group_737669.svg' %}" width="25%">
+                    <p class="card-text">{% trans 'Permet crear i editar grups d&#39;alumnes. Els grups d&#39;alumnes són usuaris de l&#39;aplicació, que poden fer proves de coneixements.' %}</p>
+                    <!--<a href="{% url 'group_new' %}" class="btn btn-primary"><i class="fas fa-plus"></i></a>
+                    <a href="{% url 'group_list' %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>-->
+                </a>
             </div>
         </div>
         <!--<div class="card mb-4 box-shadow">
@@ -30,30 +31,47 @@
         </div>-->
         <div class="card mb-4 box-shadow">
             <div class="card-body">
-                <h5 class="card-title">{% trans 'Enquestes' %}</h5>
-                <img src="{% static 'main/icons/noun_test_3271143.svg' %}" width="25%">
-                <p class="card-text">{% trans 'Fer i consultar resultats d&#39;enquestes al professorat' %}</p>
-                <a href="{% url 'teacher_polls' %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                <a href="{% url 'teacher_polls' %}">
+                    <h5 class="card-title">{% trans 'Enquestes' %}</h5>
+                    <img src="{% static 'main/icons/noun_test_3271143.svg' %}" width="25%">
+                    <p class="card-text">{% trans 'Fer i consultar resultats d&#39;enquestes al professorat' %}</p>
+                    <!--<a href="{% url 'teacher_polls' %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>-->
+                </a>
             </div>
         </div>
         <div class="card mb-4 box-shadow">
             <div class="card-body">
-                <h5 class="card-title">{% trans 'Veure solucions de proves' %}</h5>
-                <img src="{% static 'main/icons/noun_solution_2998552.svg' %}" width="25%">
-                <p class="card-text">{% trans 'Veure les proves que han fet els grups, així com les puntuacions obtingudes.' %}</p>
-                <a href="{% url 'quiz_results' %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
-                <a href="{% url 'upload_file_solutions' %}" class="btn btn-primary"><i class="fas fa-upload"></i></a>
+                <a href="{% url 'quiz_results' %}">
+                    <h5 class="card-title">{% trans 'Veure solucions de proves' %}</h5>
+                    <img src="{% static 'main/icons/noun_solution_2998552.svg' %}" width="25%">
+                    <p class="card-text">{% trans 'Veure les proves que han fet els grups, així com les puntuacions obtingudes.' %}</p>
+                    <!--<a href="{% url 'quiz_results' %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                    <a href="{% url 'upload_file_solutions' %}" class="btn btn-primary"><i class="fas fa-upload"></i></a>-->
+                </a>
+            </div>
+        </div>
+        <div class="card mb-4 box-shadow">
+            <div class="card-body">
+                <a href="{% url 'upload_file_solutions' %}">
+                    <h5 class="card-title">{% trans 'Veure materials pujats pels alumnes' %}</h5>
+                    <img src="{% static 'main/icons/noun_upload script_691826.svg' %}" width="25%">
+                    <p class="card-text">{% trans 'Veure els materials finals que han pujat els diferents grups' %}</p>
+                    <!--<a href="{% url 'quiz_results' %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                    <a href="{% url 'upload_file_solutions' %}" class="btn btn-primary"><i class="fas fa-upload"></i></a>-->
+                </a>
             </div>
         </div>
     </div>
     <div class="card-deck mb-3 text-center">
         <div class="card mb-4 box-shadow">
             <div class="card-body">
-                <h5 class="card-title">{% trans 'Informes' %}</h5>
-                <img class="img_icons" src="{% static 'main/icons/noun_report_3907422.svg' %}">
-                <p class="card-text">{% trans 'Generar diversos tipus d&#39;informes sobre participació, dades avançades d&#39;enquestes, etc' %}.</p>
-                <!--<a href="{% url 'quiz_solutions' %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>-->
-                <a href="{% url 'reports' %}" class="btn btn-primary"><i class="fas fa-link"></i></a>
+                <a href="{% url 'reports' %}">
+                    <h5 class="card-title">{% trans 'Informes' %}</h5>
+                    <img class="img_icons" src="{% static 'main/icons/noun_report_3907422.svg' %}">
+                    <p class="card-text">{% trans 'Generar diversos tipus d&#39;informes sobre participació, dades avançades d&#39;enquestes, etc' %}.</p>
+                    <!--<a href="{% url 'quiz_solutions' %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>-->
+                    <!--<a href="{% url 'reports' %}" class="btn btn-primary"><i class="fas fa-link"></i></a>-->
+                </a>
             </div>
         </div>
     </div>
