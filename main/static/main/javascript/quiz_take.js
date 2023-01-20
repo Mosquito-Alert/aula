@@ -21,8 +21,12 @@ $(document).ready( function () {
                 setProgressDone(question_id);
                 if(data.done==true){
                     showFinishButton();
+                    if( data.endcomments==true ){
+                        showFinishComment();
+                    }
                 }else{
                     hideFinishButton();
+                    hideFinishComment();
                 }
             },
             error: function(jqXHR, textStatus, errorThrown){
@@ -34,9 +38,11 @@ $(document).ready( function () {
     };
 
     var finish_quiz = function(id){
+        var comments = null;
+        comments = $('#end_comments_id').val();
         $.ajax({
             url: _finish_quiz_url,
-            data: {"id":id},
+            data: {"id":id, "comments": comments},
             method: 'POST',
             beforeSend: function(xhr, settings) {
                 if (!csrfSafeMethod(settings.type)) {
@@ -100,6 +106,14 @@ $(document).ready( function () {
     var setFail = function(){
         $('#status').removeClass('icon_success');
         $('#status').addClass('icon_fail');
+    }
+
+    var showFinishComment = function(){
+        $('.end_comment').show();
+    }
+
+    var hideFinishComment = function(){
+        $('.end_comment').hide();
     }
 
     var showFinishButton = function(){

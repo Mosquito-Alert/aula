@@ -99,6 +99,10 @@ class Quiz(models.Model):
         return "{0} - {1}".format(self.name, self.type_text)
 
     @property
+    def comment_at_the_end(self):
+        return self.type == 4
+
+    @property
     def type_text(self):
         switcher = {
             0: QUIZ_TYPES[0][1],
@@ -200,6 +204,7 @@ class QuizRun(models.Model):
     run_number = models.IntegerField(default=1)
     questions_number = models.IntegerField(help_text='Number of questions when the quiz was finished', default=0)
     questions_right = models.IntegerField(help_text='Number of correctly answered questions in the run', default=0)
+    finishing_comments = models.TextField(blank=True, null=True)
 
     @property
     def next_run(self):

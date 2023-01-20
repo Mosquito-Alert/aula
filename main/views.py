@@ -277,7 +277,10 @@ def get_ordered_quiz_sequence(this_user):
     in_progress = [ q['quiz__id'] for q in quizzes_in_progress_ids ]
     quizzes_done_ids = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=False).values('quiz__id').distinct()
     done = [ q['quiz__id'] for q in quizzes_done_ids ]
-    available_quizzes = Quiz.objects.filter(Q(author=teach) | Q(author__isnull=True)).filter(published=True).filter(campaign=this_user_campaign).exclude(type=4).exclude(id__in=quizzes_in_progress_ids).exclude(id__in=quizzes_done_ids).order_by('id')
+    if this_user.profile.is_group:
+        available_quizzes = Quiz.objects.filter(Q(author=teach) | Q(author__isnull=True)).filter(published=True).filter(campaign=this_user_campaign).exclude(type=4).exclude(id__in=quizzes_in_progress_ids).exclude(id__in=quizzes_done_ids).order_by('id')
+    else:
+        available_quizzes = Quiz.objects.filter(Q(author=teach) | Q(author__isnull=True)).filter(published=True).filter(campaign=this_user_campaign).filter(type=4).exclude(id__in=quizzes_in_progress_ids).exclude(id__in=quizzes_done_ids).order_by('id')
     available_ids =  [ q.id for q in available_quizzes ]
     ordered_quizzes = []
     for quiz in all_quizzes_ordered:
@@ -1373,10 +1376,11 @@ def api_writeanswer(request):
         qra.save()
 
         done = qra.quizrun.is_done()
+        endcomments = qra.quizrun.quiz.comment_at_the_end
 
         serializer = QuizRunAnswerSerializer(qra)
 
-        response = { "done": done, "data": serializer.data}
+        response = { "done": done, "endcomments": endcomments, "data": serializer.data}
 
         return Response(response)
 
@@ -1545,6 +1549,7 @@ def complete_upload(request):
 def api_finishquiz(request):
     if request.method == 'POST':
         quizrun_id = request.data.get('id', -1)
+        comments = request.data.get('comments', None)
         date_finished = datetime.utcnow().replace(tzinfo=pytz.utc)
         if quizrun_id == -1:
             raise ParseError(detail='Quiz id not specified')
@@ -1554,6 +1559,8 @@ def api_finishquiz(request):
             eval_data = quizrun.evaluate()
             quizrun.questions_number = eval_data['questions_number']
             quizrun.questions_right = eval_data['questions_right']
+        if quizrun.quiz.comment_at_the_end:
+            quizrun.finishing_comments = comments
         quizrun.save()
         serializer = QuizRunSerializer(quizrun)
         return Response(serializer.data)
