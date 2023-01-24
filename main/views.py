@@ -9,7 +9,7 @@ from main.models import EducationCenter, Word, Quiz, Answer, Question, QuizRun, 
 from main.forms import TeacherForm, SimplifiedTeacherForm, EducationCenterForm, TeacherUpdateForm, ChangePasswordForm, \
     SimplifiedAlumForm, SimplifiedGroupForm, AlumUpdateForm, QuestionForm, QuestionLinkForm, SimplifiedAlumFormForTeacher, \
     SimplifiedAlumFormForAdmin, AlumUpdateFormAdmin, QuizAdminForm, QuestionPollForm, QuizNewForm, QuestionUploadForm, CampaignForm, \
-    BreedingSites, Awards
+    BreedingSites, Awards, QuestionOpenForm
 from django.contrib.gis.geos import GEOSGeometry
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
@@ -253,7 +253,9 @@ def teacher_polls(request):
 
 
 def quiz_is_repeatable_for_user(quiz, this_user):
-    if quiz.type == 2:
+    if quiz.type == 5:
+        return False
+    elif quiz.type == 2:
         if this_user.profile.is_group:
             n_completed_quizruns_for_test = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=False).count()
             if n_completed_quizruns_for_test >= this_user.profile.n_students_in_group:
@@ -366,6 +368,25 @@ def quiz_new(request):
         message = _("Estàs intentant accedir a una pàgina a la que no tens permís.")
         go_back_to = "my_hub"
         return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
+
+
+@login_required
+def question_open_new(request, quiz_id=None):
+    quiz = None
+    if quiz_id:
+        quiz = get_object_or_404(Quiz, pk=quiz_id)
+    else:
+        raise forms.ValidationError("No existeix aquesta prova")
+    if request.method == 'POST':
+        form = QuestionOpenForm(request.POST)
+        if form.is_valid():
+            question = form.save(commit=False)
+            question.quiz = quiz
+            question.save()
+            return HttpResponseRedirect('/quiz/update/' + str(quiz_id) + '/')
+    else:
+        form = QuestionOpenForm()
+    return render(request, 'main/question_open_new.html', {'form': form, 'quiz': quiz})
 
 
 @login_required
@@ -560,6 +581,18 @@ def question_new(request, quiz_id=None):
         form = QuestionForm()
     return render(request, 'main/question_new.html', {'form': form, 'quiz': quiz, 'json_answers': json_answers})
 
+@login_required
+def question_open_update(request, pk=None):
+    question = None
+    if pk:
+        question = get_object_or_404(Question, pk=pk)
+    form = QuestionOpenForm(request.POST or None, instance=question)
+    if request.POST:
+        if form.is_valid():
+            question = form.save()
+            return HttpResponseRedirect('/quiz/update/' + str(question.quiz.id) + '/')
+    return render(request, 'main/question_open_edit.html',
+                  {'form': form, 'question': question})
 
 @login_required
 def question_link_update(request, pk=None):
@@ -1360,6 +1393,7 @@ def api_writeanswer(request):
     if request.method == 'POST':
         id = request.data.get('id', -1)
         answer_id = request.data.get('answer_id', -1)
+        open_answer = request.data.get('open_answer', None)
 
         if id == -1:
             raise ParseError(detail='Quiz run answer id not specified')
@@ -1372,6 +1406,7 @@ def api_writeanswer(request):
         qra = get_object_or_404(QuizRunAnswers, pk=id)
 
         qra.chosen_answer = answer
+        qra.open_answer = open_answer
         qra.answered = True
         qra.save()
 

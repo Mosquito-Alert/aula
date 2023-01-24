@@ -81,6 +81,7 @@ QUIZ_TYPES = (
     (2, _('Enquesta')),
     (3, _('Pujar fitxer')),
     (4, _('Enquesta professorat')),
+    (5, _('Resposta oberta')),
 )
 
 
@@ -110,6 +111,7 @@ class Quiz(models.Model):
             2: QUIZ_TYPES[2][1],
             3: QUIZ_TYPES[3][1],
             4: QUIZ_TYPES[4][1],
+            5: QUIZ_TYPES[5][1],
         }
         return switcher.get(self.type,_('Tipus invàlid'))
 
@@ -125,6 +127,10 @@ class Quiz(models.Model):
     @property
     def is_test(self):
         return self.type == 0
+
+    @property
+    def is_open(self):
+        return self.type == 5
 
     @property
     def is_material(self):
@@ -272,6 +278,7 @@ class QuizRunAnswers(models.Model):
     #chosen answer might not always have a value, so we need a field to indicate that the answer has been answered
     answered = models.BooleanField(default=False)
     uploaded_material = models.FileField(upload_to='media/uploaded/', null=True, blank=True)
+    open_answer = models.TextField(blank=True, null=True)
 
 
     @property

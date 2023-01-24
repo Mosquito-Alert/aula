@@ -176,15 +176,24 @@
                         </div>
                     </div>
                 {% else %}
-                    {% for answer in question.sorted_answers_set %}
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="ml-5">
-                                <input type="radio" data-questionid="{{ question.id }}" name="answers" value="{{answer.id}}" class="form-check-input answer_correct"> <p>{{ answer.label }}) {{ answer.text }}</p>
+                    {% if quiz.is_open %}
+                        <div class="row">
+                            <div class="col-md-12">
+                                <textarea id="open_answer" class="form-control" rows="5">{% if user_input.open_answer %}{{ user_input.open_answer }}{% endif %}</textarea>
+                                <input role="button" id="open_save" data-questionid="{{ question.id }}" class="btn btn-success form-control" type="button" value="{% trans 'Desa la resposta' %}"/>
                             </div>
                         </div>
-                    </div>
-                    {% endfor %}
+                    {% else %}
+                        {% for answer in question.sorted_answers_set %}
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="ml-5">
+                                    <input type="radio" data-questionid="{{ question.id }}" name="answers" value="{{answer.id}}" class="form-check-input answer_correct"> <p>{{ answer.label }}) {{ answer.text }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% endif %}
                 {% endif %}
             </div>
         </div>

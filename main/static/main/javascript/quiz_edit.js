@@ -33,6 +33,10 @@ $(document).ready(function() {
         window.location.href = _question_upload_new_url + quiz_id + "/" + '?n=' + suggested_new_order;
     });
 
+    $('#add_open_question').click(function(){
+        window.location.href = _question_open_new_url + quiz_id + "/" + '?n=' + suggested_new_order;
+    });
+
     $('.delete_button').click(function(){
         var question_id = $(this).attr('id');
         confirmDialog(gettext("ATENCIÓ: s'esborrarà la pregunta i totes les respostes. Segur que vols continuar?"), question_id);

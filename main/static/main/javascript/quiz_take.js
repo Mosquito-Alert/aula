@@ -6,6 +6,11 @@ $(document).ready( function () {
         if (chosen_answer_id){
             _data.answer_id = chosen_answer_id;
         }
+        var open_answer = null;
+        open_answer = $('#open_answer').val();
+        if (open_answer){
+            _data.open_answer = open_answer;
+        }
         $.ajax({
             url: _post_answer_url,
             data: _data,
@@ -131,6 +136,11 @@ $(document).ready( function () {
     $('.open-link').click(function(){
         post_answer( user_input.id, null, this.dataset.id );
         window.open(this.dataset.link,'_blank','resizable=yes')
+    });
+
+    $('#open_save').click(function(){
+        var question_id = $(this).data('questionid');
+        post_answer( user_input.id, null, question_id );
     });
 
     user_input_to_ui(user_input);

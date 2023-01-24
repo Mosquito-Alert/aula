@@ -424,6 +424,25 @@ class QuestionLinkForm(forms.ModelForm):
         return cleaned_data
 
 
+class QuestionOpenForm(forms.ModelForm):
+    question_order = forms.IntegerField(label=_("Ordre de la pregunta dins la prova"), required=True)
+    text = forms.CharField(label=_("Text de la pregunta"),widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 4}), required=True)
+
+    class Meta:
+        model = Question
+        fields = ("question_order","text")
+
+    def clean_question_order(self):
+        cleaned_data = self.cleaned_data.get('question_order')
+        quiz_id = self.data.get('quiz_id',-1)
+        if quiz_id != -1:
+            questions = Question.objects.filter(quiz__id=int(quiz_id))
+            for q in questions:
+                if q.question_order == cleaned_data:
+                    raise forms.ValidationError(_('Ja hi ha una pregunta amb aquest número d\'ordre per aquesta prova. Tria un número diferent'))
+        return cleaned_data
+
+
 class QuestionForm(forms.ModelForm):
     question_order = forms.IntegerField(label=_("Ordre de la pregunta dins la prova"), required=True)
     text = forms.CharField(label=_("Text de la pregunta"), widget=forms.Textarea(attrs={'class': 'form-control','rows':4}), required=True)

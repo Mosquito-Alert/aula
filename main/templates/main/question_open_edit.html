@@ -1,0 +1,32 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block title %}{% trans 'Editar les preguntes d&#39;una prova' %}{% endblock %}
+
+{% block main_jumbo %}{% trans 'Editant pregunta de resposta oberta' %}{% endblock %}
+{% block sub_jumbo %}{% trans 'Aquesta pertany a la prova amb nom' %} <strong>{{ question.quiz.name }}</strong>{% endblock %}
+
+{% block main %}
+<div class="container">
+    <form id="question_form" action="{% url 'question_open_update' question.id %}" method="post">
+        {% csrf_token %}
+        <h3><img src="{% static 'main/icons/noun_Question_3611223.svg' %}" width="5%"> {% trans 'Text de la pregunta' %}:</h3>
+        <div class="form-row">
+          <div class="form-group col-md-3 mb-0">
+            {{ form.question_order|as_crispy_field }}
+          </div>
+          <div class="form-group col-md-9 mb-0">
+            {{ form.text|as_crispy_field }}
+          </div>
+        </div>
+        <input type="hidden" name="quiz_id" value="{{ quiz.id }}">
+        <input role="button" class="btn btn-success mt-2" type="submit" value="{% trans 'Desar' %}"/>
+    </form>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'main/javascript/question_open_edit.js' %}"></script>
+{% endblock %}
+

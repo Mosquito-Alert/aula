@@ -79,6 +79,8 @@
         <button type="button" id="add_fileupload_question" title="{% trans 'Afegir pregunta de pujada de fitxer' %}" class="btn btn-info mt-2 mb-3 {% if quiz.n_questions > 0 %}hidden{% endif %}"><img src="{% static 'main/icons/noun_upload script_691826.svg' %}" width="50px"><i class="fas fa-plus"></i></button>
         {% elif quiz.type == 4 %}
         <button type="button" id="add_poll_question" title="{% trans 'Afegir pregunta d&#39;enquesta' %}" class="btn btn-info mt-2 mb-3"><img src="{% static 'main/icons/noun_poll_1644723.svg' %}" width="50px"><i class="fas fa-plus"></i></button>
+        {% elif quiz.type == 5 %}
+        <button type="button" id="add_open_question" title="{% trans 'Afegir pregunta amb resposta oberta' %}" class="btn btn-info mt-2 mb-3"><img src="{% static 'main/icons//noun-blog-1923415.svg' %}" width="50px"><i class="fas fa-plus"></i></button>
         {% endif %}
     </form>
 </div>
@@ -142,6 +144,12 @@
                 <div class="row">
                     <div class="col-md-12">
                         <p class="ord_{{ question.question_order }}"><strong>{{ question.question_order }}.</strong> <i>{{ question.text }}</i> <a title="{% trans 'Editar pregunta i respostes' %}" href="{% url 'question_upload_update' question.id %}" class="btn btn-primary"><i class="fas fa-edit"></i></a> <button title="{% trans 'Eliminar pregunta' %}" id="{{ question.id }}" class="delete_button btn btn-danger"><i class="fas fa-backspace"></i></button> </p>
+                    </div>
+                </div>
+            {% elif quiz.is_open %}
+                <div class="row">
+                    <div class="col-md-12">
+                        <p class="ord_{{ question.question_order }}"><strong>{{ question.question_order }}.</strong> <i>{{ question.text }}</i> <a title="{% trans 'Editar pregunta i respostes' %}" href="{% url 'question_open_update' question.id %}" class="btn btn-primary"><i class="fas fa-edit"></i></a> <button title="{% trans 'Eliminar pregunta' %}" id="{{ question.id }}" class="delete_button btn btn-danger"><i class="fas fa-backspace"></i></button> </p>
                     </div>
                 </div>
             {% else %}
@@ -218,6 +226,7 @@
     var _question_poll_new_url  = '{% url 'question_poll_new' %}';
     var _question_upload_new_url = '{% url 'question_upload_new' %}';
     var _question_delete_url = '{% url 'questions-list' %}';
+    var _question_open_new_url = '{% url 'question_open_new' %}';
 </script>
 <script src="{% static 'main/csrf_utils.js' %}"></script>
 <script src="{% static 'main/cookies.js' %}"></script>
