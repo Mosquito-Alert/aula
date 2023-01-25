@@ -1,0 +1,75 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% load i18n %}
+{% block title %}{% trans 'Correcció de prova de resposta oberta' %}{% endblock %}
+
+{% block main_jumbo %}<img class="img_icons" src="{% static 'main/icons/noun_test_3271143.svg' %}"> {% trans 'Resultats de prova' %}{% endblock %}
+{% block sub_jumbo %}
+    <div>
+        <div><h3><b>{% trans 'Nom de la prova' %}:</b> {{ quizrun.quiz.name }}</h3></div>
+        <div class="d-flex justify-content-between subjumbo">
+            <div><b>{% trans 'Nom grup' %}:</b> {{ quizrun.taken_by.profile.group_public_name }}</div>
+            <div><b>{% trans 'Hashtag' %}:</b> {{ quizrun.taken_by.profile.group_hashtag }}</div>
+        </div>
+        <div class="d-flex justify-content-between subjumbo">
+            <div><b>{% trans 'Prova corregida per' %}:</b> {{ correction.corrector.username }} - {{ correction.date_finished }} </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block main %}
+<div class="container">
+    <div class="card-deck mb-3">
+        <div class="card col-sm-2 box-shadow">
+            <div class="card-body">
+                <h2 class="card-title">{% trans 'Nota' %}</h2>
+                <p class="card-text"><h1>{{ correction.correction_value }}</h1></p>
+            </div>
+        </div>
+        <div class="card col-sm-10 box-shadow">
+            <div class="card-body">
+                <h2 class="card-title">{% trans 'Comentaris del corrector' %}</h2>
+                <p class="card-text">{{ correction.comments }}</p>
+                <!--<a href="{% url 'group_new' %}" class="btn btn-primary"><i class="fas fa-plus"></i></a>
+                <a href="{% url 'group_list' %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>-->
+            </div>
+        </div>
+    </div>
+    <hr>
+    {% if quizrun.quiz.html_header %}
+        <div id="rendered_header" class="container">
+            {{ quizrun.quiz.html_header |safe }}
+        </div>
+        <div class="container">
+            <hr>
+        </div>
+    {% endif %}
+    <div class="">
+        {% for question in quizrun.quiz.sorted_questions_set %}
+            <div id="question_{{ question.id }}" class="mb-3">
+                <div class="row">
+                    <div class="col-md-12">
+                        <p class="ord_{{ question.question_order }}"><strong>{{ question.question_order }}.</strong> <i>{{ question.text }}</i></p>
+                    </div>
+                </div>
+            </div>
+            {% for answer in answers %}
+                {% if answer.question == question %}
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="ml-5">
+                            <p style="color:green;">{{ answer.open_answer }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'main/csrf_utils.js' %}"></script>
+<script src="{% static 'main/cookies.js' %}"></script>
+<script src="{% static 'main/javascript/oac_new.js' %}"></script>
+{% endblock %}

@@ -199,7 +199,6 @@ class Quiz(models.Model):
 #     assigned_on = models.DateTimeField(auto_now_add=True)
 #     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name='assignations')
 
-
 class QuizRun(models.Model):
     taken_by = models.ForeignKey(User, null=True, on_delete=models.CASCADE, related_name='taken_quizzes')
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name='taken_quizzes')
@@ -269,6 +268,16 @@ class QuizRun(models.Model):
             return { 'questions_number': questions_number, 'questions_right': questions_right, 'questions_right_list': questions_right_list }
         else:
             return {'questions_number': questions_number, 'questions_right': questions_number, 'questions_right_list': questions_right_list}
+
+
+class QuizCorrection(models.Model):
+    corrector = models.ForeignKey(User, null=True, on_delete=models.CASCADE, related_name='corrected_quizzes')
+    corrected_quizrun = models.ForeignKey(QuizRun, on_delete=models.CASCADE, related_name='corrections')
+    date = models.DateTimeField(auto_now_add=True)
+    date_finished = models.DateTimeField(blank=True, null=True)
+    comments = models.TextField(blank=True, null=True)
+    correction_value = models.FloatField(blank=True, null=True)
+
 
 
 class QuizRunAnswers(models.Model):

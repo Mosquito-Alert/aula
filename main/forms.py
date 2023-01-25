@@ -424,6 +424,15 @@ class QuestionLinkForm(forms.ModelForm):
         return cleaned_data
 
 
+class OpenAnswerNewCorrectForm(forms.ModelForm):
+    comments = forms.CharField(label=_("Comentaris sobre la correcció de la prova"), widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 10}), required=True)
+    correction_value = forms.FloatField(label=_("Valoració de la prova"), required=True)
+
+    class Meta:
+        model = QuizCorrection
+        fields = ("comments", "correction_value")
+
+
 class QuestionOpenForm(forms.ModelForm):
     question_order = forms.IntegerField(label=_("Ordre de la pregunta dins la prova"), required=True)
     text = forms.CharField(label=_("Text de la pregunta"),widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 4}), required=True)

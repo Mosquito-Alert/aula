@@ -27,9 +27,13 @@
                     {% if elem.quiz.is_test %}
                         {% for d in done_test_scores %}
                         {% if d.id == elem.quiz.id %}
-                            <div class="result_wrapper"><strong>{% trans 'Millor puntuació' %}</strong>: {{ d.best_run.questions_right }}/{{ d.best_run.questions_number }}</div>
+                            <div class="result_wrapper"><h4><strong>{% trans 'Millor puntuació' %}</strong>: {{ d.best_run.questions_right }}/{{ d.best_run.questions_number }}</h4></div>
                         {% endif %}
                         {% endfor %}
+                    {% elif elem.quiz.is_open %}
+                        {% if elem.is_corrected %}
+                            <div class="result_wrapper"><h4><strong>{% trans 'Nota' %}</strong>: {{ elem.correction.correction_value }}</h4></div>
+                        {% endif %}
                     {% endif %}
                 </div>
                 <div class="test_button_container">
@@ -55,6 +59,12 @@
                         <div class="test_button_wrapper"><a title="{% trans 'Veure resultats enquesta' %}" class="btn btn-success" href="{% url 'poll_result' elem.quiz.id %}" target="_blank" role="button">{% trans 'Resultats' %} <i class="far fa-eye"></i></a></div>
                         {% elif elem.quiz.is_upload %}
                         <div class="test_button_wrapper"><a title="{% trans 'Descarregar fitxer' %}" class="btn btn-success" href="{{ elem.file_url }}" target="_blank" role="button">Fitxer <i class="fas fa-cloud-download-alt"></i></a></div>
+                        {% elif elem.quiz.is_open %}
+                            {%if elem.is_corrected %}
+                                <div class="test_button_wrapper"><a title="" class="btn btn-success" href="{% url 'open_answer_detail' elem.correction.id %}" target="_blank" role="button">{% trans 'Resultats' %} <i class="far fa-eye"></i></a></div>
+                            {% else %}
+                                <a title="{% trans 'Aquest material encara no s\'ha corregit' %}" class="btn btn-secondary" href="" role="button"><i class="fas fa-hourglass"></i></a>
+                            {% endif %}
                         {% endif %}
                         {% if elem.repeatable %}
                         <div class="test_button_wrapper"><a title="{% trans 'Repetir la prova!' %}" class="btn btn-success" href="{% url 'quiz_take_splash' elem.quiz.id %}" role="button">Repetir <i class="fas fa-undo"></i></a></div>

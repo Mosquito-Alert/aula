@@ -1,0 +1,60 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% load i18n %}
+{% load imagekit %}
+{% block title %}{% trans 'Proves de resposta oberta' %}{% endblock %}
+
+{% block main_jumbo %}<img class="img_icons" src="{% static 'main/icons/noun-blog-1923415.svg' %}"> {% trans 'Llista de proves per grup' %}{% endblock %}
+{% block sub_jumbo %}{% endblock %}
+{% block main %}
+<div class="container">
+    {% for quiz in quizzes %}
+    <div class="row alert alert-success">
+        <div class="col-md-6"><h2><span class="badge badge-info">{{ quiz.quiz.name }}</span></h2></div>
+    </div>
+
+    <div class="row alert alert-success ml-5">
+
+        <table style="width:100%;">
+            <tr style="text-align: center;">
+                <th></th>
+                <th>{% trans 'Centre' %}</th>
+                <th>{% trans 'Grup' %}</th>
+                <th>{% trans 'El grup ja ha acabat la prova?' %}</th>
+                <th>{% trans 'Corregir prova' %}</th>
+                <th>{% trans 'Estat de la prova' %}</th>
+            </tr>
+            {% for group in quiz.groups %}
+                <tr style="text-align: center;">
+                    <td>
+                        <img src="{{ group.group.profile.group_picture }}">
+                    </td>
+                    <td>{{ group.group.profile.center }}</td>
+                    <td>{{ group.group.profile.group_public_name }}</td>
+                    {% if group.done %}
+                        <td><i class="fas fa-check" style="color: green;"></i></td>
+                        {% if group.corrected %}
+                            <td> <button title="{% trans 'Editar correcció' %}" data-correction="{{ group.correction.id }}" class="correct-edit btn btn-info"><i class="fas fa-cog" aria-hidden="true"></i></button> </td>
+                        {% else %}
+                            <td> <button title="{% trans 'Corregir prova' %}" data-quizrun="{{ group.quizrun.id }}" class="correct-new btn btn-info"><i class="fas fa-cog" aria-hidden="true"></i></button> </td>
+                        {% endif %}
+                    {% else %}
+                        <td><i class="fas fa-times" style="color: red;"></i></td>
+                        <td> <button title="{% trans 'Cal esperar que l\'alumne completi la prova abans de corregir-la' %}" class="correct btn btn-secondary disabled" aria-disabled="true"><i class="fas fa-cog" aria-hidden="true"></i></button> </td>
+                    {% endif %}
+                    {% if group.corrected %}
+                        <td>{% trans 'Corregida' %} - {{ group.correction.correction_value }}</td>
+                    {% else %}
+                        <td>{% trans 'Pendent' %}</td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'main/javascript/open_answers_result.js' %}"></script>
+{% endblock %}

@@ -5,11 +5,11 @@ from main.forms import QuizForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from aula import settings
-from main.models import EducationCenter, Word, Quiz, Answer, Question, QuizRun, QuizRunAnswers, Profile, get_string_from_groups, Campaign
+from main.models import EducationCenter, Word, Quiz, Answer, Question, QuizRun, QuizRunAnswers, Profile, get_string_from_groups, Campaign, QuizCorrection
 from main.forms import TeacherForm, SimplifiedTeacherForm, EducationCenterForm, TeacherUpdateForm, ChangePasswordForm, \
     SimplifiedAlumForm, SimplifiedGroupForm, AlumUpdateForm, QuestionForm, QuestionLinkForm, SimplifiedAlumFormForTeacher, \
     SimplifiedAlumFormForAdmin, AlumUpdateFormAdmin, QuizAdminForm, QuestionPollForm, QuizNewForm, QuestionUploadForm, CampaignForm, \
-    BreedingSites, Awards, QuestionOpenForm
+    BreedingSites, Awards, QuestionOpenForm, OpenAnswerNewCorrectForm
 from django.contrib.gis.geos import GEOSGeometry
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
@@ -299,6 +299,15 @@ def get_ordered_quiz_sequence(this_user):
                 if quiz.is_upload:
                     done_upload = QuizRun.objects.get(taken_by=this_user, date_finished__isnull=False, quiz=quiz)
                     ordered_quizzes.append({'quiz': quiz, 'status': 'done', 'repeatable': False, 'file_url': done_upload.uploaded_file.url})
+                elif quiz.is_open:
+                    done_quizrun = QuizRun.objects.get(taken_by=this_user, date_finished__isnull=False, quiz=quiz)
+                    corrected = QuizCorrection.objects.filter(corrected_quizrun=done_quizrun).filter(date_finished__isnull=False)
+                    is_corrected = corrected.exists()
+                    if is_corrected:
+                        the_correction = corrected.first()
+                    else:
+                        the_correction = None
+                    ordered_quizzes.append({'quiz': quiz, 'status': 'done', 'repeatable': False, 'is_corrected': is_corrected, 'correction': the_correction})
                 else:
                     ordered_quizzes.append({'quiz': quiz, 'status': 'done', 'repeatable': quiz_is_repeatable_for_user(quiz,this_user)})
     return ordered_quizzes
@@ -1330,6 +1339,103 @@ def alum_list(request):
         go_back_to = "my_hub"
         return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
 
+@login_required
+def open_answer_edit(request, quizcorrection_id=None):
+    this_user = request.user
+    quizcorrection = QuizCorrection.objects.get(pk=quizcorrection_id)
+    quizrun = quizcorrection.corrected_quizrun
+    answers = QuizRunAnswers.objects.filter(quizrun=quizrun)
+    if this_user.is_superuser:
+        #my_quizzes = Quiz.objects.filter(type=0).order_by('name')
+        pass
+    elif this_user.profile and this_user.profile.is_teacher:
+        form = OpenAnswerNewCorrectForm(request.POST or None, instance=quizcorrection)
+        if request.POST and form.is_valid():
+            correct = form.save(commit=False)
+            correct.corrected_quizrun = quizrun
+            date_finished = datetime.utcnow().replace(tzinfo=pytz.utc)
+            correct.date_finished = date_finished
+            correct.corrector = this_user
+            correct.save()
+            return HttpResponseRedirect('/quiz/open_answer_results/')
+        return render(request, 'main/oac_edit.html', {'form': form, 'quizrun': quizrun, 'answers': answers, 'quizcorrection': quizcorrection})
+    else:
+        message = _("Estàs intentant accedir a una pàgina a la que no tens permís.")
+        go_back_to = "my_hub"
+        return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
+
+@login_required
+def open_answer_detail(request, quizcorrection_id=None):
+    this_user = request.user
+    quizcorrection = QuizCorrection.objects.get(pk=quizcorrection_id)
+    quizrun = quizcorrection.corrected_quizrun
+    answers = QuizRunAnswers.objects.filter(quizrun=quizrun)
+    return render(request, 'main/open_answer_detail.html', {'correction': quizcorrection, 'quizrun': quizrun, 'answers': answers})
+
+@login_required
+def open_answer_new(request, quizrun_id=None):
+    this_user = request.user
+    quizrun = QuizRun.objects.get(pk=quizrun_id)
+    answers = QuizRunAnswers.objects.filter(quizrun=quizrun)
+    if this_user.is_superuser:
+        #my_quizzes = Quiz.objects.filter(type=0).order_by('name')
+        pass
+    elif this_user.profile and this_user.profile.is_teacher:
+        if request.method == 'POST':
+            form = OpenAnswerNewCorrectForm(request.POST)
+            if form.is_valid():
+                correct = form.save(commit=False)
+                correct.corrected_quizrun = quizrun
+                date_finished = datetime.utcnow().replace(tzinfo=pytz.utc)
+                correct.date_finished = date_finished
+                correct.corrector = this_user
+                correct.save()
+                return HttpResponseRedirect('/quiz/open_answer_results/')
+        else:
+            form = OpenAnswerNewCorrectForm()
+        return render(request, 'main/oac_new.html', {'form': form, 'quizrun': quizrun, 'answers': answers})
+    else:
+        message = _("Estàs intentant accedir a una pàgina a la que no tens permís.")
+        go_back_to = "my_hub"
+        return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
+
+
+@login_required
+def open_answer_results(request):
+    this_user = request.user
+    quiz_array = []
+    if this_user.is_superuser:
+        #my_quizzes = Quiz.objects.filter(type=0).order_by('name')
+        pass
+    elif this_user.profile and this_user.profile.is_teacher:
+        #my_quizzes = Quiz.objects.filter(author=this_user).filter(type=0).order_by('name')
+        teacher_campaign = this_user.profile.campaign
+        groups = User.objects.filter(profile__group_teacher=this_user).filter(profile__campaign=teacher_campaign).order_by('profile__group_public_name')
+        openanswer_quizzes = Quiz.objects.filter(Q(author=this_user) | Q(author__isnull=True)).filter(type=5).filter(campaign=teacher_campaign).order_by('name')
+        for quiz in openanswer_quizzes:
+            group_array = []
+            for g in groups:
+                quizrun = QuizRun.objects.filter(quiz=quiz).filter(taken_by=g).exclude(date_finished=None)
+                quizrun_done = quizrun.exists()
+                if quizrun_done:
+                    the_quizrun = quizrun.first()
+                    correction = QuizCorrection.objects.filter(corrected_quizrun=the_quizrun).filter(corrector=this_user).exclude(date_finished=None)
+                    corrected = correction.exists()
+                    if corrected:
+                        the_correction = correction.first()
+                        group_array.append({ 'group': g, 'done': True, 'quizrun': the_quizrun, 'corrected': corrected, 'correction': the_correction })
+                    else:
+                        group_array.append({'group': g, 'done': True, 'quizrun': the_quizrun, 'corrected': corrected, 'correction': None})
+                else:
+                    group_array.append({ 'group': g, 'done': False, 'quizrun': None, 'corrected': False})
+            group_array.sort(key=lambda x: (x['group'].profile.center, x['group'].profile.group_public_name))
+            quiz_array.append({ 'quiz': quiz, 'groups': group_array })
+    else:
+        message = _("Estàs intentant accedir a una pàgina a la que no tens permís.")
+        go_back_to = "my_hub"
+        return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
+    #print(my_quizzes[1].taken_by[0].taken_by.profile.group_picture_thumbnail.url)
+    return render(request, 'main/open_answers_result.html', {'quizzes': quiz_array})
 
 @login_required
 def quiz_solutions(request):
@@ -1990,7 +2096,6 @@ def quiz_graphic_results(request, idQuizz):
 
 @login_required
 def quiz_results(request):
-
      return render(request, 'main/quiz_results.html')
 
 @api_view(['GET'])

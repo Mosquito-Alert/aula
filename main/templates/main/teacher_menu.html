@@ -9,7 +9,7 @@
 <!-- Main jumbotron for a primary marketing message or call to action -->
 <div class="container">
     <div class="card-deck mb-3 text-center">
-        <div class="card mb-4 box-shadow">
+        <div class="card mb-5 box-shadow">
             <div class="card-body">
                 <a href="{% url 'group_list' %}">
                     <h5 class="card-title">{% trans 'Grups d&#39;alumnes' %}</h5>
@@ -29,7 +29,7 @@
                 <a href="{% url 'quiz_list' %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
             </div>
         </div>-->
-        <div class="card mb-4 box-shadow">
+        <div class="card mb-5 box-shadow">
             <div class="card-body">
                 <a href="{% url 'teacher_polls' %}">
                     <h5 class="card-title">{% trans 'Enquestes' %}</h5>
@@ -39,7 +39,7 @@
                 </a>
             </div>
         </div>
-        <div class="card mb-4 box-shadow">
+        <div class="card mb-5 box-shadow">
             <div class="card-body">
                 <a href="{% url 'quiz_results' %}">
                     <h5 class="card-title">{% trans 'Veure solucions de proves' %}</h5>
@@ -50,12 +50,23 @@
                 </a>
             </div>
         </div>
-        <div class="card mb-4 box-shadow">
+        <div class="card mb-5 box-shadow">
             <div class="card-body">
                 <a href="{% url 'upload_file_solutions' %}">
                     <h5 class="card-title">{% trans 'Veure materials pujats pels alumnes' %}</h5>
                     <img src="{% static 'main/icons/noun_upload script_691826.svg' %}" width="25%">
                     <p class="card-text">{% trans 'Veure els materials finals que han pujat els diferents grups' %}</p>
+                    <!--<a href="{% url 'quiz_results' %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                    <a href="{% url 'upload_file_solutions' %}" class="btn btn-primary"><i class="fas fa-upload"></i></a>-->
+                </a>
+            </div>
+        </div>
+        <div class="card mb-5 box-shadow">
+            <div class="card-body">
+                <a href="{% url 'open_answer_results' %}">
+                    <h5 class="card-title">{% trans 'Correcció de proves de resposta oberta' %}</h5>
+                    <img src="{% static 'main/icons/noun-blog-1923415.svg' %}" width="25%">
+                    <p class="card-text">{% trans 'Corregir les proves de resposta oberta d\'alumnes del meu grup' %}</p>
                     <!--<a href="{% url 'quiz_results' %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
                     <a href="{% url 'upload_file_solutions' %}" class="btn btn-primary"><i class="fas fa-upload"></i></a>-->
                 </a>
