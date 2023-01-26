@@ -1116,6 +1116,7 @@ def group_update(request, pk=None):
     photo_path = None
     group_password = None
     group_public_name = None
+    group_class = None
     username = None
     n_students_in_group = None
     center = ""
@@ -1127,6 +1128,7 @@ def group_update(request, pk=None):
             photo_path = group.profile.group_picture.url
         group_password = group.profile.group_password
         group_public_name = group.profile.group_public_name
+        group_class = group.profile.group_class
         n_students_in_group = group.profile.n_students_in_group
         username = group.username
         if group.profile.group_teacher:
@@ -1142,6 +1144,7 @@ def group_update(request, pk=None):
             user = form.save(commit=False)
             user.profile.group_password = form.cleaned_data.get('password1')
             user.profile.group_public_name = form.cleaned_data.get('group_public_name')
+            user.profile.group_class = form.cleaned_data.get('group_class')
             user.profile.n_students_in_group = form.cleaned_data.get('n_students_in_group')
             photo_path = form.cleaned_data.get('photo_path')
             if photo_path and photo_path != '' and photo_path != 'None':
@@ -1158,9 +1161,9 @@ def group_update(request, pk=None):
             user.save()
             return HttpResponseRedirect('/group/list/')
     if this_user.is_superuser:
-        return render(request, 'main/group_edit.html', {'form': form, 'group_id' : pk, 'photo_path': photo_path, 'group_password': group_password, 'group_public_name': group_public_name, 'username': username, 'centers':centers, 'tutor': tutor, 'center':center, 'n_students_in_group': n_students_in_group })
+        return render(request, 'main/group_edit.html', {'form': form, 'group_id' : pk, 'photo_path': photo_path, 'group_password': group_password, 'group_public_name': group_public_name, 'username': username, 'centers':centers, 'tutor': tutor, 'center':center, 'n_students_in_group': n_students_in_group, 'group_class': group_class })
     elif this_user.profile and this_user.profile.is_teacher:
-        return render(request, 'main/group_edit_teacher.html', {'form': form, 'group_id': pk, 'photo_path': photo_path, 'group_password': group_password, 'group_public_name': group_public_name, 'username': username, 'n_students_in_group': n_students_in_group})
+        return render(request, 'main/group_edit_teacher.html', {'form': form, 'group_id': pk, 'photo_path': photo_path, 'group_password': group_password, 'group_public_name': group_public_name, 'username': username, 'n_students_in_group': n_students_in_group, 'group_class': group_class})
     else:
         message = _("Estàs intentant accedir a una pàgina a la que no tens permís.")
         go_back_to = "my_hub"
@@ -1792,7 +1795,7 @@ def alum_datatable_list(request):
 def group_datatable_list(request):
     this_user = request.user
     if request.method == 'GET':
-        search_field_list = ('username', 'group_public_name', 'group_center', 'group_tutor', 'group_n_students')
+        search_field_list = ('username', 'group_public_name', 'group_center', 'group_tutor', 'group_n_students', 'group_class')
         if this_user.is_superuser:
             queryset = User.objects.filter(profile__is_group=True).filter(profile__campaign__active=True)
         elif this_user.profile and this_user.profile.is_teacher:
@@ -1806,8 +1809,8 @@ def group_datatable_list(request):
             queryset = User.objects.filter(profile__is_group=True).filter(profile__group_teacher=this_user).filter(profile__campaign=this_user.profile.campaign)
         else:
             pass #not allowed
-        field_translation_list = {'username': 'username', 'group_public_name': 'profile__group_public_name', 'group_center': 'profile__center_string', 'group_tutor':  'profile__group_teacher__username', 'group_n_students': 'profile__n_students_in_group'}
-        sort_translation_list = {'username': 'username', 'group_public_name': 'profile__group_public_name', 'group_center': 'profile__center_string', 'group_tutor':  'profile__group_teacher__username', 'group_n_students': 'profile__n_students_in_group'}
+        field_translation_list = {'username': 'username', 'group_public_name': 'profile__group_public_name', 'group_class': 'profile__group_class', 'group_center': 'profile__center_string', 'group_tutor':  'profile__group_teacher__username', 'group_n_students': 'profile__n_students_in_group'}
+        sort_translation_list = {'username': 'username', 'group_public_name': 'profile__group_public_name', 'group_class': 'profile__group_class', 'group_center': 'profile__center_string', 'group_tutor':  'profile__group_teacher__username', 'group_n_students': 'profile__n_students_in_group'}
         response = generic_datatable_list_endpoint(request, search_field_list, queryset, GroupSerializer, field_translation_list, sort_translation_list)
         return response
 
@@ -2351,23 +2354,38 @@ def center_progress(request, center_id=None):
         for quiz in quizzes_doable_by_group:
             state = 'pending'
             uploaded_file = None
+            correction_id = None
             quiz_in_progress = QuizRun.objects.filter(taken_by=group).filter(date_finished__isnull=True).filter(quiz=quiz).exists()
             quiz_done = QuizRun.objects.filter(taken_by=group).filter(date_finished__isnull=False).filter(quiz=quiz).exists()
+            corrected = False
             if quiz.type == 3:
                 uploaded_file_quizrun = QuizRun.objects.filter(taken_by=group).filter(date_finished__isnull=False).filter(quiz__type=3).first()
                 if uploaded_file_quizrun is not None:
                     uploaded_file = uploaded_file_quizrun.uploaded_file.url
+            elif quiz.type == 5:
+                if quiz_done:
+                    the_quiz_done = QuizRun.objects.filter(taken_by=group).filter(date_finished__isnull=False).filter(quiz=quiz).first()
+                    corrected = QuizCorrection.objects.filter( corrected_quizrun = the_quiz_done ).filter(date_finished__isnull=False).exists()
+                    if corrected:
+                        the_correction = QuizCorrection.objects.filter( corrected_quizrun = the_quiz_done ).filter(date_finished__isnull=False).first()
+                        correction_id = the_correction.id
 
 
             # quiz_done is checked first because it might happen that the group has started a new quiz run and left it blank
             # this way, if at least one is done it's considered completed, and only if not a single run has been completed is
             # considered 'in progress'
             if quiz_done:
-                state = 'done'
+                if quiz.type == 5:
+                    if corrected:
+                        state = 'corrected'
+                    else:
+                        state = 'pending_correction'
+                else:
+                    state = 'done'
             elif quiz_in_progress:
                 state = 'progress'
 
-            data[ str(group.id) + '_' + str(quiz.id) ] = { 'state': state, 'type': quiz.type, 'upload_url': uploaded_file }
+            data[ str(group.id) + '_' + str(quiz.id) ] = { 'state': state, 'type': quiz.type, 'upload_url': uploaded_file, 'correction_id': correction_id }
     return render(request, 'main/reports/progress_center.html', {'center': center, 'data': json.dumps(data)})
 
 

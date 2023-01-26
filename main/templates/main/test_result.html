@@ -43,6 +43,9 @@
                 <th></th>
                 <th>{% trans 'Center' %}</th>
                 <th>{% trans 'Grup' %}</th>
+                {% if not request.user.is_superuser %}
+                <th>{% trans 'Classe' %}</th>
+                {% endif %}
                 <th>{% trans 'Millor puntuació' %}</th>
                 <th>{% trans 'Millor intent' %}</th>
                 <th>{% trans 'Prova finalitzada' %}</th>
@@ -63,6 +66,9 @@
                         </td>
                         <td>{{ quizrun.taken_by.profile.center }}</td>
                         <td>{% if quizrun.taken_by.profile.is_group %}{{ quizrun.taken_by.profile.group_public_name }}{% else %}{{ quizrun.taken_by.username }}{% endif %}</td>
+                        {% if quizrun.taken_by.profile.is_group %}
+                        <td>{{ quizrun.taken_by.profile.group_class|default_if_none:'' }}</td>
+                        {% endif %}
                         <td>{{ quizrun.questions_right }}/{{ quizrun.questions_number }}</td>
                         <td>{{ quizrun.run_number }}</td>
                         <td>{{ quizrun.date_finished }}</td>
@@ -86,6 +92,9 @@
                         </td>
                         <td>{{ quizrun.taken_by.profile.center }}</td>
                         <td>{% if quizrun.taken_by.profile.is_group %}{{ quizrun.taken_by.profile.group_public_name }}{% else %}{{ quizrun.taken_by.username }}{% endif %}</td>
+                        {% if quizrun.taken_by.profile.is_group %}
+                        <td>{{ quizrun.taken_by.profile.group_class|default_if_none:'' }}</td>
+                        {% endif %}
                         <td>{{ quizrun.questions_right }}/{{ quizrun.questions_number }}</td>
                         <td>{{ quizrun.run_number }}</td>
                         <td>{{ quizrun.date_finished }}</td>

@@ -35,6 +35,12 @@
             <input type="text" name="group_public_name" value="{{ group_public_name }}" class="form-control textinput textInput form-control" maxlength="150" required id="id_group_public_name">
           </div>
         </div>
+        <div id="div_id_group_class" class="control-group">
+            <label for="id_group_class" class="control-label "> Nom de la classe (es fa servir per filtrar)</label>
+            <div class="controls">
+                <input type="text" name="group_class" value="{{ group_class|default_if_none:'' }}" class="form-control textinput textInput" id="id_group_class">
+            </div>
+        </div>
         <div id="div_id_n_students_in_group" class="control-group">
           <label for="id_n_students_in_group" class="control-label requiredField">
             Nombre d'estudiants al grup<span class="asteriskField">*</span>

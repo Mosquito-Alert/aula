@@ -85,6 +85,7 @@ $(document).ready( function () {
             ,{ 'data': 'group_password' }
             ,{ 'data': 'group_public_name' }
             ,{ 'data': 'group_center' }
+            ,{ 'data': 'group_class' }
             ,{ 'data': 'group_tutor' }
             ,{ 'data': 'group_picture' }
             ,{ 'data': 'is_active' }
@@ -93,7 +94,7 @@ $(document).ready( function () {
         ],
         'columnDefs': [
             {
-                'targets': 9,
+                'targets': 10,
                 'data': 'is_active',
                 'sortable': false,
                 'render': function(value){
@@ -105,7 +106,7 @@ $(document).ready( function () {
                 }
             },
             {
-                'targets': 10,
+                'targets': 11,
                 'data': 'is_active',
                 'sortable': false,
                 'render': function(value){
@@ -134,10 +135,14 @@ $(document).ready( function () {
             },
             {
                 'targets':4,
-                'title': gettext('Tutor')
+                'title': gettext('Classe')
             },
             {
                 'targets':5,
+                'title': gettext('Tutor')
+            },
+            {
+                'targets':6,
                 'title': gettext('Imatge del grup'),
                 'render': function(value){
                     if(value != ''){
@@ -148,7 +153,7 @@ $(document).ready( function () {
                 }
             },
             {
-                'targets':6,
+                'targets':7,
                 'data': 'is_active',
                 'title': gettext('Grup actiu?'),
                 'render': function(value){
@@ -160,11 +165,11 @@ $(document).ready( function () {
                 }
             },
             {
-                'targets':7,
+                'targets':8,
                 'title': gettext('N. alumnes')
             },
             {
-                'targets':8,
+                'targets':9,
                 'title': gettext('Hashtag')
             }
         ]

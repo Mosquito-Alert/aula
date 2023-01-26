@@ -131,6 +131,7 @@ class GroupSerializer(serializers.ModelSerializer):
     group_password = serializers.SerializerMethodField('get_group_password')
     group_public_name = serializers.SerializerMethodField('get_group_public_name')
     group_center = serializers.SerializerMethodField('get_group_center')
+    group_class = serializers.SerializerMethodField('get_group_class')
     #group_alums = serializers.SerializerMethodField('get_group_alums')
     group_picture = serializers.SerializerMethodField('get_group_picture')
     group_tutor = serializers.SerializerMethodField('get_group_tutor')
@@ -140,6 +141,9 @@ class GroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = '__all__'
+
+    def get_group_class(self,obj):
+        return obj.profile.group_class
 
     def get_group_hashtag(self,obj):
         return obj.profile.group_hashtag
