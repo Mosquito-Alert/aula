@@ -29,7 +29,7 @@
         <div class="card col-sm-10 box-shadow">
             <div class="card-body">
                 <h2 class="card-title">{% trans 'Comentaris del corrector' %}</h2>
-                <p class="card-text">{{ correction.comments }}</p>
+                <p class="card-text">{{ correction.comments|linebreaks }}</p>
                 <!--<a href="{% url 'group_new' %}" class="btn btn-primary"><i class="fas fa-plus"></i></a>
                 <a href="{% url 'group_list' %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>-->
             </div>
