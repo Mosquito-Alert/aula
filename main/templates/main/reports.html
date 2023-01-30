@@ -52,6 +52,34 @@
             <button type="button" id="poll_group_class" class="form-control btn btn-primary">{% trans 'Generar informe' %} <i class="fas fa-bolt"></i></button>
         </div>
     </div>
+    {% if user.profile.is_teacher %}
+    <div class="form row alert alert-success">
+        <div class="col-md-12"><h4>{% trans 'Enquestes per classe' %}:</h4></div>
+        <div class="col-md-12"><p>{% trans 'help_enquestes_classe' %}</p></div>
+        <div class="col-md-3 form-group">
+            <label for="select_poll_center">{% trans 'Enquesta' %}*:</label>
+            <select class="form-control" id="select_poll_2">
+                <option value="">...</option>
+                {% for poll in polls %}
+                <option value="{{ poll.id }}">{{ poll.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-3 form-group">
+            <label for="select_poll_group">{% trans 'Tria una classe' %}*: </label>
+            <select class="form-control" id="select_poll_class">
+                <option value="">...</option>
+                {% for t in teacher_filters %}
+                    <option value="{{ t.slug }}">{{ t.class }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-3 form-group">
+            <label>&nbsp;</label>
+            <button type="button" id="poll_class" class="form-control btn btn-primary">{% trans 'Generar informe' %} <i class="fas fa-bolt"></i></button>
+        </div>
+    </div>
+    {% endif %}
     {% if not user.profile.is_teacher %}
     <div class="form row alert alert-success">
         <div class="col-md-12"><h4>{% trans 'Enquestes de professorat per centre' %}:</h4></div>
@@ -120,6 +148,7 @@
     {% if user.profile.is_teacher %}
         user_is_teacher = true;
         var my_center = {{ user.profile.teacher_belongs_to.id }};
+        var teacher_id = {{ user.id }};
     {% endif %}
 
 </script>

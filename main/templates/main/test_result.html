@@ -36,6 +36,15 @@
     {% else %}
     <div class="row"><h2>{% trans 'Resultats de la prova per als meus grups' %}:</h2></div>
     {% endif %}
+    {% if teacher_filters %}
+    <div class="row filter_row">
+        <div class="col-md-2"> {% trans 'Filtre per classe' %}:  </div>
+        <div class="col-md-2"> <a href="{% url 'test_result' quiz.id %}" class="btn class_filter {% if not current_slug %}btn-warning{% else %}btn-primary{%endif%}"> {% trans 'Sense filtre' %} </a>  </div>
+        {% for filter in teacher_filters %}
+        <div class="col-md-2"> <a href="{% url 'test_result_class' quiz.id filter.slug %}" class="btn class_filter {% if current_slug == filter.slug%}btn-warning{% else %}btn-primary{% endif %}"> {{ filter.class }} </a>  </div>
+        {% endfor %}
+    </div>
+    {% endif %}
     {% if n_of_best_runs > 0 or request.user.is_superuser %}
     <div class="row alert alert-success">
         <table style="width:100%;">

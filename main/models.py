@@ -58,8 +58,11 @@ class EducationCenter(models.Model):
         except:
             return "#acme" + year
 
-    def center_groups(self):
-        return User.objects.filter(profile__center_string=self.name).filter(profile__campaign=self.campaign).filter(profile__is_group=True).order_by('profile__group_public_name')
+    def center_groups(self, slug = None):
+        if slug:
+            return User.objects.filter(profile__center_string=self.name).filter(profile__campaign=self.campaign).filter(profile__is_group=True).filter(profile__group_class_slug=slug).order_by('profile__group_public_name')
+        else:
+            return User.objects.filter(profile__center_string=self.name).filter(profile__campaign=self.campaign).filter(profile__is_group=True).order_by('profile__group_public_name')
 
     def n_groups_center(self):
         return self.center_groups().count()
@@ -328,6 +331,12 @@ class Question(models.Model):
         n_total = QuizRunAnswers.objects.filter(question=self).filter(answered=True).filter(quizrun__taken_by__in=groups_in_center).count()
         return n_total
 
+    def total_number_of_answers_of_question_per_slug(self, teacher_id, slug):
+        teacher = User.objects.get(pk=teacher_id)
+        groups_in_slug = User.objects.filter(profile__is_group=True).filter(profile__group_teacher=teacher).filter(profile__group_class_slug=slug)
+        n_total = QuizRunAnswers.objects.filter(question=self).filter(answered=True).filter(quizrun__taken_by__in=groups_in_slug).count()
+        return n_total
+
     def total_number_of_answers_of_question_per_center_teachers(self, center_id):
         center = EducationCenter.objects.get(pk=center_id)
         teachers_in_center = User.objects.filter(profile__is_teacher=True).filter(profile__teacher_belongs_to=center)
@@ -359,6 +368,12 @@ class Answer(models.Model):
         n_this = QuizRunAnswers.objects.filter(chosen_answer=self).filter(quizrun__taken_by__in=groups_in_center).filter(answered=True).count()
         return n_this
 
+    def how_many_times_answered_by_slug(self, teacher_id, slug):
+        teacher = User.objects.get(pk=teacher_id)
+        groups_in_slug = User.objects.filter(profile__is_group=True).filter(profile__group_teacher=teacher).filter(profile__group_class_slug=slug)
+        n_this = QuizRunAnswers.objects.filter(chosen_answer=self).filter(quizrun__taken_by__in=groups_in_slug).filter(answered=True).count()
+        return n_this
+
     def how_many_times_answered_by_center_teachers(self,center_id):
         center = EducationCenter.objects.get(pk=center_id)
         teachers_in_center = User.objects.filter(profile__is_teacher=True).filter(profile__teacher_belongs_to=center)
@@ -376,6 +391,14 @@ class Answer(models.Model):
     def answered_by_perc_center_teachers(self,center_id):
         n_total = self.question.total_number_of_answers_of_question_per_center_teachers(center_id)
         n_this = self.how_many_times_answered_by_center_teachers(center_id)
+        if n_total == 0:
+            return "0"
+        else:
+            return str(round((n_this / n_total) * 100, 0))
+
+    def answered_by_perc_class(self,teacher_id,slug):
+        n_total = self.question.total_number_of_answers_of_question_per_slug(teacher_id, slug)
+        n_this = self.how_many_times_answered_by_slug(teacher_id, slug)
         if n_total == 0:
             return "0"
         else:
@@ -437,6 +460,7 @@ class Profile(models.Model):
     group_teacher = models.ForeignKey(User, null=True, on_delete=models.SET_NULL, related_name="group_teacher")
     # class label, for filters
     group_class = models.CharField(max_length=500, null=True)
+    group_class_slug = models.CharField(max_length=500, null=True)
     groups_string = models.CharField(max_length=1000, null=True, blank=True)
     center_string = models.CharField(max_length=1000, null=True, blank=True)
     n_students_in_group = models.IntegerField(default=3)

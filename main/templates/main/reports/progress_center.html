@@ -38,9 +38,19 @@
     <hr>
 </div>
 <div class="container">
-    {% for group in center.center_groups %}
+    {% if teacher_filters %}
+    <div class="row filter_row">
+        <div class="col-md-2"> {% trans 'Filtre per classe' %}:  </div>
+        <div class="col-md-2"> <a href="{% url 'center_progress' center.id %}" class="btn class_filter {% if not current_slug %}btn-warning{% else %}btn-primary{%endif%}"> {% trans 'Sense filtre' %} </a>  </div>
+        {% for filter in teacher_filters %}
+        <div class="col-md-2"> <a href="{% url 'center_progress_class' center.id filter.slug %}" class="btn class_filter {% if current_slug == filter.slug%}btn-warning{% else %}btn-primary{% endif %}"> {{ filter.class }} </a>  </div>
+        {% endfor %}
+    </div>
+    <hr>
+    {% endif %}
+    {% for group in groups %}
     <div class="row">
-        <i>{{ group.profile.group_public_name }}</i>
+        <i>{{ group.profile.group_public_name }} - ({{ group.username }}) {% if group.profile.group_class %} / {{ group.profile.group_class }} {% endif %}</i>
     </div>
     <div class="row">
         <div class="flex_wrapper">

@@ -54,6 +54,7 @@ import logging
 from django.db import connection
 from itertools import groupby
 from django.db.models import Count
+from slugify import slugify
 
 def get_order_clause(params_dict, translation_dict=None):
     order_clause = []
@@ -1145,6 +1146,7 @@ def group_update(request, pk=None):
             user.profile.group_password = form.cleaned_data.get('password1')
             user.profile.group_public_name = form.cleaned_data.get('group_public_name')
             user.profile.group_class = form.cleaned_data.get('group_class')
+            user.profile.group_class_slug = slugify(form.cleaned_data.get('group_class'))
             user.profile.n_students_in_group = form.cleaned_data.get('n_students_in_group')
             photo_path = form.cleaned_data.get('photo_path')
             if photo_path and photo_path != '' and photo_path != 'None':
@@ -1192,6 +1194,8 @@ def group_new(request):
             user.profile.is_group = True
             user.profile.group_password = form.cleaned_data.get('password1')
             user.profile.group_public_name = form.cleaned_data.get('group_public_name')
+            user.profile.group_class = form.cleaned_data.get('group_class')
+            user.profile.group_class_slug = slugify(form.cleaned_data.get('group_class'))
             user.profile.group_teacher = tutor
             user.profile.campaign = campaign
             user.profile.n_students_in_group = form.cleaned_data.get('n_students_in_group')
@@ -2122,6 +2126,55 @@ def quiz_datatable_results(request):
     return response
 
 
+@login_required
+def test_result_class(request, quiz_id=None, slug=None):
+    this_user = request.user
+    quiz = None
+    if this_user.is_superuser:
+        if quiz_id:
+            quiz = get_object_or_404(Quiz, pk=quiz_id)
+        else:
+            message = _("No existeix aquesta prova.")
+            go_back_to = "quiz_results"
+            return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
+        if not QuizRun.objects.filter(quiz=quiz).exists():
+            message = _("El test seleccionat no l'ha realitzat cap grup i encara no té resultats.")
+            go_back_to = "quiz_results"
+            return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
+        return render(request, 'main/test_result.html', {'quiz': quiz})
+    else:
+        best_runs = []
+        author = User.objects.get(id=this_user.id)
+        grupos_profe = User.objects.filter(profile__group_teacher=author).filter(profile__group_class_slug=slug)
+        for r in grupos_profe:
+            best_run = QuizRun.objects.filter(taken_by__id=r.id).filter(quiz=quiz_id).filter(
+                date_finished__isnull=False).order_by('-questions_right', '-date_finished').first()
+            if best_run:
+                best_runs.append(best_run)
+        best_runs.sort(key=lambda x: (
+            x.taken_by.profile.group_public_name if x.taken_by.profile.group_public_name is not None else x.taken_by.username))
+        n_of_best_runs = best_runs.__len__()
+
+        teacher_filters = []
+        filters = Profile.objects.filter(group_teacher=author).values('group_class','group_class_slug').distinct().order_by('group_class')
+        for f in filters:
+            if f['group_class']:
+                teacher_filters.append({'class': f['group_class'], 'slug': f['group_class_slug']})
+
+        if quiz_id:
+            quiz = get_object_or_404(Quiz, pk=quiz_id)
+        else:
+            message = _("No existeix aquesta prova.")
+            go_back_to = "quiz_results"
+            return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
+        if not QuizRun.objects.filter(quiz=quiz).exists():
+            message = _("El test seleccionat no l'ha realitzat cap grup i encara no té resultats.")
+            go_back_to = "quiz_results"
+            return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
+
+        return render(request, 'main/test_result.html',
+                      {'quiz': quiz, 'quizRuns': best_runs, 'n_of_best_runs': n_of_best_runs,
+                       'teacher_filters': teacher_filters, 'current_slug': slug})
 
 @login_required
 def test_result(request, quiz_id=None):
@@ -2151,6 +2204,12 @@ def test_result(request, quiz_id=None):
         best_runs.sort(key=lambda x: (x.taken_by.profile.group_public_name if x.taken_by.profile.group_public_name is not None else x.taken_by.username))
         n_of_best_runs = best_runs.__len__()
 
+        teacher_filters = []
+        filters = Profile.objects.filter(group_teacher=author).values('group_class', 'group_class_slug').distinct().order_by('group_class')
+        for f in filters:
+            if f['group_class']:
+                teacher_filters.append({'class': f['group_class'], 'slug': f['group_class_slug']})
+
         if quiz_id:
             quiz = get_object_or_404(Quiz, pk=quiz_id)
         else:
@@ -2162,7 +2221,7 @@ def test_result(request, quiz_id=None):
             go_back_to = "quiz_results"
             return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
 
-        return render(request, 'main/test_result.html', {'quiz': quiz, 'quizRuns': best_runs, 'n_of_best_runs': n_of_best_runs})
+        return render(request, 'main/test_result.html', {'quiz': quiz, 'quizRuns': best_runs, 'n_of_best_runs': n_of_best_runs, 'teacher_filters': teacher_filters})
 
 
 @login_required
@@ -2270,10 +2329,12 @@ def upload_file_solutions(request):
             autor = _('Anònim')
             if idQuizz.author:
                 autor = idQuizz.author.username
+            realitzat_per = QuizRun.objects.filter(quiz=idQuizz).filter(taken_by__in=grupos_profe).exclude(date_finished=None).count()
             p.append({
                 'nomActivitat': idQuizz.name,
                 'autor': autor,
-                'realitzatPer': str(idQuizz.taken_by_n_people) + '/' + str(this_user.profile.tutored_groups),
+                #'realitzatPer': str(idQuizz.taken_by_n_people) + '/' + str(this_user.profile.tutored_groups),
+                'realitzatPer': str(realitzat_per) + '/' + str(this_user.profile.tutored_groups),
                 'grupos': arrayGrupos
             })
     else:
@@ -2336,19 +2397,84 @@ def reports(request):
         my_groups = User.objects.filter(profile__is_group=True).filter(profile__group_teacher=this_user).filter(profile__campaign=this_user.profile.campaign).order_by('profile__group_public_name')
         centers = EducationCenter.objects.filter(active=True).filter(campaign=this_user.profile.campaign).order_by('name')
         polls = Quiz.objects.filter(type=2).filter(campaign=this_user.profile.campaign).order_by('name')
+        teacher_filters = []
+        filters = Profile.objects.filter(group_teacher=this_user).values('group_class','group_class_slug').distinct().order_by('group_class')
+        for f in filters:
+            if f['group_class']:
+                teacher_filters.append({'class': f['group_class'], 'slug': f['group_class_slug']})
         teacher_polls = None
     elif this_user.is_superuser:
         my_groups = User.objects.filter(profile__is_group=True).filter(profile__group_teacher=this_user).filter(profile__campaign__active=True).order_by('profile__group_public_name')
         centers = EducationCenter.objects.filter(active=True).filter(campaign__active=True).order_by('name')
         polls = Quiz.objects.filter(type=2).filter(campaign__active=True).order_by('name')
         teacher_polls = Quiz.objects.filter(type=4).filter(campaign__active=True).order_by('name')
-    return render(request, 'main/reports.html', { "centers":centers, "polls":polls, "teacher_polls": teacher_polls, "my_groups":my_groups })
+        teacher_filters = []
+    return render(request, 'main/reports.html', { "centers":centers, "polls":polls, "teacher_polls": teacher_polls, "my_groups":my_groups, "teacher_filters": teacher_filters })
+
+
+@login_required
+def center_progress_class(request, center_id=None, slug=None):
+    center = get_object_or_404(EducationCenter, pk=center_id)
+    slug_groups = center.center_groups(slug=slug)
+    center_groups = center.center_groups()
+    data = {}
+
+    teacher_filters = []
+    filters = Profile.objects.filter(user__in=center_groups).values('group_class','group_class_slug').distinct().order_by('group_class')
+    for f in filters:
+        if f['group_class']:
+            teacher_filters.append({'class': f['group_class'], 'slug': f['group_class_slug']})
+
+    for group in slug_groups:
+        quizzes_doable_by_group = group.profile.available_tests
+        for quiz in quizzes_doable_by_group:
+            state = 'pending'
+            uploaded_file = None
+            correction_id = None
+            quiz_in_progress = QuizRun.objects.filter(taken_by=group).filter(date_finished__isnull=True).filter(quiz=quiz).exists()
+            quiz_done = QuizRun.objects.filter(taken_by=group).filter(date_finished__isnull=False).filter(quiz=quiz).exists()
+            corrected = False
+            if quiz.type == 3:
+                uploaded_file_quizrun = QuizRun.objects.filter(taken_by=group).filter(date_finished__isnull=False).filter(quiz__type=3).first()
+                if uploaded_file_quizrun is not None:
+                    uploaded_file = uploaded_file_quizrun.uploaded_file.url
+            elif quiz.type == 5:
+                if quiz_done:
+                    the_quiz_done = QuizRun.objects.filter(taken_by=group).filter(date_finished__isnull=False).filter(quiz=quiz).first()
+                    corrected = QuizCorrection.objects.filter(corrected_quizrun=the_quiz_done).filter(date_finished__isnull=False).exists()
+                    if corrected:
+                        the_correction = QuizCorrection.objects.filter(corrected_quizrun=the_quiz_done).filter(date_finished__isnull=False).first()
+                        correction_id = the_correction.id
+
+            # quiz_done is checked first because it might happen that the group has started a new quiz run and left it blank
+            # this way, if at least one is done it's considered completed, and only if not a single run has been completed is
+            # considered 'in progress'
+            if quiz_done:
+                if quiz.type == 5:
+                    if corrected:
+                        state = 'corrected'
+                    else:
+                        state = 'pending_correction'
+                else:
+                    state = 'done'
+            elif quiz_in_progress:
+                state = 'progress'
+
+            data[str(group.id) + '_' + str(quiz.id)] = {'state': state, 'type': quiz.type, 'upload_url': uploaded_file, 'correction_id': correction_id}
+    return render(request, 'main/reports/progress_center.html', {'center': center, 'data': json.dumps(data), 'teacher_filters': teacher_filters, 'groups': slug_groups, 'current_slug': slug})
 
 @login_required
 def center_progress(request, center_id=None):
     center = get_object_or_404(EducationCenter, pk=center_id)
     center_groups = center.center_groups()
     data = {}
+
+    teacher_filters = []
+    filters = Profile.objects.filter(user__in=center_groups).values('group_class', 'group_class_slug').distinct().order_by('group_class')
+    for f in filters:
+        if f['group_class']:
+            teacher_filters.append({'class': f['group_class'], 'slug': f['group_class_slug']})
+
     for group in center_groups:
         quizzes_doable_by_group = group.profile.available_tests
         for quiz in quizzes_doable_by_group:
@@ -2386,7 +2512,27 @@ def center_progress(request, center_id=None):
                 state = 'progress'
 
             data[ str(group.id) + '_' + str(quiz.id) ] = { 'state': state, 'type': quiz.type, 'upload_url': uploaded_file, 'correction_id': correction_id }
-    return render(request, 'main/reports/progress_center.html', {'center': center, 'data': json.dumps(data)})
+    return render(request, 'main/reports/progress_center.html', {'center': center, 'data': json.dumps(data), 'teacher_filters': teacher_filters, 'groups': center_groups})
+
+
+@login_required
+def reports_poll_class(request, poll_id=None, teacher_id=None, slug=None):
+    poll = get_object_or_404(Quiz, pk=poll_id)
+    teacher = get_object_or_404(User, pk=teacher_id)
+    center = teacher.profile.teacher_belongs_to
+    group = None
+    data = {}
+    groups_by_slug = User.objects.filter(profile__is_group=True).filter(profile__group_teacher=teacher).filter(profile__group_class_slug=slug).values('id').distinct()
+    quizruns_in_class_completed = QuizRun.objects.filter(quiz=poll).filter(taken_by_id__in=groups_by_slug).exclude(date_finished__isnull=True).count()
+    if quizruns_in_class_completed > 0:
+        for question in poll.sorted_questions_set:
+            for answer in question.sorted_answers_set:
+                data[str(question.id) + '_' + str(answer.id)] = {
+                    'n': answer.how_many_times_answered_by_slug(teacher.id, slug),
+                    'total': answer.question.total_number_of_answers_of_question_per_slug(teacher.id, slug),
+                    'perc': answer.answered_by_perc_class(teacher.id, slug)}
+
+    return render(request, 'main/reports/poll_center_or_group.html', {'quiz': poll, 'data': json.dumps(data),'len_data': len(data), 'group': group, 'center': center})
 
 
 @login_required

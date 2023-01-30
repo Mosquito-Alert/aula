@@ -96,3 +96,11 @@
 .campanya {
     color: orange !important;
 }
+
+.filter_row {
+    margin: 10px;
+}
+
+.class_filter {
+    margin: 2px;
+}

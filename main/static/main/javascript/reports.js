@@ -22,6 +22,11 @@ $(document).ready( function () {
         window.open(url, '_blank').focus();
     }
 
+    var generate_query_class_poll = function(poll_id,teacher_id,slug){
+        var url = '/reports/poll_class/' + poll_id + '/' + teacher_id + '/' + slug + '/';
+        window.open(url, '_blank').focus();
+    }
+
     var generate_progress_center = function(center_id){
         var url = '/reports/center_progress/' + center_id + '/';
         window.open(url, '_blank').focus();
@@ -105,6 +110,16 @@ $(document).ready( function () {
             toastr.error(gettext('Cal seleccionar una enquesta'));
         }else{
             generate_query_teacher_poll(poll_id,center_id);
+        }
+    });
+
+    $('#poll_class').click( function(){
+        var poll_id = $('#select_poll_2').val();
+        var slug = $('#select_poll_class').val();
+        if(poll_id == '' || slug == ''){
+            toastr.error(gettext('Cal seleccionar una enquesta i una classe'));
+        }else{
+            generate_query_class_poll(poll_id,teacher_id,slug);
         }
     });
 });
