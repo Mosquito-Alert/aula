@@ -466,6 +466,7 @@ class Profile(models.Model):
     n_students_in_group = models.IntegerField(default=3)
     group_hashtag = models.CharField(max_length=20, null=True, blank=True, unique=True)
     campaign = models.ForeignKey(Campaign, default=get_current_active_campaign, null=True, blank=True, on_delete=models.SET_NULL, related_name="profiles")
+    teacher_password = models.CharField(max_length=128, null=True)
 
     @property
     def center(self):

@@ -75,11 +75,12 @@ var table = $('#teacher_list').DataTable( {
     'columns': [
         { 'data': 'username' }
         ,{ 'data': 'center' }
+        ,{ 'data': 'password' }
         ,{ 'data': 'is_active' }
     ],
     'columnDefs': [
         {
-            'targets': 3,
+            'targets': 4,
             'data': 'is_active',
             'sortable': false,
             'render': function(value){
@@ -91,7 +92,7 @@ var table = $('#teacher_list').DataTable( {
             }
         },
         {
-            'targets': 4,
+            'targets': 5,
             'data': 'is_active',
             'sortable': false,
             'render': function(value){
@@ -103,7 +104,7 @@ var table = $('#teacher_list').DataTable( {
             }
         },
         {
-            'targets': 5,
+            'targets': 6,
             'data': null,
             'sortable': false,
             'render': function(value){
@@ -124,6 +125,10 @@ var table = $('#teacher_list').DataTable( {
         },
         {
             'targets':2,
+            'title': gettext('Password')
+        },
+        {
+            'targets':3,
             'title': gettext('Usuari actiu?'),
             'render': function(value){
                 if(value == true){

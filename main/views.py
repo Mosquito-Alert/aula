@@ -1018,6 +1018,7 @@ def teacher_new(request):
         if form.is_valid():
             user = form.save()
             center = form.cleaned_data.get('belongs_to')
+            user.profile.teacher_password = form.cleaned_data.get('password1')
             user.profile.is_teacher=True
             user.profile.teacher_belongs_to = center
             user.save()
@@ -1040,6 +1041,7 @@ def change_password(request, user_id=None):
         form = ChangePasswordForm(request.POST)
         if form.is_valid():
             password = form.cleaned_data['password_1']
+            this_user.profile.teacher_password = password
             this_user.set_password(password)
             this_user.save()
             url = reverse('teacher_list')
@@ -1462,10 +1464,10 @@ def quiz_solutions(request):
 @api_view(['GET'])
 def teachers_datatable_list(request):
     if request.method == 'GET':
-        search_field_list = ('username','center')
+        search_field_list = ('username','center','password')
         queryset = User.objects.filter(profile__is_teacher=True).filter(profile__campaign__active=True)
-        field_translation_list = {'username': 'username', 'center': 'profile__teacher_belongs_to__name'}
-        sort_translation_list = {'username': 'username', 'center': 'profile__teacher_belongs_to__name'}
+        field_translation_list = {'username': 'username', 'center': 'profile__teacher_belongs_to__name', 'password': 'profile__teacher_password'}
+        sort_translation_list = {'username': 'username', 'center': 'profile__teacher_belongs_to__name', 'password': 'profile__teacher_password'}
         response = generic_datatable_list_endpoint(request, search_field_list, queryset, TeacherSerializer, field_translation_list, sort_translation_list)
         return response
 

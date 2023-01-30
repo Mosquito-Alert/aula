@@ -207,14 +207,21 @@ class TeacherComboSerializer(serializers.ModelSerializer):
 
 class TeacherSerializer(serializers.ModelSerializer):
     center = serializers.SerializerMethodField('get_center')
+    password = serializers.SerializerMethodField('get_password')
 
     class Meta:
         model = User
-        fields = ['id','username','center','is_active']
+        fields = ['id','username','center','is_active','password']
 
     def get_center(self,obj):
         if obj.profile:
             return obj.profile.teacher_belongs_to.name
+        else:
+            return ''
+
+    def get_password(self,obj):
+        if obj.profile:
+            return obj.profile.teacher_password
         else:
             return ''
 

@@ -245,8 +245,8 @@ class SimplifiedAlumFormForAdmin(SimplifiedAlumFormForTeacher):
 
 
 class SimplifiedTeacherForm(ModelForm):
-    password1 = forms.CharField(label=_("Password"), strip=False,widget=forms.PasswordInput(attrs={'autocomplete': 'new-password', 'class': 'form-control'}),)
-    password2 = forms.CharField(label=_("Repetir password"), strip=False,widget=forms.PasswordInput(attrs={'autocomplete': 'new-password', 'class': 'form-control'}), )
+    password1 = forms.CharField(label=_("Password"), strip=False,widget=forms.TextInput(attrs={'autocomplete': 'new-password', 'class': 'form-control'}),)
+    password2 = forms.CharField(label=_("Repetir password"), strip=False,widget=forms.TextInput(attrs={'autocomplete': 'new-password', 'class': 'form-control'}), )
     username = forms.CharField(label=_("Username"), strip=False,widget=forms.TextInput(attrs={'class': 'form-control' }), )
     belongs_to = forms.ModelChoiceField(label=_("Centre al que pertany"), queryset=EducationCenter.objects.filter(campaign__active=True).order_by('name'),widget=forms.Select(attrs={'class': 'form-control'}))
 
@@ -264,16 +264,16 @@ class SimplifiedTeacherForm(ModelForm):
             )
         return password2
 
-    def _post_clean(self):
-        super()._post_clean()
-        # Validate the password after self.instance is updated with form data
-        # by super().
-        password = self.cleaned_data.get('password2')
-        if password:
-            try:
-                password_validation.validate_password(password, self.instance)
-            except ValidationError as error:
-                self.add_error('password2', error)
+    # def _post_clean(self):
+    #     super()._post_clean()
+    #     # Validate the password after self.instance is updated with form data
+    #     # by super().
+    #     password = self.cleaned_data.get('password2')
+    #     if password:
+    #         try:
+    #             password_validation.validate_password(password, self.instance)
+    #         except ValidationError as error:
+    #             self.add_error('password2', error)
 
     def save(self, commit=True):
         user = super().save(commit=False)
@@ -363,7 +363,6 @@ class TeacherUpdateForm(forms.ModelForm):
         model = User
         fields = ("username",)
         field_classes = {'username': UsernameField}
-
 
 class ChangePasswordForm(forms.Form):
     password_1 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}), required=True)
