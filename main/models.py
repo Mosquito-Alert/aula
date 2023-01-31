@@ -542,7 +542,7 @@ def save_user_profile(sender, instance, created, **kwargs):
             education_center = instance.profile.group_teacher.profile.teacher_belongs_to
             center_string = education_center.name
         instance.profile.center_string = center_string
-        if education_center is not None and created:
+        if education_center is not None and instance.profile.group_hashtag is None:
             groups = education_center.center_groups()
             if groups.count() == 0:
                 instance.profile.group_hashtag = education_center.hashtag + "_1"

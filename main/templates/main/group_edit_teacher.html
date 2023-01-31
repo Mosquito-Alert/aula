@@ -36,14 +36,14 @@
           </div>
         </div>
         <div id="div_id_group_class" class="control-group">
-            <label for="id_group_class" class="control-label "> Nom de la classe (es fa servir per filtrar)</label>
+            <label for="id_group_class" class="control-label "> {% trans 'Nom de la classe (es fa servir per filtrar)' %}</label>
             <div class="controls">
                 <input type="text" name="group_class" value="{{ group_class|default_if_none:'' }}" class="form-control textinput textInput" id="id_group_class">
             </div>
         </div>
         <div id="div_id_n_students_in_group" class="control-group">
           <label for="id_n_students_in_group" class="control-label requiredField">
-            Nombre d'estudiants al grup<span class="asteriskField">*</span>
+            {% trans 'Nombre estudiants al grup' %}<span class="asteriskField">*</span>
           </label>
           <div class="controls">
             <input type="number" name="n_students_in_group" value="{{ n_students_in_group }}" class="form-control numberinput" required="" id="id_n_students_in_group">

@@ -63,7 +63,7 @@
                             {%if elem.is_corrected %}
                                 <div class="test_button_wrapper"><a title="" class="btn btn-success" href="{% url 'open_answer_detail' elem.correction.id %}" target="_blank" role="button">{% trans 'Resultats' %} <i class="far fa-eye"></i></a></div>
                             {% else %}
-                                <a title="{% trans 'Aquest material encara no s\'ha corregit' %}" class="btn btn-secondary" href="" role="button"><i class="fas fa-hourglass"></i></a>
+                                <a title="{% trans 'Aquest material encara no s`ha corregit' %}" class="btn btn-secondary" href="" role="button"><i class="fas fa-hourglass"></i></a>
                             {% endif %}
                         {% endif %}
                         {% if elem.repeatable %}

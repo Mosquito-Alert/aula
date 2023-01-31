@@ -44,9 +44,9 @@
                         {% endif %}
                     {% elif elem.status == 'in_progress' %}
                         {% if elem.quiz.is_upload %}
-                        <a title="{% trans 'Continuar fent la prova!' %}" class="btn btn-success" href="{% url 'quiz_upload_link' elem.quiz.id %}" role="button">Continuar <i class="fas fa-arrow-right"></i></a>
+                        <a title="{% trans 'Continuar fent la prova!' %}" class="btn btn-success" href="{% url 'quiz_upload_link' elem.quiz.id %}" role="button">{% trans 'Continuar' %} <i class="fas fa-arrow-right"></i></a>
                         {% else %}
-                        <a title="{% trans 'Continuar fent la prova!' %}" class="btn btn-success" href="{% url 'quiz_take' elem.quiz.id 1 elem.quizrun.id %}" role="button">Continuar <i class="fas fa-arrow-right"></i></a>
+                        <a title="{% trans 'Continuar fent la prova!' %}" class="btn btn-success" href="{% url 'quiz_take' elem.quiz.id 1 elem.quizrun.id %}" role="button">{% trans 'Continuar' %} <i class="fas fa-arrow-right"></i></a>
                         {% endif %}
                     {% elif elem.status == 'done' %}
                         {% if elem.quiz.is_poll %}

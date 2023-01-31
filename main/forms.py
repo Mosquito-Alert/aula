@@ -88,7 +88,7 @@ class SimplifiedGroupForm(ModelForm):
     group_public_name = forms.CharField(label=_("Nom públic del grup"), strip=False,widget=forms.TextInput(attrs={'class': 'form-control' }), )
     group_class = forms.CharField(label=_("Nom de la classe (es fa servir per filtrar)"), strip=False,widget=forms.TextInput(attrs={'class': 'form-control' }), required=False)
     photo_path = forms.CharField(widget=forms.HiddenInput(), required=False)
-    n_students_in_group = forms.IntegerField(label=_("Nombre d'estudiants al grup"),initial=3, widget=forms.NumberInput(attrs={'class': 'form-control' }))
+    n_students_in_group = forms.IntegerField(label=_("Nombre estudiants al grup"),initial=3, widget=forms.NumberInput(attrs={'class': 'form-control' }))
 
     class Meta:
         model = User

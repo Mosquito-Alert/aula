@@ -10,7 +10,7 @@
 <div class="container">
     {% for quiz in grupos_profe %}
     <div class="row alert alert-success">
-        <div class="col-md-6"><h2><span class="badge badge-info">{{ quiz.nomActivitat }}</span> - {{ quiz.autor }}</h2></div>
+        <div class="col-md-6"><h2><span class="badge badge-info">{{ quiz.nomActivitat }}</span></h2></div>
         <div class="col-md-6" style="text-align:right;"><span>{% trans 'La prova ha estat pujada per' %} {{ quiz.realitzatPer }} {% trans 'grups' %}</span></div>
     </div>
 
@@ -21,6 +21,7 @@
                 <th></th>
                 <th>{% trans 'Centre' %}</th>
                 <th>{% trans 'Grup' %}</th>
+                <th>{% trans 'Classe' %}</th>
                 <th>{% trans 'Arxiu pujat' %}</th>
                 <th>{% trans 'Link a l&#39;arxiu' %}</th>
                 <th>{% trans 'Data pujada arxiu' %}</th>
@@ -32,6 +33,7 @@
                     </td>
                     <td>{{ quizrun.centro }}</td>
                     <td>{{ quizrun.nombreGrupo }}</td>
+                    <td>{{ quizrun.clase }}</td>
                     {% if quizrun.uploadedFileFlag %}
                         <td><i class="fas fa-check" style="color: green;"></i></td>
                     {% else %}

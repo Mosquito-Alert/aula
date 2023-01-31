@@ -1437,7 +1437,7 @@ def open_answer_results(request):
                         group_array.append({'group': g, 'done': True, 'quizrun': the_quizrun, 'corrected': corrected, 'correction': None})
                 else:
                     group_array.append({ 'group': g, 'done': False, 'quizrun': None, 'corrected': False})
-            group_array.sort(key=lambda x: (x['group'].profile.center, x['group'].profile.group_public_name))
+            group_array.sort(key=lambda x: (x['group'].profile.center, x['group'].profile.group_class if x['group'].profile.group_class is not None else '', x['group'].profile.group_public_name))
             quiz_array.append({ 'quiz': quiz, 'groups': group_array })
     else:
         message = _("Estàs intentant accedir a una pàgina a la que no tens permís.")
@@ -2254,6 +2254,7 @@ def upload_file_solutions(request):
                         'imagenGrupo': url_pic,
                         'nombreGrupo': grupo.profile.group_public_name,
                         'centro': grupo.profile.center,
+                        'clase': grupo.profile.group_class if grupo.profile.group_class is not None else '',
                         'uploadedFileFlag': True,
                         'linkFile': quizrun[0].uploaded_file,
                         'uploadDate': quizrun[0].date_finished
@@ -2268,11 +2269,12 @@ def upload_file_solutions(request):
                         'imagenGrupo': url_pic,
                         'nombreGrupo': grupo.profile.group_public_name,
                         'centro': grupo.profile.center,
+                        'clase': grupo.profile.group_class if grupo.profile.group_class is not None else '',
                         'uploadedFileFlag': False,
                         'linkFile': None,
                         'uploadDate': None
                     })
-            arrayGrupos.sort(key=lambda x: (x['centro'], x['nombreGrupo']))
+            arrayGrupos.sort(key=lambda x: (x['centro'], x['clase'], x['nombreGrupo']))
             #Crear array amb informacio de cada prova
             autor = _('Anònim')
             realitzat_per = str(idQuizz.taken_by_n_people)
@@ -2308,6 +2310,7 @@ def upload_file_solutions(request):
                         'imagenGrupo': url_pic,
                         'nombreGrupo': grupo.profile.group_public_name,
                         'centro': grupo.profile.center,
+                        'clase': grupo.profile.group_class if grupo.profile.group_class is not None else '',
                         'uploadedFileFlag': True,
                         'linkFile': quizrun[0].uploaded_file,
                         'uploadDate': quizrun[0].date_finished
@@ -2322,11 +2325,12 @@ def upload_file_solutions(request):
                         'imagenGrupo': url_pic,
                         'nombreGrupo': grupo.profile.group_public_name,
                         'centro': grupo.profile.center,
+                        'clase': grupo.profile.group_class if grupo.profile.group_class is not None else '',
                         'uploadedFileFlag': False,
                         'linkFile': None,
                         'uploadDate': None
                     })
-            arrayGrupos.sort(key=lambda x: (x['centro'], x['nombreGrupo']))
+            arrayGrupos.sort(key=lambda x: (x['centro'], x['clase'], x['nombreGrupo']))
             #Crear array amb informacio de cada prova
             autor = _('Anònim')
             if idQuizz.author:

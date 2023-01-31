@@ -20,6 +20,7 @@
                 <th></th>
                 <th>{% trans 'Centre' %}</th>
                 <th>{% trans 'Grup' %}</th>
+                <th>{% trans 'Classe' %}</th>
                 <th>{% trans 'El grup ja ha acabat la prova?' %}</th>
                 <th>{% trans 'Corregir prova' %}</th>
                 <th>{% trans 'Estat de la prova' %}</th>
@@ -27,10 +28,11 @@
             {% for group in quiz.groups %}
                 <tr style="text-align: center;">
                     <td>
-                        <img src="{{ group.group.profile.group_picture }}">
+                        <img src="{{ group.group.profile.group_picture.url }}">
                     </td>
                     <td>{{ group.group.profile.center }}</td>
                     <td>{{ group.group.profile.group_public_name }}</td>
+                    <td>{{ group.group.profile.group_class }}</td>
                     {% if group.done %}
                         <td><i class="fas fa-check" style="color: green;"></i></td>
                         {% if group.corrected %}
@@ -40,7 +42,7 @@
                         {% endif %}
                     {% else %}
                         <td><i class="fas fa-times" style="color: red;"></i></td>
-                        <td> <button title="{% trans 'Cal esperar que l\'alumne completi la prova abans de corregir-la' %}" class="correct btn btn-secondary disabled" aria-disabled="true"><i class="fas fa-cog" aria-hidden="true"></i></button> </td>
+                        <td> <button title="{% trans 'Cal esperar que l`alumne completi la prova abans de corregir-la' %}" class="correct btn btn-secondary disabled" aria-disabled="true"><i class="fas fa-cog" aria-hidden="true"></i></button> </td>
                     {% endif %}
                     {% if group.corrected %}
                         <td>{% trans 'Corregida' %} - {{ group.correction.correction_value }}</td>
