@@ -8,6 +8,16 @@
 {% block sub_jumbo %}{% endblock %}
 {% block main %}
 <div class="container">
+    {% if teacher_filters %}
+    <div class="row filter_row">
+        <div class="col-md-2"> {% trans 'Filtre per classe' %}:  </div>
+        <div class="col-md-2"> <a href="{% url 'open_answer_results' %}" class="btn class_filter {% if not current_slug %}btn-warning{% else %}btn-primary{%endif%}"> {% trans 'Sense filtre' %} </a>  </div>
+        {% for filter in teacher_filters %}
+        <div class="col-md-2"> <a href="{% url 'open_answer_results_class' filter.slug %}" class="btn class_filter {% if current_slug == filter.slug%}btn-warning{% else %}btn-primary{% endif %}"> {{ filter.class }} </a>  </div>
+        {% endfor %}
+    </div>
+    <hr>
+    {% endif %}
     {% for quiz in quizzes %}
     <div class="row alert alert-success">
         <div class="col-md-6"><h2><span class="badge badge-info">{{ quiz.quiz.name }}</span></h2></div>

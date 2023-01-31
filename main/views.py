@@ -1408,19 +1408,21 @@ def open_answer_new(request, quizrun_id=None):
         go_back_to = "my_hub"
         return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
 
-
 @login_required
-def open_answer_results(request):
+def open_answer_results_class(request, slug=None):
     this_user = request.user
     quiz_array = []
-    if this_user.is_superuser:
-        #my_quizzes = Quiz.objects.filter(type=0).order_by('name')
-        pass
-    elif this_user.profile and this_user.profile.is_teacher:
-        #my_quizzes = Quiz.objects.filter(author=this_user).filter(type=0).order_by('name')
+    teacher_filters = []
+    if this_user.profile and this_user.profile.is_teacher:
         teacher_campaign = this_user.profile.campaign
-        groups = User.objects.filter(profile__group_teacher=this_user).filter(profile__campaign=teacher_campaign).order_by('profile__group_public_name')
+        groups = User.objects.filter(profile__group_teacher=this_user).filter(profile__campaign=teacher_campaign).filter(profile__group_class_slug=slug).order_by('profile__group_public_name')
         openanswer_quizzes = Quiz.objects.filter(Q(author=this_user) | Q(author__isnull=True)).filter(type=5).filter(campaign=teacher_campaign).order_by('name')
+
+        filters = Profile.objects.filter(group_teacher=this_user).values('group_class','group_class_slug').distinct().order_by('group_class')
+        for f in filters:
+            if f['group_class']:
+                teacher_filters.append({'class': f['group_class'], 'slug': f['group_class_slug']})
+
         for quiz in openanswer_quizzes:
             group_array = []
             for g in groups:
@@ -1444,7 +1446,51 @@ def open_answer_results(request):
         go_back_to = "my_hub"
         return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
     #print(my_quizzes[1].taken_by[0].taken_by.profile.group_picture_thumbnail.url)
-    return render(request, 'main/open_answers_result.html', {'quizzes': quiz_array})
+    return render(request, 'main/open_answers_result.html', {'quizzes': quiz_array, 'teacher_filters': teacher_filters, 'current_slug': slug})
+
+@login_required
+def open_answer_results(request):
+    this_user = request.user
+    quiz_array = []
+    teacher_filters = []
+    if this_user.is_superuser:
+        #my_quizzes = Quiz.objects.filter(type=0).order_by('name')
+        pass
+    elif this_user.profile and this_user.profile.is_teacher:
+        #my_quizzes = Quiz.objects.filter(author=this_user).filter(type=0).order_by('name')
+        teacher_campaign = this_user.profile.campaign
+        groups = User.objects.filter(profile__group_teacher=this_user).filter(profile__campaign=teacher_campaign).order_by('profile__group_public_name')
+        openanswer_quizzes = Quiz.objects.filter(Q(author=this_user) | Q(author__isnull=True)).filter(type=5).filter(campaign=teacher_campaign).order_by('name')
+
+        filters = Profile.objects.filter(group_teacher=this_user).values('group_class','group_class_slug').distinct().order_by('group_class')
+        for f in filters:
+            if f['group_class']:
+                teacher_filters.append({'class': f['group_class'], 'slug': f['group_class_slug']})
+
+        for quiz in openanswer_quizzes:
+            group_array = []
+            for g in groups:
+                quizrun = QuizRun.objects.filter(quiz=quiz).filter(taken_by=g).exclude(date_finished=None)
+                quizrun_done = quizrun.exists()
+                if quizrun_done:
+                    the_quizrun = quizrun.first()
+                    correction = QuizCorrection.objects.filter(corrected_quizrun=the_quizrun).filter(corrector=this_user).exclude(date_finished=None)
+                    corrected = correction.exists()
+                    if corrected:
+                        the_correction = correction.first()
+                        group_array.append({ 'group': g, 'done': True, 'quizrun': the_quizrun, 'corrected': corrected, 'correction': the_correction })
+                    else:
+                        group_array.append({'group': g, 'done': True, 'quizrun': the_quizrun, 'corrected': corrected, 'correction': None})
+                else:
+                    group_array.append({ 'group': g, 'done': False, 'quizrun': None, 'corrected': False})
+            group_array.sort(key=lambda x: (x['group'].profile.center, x['group'].profile.group_class if x['group'].profile.group_class is not None else '', x['group'].profile.group_public_name))
+            quiz_array.append({ 'quiz': quiz, 'groups': group_array })
+    else:
+        message = _("Estàs intentant accedir a una pàgina a la que no tens permís.")
+        go_back_to = "my_hub"
+        return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
+    #print(my_quizzes[1].taken_by[0].taken_by.profile.group_picture_thumbnail.url)
+    return render(request, 'main/open_answers_result.html', {'quizzes': quiz_array, 'teacher_filters': teacher_filters})
 
 @login_required
 def quiz_solutions(request):
@@ -2227,9 +2273,85 @@ def test_result(request, quiz_id=None):
 
 
 @login_required
+def upload_file_solutions_class(request, slug=None):
+    this_user = request.user
+    p = []
+    teacher_filters = []
+    uploadedFileFlag = False
+    if this_user.profile and this_user.profile.is_teacher:
+        teacher_campaign = this_user.profile.campaign
+        my_quizzes = Quiz.objects.filter(Q(author=this_user) | Q(author__isnull=True)).filter(type=3).filter(campaign=teacher_campaign).order_by('name')
+
+        filters = Profile.objects.filter(group_teacher=this_user).values('group_class','group_class_slug').distinct().order_by('group_class')
+        for f in filters:
+            if f['group_class']:
+                teacher_filters.append({'class': f['group_class'], 'slug': f['group_class_slug']})
+
+        for idQuizz in my_quizzes:
+            arrayGrupos = []
+            grupos_profe = User.objects.filter(profile__group_teacher=this_user).filter(profile__campaign=teacher_campaign).filter(profile__group_class_slug=slug).order_by('profile__group_public_name')
+
+            # Afegir flag per saber quins grups han fet la entrega
+            for grupo in grupos_profe:
+                quizrun = QuizRun.objects.filter(quiz=idQuizz).filter(taken_by=grupo).exclude(date_finished=None)
+                upload_done = quizrun.exists()
+
+                if upload_done:
+                    url_pic = ''
+                    try:
+                        url_pic = grupo.profile.group_picture_thumbnail_small.url
+                    except:
+                        pass
+                    arrayGrupos.append({
+                        'imagenGrupo': url_pic,
+                        'nombreGrupo': grupo.profile.group_public_name,
+                        'centro': grupo.profile.center,
+                        'clase': grupo.profile.group_class if grupo.profile.group_class is not None else '',
+                        'uploadedFileFlag': True,
+                        'linkFile': quizrun[0].uploaded_file,
+                        'uploadDate': quizrun[0].date_finished
+                    })
+                else:
+                    url_pic = ''
+                    try:
+                        url_pic = grupo.profile.group_picture_thumbnail_small.url
+                    except:
+                        pass
+                    arrayGrupos.append({
+                        'imagenGrupo': url_pic,
+                        'nombreGrupo': grupo.profile.group_public_name,
+                        'centro': grupo.profile.center,
+                        'clase': grupo.profile.group_class if grupo.profile.group_class is not None else '',
+                        'uploadedFileFlag': False,
+                        'linkFile': None,
+                        'uploadDate': None
+                    })
+            arrayGrupos.sort(key=lambda x: (x['centro'], x['clase'], x['nombreGrupo']))
+            # Crear array amb informacio de cada prova
+            autor = _('Anònim')
+            if idQuizz.author:
+                autor = idQuizz.author.username
+            realitzat_per = QuizRun.objects.filter(quiz=idQuizz).filter(taken_by__in=grupos_profe).exclude(
+                date_finished=None).count()
+            p.append({
+                'nomActivitat': idQuizz.name,
+                'autor': autor,
+                # 'realitzatPer': str(idQuizz.taken_by_n_people) + '/' + str(this_user.profile.tutored_groups),
+                'realitzatPer': str(realitzat_per) + '/' + str(this_user.profile.tutored_groups),
+                'grupos': arrayGrupos
+            })
+    else:
+        message = _("Estàs intentant accedir a una pàgina a la que no tens permís.")
+        go_back_to = "my_hub"
+        return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
+
+    return render(request, 'main/upload_file_solutions.html',{'my_quizzes': my_quizzes, 'grupos_profe': p, "teacher_filters": teacher_filters, "current_slug": slug})
+
+@login_required
 def upload_file_solutions(request):
     this_user = request.user
     p = []
+    teacher_filters = []
     uploadedFileFlag = False
 
     if this_user.is_superuser:
@@ -2291,6 +2413,12 @@ def upload_file_solutions(request):
         teacher_campaign = this_user.profile.campaign
         my_quizzes = Quiz.objects.filter(Q(author=this_user) | Q(author__isnull=True)).filter(type=3).filter(campaign=teacher_campaign).order_by('name')
 
+        filters = Profile.objects.filter(group_teacher=this_user).values('group_class', 'group_class_slug').distinct().order_by(
+            'group_class')
+        for f in filters:
+            if f['group_class']:
+                teacher_filters.append({'class': f['group_class'], 'slug': f['group_class_slug']})
+
         for idQuizz in my_quizzes:
             arrayGrupos = []
             grupos_profe = User.objects.filter(profile__group_teacher=this_user).filter(profile__campaign=teacher_campaign).order_by('profile__group_public_name')
@@ -2347,7 +2475,7 @@ def upload_file_solutions(request):
         message = _("Estàs intentant accedir a una pàgina a la que no tens permís.")
         go_back_to = "my_hub"
         return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
-    return render(request, 'main/upload_file_solutions.html', {'my_quizzes': my_quizzes, 'grupos_profe': p})
+    return render(request, 'main/upload_file_solutions.html', {'my_quizzes': my_quizzes, 'grupos_profe': p, "teacher_filters": teacher_filters})
 
 
 
