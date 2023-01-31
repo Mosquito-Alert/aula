@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-31 09:33+0000\n"
+"POT-Creation-Date: 2023-01-31 11:14+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -98,12 +98,12 @@ msgstr ""
 msgid "Professor"
 msgstr ""
 
-#: main/forms.py:110 main/templates/main/open_answers_result.html:22
+#: main/forms.py:110 main/templates/main/open_answers_result.html:32
 #: main/templates/main/poll_result_group.html:9
 #: main/templates/main/reports/poll_center_or_group.html:11
 #: main/templates/main/test_result.html:54
 #: main/templates/main/test_results_detail_view.html:10
-#: main/templates/main/upload_file_solutions.html:23
+#: main/templates/main/upload_file_solutions.html:33
 msgid "Grup"
 msgstr ""
 
@@ -377,6 +377,10 @@ msgstr ""
 
 #: main/templates/main/alum_hub.html:66
 msgid "Aquest material encara no s`ha corregit"
+msgstr ""
+
+#: main/templates/main/alum_hub.html:70
+msgid "Repetir"
 msgstr ""
 
 #: main/templates/main/alum_hub.html:81
@@ -704,9 +708,9 @@ msgid "Afegir foto"
 msgstr ""
 
 #: main/templates/main/group_edit.html:76 main/templates/main/group_new.html:48
-#: main/templates/main/open_answers_result.html:21
+#: main/templates/main/open_answers_result.html:31
 #: main/templates/main/quiz_assign_admin.html:37
-#: main/templates/main/upload_file_solutions.html:22
+#: main/templates/main/upload_file_solutions.html:32
 #: main/templates/main/user_sub.html:14
 #: main/templates/pdf_templates/group_credentials_list_admin.html:36
 msgid "Centre"
@@ -849,38 +853,52 @@ msgstr ""
 msgid "Llista de proves per grup"
 msgstr ""
 
-#: main/templates/main/open_answers_result.html:23
+#: main/templates/main/open_answers_result.html:13
+#: main/templates/main/reports/progress_center.html:43
+#: main/templates/main/test_result.html:41
+#: main/templates/main/upload_file_solutions.html:13
+msgid "Filtre per classe"
+msgstr ""
+
+#: main/templates/main/open_answers_result.html:14
+#: main/templates/main/reports/progress_center.html:44
+#: main/templates/main/test_result.html:42
+#: main/templates/main/upload_file_solutions.html:14
+msgid "Sense filtre"
+msgstr ""
+
+#: main/templates/main/open_answers_result.html:33
 #: main/templates/main/test_result.html:56
-#: main/templates/main/upload_file_solutions.html:24
+#: main/templates/main/upload_file_solutions.html:34
 msgid "Classe"
 msgstr ""
 
-#: main/templates/main/open_answers_result.html:24
+#: main/templates/main/open_answers_result.html:34
 msgid "El grup ja ha acabat la prova?"
 msgstr ""
 
-#: main/templates/main/open_answers_result.html:25
-#: main/templates/main/open_answers_result.html:41
+#: main/templates/main/open_answers_result.html:35
+#: main/templates/main/open_answers_result.html:51
 msgid "Corregir prova"
 msgstr ""
 
-#: main/templates/main/open_answers_result.html:26
+#: main/templates/main/open_answers_result.html:36
 msgid "Estat de la prova"
 msgstr ""
 
-#: main/templates/main/open_answers_result.html:39
+#: main/templates/main/open_answers_result.html:49
 msgid "Editar correcció"
 msgstr ""
 
-#: main/templates/main/open_answers_result.html:45
+#: main/templates/main/open_answers_result.html:55
 msgid "Cal esperar que l`alumne completi la prova abans de corregir-la"
 msgstr ""
 
-#: main/templates/main/open_answers_result.html:48
+#: main/templates/main/open_answers_result.html:58
 msgid "Corregida"
 msgstr ""
 
-#: main/templates/main/open_answers_result.html:50
+#: main/templates/main/open_answers_result.html:60
 msgid "Pendent de correcció"
 msgstr ""
 
@@ -1491,16 +1509,6 @@ msgstr ""
 msgid "El grup no ha començat encara a fer la prova"
 msgstr ""
 
-#: main/templates/main/reports/progress_center.html:43
-#: main/templates/main/test_result.html:41
-msgid "Filtre per classe"
-msgstr ""
-
-#: main/templates/main/reports/progress_center.html:44
-#: main/templates/main/test_result.html:42
-msgid "Sense filtre"
-msgstr ""
-
 #: main/templates/main/teacher_edit.html:15
 msgid "Editar mestre"
 msgstr ""
@@ -1608,7 +1616,7 @@ msgstr ""
 #: main/templates/main/test_result.html:14
 #: main/templates/main/test_result.html:17
 #: main/templates/main/test_result.html:19
-#: main/templates/main/upload_file_solutions.html:14
+#: main/templates/main/upload_file_solutions.html:24
 msgid "grups"
 msgstr ""
 
@@ -1677,23 +1685,23 @@ msgstr ""
 msgid "Resum dels arxius pujats"
 msgstr ""
 
-#: main/templates/main/upload_file_solutions.html:14
+#: main/templates/main/upload_file_solutions.html:24
 msgid "La prova ha estat pujada per"
 msgstr ""
 
-#: main/templates/main/upload_file_solutions.html:25
+#: main/templates/main/upload_file_solutions.html:35
 msgid "Arxiu pujat"
 msgstr ""
 
-#: main/templates/main/upload_file_solutions.html:26
+#: main/templates/main/upload_file_solutions.html:36
 msgid "Link a l&#39;arxiu"
 msgstr ""
 
-#: main/templates/main/upload_file_solutions.html:27
+#: main/templates/main/upload_file_solutions.html:37
 msgid "Data pujada arxiu"
 msgstr ""
 
-#: main/templates/main/upload_file_solutions.html:43
+#: main/templates/main/upload_file_solutions.html:53
 msgid "Verue arxiu"
 msgstr ""
 
@@ -1731,8 +1739,9 @@ msgstr ""
 #: main/views.py:193 main/views.py:203 main/views.py:251 main/views.py:378
 #: main/views.py:936 main/views.py:972 main/views.py:1006 main/views.py:1172
 #: main/views.py:1222 main/views.py:1336 main/views.py:1347 main/views.py:1372
-#: main/views.py:1407 main/views.py:1443 main/views.py:1457 main/views.py:2347
-#: main/views.py:2621 main/views.py:2632 main/views.py:2683
+#: main/views.py:1407 main/views.py:1445 main/views.py:1489 main/views.py:1503
+#: main/views.py:2344 main/views.py:2475 main/views.py:2749 main/views.py:2760
+#: main/views.py:2811
 msgid "Estàs intentant accedir a una pàgina a la que no tens permís."
 msgstr ""
 
@@ -1744,13 +1753,13 @@ msgstr ""
 msgid "Sembla que aquesta prova no està completada."
 msgstr ""
 
-#: main/views.py:505 main/views.py:523 main/views.py:540 main/views.py:2139
-#: main/views.py:2169 main/views.py:2189 main/views.py:2218 main/views.py:2362
+#: main/views.py:505 main/views.py:523 main/views.py:540 main/views.py:2185
+#: main/views.py:2215 main/views.py:2235 main/views.py:2264 main/views.py:2490
 msgid "No existeix aquesta prova."
 msgstr ""
 
-#: main/views.py:509 main/views.py:527 main/views.py:2143 main/views.py:2173
-#: main/views.py:2193 main/views.py:2222 main/views.py:2367
+#: main/views.py:509 main/views.py:527 main/views.py:2189 main/views.py:2219
+#: main/views.py:2239 main/views.py:2268 main/views.py:2495
 msgid ""
 "El test seleccionat no l'ha realitzat cap grup i encara no té resultats."
 msgstr ""
@@ -1826,7 +1835,7 @@ msgstr ""
 msgid "Llistat de credencials"
 msgstr ""
 
-#: main/views.py:2279 main/views.py:2335
+#: main/views.py:2331 main/views.py:2401 main/views.py:2463
 msgid "Anònim"
 msgstr ""
 

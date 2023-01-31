@@ -52,7 +52,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="ml-5">
-                                            <p>{{ answer.label }}) {{ answer.text }} ({{ answer.how_many_times_answered }}/{{ answer.question.total_number_of_answers_of_question }})<div class="progress"><div class="progress-bar" role="progressbar" style="width:{{ answer.answered_by_perc }}%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">{{ answer.answered_by_perc }}%</div></div> </p>
+                                            <p>{{ answer.label }}) {{ answer.text }} {% if request.user.is_superuser %}({{ answer.how_many_times_answered }}/{{ answer.question.total_number_of_answers_of_question }}){% endif %}<div class="progress"><div class="progress-bar" role="progressbar" style="width:{{ answer.answered_by_perc }}%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">{{ answer.answered_by_perc }}%</div></div> </p>
                                         </div>
                                     </div>
                                 </div>
@@ -65,7 +65,7 @@
 
                             <div class="col-md-12">
                                 <div class="ml-5">
-                                    <p>{{ answer.label }}) {{ answer.text }} ({{ answer.how_many_times_answered }}/{{ answer.question.total_number_of_answers_of_question }})<div class="progress"><div class="progress-bar" role="progressbar" style="width:{{ answer.answered_by_perc }}%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">{{ answer.answered_by_perc }}%</div></div> </p>
+                                    <p>{{ answer.label }}) {{ answer.text }} {% if request.user.is_superuser %}({{ answer.how_many_times_answered }}/{{ answer.question.total_number_of_answers_of_question }}){% endif %}<div class="progress"><div class="progress-bar" role="progressbar" style="width:{{ answer.answered_by_perc }}%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">{{ answer.answered_by_perc }}%</div></div> </p>
                                 </div>
                             </div>
                         </div>
