@@ -602,7 +602,7 @@ def question_open_update(request, pk=None):
             question = form.save()
             return HttpResponseRedirect('/quiz/update/' + str(question.quiz.id) + '/')
     return render(request, 'main/question_open_edit.html',
-                  {'form': form, 'question': question})
+                  {'form': form, 'question': question, 'quiz': question.quiz})
 
 @login_required
 def question_link_update(request, pk=None):
