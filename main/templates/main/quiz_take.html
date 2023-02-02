@@ -179,7 +179,7 @@
                     {% if quiz.is_open %}
                         <div class="row">
                             <div class="col-md-12">
-                                <textarea id="open_answer" class="form-control" rows="5">{% if user_input.open_answer %}{{ user_input.open_answer }}{% endif %}</textarea>
+                                <textarea id="open_answer" class="form-control" rows="5" maxlength="5000">{% if user_input.open_answer %}{{ user_input.open_answer }}{% endif %}</textarea>
                                 <input role="button" id="open_save" data-questionid="{{ question.id }}" class="btn btn-success form-control" type="button" value="{% trans 'Desa la resposta' %}"/>
                             </div>
                         </div>
@@ -214,7 +214,7 @@
     <div class="row end_comment" style="{% if quiz_run_done and quiz.comment_at_the_end %}display:block;{% else %}display:none;{% endif %}">
         <div class="form-group mx-auto">
             <label for="end_comments_id">{% trans 'Ja has acabat la enquesta! Si us plau, ens agradaria molt conèixer els teus comentaris al respecte, els pots escriure en aquest espai' %}:</label>
-            <textarea id="end_comments_id" cols="120" rows="5" maxlength="1500"></textarea>
+            <textarea id="end_comments_id" cols="120" rows="5" maxlength="5000"></textarea>
         </div>
     </div>
     <div class="row end_button" style="{%if not quiz_run_done %}display:none;{% endif %}">
