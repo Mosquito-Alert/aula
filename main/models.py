@@ -99,6 +99,17 @@ class Quiz(models.Model):
     campaign = models.ForeignKey(Campaign, default=get_current_active_campaign, null=True, blank=True, on_delete=models.SET_NULL, related_name="quizzes")
     seq = models.IntegerField('Sequence in which the quizzes are meant to be taken', blank=True, null=True)
 
+    def clone(self):
+        q = Quiz(
+            author=self.author,
+            name=self.name,
+            html_header=self.html_header,
+            published=self.published,
+            type=self.type,
+            seq=self.seq
+        )
+        return q
+
     def __str__(self):
         return "{0} - {1}".format(self.name, self.type_text)
 
@@ -305,6 +316,16 @@ class Question(models.Model):
     doc_link = models.URLField(max_length=1000, blank=True, null=True)
     question_picture = models.ImageField(upload_to='media/question_pics/', null=True)
 
+    def clone(self):
+        q = Question(
+            quiz=self.quiz,
+            text=self.text,
+            question_order=self.question_order,
+            doc_link=self.doc_link,
+            question_picture=self.question_picture
+        )
+        return q
+
     def __str__(self):
         return "{0} - {1}".format(self.text, str(self.quiz))
 
@@ -349,6 +370,15 @@ class Answer(models.Model):
     label = models.CharField('Label', max_length=10)
     text = models.CharField('Answer', max_length=255)
     is_correct = models.BooleanField('Correct answer', default=False)
+
+    def clone(self):
+        a = Answer(
+            question=self.question,
+            label=self.label,
+            text=self.text,
+            is_correct=self.is_correct
+        )
+        return a
 
     def __str__(self):
         return self.text
