@@ -11,9 +11,9 @@ import csv
 
 
 #USERS_FILE = app_config.proj_path + '/util_scripts/docents_2022.csv'
-USERS_FILE = app_config.proj_path + '/util_scripts/docents_2022_add.csv'
+USERS_FILE = app_config.proj_path + '/util_scripts/teachers_nl_2023.csv'
 #USERS_FILE = app_config.proj_path + '/util_scripts/test_profe.csv'
-OUT_FILE = app_config.proj_path + '/util_scripts/teachers_out_2.csv'
+OUT_FILE = app_config.proj_path + '/util_scripts/teachers_nl_2023_out.csv'
 
 
 def clean_teacher_name(original_name):
@@ -58,6 +58,7 @@ def create_users(campaign):
             except EducationCenter.DoesNotExist:
                 location = GEOSGeometry('POINT (0 0)', srid=4326)
                 center = EducationCenter(name=center_name, location=location, campaign=campaign)
+                center.hashtag = center.center_slug()
                 center.save()
                 print("Center does not exist")
 
@@ -74,6 +75,7 @@ def create_users(campaign):
             teacher_user.profile.is_teacher = True
             teacher_user.profile.teacher_belongs_to = center
             teacher_user.profile.campaign = campaign
+            teacher_user.profile.teacher_password = password
             teacher_user.save()
 
             new_rows.append(row + [ teacher_name, password ])
@@ -91,6 +93,6 @@ def delete_users(campaign):
 
 
 if __name__ == '__main__':
-    campaign = Campaign.objects.get(pk=2)
+    campaign = Campaign.objects.get(pk=5)
     create_users( campaign )
     #delete_users( campaign )
