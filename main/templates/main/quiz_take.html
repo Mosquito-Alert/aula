@@ -101,12 +101,23 @@
         display: inline-block;
     }
 
+    @keyframes shadow-mini-pulse
+    {
+     0% {
+      box-shadow: 0 0 0 0px rgba(255, 0, 0, 0.2);
+     }
+     100% {
+      box-shadow: 0 0 0 10px rgba(255, 0, 0, 0);
+     }
+    }
+
     .progress_pending {
         background-image: url({% static 'main/icons/fail.svg' %});
         background-repeat: no-repeat;
         width: 20px;
         height: 20px;
         display: inline-block;
+        animation: shadow-mini-pulse 1s infinite;;
     }
 </style>
 {% endblock %}
