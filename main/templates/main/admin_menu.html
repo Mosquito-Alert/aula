@@ -93,6 +93,19 @@
         </div>
         <div class="card mb-4 box-shadow">
             <div class="card-body">
+                <a href="{% url 'upload_admin_board' %}" class="btn btn-primary btn-sm">
+                <h5 class="card-title">{% trans 'Taulell d`arxius pujats comprovats' %}</h5>
+                <img class="img_icons" src="{% static 'main/icons/noun-check-3554048.svg' %}">
+                <p class="card-text">{% trans 'Llistat de fitxers pujats per centre, permet marcar com a revisats els fitxers' %}</p>
+                <!--<a href="{% url 'quiz_solutions' %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>-->
+                <!--<a href="{% url 'reports' %}" class="btn btn-primary"><i class="fas fa-link"></i></a>-->
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="card-deck mb-3 text-center">
+        <div class="card mb-4 box-shadow">
+            <div class="card-body">
                 <a href="{% url 'reports' %}" class="btn btn-primary btn-sm">
                 <h5 class="card-title">{% trans 'Informes' %}</h5>
                 <img class="img_icons" src="{% static 'main/icons/noun_report_3907422.svg' %}">

@@ -620,4 +620,5 @@ class Awards(models.Model):
 
 class CheckedQuizrun(models.Model):
     checked_by = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE, related_name="checked_quizruns")
-    quizrun = models.ForeignKey(QuizRun, null=True, blank=True, on_delete=models.CASCADE, related_name="checks")
+    quiz = models.ForeignKey(Quiz, null=True, blank=True, on_delete=models.CASCADE, related_name="checks")
+    group = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE, related_name="checkedbyadmin_quizruns")

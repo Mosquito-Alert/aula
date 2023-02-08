@@ -112,3 +112,7 @@
 .no_visited {
     background-color: gold;
 }
+
+.center_filter {
+    margin: 2px;
+}

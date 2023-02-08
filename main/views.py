@@ -1721,16 +1721,20 @@ def center_info(request, pk=None):
 def toggle_check(request):
     if request.method == 'POST':
         user = request.user
-        quizrun_id = request.data.get('quizrun_id', -1)
-        if quizrun_id == -1:
-            raise ParseError(detail='QuizRun id not specified')
-        quizrun = get_object_or_404(QuizRun, pk=quizrun_id)
+        quiz_id = request.data.get('quiz_id', -1)
+        group_id = request.data.get('group_id', -1)
+        if quiz_id == -1:
+            raise ParseError(detail='Quiz id not specified')
+        if group_id == -1:
+            raise ParseError(detail='Group id not specified')
+        quiz = get_object_or_404(Quiz, pk=quiz_id)
+        group = get_object_or_404(User, pk=group_id)
         try:
-            checked = CheckedQuizrun.objects.get(checked_by=user,quizrun=quizrun)
+            checked = CheckedQuizrun.objects.get(checked_by=user, quiz=quiz, group=group)
             checked.delete()
             return Response({'success': True }, status=status.HTTP_204_NO_CONTENT)
         except CheckedQuizrun.DoesNotExist:
-            checked = CheckedQuizrun( checked_by=user,quizrun=quizrun )
+            checked = CheckedQuizrun(checked_by=user, quiz=quiz, group=group)
             checked.save()
             return Response({'success': True}, status=status.HTTP_201_CREATED)
 
@@ -2369,32 +2373,42 @@ def upload_file_solutions_class(request, slug=None):
 
 @login_required
 def upload_admin_board(request):
-    centers = EducationCenter.objects.filter(campaign__active=True).order_by('name')
-    upload_quizzes = Quiz.objects.filter(type=3).filter(campaign__active=True).order_by('name')
-    data = []
-    for center in centers:
-        groups = []
-        center_teachers = User.objects.filter(profile__is_teacher=True).filter(profile__teacher_belongs_to=center)
-        groups_center = User.objects.filter(profile__group_teacher__isnull=False).filter(profile__group_teacher__in=center_teachers).order_by('profile__group_public_name', 'profile__group_class')
-        for group in groups_center:
-            quizzes = []
-            for quiz in upload_quizzes:
-                quizrun = QuizRun.objects.filter(quiz=quiz).filter(taken_by=group).exclude(date_finished=None)
-                upload_done = quizrun.exists()
-                the_actual_file = None
-                if upload_done:
-                    the_actual_file = quizrun.first().uploaded_file.url
-                else:
+    this_user = request.user
+    if this_user.is_superuser:
+        center_filter_id = request.GET.get('center_id')
+        filter_centers = EducationCenter.objects.filter(campaign__active=True).order_by('name')
+        if center_filter_id:
+            centers = EducationCenter.objects.filter(campaign__active=True).filter(id=center_filter_id).order_by('name')
+        else:
+            centers = EducationCenter.objects.filter(campaign__active=True).order_by('name')
+        upload_quizzes = Quiz.objects.filter(type=3).filter(campaign__active=True).order_by('name')
+        data = []
+        checked_list = []
+        for center in centers:
+            groups = []
+            center_teachers = User.objects.filter(profile__is_teacher=True).filter(profile__teacher_belongs_to=center)
+            groups_center = User.objects.filter(profile__group_teacher__isnull=False).filter(profile__group_teacher__in=center_teachers).order_by('profile__group_public_name', 'profile__group_class')
+            for group in groups_center:
+                quizzes = []
+                for quiz in upload_quizzes:
+                    quizrun = QuizRun.objects.filter(quiz=quiz).filter(taken_by=group).exclude(date_finished=None)
+                    upload_done = quizrun.exists()
                     the_actual_file = None
-                quizzes.append( {'quiz': quiz, 'url_mat': the_actual_file, 'checked': False } )
-            groups.append( { 'group': group,  'quizzes': quizzes} )
-        data.append({ 'center': center, 'groups': groups })
-    return render(request, 'main/upload_admin_board.html', {"data":data, "upload_quizzes": upload_quizzes})
-
-
-
-
-
+                    if upload_done:
+                        the_actual_file = quizrun.first().uploaded_file.url
+                    else:
+                        the_actual_file = None
+                    checked = CheckedQuizrun.objects.filter(checked_by=this_user).filter(quiz=quiz).filter(group=group).exists()
+                    if checked:
+                        checked_list.append( str(quiz.id) + "_" + str(group.id) );
+                    quizzes.append( {'quiz': quiz, 'url_mat': the_actual_file, 'checked': checked } )
+                groups.append( { 'group': group,  'quizzes': quizzes} )
+            data.append({ 'center': center, 'groups': groups })
+        return render(request, 'main/upload_admin_board.html', {"data":data, "upload_quizzes": upload_quizzes, 'checked_list': checked_list, 'filter_centers': filter_centers, 'current_center_filter': int(center_filter_id) if center_filter_id else None })
+    else:
+        message = _("Estàs intentant accedir a una pàgina a la que no tens permís.")
+        go_back_to = "my_hub"
+        return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
 
 
 @login_required
