@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-31 11:14+0000\n"
+"POT-Creation-Date: 2023-02-08 09:54+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -200,7 +200,7 @@ msgstr "Teacher poll"
 msgid "Resposta oberta"
 msgstr "Open answer"
 
-#: main/models.py:119
+#: main/models.py:130
 msgid "Tipus invàlid"
 msgstr "Invalid type"
 
@@ -217,60 +217,68 @@ msgstr "Administrator section"
 msgid "Menú principal administrador"
 msgstr "Administrator menu"
 
-#: main/templates/main/admin_menu.html:15
+#: main/templates/main/admin_menu.html:16
 msgid "Campaigns"
 msgstr "Campaigns"
 
-#: main/templates/main/admin_menu.html:17
+#: main/templates/main/admin_menu.html:18
 msgid "Entrar i gestionar campanyes"
 msgstr "Add and manage campaigns"
 
-#: main/templates/main/admin_menu.html:24
+#: main/templates/main/admin_menu.html:27
 msgid "Centres"
 msgstr "Centers"
 
-#: main/templates/main/admin_menu.html:26
+#: main/templates/main/admin_menu.html:29
 msgid "Permet entrar els centres en què els professors imparteixen classe"
 msgstr "Education centers"
 
-#: main/templates/main/admin_menu.html:33
+#: main/templates/main/admin_menu.html:38
 msgid "Professors"
 msgstr "Teachers"
 
-#: main/templates/main/admin_menu.html:35
+#: main/templates/main/admin_menu.html:40
 msgid "Permet crear un usuari per a un professor."
-msgstr "Professor users."
+msgstr "Professor users"
 
-#: main/templates/main/admin_menu.html:42
+#: main/templates/main/admin_menu.html:49
 #: main/templates/main/teacher_menu.html:15
 msgid "Grups d&#39;alumnes"
 msgstr "Student groups"
 
-#: main/templates/main/admin_menu.html:44
+#: main/templates/main/admin_menu.html:51
 msgid "Permet crear un grup a partir de varis alumnes"
 msgstr "Student groups"
 
-#: main/templates/main/admin_menu.html:53
+#: main/templates/main/admin_menu.html:62
 #: main/templates/main/quiz_assign_admin.html:54
 #: main/templates/main/teacher_menu.html:25
 msgid "Proves"
 msgstr "Available tests"
 
-#: main/templates/main/admin_menu.html:55
+#: main/templates/main/admin_menu.html:64
 #: main/templates/main/teacher_menu.html:27
 msgid "Crea una prova."
 msgstr "Create test"
 
-#: main/templates/main/admin_menu.html:62
+#: main/templates/main/admin_menu.html:73
+msgid "Veure materials"
+msgstr "Check materials"
+
+#: main/templates/main/admin_menu.html:75
+msgid "Veure els materials pujats per alumnes i grups"
+msgstr "Take a look at materials uploaded by groups"
+
+#: main/templates/main/admin_menu.html:85
 #: main/templates/main/teacher_menu.html:45
 msgid "Veure solucions de proves"
 msgstr "Check test solutions"
 
-#: main/templates/main/admin_menu.html:64
+#: main/templates/main/admin_menu.html:87
 msgid "Veure el progrés d&#39;alumnes i grups"
 msgstr "See the progress of students and groups"
 
-#: main/templates/main/admin_menu.html:72 main/templates/main/reports.html:7
+#: main/templates/main/admin_menu.html:97 main/templates/main/reports.html:7
 #: main/templates/main/reports.html:9
 #: main/templates/main/reports/poll_center_or_group.html:6
 #: main/templates/main/reports/progress_center.html:22
@@ -278,12 +286,12 @@ msgstr "See the progress of students and groups"
 msgid "Informes"
 msgstr "Reports"
 
-#: main/templates/main/admin_menu.html:74
+#: main/templates/main/admin_menu.html:99
 #: main/templates/main/teacher_menu.html:82
 msgid ""
 "Generar diversos tipus d&#39;informes sobre participació, dades avançades "
 "d&#39;enquestes, etc"
-msgstr "Generate several reports about participation, advanced poll data, etc."
+msgstr "Generate several reports about participation, advanced poll data, etc"
 
 #: main/templates/main/alum_edit.html:7
 msgid "Editar alumne"
@@ -301,156 +309,67 @@ msgstr "Group section"
 msgid "Menú principal grups"
 msgstr "Groups main menu"
 
-#: main/templates/main/alum_hub.html:13
-#: main/templates/main/teacher_polls.html:13
-msgid "Hola"
-msgstr "Hello"
-
-#: main/templates/main/alum_hub.html:14
-msgid "El vostre hashtag és "
-msgstr "Your hashtag is "
-
-#: main/templates/main/alum_hub.html:15
-msgid "El vostre professor assignat és "
-msgstr "Your assigned teacher is "
-
-#: main/templates/main/alum_hub.html:30
-#: main/templates/main/teacher_polls.html:28
+#: main/templates/main/alum_hub.html:21
+#: main/templates/main/teacher_polls.html:21
 #: main/templates/main/test_result.html:58
 msgid "Millor puntuació"
 msgstr "Best score"
 
-#: main/templates/main/alum_hub.html:35
+#: main/templates/main/alum_hub.html:26
 #: main/templates/main/open_answer_detail.html:25
 msgid "Nota"
 msgstr "Mark"
 
-#: main/templates/main/alum_hub.html:40 main/templates/main/alum_hub.html:59
-#: main/templates/main/alum_hub.html:124
-#: main/templates/main/teacher_polls.html:34
-#: main/templates/main/teacher_polls.html:53
-#: main/templates/main/teacher_polls.html:78
-msgid "Veure resultats enquesta"
-msgstr "Check poll result"
-
-#: main/templates/main/alum_hub.html:40 main/templates/main/alum_hub.html:59
-#: main/templates/main/alum_hub.html:64 main/templates/main/alum_hub.html:124
-#: main/templates/main/teacher_polls.html:34
-#: main/templates/main/teacher_polls.html:53
-#: main/templates/main/teacher_polls.html:78
-msgid "Resultats"
-msgstr "Results"
-
-#: main/templates/main/alum_hub.html:41 main/templates/main/alum_hub.html:70
-#: main/templates/main/alum_hub.html:92 main/templates/main/alum_hub.html:118
-#: main/templates/main/teacher_polls.html:35
-#: main/templates/main/teacher_polls.html:58
-msgid "Repetir la prova!"
-msgstr "Repeat the test!"
-
-#: main/templates/main/alum_hub.html:42 main/templates/main/alum_hub.html:47
-#: main/templates/main/alum_hub.html:49 main/templates/main/alum_hub.html:161
-#: main/templates/main/alum_hub.html:163 main/templates/main/alum_hub.html:170
-#: main/templates/main/alum_hub.html:172
-#: main/templates/main/teacher_polls.html:36
-#: main/templates/main/teacher_polls.html:41
-#: main/templates/main/teacher_polls.html:43
-#: main/templates/main/teacher_polls.html:99
-#: main/templates/main/teacher_polls.html:104
-msgid "Fer la prova!"
-msgstr "Take the test!"
-
-#: main/templates/main/alum_hub.html:44 main/templates/main/alum_hub.html:166
-#: main/templates/main/teacher_polls.html:38
-#: main/templates/main/teacher_polls.html:101
+#: main/templates/main/alum_hub.html:32
+#: main/templates/main/teacher_polls.html:28
 msgid "Aquest material està bloquejat, abans cal fer la prova amb nom"
 msgstr "This material is locked. First, you must complete the test with name"
 
-#: main/templates/main/alum_hub.html:53 main/templates/main/alum_hub.html:55
-#: main/templates/main/alum_hub.html:191 main/templates/main/alum_hub.html:193
-#: main/templates/main/teacher_polls.html:47
-#: main/templates/main/teacher_polls.html:49
-#: main/templates/main/teacher_polls.html:121
+#: main/templates/main/alum_hub.html:35 main/templates/main/alum_hub.html:37
+#: main/templates/main/teacher_polls.html:31
+#: main/templates/main/teacher_polls.html:33
+msgid "Fer la prova!"
+msgstr "Take the test!"
+
+#: main/templates/main/alum_hub.html:41 main/templates/main/alum_hub.html:43
+#: main/templates/main/teacher_polls.html:37
+#: main/templates/main/teacher_polls.html:39
 msgid "Continuar fent la prova!"
 msgstr "Continue the test!"
 
-#: main/templates/main/alum_hub.html:61 main/templates/main/alum_hub.html:138
-#: main/templates/main/teacher_polls.html:55
+#: main/templates/main/alum_hub.html:41 main/templates/main/alum_hub.html:43
+#: main/templates/main/teacher_polls.html:37
+#: main/templates/main/teacher_polls.html:39
+msgid "Continuar"
+msgstr "Continue"
+
+#: main/templates/main/alum_hub.html:47
+#: main/templates/main/teacher_polls.html:43
+msgid "Veure resultats enquesta"
+msgstr "Check poll result"
+
+#: main/templates/main/alum_hub.html:47 main/templates/main/alum_hub.html:52
+#: main/templates/main/teacher_polls.html:43
+msgid "Resultats"
+msgstr "Results"
+
+#: main/templates/main/alum_hub.html:49
+#: main/templates/main/teacher_polls.html:45
 msgid "Descarregar fitxer"
 msgstr "Download file"
 
-#: main/templates/main/alum_hub.html:66
+#: main/templates/main/alum_hub.html:54
 msgid "Aquest material encara no s`ha corregit"
 msgstr "This material has not yet been corrected"
 
-#: main/templates/main/alum_hub.html:70
+#: main/templates/main/alum_hub.html:58
+#: main/templates/main/teacher_polls.html:48
+msgid "Repetir la prova!"
+msgstr "Repeat the test!"
+
+#: main/templates/main/alum_hub.html:58
 msgid "Repetir"
 msgstr "Repeat"
-
-#: main/templates/main/alum_hub.html:81
-msgid ""
-"Aquestes són les proves que ja heu acabat (i que podeu repetir, si voleu!)"
-msgstr ""
-"These are the tests you have already finished (and you can repeat if you "
-"want!)"
-
-#: main/templates/main/alum_hub.html:86 main/templates/main/alum_hub.html:100
-#: main/templates/main/alum_hub.html:111 main/templates/main/alum_hub.html:133
-#: main/templates/main/alum_hub.html:156
-#: main/templates/main/teacher_polls.html:73
-#: main/templates/main/teacher_polls.html:95
-msgid "Títol"
-msgstr "Title"
-
-#: main/templates/main/alum_hub.html:86 main/templates/main/alum_hub.html:111
-#: main/templates/main/test_results_detail_view.html:20
-msgid "intent"
-msgstr "attempt"
-
-#: main/templates/main/alum_hub.html:87 main/templates/main/alum_hub.html:101
-#: main/templates/main/alum_hub.html:112 main/templates/main/alum_hub.html:134
-#: main/templates/main/teacher_polls.html:74
-msgid "Començada"
-msgstr "Started"
-
-#: main/templates/main/alum_hub.html:88 main/templates/main/alum_hub.html:102
-#: main/templates/main/alum_hub.html:113 main/templates/main/alum_hub.html:135
-#: main/templates/main/teacher_polls.html:75
-msgid "Finalitzada"
-msgstr "Finished"
-
-#: main/templates/main/alum_hub.html:89
-msgid "Puntuació"
-msgstr "Score"
-
-#: main/templates/main/alum_hub.html:105
-msgid "Tornar a veure material"
-msgstr "Browse material"
-
-#: main/templates/main/alum_hub.html:105
-msgid "Repassar"
-msgstr "Review"
-
-#: main/templates/main/alum_hub.html:145
-msgid "Encara no heu acabat cap prova!"
-msgstr "You have not finished any test yet!"
-
-#: main/templates/main/alum_hub.html:152
-msgid "Aquestes són les proves que encara no heu fet"
-msgstr "These are the tests you still have not completed"
-
-#: main/templates/main/alum_hub.html:179
-msgid "No teniu proves per fer!"
-msgstr "No pending tests!"
-
-#: main/templates/main/alum_hub.html:184
-msgid "Aquestes són les proves que esteu fent però no heu acabat"
-msgstr "These are the tests which are in progress but not yet finished"
-
-#: main/templates/main/alum_hub.html:199
-#: main/templates/main/teacher_polls.html:126
-msgid "No teniu proves que calgui acabar!"
-msgstr "You don't have any pending tests!"
 
 #: main/templates/main/alum_list.html:14
 msgid "Llistar/Editar/Esborrar alumnes"
@@ -482,7 +401,7 @@ msgstr "Creating new user for student"
 #: main/templates/main/question_link_edit.html:30
 #: main/templates/main/question_link_new.html:30
 #: main/templates/main/question_new.html:69
-#: main/templates/main/question_open_edit.html:25
+#: main/templates/main/question_open_edit.html:24
 #: main/templates/main/question_open_new.html:25
 #: main/templates/main/question_poll_edit.html:32
 #: main/templates/main/question_poll_new.html:31
@@ -957,7 +876,7 @@ msgstr "This belongs to the test with name"
 #: main/templates/main/question_new.html:23
 #: main/templates/main/question_poll_edit.html:16
 #: main/templates/main/question_poll_new.html:15
-#: main/templates/main/quiz_take.html:130
+#: main/templates/main/quiz_take.html:141
 msgid "Pregunta"
 msgstr "Question"
 
@@ -1242,28 +1161,28 @@ msgstr "Poll and test list"
 msgid "Gràfica de resultats"
 msgstr "Results graph"
 
-#: main/templates/main/quiz_take.html:113
+#: main/templates/main/quiz_take.html:124
 msgid "Realitzant prova"
 msgstr "Taking test"
 
-#: main/templates/main/quiz_take.html:115
+#: main/templates/main/quiz_take.html:126
 msgid "Estàs fent la prova"
 msgstr "You are taking the test"
 
-#: main/templates/main/quiz_take.html:130
+#: main/templates/main/quiz_take.html:141
 #: main/templates/main/quiz_take_endsummary.html:37
 msgid "de"
 msgstr "of"
 
-#: main/templates/main/quiz_take.html:175
+#: main/templates/main/quiz_take.html:186
 msgid "Fes clic per obrir l&#39;enllaç"
 msgstr "Clic to open the link"
 
-#: main/templates/main/quiz_take.html:183
+#: main/templates/main/quiz_take.html:194
 msgid "Desa la resposta"
 msgstr "Save the answer"
 
-#: main/templates/main/quiz_take.html:216
+#: main/templates/main/quiz_take.html:227
 msgid ""
 "Ja has acabat la enquesta! Si us plau, ens agradaria molt conèixer els teus "
 "comentaris al respecte, els pots escriure en aquest espai"
@@ -1271,7 +1190,7 @@ msgstr ""
 "You have finished the poll! Please, we would very much like to know your "
 "thoughts about it, you can write them in this space"
 
-#: main/templates/main/quiz_take.html:222
+#: main/templates/main/quiz_take.html:233
 #: main/templates/main/quiz_take_upload.html:43
 msgid "Has completat el material! Fes clic en aquest botó per acabar..."
 msgstr "You completed the material! Click on this button to finish..."
@@ -1611,33 +1530,6 @@ msgstr "Creating new user for teacher"
 msgid "Enquestes professorat"
 msgstr "Teacher polls"
 
-#: main/templates/main/teacher_polls.html:47
-#: main/templates/main/teacher_polls.html:49
-#: main/templates/main/teacher_polls.html:121
-msgid "Continuar"
-msgstr "Continue"
-
-#: main/templates/main/teacher_polls.html:69
-msgid ""
-"Aquestes són les enquestes que ja heu acabat (podeu veure els resultats)"
-msgstr "These are your finished polls (you can see the results)"
-
-#: main/templates/main/teacher_polls.html:84
-msgid "Encara no heu acabat cap enquesta!"
-msgstr "You have not yet completed any poll!"
-
-#: main/templates/main/teacher_polls.html:91
-msgid "Aquestes són les enquestes que encara no heu fet"
-msgstr "These are the polls you haven't taken yet"
-
-#: main/templates/main/teacher_polls.html:110
-msgid "No teniu enquestes per fer!"
-msgstr "No available polls!"
-
-#: main/templates/main/teacher_polls.html:115
-msgid "Aquestes són les enquestes que esteu fent però no heu acabat"
-msgstr "These are your ongoing polls"
-
 #: main/templates/main/test_result.html:4
 #: main/templates/main/test_result.html:6
 #: main/templates/main/test_results_detail_view.html:4
@@ -1712,6 +1604,10 @@ msgstr "while the student answer appears in"
 #: main/templates/main/test_results_detail_view.html:17
 msgid "negreta"
 msgstr "bold"
+
+#: main/templates/main/test_results_detail_view.html:20
+msgid "intent"
+msgstr "attempt"
 
 #: main/templates/main/test_solutions_teacher.html:5
 #: main/templates/main/test_solutions_teacher.html:7
@@ -1889,6 +1785,70 @@ msgstr "Credentials list"
 #: main/views.py:2331 main/views.py:2401 main/views.py:2463
 msgid "Anònim"
 msgstr "Anonymous"
+
+#~ msgid "Hola"
+#~ msgstr "Hello"
+
+#~ msgid "El vostre hashtag és "
+#~ msgstr "Your hashtag is "
+
+#~ msgid "El vostre professor assignat és "
+#~ msgstr "Your assigned teacher is "
+
+#~ msgid ""
+#~ "Aquestes són les proves que ja heu acabat (i que podeu repetir, si voleu!)"
+#~ msgstr ""
+#~ "These are the tests you have already finished (and you can repeat if you "
+#~ "want!)"
+
+#~ msgid "Títol"
+#~ msgstr "Title"
+
+#~ msgid "Començada"
+#~ msgstr "Started"
+
+#~ msgid "Finalitzada"
+#~ msgstr "Finished"
+
+#~ msgid "Puntuació"
+#~ msgstr "Score"
+
+#~ msgid "Tornar a veure material"
+#~ msgstr "Browse material"
+
+#~ msgid "Repassar"
+#~ msgstr "Review"
+
+#~ msgid "Encara no heu acabat cap prova!"
+#~ msgstr "You have not finished any test yet!"
+
+#~ msgid "Aquestes són les proves que encara no heu fet"
+#~ msgstr "These are the tests you still have not completed"
+
+#~ msgid "No teniu proves per fer!"
+#~ msgstr "No pending tests!"
+
+#~ msgid "Aquestes són les proves que esteu fent però no heu acabat"
+#~ msgstr "These are the tests which are in progress but not yet finished"
+
+#~ msgid "No teniu proves que calgui acabar!"
+#~ msgstr "You don't have any pending tests!"
+
+#~ msgid ""
+#~ "Aquestes són les enquestes que ja heu acabat (podeu veure els resultats)"
+#~ msgstr "These are your finished polls (you can see the results)"
+
+#~ msgid "Encara no heu acabat cap enquesta!"
+#~ msgstr "You have not yet completed any poll!"
+
+#~ msgid "Aquestes són les enquestes que encara no heu fet"
+#~ msgstr "These are the polls you haven't taken yet"
+
+#~ msgid "No teniu enquestes per fer!"
+#~ msgstr "No available polls!"
+
+#~ msgid "Aquestes són les enquestes que esteu fent però no heu acabat"
+#~ msgstr "These are your ongoing polls"
 
 #, fuzzy
 #~| msgid "Sobre l\\"

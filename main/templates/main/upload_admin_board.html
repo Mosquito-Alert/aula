@@ -1,0 +1,48 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% load i18n %}
+{% load imagekit %}
+{% block title %}{% trans 'Resum dels arxius pujats' %}{% endblock %}
+
+{% block main_jumbo %}<img class="img_icons" src="{% static 'main/icons/noun_solution_2998552.svg' %}"> {% trans 'Resum dels arxius pujats' %}{% endblock %}
+{% block sub_jumbo %}{% endblock %}
+{% block main %}
+<div class="container">
+    {% for center in data %}
+    <div class="row alert alert-success">
+        <div class="col-md-6"><h2><span class="badge badge-info">{{ center.center.name }} - {{ center.center.hashtag }}</span></h2></div>
+    </div>
+    <table style="width:100%;">
+            <tr style="text-align: center; margin: 5px; padding: 5px;">
+                <th></th>
+                <th>{% trans 'Grup' %}</th>
+                <th>{% trans 'Classe' %}</th>
+                {% for quiz in upload_quizzes %}
+                <th><h5><span class="badge badge-secondary">{{ quiz.name }}</span></h5></th>
+                {% endfor %}
+            </tr>
+        {% for elem in center.groups %}
+                <tr style="text-align: center;">
+                    <td style="margin: 5px; padding: 5px;"></td>
+                    <td style="margin: 5px; padding: 5px;">{{ elem.group.username }}</td>
+                    <td style="margin: 5px; padding: 5px;">{{ elem.group.profile.group_class|default_if_none:"" }}</td>
+                    {% for subelem in elem.quizzes %}
+                    <td  style="margin: 5px; padding: 5px;" class="{% if subelem.checked %}yes_visited{% else %}no_visited{% endif %}">
+                        {% if subelem.url_mat %}
+                            <a href="{{ subelem.url_mat }}" target="_blank"> <i class="fas fa-download" style="color: green;"></i></a>
+                        {% else %}
+                            <i class="fas fa-times" style="color: red;"></i>
+                        {%endif%}
+                        <input data-quizrun="{{  }}" type="checkbox" {% if subelem.checked %}checked="true"{% endif %}>
+                    </td>
+                    {% endfor %}
+                </tr>
+        {% endfor %}
+    </table>
+    <hr>
+    {% endfor %}
+</div>
+
+{% endblock %}
+{% block extra_js %}
+{% endblock %}

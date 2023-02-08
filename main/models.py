@@ -616,3 +616,8 @@ class Awards(models.Model):
     award = models.CharField(max_length=100, blank=True)
     group = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE, related_name="group_awards")
     center = models.ForeignKey(EducationCenter, null=True, blank=True, on_delete=models.CASCADE, related_name="center_awards")
+
+
+class CheckedQuizrun(models.Model):
+    checked_by = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE, related_name="checked_quizruns")
+    quizrun = models.ForeignKey(QuizRun, null=True, blank=True, on_delete=models.CASCADE, related_name="checks")

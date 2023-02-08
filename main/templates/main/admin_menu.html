@@ -12,68 +12,94 @@
     <div class="card-deck mb-3 text-center">
         <div class="card mb-4 box-shadow">
             <div class="card-body">
+                <a href="{% url 'campaign_list' %}" class="btn btn-primary btn-sm">
                 <h5 class="card-title">{% trans 'Campaigns' %}</h5>
                 <img class="img_icons" src="{% static 'main/icons/noun-calendar-4636389.svg' %}">
                 <p class="card-text">{% trans 'Entrar i gestionar campanyes' %}</p>
-                {% if user.is_superuser and user.is_staff %}<a href="{% url 'campaign_new' %}" class="btn btn-primary"><i class="fas fa-plus"></i></a>{% endif %}
-                <a href="{% url 'campaign_list' %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                <!--{% if user.is_superuser and user.is_staff %}<a href="{% url 'campaign_new' %}" class="btn btn-primary"><i class="fas fa-plus"></i></a>{% endif %}
+                <a href="{% url 'campaign_list' %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>-->
+                </a>
             </div>
         </div>
         <div class="card mb-4 box-shadow">
             <div class="card-body">
+                <a href="{% url 'center_list' %}" class="btn btn-primary btn-sm">
                 <h5 class="card-title">{% trans 'Centres' %}</h5>
                 <img class="img_icons" src="{% static 'main/icons/noun_School_1443077.svg' %}">
                 <p class="card-text">{% trans 'Permet entrar els centres en què els professors imparteixen classe' %}</p>
-                {% if user.is_superuser and user.is_staff %}<a href="{% url 'center_new' %}" class="btn btn-primary"><i class="fas fa-plus"></i></a>{% endif %}
-                <a href="{% url 'center_list' %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                <!--{% if user.is_superuser and user.is_staff %}<a href="{% url 'center_new' %}" class="btn btn-primary"><i class="fas fa-plus"></i></a>{% endif %}
+                <a href="{% url 'center_list' %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>-->
+                </a>
             </div>
         </div>
         <div class="card mb-4 box-shadow">
             <div class="card-body">
+                <a href="{% url 'teacher_list' %}" class="btn btn-primary btn-sm">
                 <h5 class="card-title">{% trans 'Professors' %}</h5>
                 <img class="img_icons" src="{% static 'main/icons/noun_Teacher_36665.svg' %}">
                 <p class="card-text">{% trans 'Permet crear un usuari per a un professor.' %}</p>
-                {% if user.is_superuser and user.is_staff %}<a href="{% url 'teacher_new' %}" class="btn btn-primary"><i class="fas fa-plus"></i></a>{% endif %}
-                <a href="{% url 'teacher_list' %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                <!--{% if user.is_superuser and user.is_staff %}<a href="{% url 'teacher_new' %}" class="btn btn-primary"><i class="fas fa-plus"></i></a>{% endif %}
+                <a href="{% url 'teacher_list' %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>-->
+                </a>
             </div>
         </div>
         <div class="card mb-4 box-shadow">
             <div class="card-body">
+                <a href="{% url 'group_list' %}" class="btn btn-primary btn-sm">
                 <h5 class="card-title">{% trans 'Grups d&#39;alumnes' %}</h5>
                 <img class="img_icons" src="{% static 'main/icons/noun_group_737669.svg' %}">
                 <p class="card-text">{% trans 'Permet crear un grup a partir de varis alumnes' %}</p>
-                {% if user.is_superuser and user.is_staff %}<a href="{% url 'group_new' %}" class="btn btn-primary"><i class="fas fa-plus"></i></a>{% endif %}
-                <a href="{% url 'group_list' %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                <!--{% if user.is_superuser and user.is_staff %}<a href="{% url 'group_new' %}" class="btn btn-primary"><i class="fas fa-plus"></i></a>{% endif %}
+                <a href="{% url 'group_list' %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>-->
+                </a>
             </div>
         </div>
     </div>
     <div class="card-deck mb-3 text-center">
         <div class="card mb-4 box-shadow">
             <div class="card-body">
+                <a href="{% url 'quiz_list' %}" class="btn btn-primary btn-sm">
                 <h5 class="card-title">{% trans 'Proves' %}</h5>
                 <img class="img_icons" src="{% static 'main/icons/noun_test_3271143.svg' %}">
                 <p class="card-text">{% trans 'Crea una prova.' %}</p>
-                {% if user.is_superuser and user.is_staff %}<a href="{% url 'quiz_new' %}" class="btn btn-primary"><i class="fas fa-plus"></i></a>{% endif %}
-                <a href="{% url 'quiz_list' %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                <!--{% if user.is_superuser and user.is_staff %}<a href="{% url 'quiz_new' %}" class="btn btn-primary"><i class="fas fa-plus"></i></a>{% endif %}
+                <a href="{% url 'quiz_list' %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>-->
+                </a>
             </div>
         </div>
         <div class="card mb-4 box-shadow">
             <div class="card-body">
+                <a href="{% url 'upload_file_solutions' %}" class="btn btn-primary btn-sm">
+                <h5 class="card-title">{% trans 'Veure materials' %}</h5>
+                <img class="img_icons" src="{% static 'main/icons/noun_upload script_691826.svg' %}">
+                <p class="card-text">{% trans 'Veure els materials pujats per alumnes i grups' %}</p>
+                <!--<a href="{% url 'quiz_solutions' %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>-->
+                <!--<a href="{% url 'quiz_results' %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                <a href="{% url 'upload_file_solutions' %}" class="btn btn-primary"><i class="fas fa-upload"></i></a>-->
+                </a>
+            </div>
+        </div>
+        <div class="card mb-4 box-shadow">
+            <div class="card-body">
+                <a href="{% url 'quiz_results' %}" class="btn btn-primary btn-sm">
                 <h5 class="card-title">{% trans 'Veure solucions de proves' %}</h5>
                 <img class="img_icons" src="{% static 'main/icons/noun_solution_2998552.svg' %}">
-                <p class="card-text">{% trans 'Veure el progrés d&#39;alumnes i grups' %}.</p>
+                <p class="card-text">{% trans 'Veure el progrés d&#39;alumnes i grups' %}</p>
                 <!--<a href="{% url 'quiz_solutions' %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>-->
-                <a href="{% url 'quiz_results' %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
-                <a href="{% url 'upload_file_solutions' %}" class="btn btn-primary"><i class="fas fa-upload"></i></a>
+                <!--<a href="{% url 'quiz_results' %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                <a href="{% url 'upload_file_solutions' %}" class="btn btn-primary"><i class="fas fa-upload"></i></a>-->
+                </a>
             </div>
         </div>
         <div class="card mb-4 box-shadow">
             <div class="card-body">
+                <a href="{% url 'reports' %}" class="btn btn-primary btn-sm">
                 <h5 class="card-title">{% trans 'Informes' %}</h5>
                 <img class="img_icons" src="{% static 'main/icons/noun_report_3907422.svg' %}">
-                <p class="card-text">{% trans 'Generar diversos tipus d&#39;informes sobre participació, dades avançades d&#39;enquestes, etc' %}.</p>
+                <p class="card-text">{% trans 'Generar diversos tipus d&#39;informes sobre participació, dades avançades d&#39;enquestes, etc' %}</p>
                 <!--<a href="{% url 'quiz_solutions' %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>-->
-                <a href="{% url 'reports' %}" class="btn btn-primary"><i class="fas fa-link"></i></a>
+                <!--<a href="{% url 'reports' %}" class="btn btn-primary"><i class="fas fa-link"></i></a>-->
+                </a>
             </div>
         </div>
     </div>

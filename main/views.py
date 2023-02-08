@@ -9,7 +9,7 @@ from main.models import EducationCenter, Word, Quiz, Answer, Question, QuizRun, 
 from main.forms import TeacherForm, SimplifiedTeacherForm, EducationCenterForm, TeacherUpdateForm, ChangePasswordForm, \
     SimplifiedAlumForm, SimplifiedGroupForm, AlumUpdateForm, QuestionForm, QuestionLinkForm, SimplifiedAlumFormForTeacher, \
     SimplifiedAlumFormForAdmin, AlumUpdateFormAdmin, QuizAdminForm, QuestionPollForm, QuizNewForm, QuestionUploadForm, CampaignForm, \
-    BreedingSites, Awards, QuestionOpenForm, OpenAnswerNewCorrectForm
+    BreedingSites, Awards, QuestionOpenForm, OpenAnswerNewCorrectForm, CheckedQuizrun
 from django.contrib.gis.geos import GEOSGeometry
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
@@ -1716,6 +1716,25 @@ def center_info(request, pk=None):
         except EducationCenter.DoesNotExist:
             raise ParseError(detail='Center Not found')
 
+
+@api_view(['POST'])
+def toggle_check(request):
+    if request.method == 'POST':
+        user = request.user
+        quizrun_id = request.data.get('quizrun_id', -1)
+        if quizrun_id == -1:
+            raise ParseError(detail='QuizRun id not specified')
+        quizrun = get_object_or_404(QuizRun, pk=quizrun_id)
+        try:
+            checked = CheckedQuizrun.objects.get(checked_by=user,quizrun=quizrun)
+            checked.delete()
+            return Response({'success': True }, status=status.HTTP_204_NO_CONTENT)
+        except CheckedQuizrun.DoesNotExist:
+            checked = CheckedQuizrun( checked_by=user,quizrun=quizrun )
+            checked.save()
+            return Response({'success': True}, status=status.HTTP_201_CREATED)
+
+
 @api_view(['POST'])
 def complete_upload(request):
     if request.method == 'POST':
@@ -2346,6 +2365,37 @@ def upload_file_solutions_class(request, slug=None):
         return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
 
     return render(request, 'main/upload_file_solutions.html',{'my_quizzes': my_quizzes, 'grupos_profe': p, "teacher_filters": teacher_filters, "current_slug": slug})
+
+
+@login_required
+def upload_admin_board(request):
+    centers = EducationCenter.objects.filter(campaign__active=True).order_by('name')
+    upload_quizzes = Quiz.objects.filter(type=3).filter(campaign__active=True).order_by('name')
+    data = []
+    for center in centers:
+        groups = []
+        center_teachers = User.objects.filter(profile__is_teacher=True).filter(profile__teacher_belongs_to=center)
+        groups_center = User.objects.filter(profile__group_teacher__isnull=False).filter(profile__group_teacher__in=center_teachers).order_by('profile__group_public_name', 'profile__group_class')
+        for group in groups_center:
+            quizzes = []
+            for quiz in upload_quizzes:
+                quizrun = QuizRun.objects.filter(quiz=quiz).filter(taken_by=group).exclude(date_finished=None)
+                upload_done = quizrun.exists()
+                the_actual_file = None
+                if upload_done:
+                    the_actual_file = quizrun.first().uploaded_file.url
+                else:
+                    the_actual_file = None
+                quizzes.append( {'quiz': quiz, 'url_mat': the_actual_file, 'checked': False } )
+            groups.append( { 'group': group,  'quizzes': quizzes} )
+        data.append({ 'center': center, 'groups': groups })
+    return render(request, 'main/upload_admin_board.html', {"data":data, "upload_quizzes": upload_quizzes})
+
+
+
+
+
+
 
 @login_required
 def upload_file_solutions(request):

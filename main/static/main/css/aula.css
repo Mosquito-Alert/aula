@@ -104,3 +104,11 @@
 .class_filter {
     margin: 2px;
 }
+
+.yes_visited {
+    background-color: lightseagreen;
+}
+
+.no_visited {
+    background-color: gold;
+}
