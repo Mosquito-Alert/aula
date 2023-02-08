@@ -302,7 +302,7 @@ msgstr "Espacio grupos"
 
 #: main/templates/main/alum_hub.html:6
 msgid "Menú principal grups"
-msgstr "Menú pricipal grupo"
+msgstr "Menú principal grupo"
 
 #: main/templates/main/alum_hub.html:13
 #: main/templates/main/teacher_polls.html:13
