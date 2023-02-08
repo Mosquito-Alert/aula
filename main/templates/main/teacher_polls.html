@@ -7,13 +7,6 @@
 
 {% block main %}
 <div class="container">
-    <!--
-    <div class="row justify-content-left">
-        <div class="col-md-11">
-            <h4><p>{% trans 'Hola' %}, <span class="badge badge-primary"><strong>{{ user.username }}</strong></span>!</p></h4>
-        </div>
-    </div>
-    -->
     <div class="justify-content-left test_container">
         {% for elem in all_quizzes_ordered %}
         <div class="card card_test {{ elem.status }}">
@@ -31,31 +24,28 @@
                     {% endif %}
                 </div>
                 <div class="test_button_container">
-                    <!--<div class="test_button_wrapper"><a title="{% trans 'Veure resultats enquesta' %}" class="btn btn-success" href="#" target="_blank" role="button">{% trans 'Resultats' %} <i class="far fa-eye"></i></a></div>
-                    <div class="test_button_wrapper"><a title="{% trans 'Repetir la prova!' %}" class="btn btn-success" href="#" role="button">Repetir <i class="fas fa-undo"></i></a></div>
-                    <div class="test_button_wrapper"><a title="{% trans 'Fer la prova!' %}" class="btn btn-success" href="#" role="button">Fer <i class="fas fa-cog"></i></a></div>-->
                     {% if elem.status == 'blocked' %}
                         <a title="{% trans 'Aquest material està bloquejat, abans cal fer la prova amb nom' %} '{{ elem.blocked_by.name }}'" class="btn btn-secondary" href="" role="button"><i class="fas fa-lock"></i></a>
                     {% elif elem.status == 'available' %}
                         {% if elem.quiz.is_upload %}
-                        <button title="{% trans 'Fer la prova!' %}" data-quiz_id="{{ elem.quiz.id }}" data-taken_by="{{ user.id }}" class="btn btn-success take_upload" role="button"><i class="fas fa-cog" aria-hidden="true"></i></button>
+                        <button title="{% trans 'Fer la prova!' %}" data-quiz_id="{{ elem.quiz.id }}" data-taken_by="{{ user.id }}" class="btn btn-success btn-sm take_upload" role="button"><i class="fas fa-cog" aria-hidden="true"></i></button>
                         {% else %}
-                        <div class="test_button_wrapper"><a title="{% trans 'Fer la prova!' %}" class="btn btn-success" href="{% url 'quiz_take_splash' elem.quiz.id %}" role="button"><i class="fas fa-cog"></i></a></div>
+                        <div class="test_button_wrapper"><a title="{% trans 'Fer la prova!' %}" class="btn btn-success btn-sm" href="{% url 'quiz_take_splash' elem.quiz.id %}" role="button"><i class="fas fa-cog"></i></a></div>
                         {% endif %}
                     {% elif elem.status == 'in_progress' %}
                         {% if elem.quiz.is_upload %}
-                        <a title="{% trans 'Continuar fent la prova!' %}" class="btn btn-success" href="{% url 'quiz_upload_link' elem.quiz.id %}" role="button">{% trans 'Continuar' %} <i class="fas fa-arrow-right"></i></a>
+                        <a title="{% trans 'Continuar fent la prova!' %}" class="btn btn-success btn-sm" href="{% url 'quiz_upload_link' elem.quiz.id %}" role="button">{% trans 'Continuar' %} <i class="fas fa-arrow-right"></i></a>
                         {% else %}
-                        <a title="{% trans 'Continuar fent la prova!' %}" class="btn btn-success" href="{% url 'quiz_take' elem.quiz.id 1 elem.quizrun.id %}" role="button">{% trans 'Continuar' %} <i class="fas fa-arrow-right"></i></a>
+                        <a title="{% trans 'Continuar fent la prova!' %}" class="btn btn-success btn-sm" href="{% url 'quiz_take' elem.quiz.id 1 elem.quizrun.id %}" role="button">{% trans 'Continuar' %} <i class="fas fa-arrow-right"></i></a>
                         {% endif %}
                     {% elif elem.status == 'done' %}
                         {% if elem.quiz.is_poll %}
-                        <div class="test_button_wrapper"><a title="{% trans 'Veure resultats enquesta' %}" class="btn btn-success" href="{% url 'poll_result' elem.quiz.id %}" target="_blank" role="button">{% trans 'Resultats' %} <i class="far fa-eye"></i></a></div>
+                        <div class="test_button_wrapper"><a title="{% trans 'Veure resultats enquesta' %}" class="btn btn-success btn-sm" href="{% url 'poll_result' elem.quiz.id %}" target="_blank" role="button">{% trans 'Resultats' %} <i class="far fa-eye"></i></a></div>
                         {% elif elem.quiz.is_upload %}
-                        <div class="test_button_wrapper"><a title="{% trans 'Descarregar fitxer' %}" class="btn btn-success" href="{{ elem.file_url }}" target="_blank" role="button">Fitxer <i class="fas fa-cloud-download-alt"></i></a></div>
+                        <div class="test_button_wrapper"><a title="{% trans 'Descarregar fitxer' %}" class="btn btn-success btn-sm" href="{{ elem.file_url }}" target="_blank" role="button">Fitxer <i class="fas fa-cloud-download-alt"></i></a></div>
                         {% endif %}
                         {% if elem.repeatable %}
-                        <div class="test_button_wrapper"><a title="{% trans 'Repetir la prova!' %}" class="btn btn-success" href="{% url 'quiz_take_splash' elem.quiz.id %}" role="button">Repetir <i class="fas fa-undo"></i></a></div>
+                        <div class="test_button_wrapper"><a title="{% trans 'Repetir la prova!' %}" class="btn btn-success btn-sm" href="{% url 'quiz_take_splash' elem.quiz.id %}" role="button">Repetir <i class="fas fa-undo"></i></a></div>
                         {% endif %}
                     {% endif %}
                 </div>
@@ -63,72 +53,6 @@
         </div>
         {% endfor %}
     </div>
-    <!--
-    <div class="row alert alert-success done">
-        <div class="col-md-12">
-            <p><strong>{% trans 'Aquestes són les enquestes que ja heu acabat (podeu veure els resultats)' %}:</strong></p>
-            {% if done_quizruns %}
-                {% for run in done_quizruns %}
-                    <div class="row mt-3">
-                        <div class="col-md-3"><strong>{% trans 'Títol' %}</strong>: {{ run.quiz.name }}</div>
-                        <div class="col-md-3"><strong>{% trans 'Començada' %}</strong>: {{ run.date }}</div>
-                        <div class="col-md-3"><strong>{% trans 'Finalitzada' %}</strong>: {{ run.date_finished }}</div>
-                        <div class="col-md-1"></div>
-                        <div class="col-md-2">
-                            <a title="{% trans 'Veure resultats enquesta' %}" class="btn btn-success" href="{% url 'poll_result' run.quiz.id %}" target="_blank" role="button">{% trans 'Resultats' %} <i class="far fa-eye"></i></a>
-                        </div>
-                        <div class="col-md-2"></div>
-                    </div>
-                {% endfor %}
-            {% else %}
-                <p>{% trans 'Encara no heu acabat cap enquesta!' %}</p>
-                <p><img src="{% static 'main/icons/noun_Lazy_1744915.svg' %}" height="250px"></p>
-            {% endif %}
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6 alert alert-info todo">
-            <p><strong>{% trans 'Aquestes són les enquestes que encara no heu fet' %}:</strong></p>
-            {% if available_quizzes %}
-                {% for quiz in available_quizzes %}
-                    <div class="row mt-3">
-                        <div class="col-md-6"><strong>{% trans 'Títol' %}</strong>: {{ quiz.name }}</div>
-                        <div class="col-md-6 done_quizzes">
-                            {% if quiz.requisite %}
-                                {% if quiz.requisite.id in done_quizzes_ids %}
-                                    <a title="{% trans 'Fer la prova!' %}" class="btn btn-success" href="{% url 'quiz_take_splash' quiz.id %}" role="button"><i class="fas fa-cog" aria-hidden="true"></i></a>
-                                {% else %}
-                                    <a title="{% trans 'Aquest material està bloquejat, abans cal fer la prova amb nom' %} '{{ quiz.requisite.name }}'" class="btn btn-secondary" href="" role="button"><i class="fas fa-lock"></i></a>
-                                {% endif %}
-                            {% else %}
-                                <a title="{% trans 'Fer la prova!' %}" class="btn btn-success" href="{% url 'quiz_take_splash' quiz.id %}" role="button"><i class="fas fa-cog" aria-hidden="true"></i></a>
-                            {% endif %}
-                        </div>
-                    </div>
-                {% endfor %}
-            {% else %}
-                <p>{% trans 'No teniu enquestes per fer!' %}</p>
-                <p><img src="{% static 'main/icons/noun_holidays_2518025.svg' %}" height="250px"></p>
-            {% endif %}
-        </div>
-        <div class="col-md-6 alert alert-info doing">
-            <p><strong>{% trans 'Aquestes són les enquestes que esteu fent però no heu acabat' %}:</strong></p>
-            {% if in_progress_quizruns %}
-                {% for run in in_progress_quizruns %}
-                    <div class="row mt-3">
-                        <div class="col-md-6">{{ run.quiz.name }} (intent {{ run.run_number }})</div>
-                        <div class="col-md-6">
-                            <a title="{% trans 'Continuar fent la prova!' %}" class="btn btn-success" href="{% url 'quiz_take' run.quiz.id 1 run.id %}" role="button">{% trans 'Continuar' %} <i class="fas fa-arrow-right"></i></a>
-                        </div>
-                    </div>
-                {% endfor %}
-            {% else %}
-                <p>{% trans 'No teniu proves que calgui acabar!' %}</p>
-                <p><img src="{% static 'main/icons/noun_holidays_2518025.svg' %}" height="250px"></p>
-            {% endif %}
-        </div>
-    </div>
-    -->
 </div>
 {% if teacher_campaign.html_header_teachers %}
 <hr>
