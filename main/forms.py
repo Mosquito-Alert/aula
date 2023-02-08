@@ -9,6 +9,7 @@ from main.models import QUIZ_TYPES
 from tinymce.widgets import TinyMCE
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, Field
+from crispy_forms.layout import Submit
 
 
 class QuizForm(ModelForm):
@@ -488,6 +489,7 @@ class CampaignForm(forms.ModelForm):
                 'html_header_teachers'
             )
         )
+        self.helper.add_input(Submit('submit', _('Desar'), css_class='btn btn-success mt-2'))
 
     name = forms.CharField(label=_("Nom de la campanya"), strip=False, widget=forms.TextInput(attrs={'class': 'form-control'}), required=True)
     html_header_groups = forms.CharField(widget=TinyMCE(attrs={'cols': 80, 'rows': 20}), required=False)
