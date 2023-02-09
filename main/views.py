@@ -2734,6 +2734,31 @@ def reports_poll_class(request, poll_id=None, teacher_id=None, slug=None):
 
 
 @login_required
+def teacher_poll_comments(request, poll_id=0, center_id=0):
+    quizzes = Quiz.objects.filter(type=4).filter(campaign__active=True)
+    centers = EducationCenter.objects.filter(campaign__active=True)
+    if poll_id != 0:
+        quizzes = quizzes.filter(id=poll_id)
+    if center_id != 0:
+        centers = centers.filter(id=center_id)
+    quizzes = quizzes.order_by('name')
+    centers = centers.order_by('name')
+    data = []
+    for q in quizzes:
+        data_centers = []
+        for c in centers:
+            center_teachers = User.objects.filter(profile__campaign__active=True).filter(profile__is_teacher=True).filter(profile__teacher_belongs_to=c).order_by('username')
+            quizrun_commented_by_teachers = QuizRun.objects.filter(quiz=q).exclude(date_finished__isnull=True).filter(taken_by__in=center_teachers).filter(finishing_comments__isnull=False)
+            data_comments = []
+            for quizrun in quizrun_commented_by_teachers:
+                data_comments.append({ 'user': quizrun.taken_by, 'quizrun': quizrun })
+            data_centers.append( { 'center': c, 'runs': data_comments } )
+        data.append({ 'quiz': q, 'centers': data_centers })
+
+    return render(request, 'main/reports/teacher_poll_comments.html', {'data': data})
+
+
+@login_required
 def reports_teacher_poll_center(request, poll_id=None, center_id=None):
     if center_id is None:
         poll = get_object_or_404(Quiz, pk=poll_id)
