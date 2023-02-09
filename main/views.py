@@ -1301,12 +1301,13 @@ def group_list_pdf(request):
                 'hashtag': g['group_hashtag']
             })
 
-        teacher_info = {
-            'name': records[0]['group_tutor'],
-            'centro': records[0]['group_center']
-        }
+        if len(records) > 0:
+            teacher_info = {
+                'name': records[0]['group_tutor'],
+                'centro': records[0]['group_center']
+            }
 
-        html_string = render_to_string("pdf_templates/group_credentials_list.html", {'titulo': 'Llistat de credencials', 'teacherInfo': teacher_info, 'grupos': grupos_info})
+        html_string = render_to_string("pdf_templates/group_credentials_list.html", {'titulo': _('Llistat de credencials'), 'teacherInfo': teacher_info, 'grupos': grupos_info})
         pdf_file = HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf()
         response.write(pdf_file)
 
