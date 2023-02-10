@@ -122,4 +122,17 @@ $(document).ready( function () {
             generate_query_class_poll(poll_id,teacher_id,slug);
         }
     });
+
+    $('#teacher_poll_comments').click(function(){
+        var poll_id = $('#select_teacher_poll_comments').val();
+        var center_id = $('#select_teacher_poll_comments_center').val();
+        if( poll_id == '' ){
+            poll_id = '0';
+        }
+        if( center_id == '' ){
+            center_id = '0';
+        }
+        var url = '/reports/teacher_poll_comments/' + poll_id + '/' + center_id + '/';
+        window.open(url, '_blank').focus();
+    });
 });

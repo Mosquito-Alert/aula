@@ -11,9 +11,9 @@
     <div class="card-deck mb-3 text-center">
         <div class="card mb-5 box-shadow">
             <div class="card-body">
-                <a href="{% url 'group_list' %}">
+                <a href="{% url 'group_list' %}" class="btn btn-primary btn-sm">
                     <h5 class="card-title">{% trans 'Grups d&#39;alumnes' %}</h5>
-                    <img src="{% static 'main/icons/noun_group_737669.svg' %}" width="25%">
+                    <img src="{% static 'main/icons/noun_group_737669.svg' %}" width="75%">
                     <p class="card-text">{% trans 'Permet crear i editar grups d&#39;alumnes. Els grups d&#39;alumnes són usuaris de l&#39;aplicació, que poden fer proves de coneixements.' %}</p>
                     <!--<a href="{% url 'group_new' %}" class="btn btn-primary"><i class="fas fa-plus"></i></a>
                     <a href="{% url 'group_list' %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>-->
@@ -31,9 +31,9 @@
         </div>-->
         <div class="card mb-5 box-shadow">
             <div class="card-body">
-                <a href="{% url 'teacher_polls' %}">
+                <a href="{% url 'teacher_polls' %}" class="btn btn-primary btn-sm">
                     <h5 class="card-title">{% trans 'Enquestes' %}</h5>
-                    <img src="{% static 'main/icons/noun_test_3271143.svg' %}" width="25%">
+                    <img src="{% static 'main/icons/noun_test_3271143.svg' %}" width="75%">
                     <p class="card-text">{% trans 'Fer i consultar resultats d&#39;enquestes al professorat' %}</p>
                     <!--<a href="{% url 'teacher_polls' %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>-->
                 </a>
@@ -41,9 +41,9 @@
         </div>
         <div class="card mb-5 box-shadow">
             <div class="card-body">
-                <a href="{% url 'quiz_results' %}">
+                <a href="{% url 'quiz_results' %}" class="btn btn-primary btn-sm">
                     <h5 class="card-title">{% trans 'Veure solucions de proves' %}</h5>
-                    <img src="{% static 'main/icons/noun_solution_2998552.svg' %}" width="25%">
+                    <img src="{% static 'main/icons/noun_solution_2998552.svg' %}" width="75%">
                     <p class="card-text">{% trans 'Veure les proves que han fet els grups, així com les puntuacions obtingudes.' %}</p>
                     <!--<a href="{% url 'quiz_results' %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
                     <a href="{% url 'upload_file_solutions' %}" class="btn btn-primary"><i class="fas fa-upload"></i></a>-->
@@ -52,9 +52,9 @@
         </div>
         <div class="card mb-5 box-shadow">
             <div class="card-body">
-                <a href="{% url 'upload_file_solutions' %}">
+                <a href="{% url 'upload_file_solutions' %}" class="btn btn-primary btn-sm">
                     <h5 class="card-title">{% trans 'Veure materials pujats pels alumnes' %}</h5>
-                    <img src="{% static 'main/icons/noun_upload script_691826.svg' %}" width="25%">
+                    <img src="{% static 'main/icons/noun_upload script_691826.svg' %}" width="75%">
                     <p class="card-text">{% trans 'Veure els materials finals que han pujat els diferents grups' %}</p>
                     <!--<a href="{% url 'quiz_results' %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
                     <a href="{% url 'upload_file_solutions' %}" class="btn btn-primary"><i class="fas fa-upload"></i></a>-->
@@ -63,9 +63,9 @@
         </div>
         <div class="card mb-5 box-shadow">
             <div class="card-body">
-                <a href="{% url 'open_answer_results' %}">
+                <a href="{% url 'open_answer_results' %}" class="btn btn-primary btn-sm">
                     <h5 class="card-title">{% trans 'Correcció de proves de resposta oberta' %}</h5>
-                    <img src="{% static 'main/icons/noun-blog-1923415.svg' %}" width="25%">
+                    <img src="{% static 'main/icons/noun-blog-1923415.svg' %}" width="75%">
                     <p class="card-text">{% trans 'Corregir les proves de resposta oberta dels alumnes del meu grup' %}</p>
                     <!--<a href="{% url 'quiz_results' %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
                     <a href="{% url 'upload_file_solutions' %}" class="btn btn-primary"><i class="fas fa-upload"></i></a>-->
@@ -76,7 +76,7 @@
     <div class="card-deck mb-3 text-center">
         <div class="card mb-4 box-shadow">
             <div class="card-body">
-                <a href="{% url 'reports' %}">
+                <a href="{% url 'reports' %}" class="btn btn-primary btn-sm">
                     <h5 class="card-title">{% trans 'Informes' %}</h5>
                     <img class="img_icons" src="{% static 'main/icons/noun_report_3907422.svg' %}">
                     <p class="card-text">{% trans 'Generar diversos tipus d&#39;informes sobre participació, dades avançades d&#39;enquestes, etc' %}.</p>

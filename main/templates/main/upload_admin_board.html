@@ -1,0 +1,68 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% load i18n %}
+{% load imagekit %}
+{% block title %}{% trans 'Taulell d`arxius pujats comprovats' %}{% endblock %}
+
+{% block main_jumbo %}<img class="img_icons" src="{% static 'main/icons/noun-check-3554048.svg' %}"> {% trans 'Taulell d`arxius pujats comprovats' %}{% endblock %}
+{% block sub_jumbo %}{% endblock %}
+{% block main %}
+<div class="container">
+    {% if filter_centers %}
+    <div class="row filter_row">
+        <div class="col-md-3"><b>{% trans 'Filtre per centre' %}:</b></div>
+        <div class="col-md-3"> <button data-center-id="" class="btn btn-sm center_filter {% if not current_center_filter %}btn-warning{% else %}btn-primary{%endif%}"> {% trans 'Sense filtre' %} </button>  </div>
+        {% for filter in filter_centers %}
+        <div class="col-md-3"> <button data-center-id="{{ filter.id }}" class="btn btn-sm center_filter {% if current_center_filter == filter.id%}btn-warning{% else %}btn-primary{% endif %}"> {{ filter.name }} </button>  </div>
+        {% endfor %}
+    </div>
+    <hr>
+    {% endif %}
+    {% for center in data %}
+    <div class="row alert alert-success">
+        <div class="col-md-6"><h2><span class="badge badge-info">{{ center.center.name }} - {{ center.center.hashtag }}</span></h2></div>
+    </div>
+    <table style="width:100%;">
+            <tr style="text-align: center; margin: 5px; padding: 5px;">
+                <th></th>
+                <th>{% trans 'Grup' %}</th>
+                <th>{% trans 'Classe' %}</th>
+                {% for quiz in upload_quizzes %}
+                <th><h5><span class="badge badge-secondary">{{ quiz.name }}</span></h5></th>
+                {% endfor %}
+            </tr>
+        {% for elem in center.groups %}
+                <tr style="text-align: center;">
+                    <td style="margin: 5px; padding: 5px;"></td>
+                    <td style="margin: 5px; padding: 5px;">{{ elem.group.profile.group_public_name }} ({{ elem.group.username }})</td>
+                    <td style="margin: 5px; padding: 5px;">{{ elem.group.profile.group_class|default_if_none:"" }}</td>
+                    {% for subelem in elem.quizzes %}
+                    <td id="tr_{{ subelem.quiz.id }}_{{ elem.group.id }}" style="margin: 5px; padding: 5px;" class="{% if subelem.checked %}yes_visited{% else %}no_visited{% endif %}">
+                        {% if subelem.url_mat %}
+                            <a href="{{ subelem.url_mat }}" target="_blank"> <i class="fas fa-download" style="color: green;"></i></a>
+                        {% else %}
+                            <i class="fas fa-times" style="color: red;"></i>
+                        {%endif%}
+                        <input id="{{ subelem.quiz.id }}_{{ elem.group.id }}" class="toggler" data-quiz="{{ subelem.quiz.id }}" data-group="{{ elem.group.id }}" type="checkbox">
+                    </td>
+                    {% endfor %}
+                </tr>
+        {% endfor %}
+    </table>
+    <hr>
+    {% endfor %}
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+    var checked_list = [];
+    {% for elem in checked_list %}
+    checked_list.push('{{ elem }}');
+    {% endfor %}
+    var user_id = {{ request.user.id }};
+    var _toggle_check_url = '{% url 'toggle_check' %}';
+</script>
+<script src="{% static 'main/csrf_utils.js' %}"></script>
+<script src="{% static 'main/cookies.js' %}"></script>
+<script src="{% static 'main/javascript/upload_admin_board.js' %}"></script>
+{% endblock %}

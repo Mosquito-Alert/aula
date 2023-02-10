@@ -104,3 +104,39 @@
 .class_filter {
     margin: 2px;
 }
+
+.yes_visited {
+    background-color: lightseagreen;
+}
+
+.no_visited {
+    background-color: gold;
+}
+
+.center_filter {
+    margin: 2px;
+}
+
+.center_row {
+    margin: 5px;
+    background: grey;
+    font-weight: bold;
+}
+
+.run_row {
+    margin: 5px;
+    background: azure;
+}
+
+.username_cell {
+    padding: 5px;
+}
+
+.comments_cell {
+    padding: 5px;
+    background: aliceblue;
+}
+
+.date_cell {
+    padding: 5px;
+}

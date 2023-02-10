@@ -9,7 +9,7 @@ from main.models import EducationCenter, Word, Quiz, Answer, Question, QuizRun, 
 from main.forms import TeacherForm, SimplifiedTeacherForm, EducationCenterForm, TeacherUpdateForm, ChangePasswordForm, \
     SimplifiedAlumForm, SimplifiedGroupForm, AlumUpdateForm, QuestionForm, QuestionLinkForm, SimplifiedAlumFormForTeacher, \
     SimplifiedAlumFormForAdmin, AlumUpdateFormAdmin, QuizAdminForm, QuestionPollForm, QuizNewForm, QuestionUploadForm, CampaignForm, \
-    BreedingSites, Awards, QuestionOpenForm, OpenAnswerNewCorrectForm
+    BreedingSites, Awards, QuestionOpenForm, OpenAnswerNewCorrectForm, CheckedQuizrun
 from django.contrib.gis.geos import GEOSGeometry
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
@@ -1717,6 +1717,29 @@ def center_info(request, pk=None):
         except EducationCenter.DoesNotExist:
             raise ParseError(detail='Center Not found')
 
+
+@api_view(['POST'])
+def toggle_check(request):
+    if request.method == 'POST':
+        user = request.user
+        quiz_id = request.data.get('quiz_id', -1)
+        group_id = request.data.get('group_id', -1)
+        if quiz_id == -1:
+            raise ParseError(detail='Quiz id not specified')
+        if group_id == -1:
+            raise ParseError(detail='Group id not specified')
+        quiz = get_object_or_404(Quiz, pk=quiz_id)
+        group = get_object_or_404(User, pk=group_id)
+        try:
+            checked = CheckedQuizrun.objects.get(checked_by=user, quiz=quiz, group=group)
+            checked.delete()
+            return Response({'success': True }, status=status.HTTP_204_NO_CONTENT)
+        except CheckedQuizrun.DoesNotExist:
+            checked = CheckedQuizrun(checked_by=user, quiz=quiz, group=group)
+            checked.save()
+            return Response({'success': True}, status=status.HTTP_201_CREATED)
+
+
 @api_view(['POST'])
 def complete_upload(request):
     if request.method == 'POST':
@@ -2161,8 +2184,8 @@ def quiz_datatable_results(request):
     if request.method == 'GET':
 
         search_field_list = ('name', 'author.username')
-        field_translation_list = {'name': 'name', 'author.username': 'author__username'}
-        sort_translation_list = {'name': 'name', 'author.username': 'author__username'}
+        field_translation_list = {'name': 'name', 'author.username': 'author__username', 'seq': 'seq'}
+        sort_translation_list = {'name': 'name', 'author.username': 'author__username', 'seq': 'seq'}
 
         if this_user.is_superuser:
             #queryset = Quiz.objects.select_related('author').all()
@@ -2347,6 +2370,47 @@ def upload_file_solutions_class(request, slug=None):
         return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
 
     return render(request, 'main/upload_file_solutions.html',{'my_quizzes': my_quizzes, 'grupos_profe': p, "teacher_filters": teacher_filters, "current_slug": slug})
+
+
+@login_required
+def upload_admin_board(request):
+    this_user = request.user
+    if this_user.is_superuser:
+        center_filter_id = request.GET.get('center_id')
+        filter_centers = EducationCenter.objects.filter(campaign__active=True).order_by('name')
+        if center_filter_id:
+            centers = EducationCenter.objects.filter(campaign__active=True).filter(id=center_filter_id).order_by('name')
+        else:
+            centers = EducationCenter.objects.filter(campaign__active=True).order_by('name')
+        upload_quizzes = Quiz.objects.filter(type=3).filter(campaign__active=True).order_by('name')
+        data = []
+        checked_list = []
+        for center in centers:
+            groups = []
+            center_teachers = User.objects.filter(profile__is_teacher=True).filter(profile__teacher_belongs_to=center)
+            groups_center = User.objects.filter(profile__group_teacher__isnull=False).filter(profile__group_teacher__in=center_teachers).order_by('profile__group_public_name', 'profile__group_class')
+            for group in groups_center:
+                quizzes = []
+                for quiz in upload_quizzes:
+                    quizrun = QuizRun.objects.filter(quiz=quiz).filter(taken_by=group).exclude(date_finished=None)
+                    upload_done = quizrun.exists()
+                    the_actual_file = None
+                    if upload_done:
+                        the_actual_file = quizrun.first().uploaded_file.url
+                    else:
+                        the_actual_file = None
+                    checked = CheckedQuizrun.objects.filter(checked_by=this_user).filter(quiz=quiz).filter(group=group).exists()
+                    if checked:
+                        checked_list.append( str(quiz.id) + "_" + str(group.id) );
+                    quizzes.append( {'quiz': quiz, 'url_mat': the_actual_file, 'checked': checked } )
+                groups.append( { 'group': group,  'quizzes': quizzes} )
+            data.append({ 'center': center, 'groups': groups })
+        return render(request, 'main/upload_admin_board.html', {"data":data, "upload_quizzes": upload_quizzes, 'checked_list': checked_list, 'filter_centers': filter_centers, 'current_center_filter': int(center_filter_id) if center_filter_id else None })
+    else:
+        message = _("Estàs intentant accedir a una pàgina a la que no tens permís.")
+        go_back_to = "my_hub"
+        return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
+
 
 @login_required
 def upload_file_solutions(request):
@@ -2668,6 +2732,31 @@ def reports_poll_class(request, poll_id=None, teacher_id=None, slug=None):
                     'perc': answer.answered_by_perc_class(teacher.id, slug)}
 
     return render(request, 'main/reports/poll_center_or_group.html', {'quiz': poll, 'data': json.dumps(data),'len_data': len(data), 'group': group, 'center': center})
+
+
+@login_required
+def teacher_poll_comments(request, poll_id=0, center_id=0):
+    quizzes = Quiz.objects.filter(type=4).filter(campaign__active=True)
+    centers = EducationCenter.objects.filter(campaign__active=True)
+    if poll_id != 0:
+        quizzes = quizzes.filter(id=poll_id)
+    if center_id != 0:
+        centers = centers.filter(id=center_id)
+    quizzes = quizzes.order_by('seq')
+    centers = centers.order_by('name')
+    data = []
+    for q in quizzes:
+        data_centers = []
+        for c in centers:
+            center_teachers = User.objects.filter(profile__campaign__active=True).filter(profile__is_teacher=True).filter(profile__teacher_belongs_to=c).order_by('username')
+            quizrun_commented_by_teachers = QuizRun.objects.filter(quiz=q).exclude(date_finished__isnull=True).filter(taken_by__in=center_teachers).filter( Q(finishing_comments__isnull=False) & ~Q(finishing_comments='') )
+            data_comments = []
+            for quizrun in quizrun_commented_by_teachers:
+                data_comments.append({ 'user': quizrun.taken_by, 'quizrun': quizrun })
+            data_centers.append( { 'center': c, 'runs': data_comments } )
+        data.append({ 'quiz': q, 'centers': data_centers })
+
+    return render(request, 'main/reports/teacher_poll_comments.html', {'data': data})
 
 
 @login_required

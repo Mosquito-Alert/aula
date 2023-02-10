@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-09 16:23+0000\n"
+"POT-Creation-Date: 2023-02-10 08:34+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -103,6 +103,7 @@ msgstr ""
 #: main/templates/main/reports/poll_center_or_group.html:11
 #: main/templates/main/test_result.html:54
 #: main/templates/main/test_results_detail_view.html:10
+#: main/templates/main/upload_admin_board.html:28
 #: main/templates/main/upload_file_solutions.html:33
 msgid "Grup"
 msgstr ""
@@ -163,34 +164,6 @@ msgstr ""
 msgid "Valoració de la prova"
 msgstr ""
 
-#: main/forms.py:492 main/templates/main/alum_new.html:19
-#: main/templates/main/campaign_new.html:20
-#: main/templates/main/center_edit.html:29
-#: main/templates/main/center_new.html:29
-#: main/templates/main/group_edit.html:93
-#: main/templates/main/group_edit_teacher.html:74
-#: main/templates/main/group_new.html:66
-#: main/templates/main/group_new_teacher.html:45
-#: main/templates/main/oac_new.html:56
-#: main/templates/main/question_edit.html:68
-#: main/templates/main/question_link_edit.html:30
-#: main/templates/main/question_link_new.html:30
-#: main/templates/main/question_new.html:69
-#: main/templates/main/question_open_edit.html:24
-#: main/templates/main/question_open_new.html:25
-#: main/templates/main/question_poll_edit.html:32
-#: main/templates/main/question_poll_new.html:31
-#: main/templates/main/question_upload_edit.html:22
-#: main/templates/main/question_upload_new.html:22
-#: main/templates/main/quiz_edit.html:69 main/templates/main/quiz_edit.html:70
-#: main/templates/main/quiz_edit_teacher.html:56
-#: main/templates/main/quiz_edit_teacher.html:57
-#: main/templates/main/quiz_new.html:49
-#: main/templates/main/quiz_new_teacher.html:34
-#: main/templates/main/teacher_edit.html:25
-msgid "Desar"
-msgstr ""
-
 #: main/forms.py:494
 msgid "Nom de la campanya"
 msgstr ""
@@ -209,6 +182,7 @@ msgstr ""
 
 #: main/models.py:84 main/templates/main/reports.html:18
 #: main/templates/main/reports.html:60 main/templates/main/reports.html:88
+#: main/templates/main/reports.html:135
 msgid "Enquesta"
 msgstr ""
 
@@ -221,10 +195,8 @@ msgid "Enquesta professorat"
 msgstr ""
 
 #: main/models.py:87
-#, fuzzy
-#| msgid "Resposta correcta?"
 msgid "Resposta oberta"
-msgstr "Resposta correcta?"
+msgstr "Resposta oberta"
 
 #: main/models.py:130
 msgid "Tipus invàlid"
@@ -243,60 +215,80 @@ msgstr ""
 msgid "Menú principal administrador"
 msgstr ""
 
-#: main/templates/main/admin_menu.html:15
+#: main/templates/main/admin_menu.html:16
 msgid "Campaigns"
 msgstr ""
 
-#: main/templates/main/admin_menu.html:17
+#: main/templates/main/admin_menu.html:18
 msgid "Entrar i gestionar campanyes"
 msgstr ""
 
-#: main/templates/main/admin_menu.html:24
+#: main/templates/main/admin_menu.html:27
 msgid "Centres"
 msgstr ""
 
-#: main/templates/main/admin_menu.html:26
+#: main/templates/main/admin_menu.html:29
 msgid "Permet entrar els centres en què els professors imparteixen classe"
 msgstr ""
 
-#: main/templates/main/admin_menu.html:33
+#: main/templates/main/admin_menu.html:38
 msgid "Professors"
 msgstr ""
 
-#: main/templates/main/admin_menu.html:35
+#: main/templates/main/admin_menu.html:40
 msgid "Permet crear un usuari per a un professor."
 msgstr ""
 
-#: main/templates/main/admin_menu.html:42
+#: main/templates/main/admin_menu.html:49
 #: main/templates/main/teacher_menu.html:15
 msgid "Grups d&#39;alumnes"
 msgstr ""
 
-#: main/templates/main/admin_menu.html:44
+#: main/templates/main/admin_menu.html:51
 msgid "Permet crear un grup a partir de varis alumnes"
 msgstr ""
 
-#: main/templates/main/admin_menu.html:53
+#: main/templates/main/admin_menu.html:62
 #: main/templates/main/quiz_assign_admin.html:54
 #: main/templates/main/teacher_menu.html:25
 msgid "Proves"
 msgstr ""
 
-#: main/templates/main/admin_menu.html:55
+#: main/templates/main/admin_menu.html:64
 #: main/templates/main/teacher_menu.html:27
 msgid "Crea una prova."
 msgstr ""
 
-#: main/templates/main/admin_menu.html:62
+#: main/templates/main/admin_menu.html:73
+msgid "Veure materials"
+msgstr ""
+
+#: main/templates/main/admin_menu.html:75
+msgid "Veure els materials pujats per alumnes i grups"
+msgstr ""
+
+#: main/templates/main/admin_menu.html:85
 #: main/templates/main/teacher_menu.html:45
 msgid "Veure solucions de proves"
 msgstr ""
 
-#: main/templates/main/admin_menu.html:64
+#: main/templates/main/admin_menu.html:87
 msgid "Veure el progrés d&#39;alumnes i grups"
 msgstr ""
 
-#: main/templates/main/admin_menu.html:72 main/templates/main/reports.html:7
+#: main/templates/main/admin_menu.html:97
+#: main/templates/main/upload_admin_board.html:5
+#: main/templates/main/upload_admin_board.html:7
+msgid "Taulell d`arxius pujats comprovats"
+msgstr ""
+
+#: main/templates/main/admin_menu.html:99
+msgid ""
+"Llistat de fitxers pujats per centre, permet marcar com a revisats els "
+"fitxers"
+msgstr ""
+
+#: main/templates/main/admin_menu.html:110 main/templates/main/reports.html:7
 #: main/templates/main/reports.html:9
 #: main/templates/main/reports/poll_center_or_group.html:6
 #: main/templates/main/reports/progress_center.html:22
@@ -304,7 +296,7 @@ msgstr ""
 msgid "Informes"
 msgstr "Informes"
 
-#: main/templates/main/admin_menu.html:74
+#: main/templates/main/admin_menu.html:112
 #: main/templates/main/teacher_menu.html:82
 msgid ""
 "Generar diversos tipus d&#39;informes sobre participació, dades avançades "
@@ -403,6 +395,35 @@ msgstr ""
 
 #: main/templates/main/alum_new.html:15
 msgid "Creant nou usuari per alumne"
+msgstr ""
+
+#: main/templates/main/alum_new.html:19
+#: main/templates/main/campaign_edit.html:20
+#: main/templates/main/campaign_new.html:20
+#: main/templates/main/center_edit.html:29
+#: main/templates/main/center_new.html:29
+#: main/templates/main/group_edit.html:93
+#: main/templates/main/group_edit_teacher.html:74
+#: main/templates/main/group_new.html:66
+#: main/templates/main/group_new_teacher.html:45
+#: main/templates/main/oac_new.html:56
+#: main/templates/main/question_edit.html:68
+#: main/templates/main/question_link_edit.html:30
+#: main/templates/main/question_link_new.html:30
+#: main/templates/main/question_new.html:69
+#: main/templates/main/question_open_edit.html:24
+#: main/templates/main/question_open_new.html:25
+#: main/templates/main/question_poll_edit.html:32
+#: main/templates/main/question_poll_new.html:31
+#: main/templates/main/question_upload_edit.html:22
+#: main/templates/main/question_upload_new.html:22
+#: main/templates/main/quiz_edit.html:69 main/templates/main/quiz_edit.html:70
+#: main/templates/main/quiz_edit_teacher.html:56
+#: main/templates/main/quiz_edit_teacher.html:57
+#: main/templates/main/quiz_new.html:49
+#: main/templates/main/quiz_new_teacher.html:34
+#: main/templates/main/teacher_edit.html:25
+msgid "Desar"
 msgstr ""
 
 #: main/templates/main/base.html:90 main/templates/main/map.html:47
@@ -764,10 +785,8 @@ msgid "Proves de resposta oberta"
 msgstr ""
 
 #: main/templates/main/open_answers_result.html:7
-#, fuzzy
-#| msgid "Llistat d'intents per prova i per grup"
 msgid "Llista de proves per grup"
-msgstr "Llistat d'intents per prova i per grup"
+msgstr "Llista de proves per grup"
 
 #: main/templates/main/open_answers_result.html:13
 #: main/templates/main/reports/progress_center.html:43
@@ -779,12 +798,14 @@ msgstr ""
 #: main/templates/main/open_answers_result.html:14
 #: main/templates/main/reports/progress_center.html:44
 #: main/templates/main/test_result.html:42
+#: main/templates/main/upload_admin_board.html:14
 #: main/templates/main/upload_file_solutions.html:14
 msgid "Sense filtre"
 msgstr ""
 
 #: main/templates/main/open_answers_result.html:33
 #: main/templates/main/test_result.html:56
+#: main/templates/main/upload_admin_board.html:29
 #: main/templates/main/upload_file_solutions.html:34
 msgid "Classe"
 msgstr ""
@@ -1346,7 +1367,7 @@ msgstr ""
 "mostraran resultats agregats per a tot el centre educatiu."
 
 #: main/templates/main/reports.html:28 main/templates/main/reports.html:97
-#: main/templates/main/reports.html:116
+#: main/templates/main/reports.html:116 main/templates/main/reports.html:144
 msgid "Tria un centre"
 msgstr ""
 
@@ -1360,6 +1381,7 @@ msgstr ""
 
 #: main/templates/main/reports.html:52 main/templates/main/reports.html:79
 #: main/templates/main/reports.html:107 main/templates/main/reports.html:127
+#: main/templates/main/reports.html:154
 msgid "Generar informe"
 msgstr ""
 
@@ -1368,8 +1390,6 @@ msgid "Enquestes per classe"
 msgstr ""
 
 #: main/templates/main/reports.html:58
-#, fuzzy
-#| msgid "help_enquestes_group_centre"
 msgid "help_enquestes_classe"
 msgstr ""
 "Aquest informe mostra resultats de les enquestes per grups i centres. Per "
@@ -1400,6 +1420,17 @@ msgstr ""
 "Aquest informe mostra quins grups han completat les proves disponibles. Per "
 "cada grup i prova, el informe indica si la prova està en progrés, "
 "completada, o pendent."
+
+#: main/templates/main/reports.html:132
+#: main/templates/main/reports/teacher_poll_comments.html:5
+#: main/templates/main/reports/teacher_poll_comments.html:7
+msgid "Comentaris de les enquestes de professorat"
+msgstr ""
+
+#: main/templates/main/reports.html:133
+msgid "help_comentaris_enquestes_professorat_centre"
+msgstr ""
+"Aquest informe mostra els comentaris que han fet els professors en finalitzar les seves enquestes."
 
 #: main/templates/main/reports/poll_center_or_group.html:6
 #: main/templates/main/reports/poll_center_or_group.html:8
@@ -1437,6 +1468,10 @@ msgstr ""
 
 #: main/templates/main/reports/progress_center.html:37
 msgid "El grup no ha començat encara a fer la prova"
+msgstr ""
+
+#: main/templates/main/reports/teacher_poll_comments.html:29
+msgid "Ningú ha fet comentaris"
 msgstr ""
 
 #: main/templates/main/teacher_edit.html:15
@@ -1587,6 +1622,10 @@ msgstr ""
 msgid "Resultats de proves"
 msgstr ""
 
+#: main/templates/main/upload_admin_board.html:13
+msgid "Filtre per centre"
+msgstr ""
+
 #: main/templates/main/upload_file_solutions.html:5
 #: main/templates/main/upload_file_solutions.html:7
 msgid "Resum dels arxius pujats"
@@ -1653,10 +1692,10 @@ msgstr ""
 
 #: main/views.py:193 main/views.py:203 main/views.py:251 main/views.py:378
 #: main/views.py:936 main/views.py:972 main/views.py:1006 main/views.py:1172
-#: main/views.py:1222 main/views.py:1337 main/views.py:1348 main/views.py:1373
-#: main/views.py:1408 main/views.py:1446 main/views.py:1490 main/views.py:1504
-#: main/views.py:2345 main/views.py:2476 main/views.py:2750 main/views.py:2761
-#: main/views.py:2812
+#: main/views.py:1222 main/views.py:1336 main/views.py:1347 main/views.py:1372
+#: main/views.py:1407 main/views.py:1445 main/views.py:1489 main/views.py:1503
+#: main/views.py:2367 main/views.py:2409 main/views.py:2539 main/views.py:2838
+#: main/views.py:2849 main/views.py:2900
 msgid "Estàs intentant accedir a una pàgina a la que no tens permís."
 msgstr ""
 
@@ -1668,13 +1707,13 @@ msgstr ""
 msgid "Sembla que aquesta prova no està completada."
 msgstr ""
 
-#: main/views.py:505 main/views.py:523 main/views.py:540 main/views.py:2186
-#: main/views.py:2216 main/views.py:2236 main/views.py:2265 main/views.py:2491
+#: main/views.py:505 main/views.py:523 main/views.py:540 main/views.py:2208
+#: main/views.py:2238 main/views.py:2258 main/views.py:2287 main/views.py:2554
 msgid "No existeix aquesta prova."
 msgstr ""
 
-#: main/views.py:509 main/views.py:527 main/views.py:2190 main/views.py:2220
-#: main/views.py:2240 main/views.py:2269 main/views.py:2496
+#: main/views.py:509 main/views.py:527 main/views.py:2212 main/views.py:2242
+#: main/views.py:2262 main/views.py:2291 main/views.py:2559
 msgid ""
 "El test seleccionat no l'ha realitzat cap grup i encara no té resultats."
 msgstr ""
@@ -1750,7 +1789,7 @@ msgstr ""
 msgid "Llistat de credencials"
 msgstr ""
 
-#: main/views.py:2332 main/views.py:2402 main/views.py:2464
+#: main/views.py:2354 main/views.py:2465 main/views.py:2527
 msgid "Anònim"
 msgstr ""
 
