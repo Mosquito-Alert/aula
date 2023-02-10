@@ -47,7 +47,11 @@ $(document).ready( function () {
                 'targets': 4,
                 'sortable': false,
                 'render': function(value){
-                    return '<button title="' + gettext('Editar') + '" class="edit_button btn btn-info"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>';
+                    if(admin_edit){
+                        return '<button title="' + gettext('Editar') + '" class="edit_button btn btn-info"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>';
+                    }else{
+                        return "";
+                    }
                 }
             },
             {
@@ -66,15 +70,19 @@ $(document).ready( function () {
     } );
 
     $('#campaign_list tbody').on('click', 'td input.active_chk', function (e) {
-        var checked = $(this).is(":checked");
-        e.preventDefault();
-        if(checked){
-            if(confirm(gettext('La campanya que has clicat s\'establirà com a activa. Segur que vols continuar?'))){
-                var tr = $(this).closest('tr');
-                var row = table.row( tr );
-                var id = row.data().id
-                toggle_active(id);
+        if(admin_edit){
+            var checked = $(this).is(":checked");
+            e.preventDefault();
+            if(checked){
+                if(confirm(gettext('La campanya que has clicat s\'establirà com a activa. Segur que vols continuar?'))){
+                    var tr = $(this).closest('tr');
+                    var row = table.row( tr );
+                    var id = row.data().id
+                    toggle_active(id);
+                }
             }
+        }else{
+            e.preventDefault();
         }
     });
 
