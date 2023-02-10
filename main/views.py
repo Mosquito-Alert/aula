@@ -2183,8 +2183,8 @@ def quiz_datatable_results(request):
     if request.method == 'GET':
 
         search_field_list = ('name', 'author.username')
-        field_translation_list = {'name': 'name', 'author.username': 'author__username'}
-        sort_translation_list = {'name': 'name', 'author.username': 'author__username'}
+        field_translation_list = {'name': 'name', 'author.username': 'author__username', 'seq': 'seq'}
+        sort_translation_list = {'name': 'name', 'author.username': 'author__username', 'seq': 'seq'}
 
         if this_user.is_superuser:
             #queryset = Quiz.objects.select_related('author').all()
@@ -2741,14 +2741,14 @@ def teacher_poll_comments(request, poll_id=0, center_id=0):
         quizzes = quizzes.filter(id=poll_id)
     if center_id != 0:
         centers = centers.filter(id=center_id)
-    quizzes = quizzes.order_by('name')
+    quizzes = quizzes.order_by('seq')
     centers = centers.order_by('name')
     data = []
     for q in quizzes:
         data_centers = []
         for c in centers:
             center_teachers = User.objects.filter(profile__campaign__active=True).filter(profile__is_teacher=True).filter(profile__teacher_belongs_to=c).order_by('username')
-            quizrun_commented_by_teachers = QuizRun.objects.filter(quiz=q).exclude(date_finished__isnull=True).filter(taken_by__in=center_teachers).filter(finishing_comments__isnull=False)
+            quizrun_commented_by_teachers = QuizRun.objects.filter(quiz=q).exclude(date_finished__isnull=True).filter(taken_by__in=center_teachers).filter( Q(finishing_comments__isnull=False) & ~Q(finishing_comments='') )
             data_comments = []
             for quizrun in quizrun_commented_by_teachers:
                 data_comments.append({ 'user': quizrun.taken_by, 'quizrun': quizrun })

@@ -14,19 +14,19 @@
     </div>
         {% for center in quiz.centers %}
         <div class="row">
-            <div class="col-md-5"><i>{{ center.center.name }} ({{ center.center.hashtag }})</i></div>
+            <div class="col-md-12 center_row"><i>{{ center.center.name }} ({{ center.center.hashtag }})</i></div>
         </div>
             {% if center.runs %}
                 {% for run in center.runs %}
-                    <div class="row">
-                        <div class="offset-md-1 col-md-3">{{ run.user.username }}</div>
-                        <div class="col-md-6">{{ run.quizrun.finishing_comments }}</div>
-                        <div class="col-md-2"><span class="badge badge-primary">{{ run.quizrun.date_finished }}</span></div>
+                    <div class="row run_row">
+                        <div class="offset-md-1 col-md-2 username_cell">{{ run.user.username }}</div>
+                        <div class="col-md-7 comments_cell">{{ run.quizrun.finishing_comments }}</div>
+                        <div class="col-md-2 date_cell"><span class="badge badge-primary">{{ run.quizrun.date_finished }}</span></div>
                     </div>
                 {% endfor %}
             {% else %}
                 <div class="row">
-                    <div class="offset-md-4 col-md-8 text-secondary">{% trans 'Ningú ha fet comentaris' %}</div>
+                    <div class="offset-md-3 col-md-10 text-secondary">{% trans 'Ningú ha fet comentaris' %}</div>
                 </div>
             {% endif %}
         <hr>

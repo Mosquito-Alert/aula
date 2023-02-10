@@ -57,10 +57,14 @@ class QuizSerializer(serializers.ModelSerializer):
     requisite = NestedQuizSerializer()
     quiz_start_url = serializers.SerializerMethodField('get_start_url')
     type_text = serializers.SerializerMethodField('get_type_text')
+    seq = serializers.SerializerMethodField('get_seq')
 
     class Meta:
         model = Quiz
         fields = '__all__'
+
+    def get_seq(self,obj):
+        return obj.seq
 
     def get_quiz_center(self,obj):
         if obj.author and obj.author.profile and obj.author.profile.is_teacher:

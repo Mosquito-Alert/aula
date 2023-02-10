@@ -27,6 +27,7 @@ $(document).ready( function () {
         },
         'columns': [
             { 'data': 'name' },
+            { 'data': 'seq' },
             { 'data': 'author.username' },
             { 'data': 'type_text' },
             {'data': 'test_results'}
@@ -39,6 +40,10 @@ $(document).ready( function () {
             },
             {
                 'targets':1,
+                'title': gettext('Ordre')
+            },
+            {
+                'targets':2,
                 'title': gettext('Nom autor'),
                 'render': function(value){
                     if(value){
@@ -49,11 +54,11 @@ $(document).ready( function () {
                 }
             },
             {
-                'targets':2,
+                'targets':3,
                 'title': gettext('Tipus de prova')
             },
             {
-                'targets': 3,
+                'targets': 4,
                 'title': gettext('Veure resultats'),
                 'data': 'test_results',
                 'sortable': false,

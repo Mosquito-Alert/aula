@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-08 09:54+0000\n"
+"POT-Creation-Date: 2023-02-10 08:34+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -105,6 +105,7 @@ msgstr "Teacher"
 #: main/templates/main/reports/poll_center_or_group.html:11
 #: main/templates/main/test_result.html:54
 #: main/templates/main/test_results_detail_view.html:10
+#: main/templates/main/upload_admin_board.html:28
 #: main/templates/main/upload_file_solutions.html:33
 msgid "Grup"
 msgstr "Group"
@@ -185,6 +186,7 @@ msgstr "Material"
 
 #: main/models.py:84 main/templates/main/reports.html:18
 #: main/templates/main/reports.html:60 main/templates/main/reports.html:88
+#: main/templates/main/reports.html:135
 msgid "Enquesta"
 msgstr "Poll"
 
@@ -278,7 +280,19 @@ msgstr "Check test solutions"
 msgid "Veure el progrés d&#39;alumnes i grups"
 msgstr "See the progress of students and groups"
 
-#: main/templates/main/admin_menu.html:97 main/templates/main/reports.html:7
+#: main/templates/main/admin_menu.html:97
+#: main/templates/main/upload_admin_board.html:5
+#: main/templates/main/upload_admin_board.html:7
+msgid "Taulell d`arxius pujats comprovats"
+msgstr ""
+
+#: main/templates/main/admin_menu.html:99
+msgid ""
+"Llistat de fitxers pujats per centre, permet marcar com a revisats els "
+"fitxers"
+msgstr ""
+
+#: main/templates/main/admin_menu.html:110 main/templates/main/reports.html:7
 #: main/templates/main/reports.html:9
 #: main/templates/main/reports/poll_center_or_group.html:6
 #: main/templates/main/reports/progress_center.html:22
@@ -286,7 +300,7 @@ msgstr "See the progress of students and groups"
 msgid "Informes"
 msgstr "Reports"
 
-#: main/templates/main/admin_menu.html:99
+#: main/templates/main/admin_menu.html:112
 #: main/templates/main/teacher_menu.html:82
 msgid ""
 "Generar diversos tipus d&#39;informes sobre participació, dades avançades "
@@ -792,12 +806,14 @@ msgstr "Class filter"
 #: main/templates/main/open_answers_result.html:14
 #: main/templates/main/reports/progress_center.html:44
 #: main/templates/main/test_result.html:42
+#: main/templates/main/upload_admin_board.html:14
 #: main/templates/main/upload_file_solutions.html:14
 msgid "Sense filtre"
 msgstr "No filter"
 
 #: main/templates/main/open_answers_result.html:33
 #: main/templates/main/test_result.html:56
+#: main/templates/main/upload_admin_board.html:29
 #: main/templates/main/upload_file_solutions.html:34
 msgid "Classe"
 msgstr "Class"
@@ -1374,7 +1390,7 @@ msgstr ""
 "center."
 
 #: main/templates/main/reports.html:28 main/templates/main/reports.html:97
-#: main/templates/main/reports.html:116
+#: main/templates/main/reports.html:116 main/templates/main/reports.html:144
 msgid "Tria un centre"
 msgstr "Choose center"
 
@@ -1388,6 +1404,7 @@ msgstr "All groups"
 
 #: main/templates/main/reports.html:52 main/templates/main/reports.html:79
 #: main/templates/main/reports.html:107 main/templates/main/reports.html:127
+#: main/templates/main/reports.html:154
 msgid "Generar informe"
 msgstr "Generate report"
 
@@ -1426,6 +1443,16 @@ msgstr ""
 "each group and test, the reports indicates if the test is in progress, "
 "completed, or pending."
 
+#: main/templates/main/reports.html:132
+#: main/templates/main/reports/teacher_poll_comments.html:5
+#: main/templates/main/reports/teacher_poll_comments.html:7
+msgid "Comentaris de les enquestes de professorat"
+msgstr "Comments on teacher polls"
+
+#: main/templates/main/reports.html:133
+msgid "help_comentaris_enquestes_professorat_centre"
+msgstr "This report shows the comments the teacher users have made when finishing their polls."
+
 #: main/templates/main/reports/poll_center_or_group.html:6
 #: main/templates/main/reports/poll_center_or_group.html:8
 msgid "Resultats enquesta per centre o grup"
@@ -1463,6 +1490,10 @@ msgstr "The group answered some questions, but still has not finished"
 #: main/templates/main/reports/progress_center.html:37
 msgid "El grup no ha començat encara a fer la prova"
 msgstr "The group has not yet started the test"
+
+#: main/templates/main/reports/teacher_poll_comments.html:29
+msgid "Ningú ha fet comentaris"
+msgstr "No one has commented"
 
 #: main/templates/main/teacher_edit.html:15
 msgid "Editar mestre"
@@ -1614,6 +1645,10 @@ msgstr "attempt"
 msgid "Resultats de proves"
 msgstr "Test results"
 
+#: main/templates/main/upload_admin_board.html:13
+msgid "Filtre per centre"
+msgstr "Center filter"
+
 #: main/templates/main/upload_file_solutions.html:5
 #: main/templates/main/upload_file_solutions.html:7
 msgid "Resum dels arxius pujats"
@@ -1674,8 +1709,8 @@ msgstr "password"
 #: main/views.py:936 main/views.py:972 main/views.py:1006 main/views.py:1172
 #: main/views.py:1222 main/views.py:1336 main/views.py:1347 main/views.py:1372
 #: main/views.py:1407 main/views.py:1445 main/views.py:1489 main/views.py:1503
-#: main/views.py:2344 main/views.py:2475 main/views.py:2749 main/views.py:2760
-#: main/views.py:2811
+#: main/views.py:2367 main/views.py:2409 main/views.py:2539 main/views.py:2838
+#: main/views.py:2849 main/views.py:2900
 msgid "Estàs intentant accedir a una pàgina a la que no tens permís."
 msgstr "You are trying to access a restricted page"
 
@@ -1687,13 +1722,13 @@ msgstr "Looks like this test does not exist"
 msgid "Sembla que aquesta prova no està completada."
 msgstr "Looks like this test is not complete"
 
-#: main/views.py:505 main/views.py:523 main/views.py:540 main/views.py:2185
-#: main/views.py:2215 main/views.py:2235 main/views.py:2264 main/views.py:2490
+#: main/views.py:505 main/views.py:523 main/views.py:540 main/views.py:2208
+#: main/views.py:2238 main/views.py:2258 main/views.py:2287 main/views.py:2554
 msgid "No existeix aquesta prova."
 msgstr "This test does not exist"
 
-#: main/views.py:509 main/views.py:527 main/views.py:2189 main/views.py:2219
-#: main/views.py:2239 main/views.py:2268 main/views.py:2495
+#: main/views.py:509 main/views.py:527 main/views.py:2212 main/views.py:2242
+#: main/views.py:2262 main/views.py:2291 main/views.py:2559
 msgid ""
 "El test seleccionat no l'ha realitzat cap grup i encara no té resultats."
 msgstr ""
@@ -1782,7 +1817,7 @@ msgstr "You are trying to edit a non-existing test."
 msgid "Llistat de credencials"
 msgstr "Credentials list"
 
-#: main/views.py:2331 main/views.py:2401 main/views.py:2463
+#: main/views.py:2354 main/views.py:2465 main/views.py:2527
 msgid "Anònim"
 msgstr "Anonymous"
 
