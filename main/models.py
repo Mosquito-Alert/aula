@@ -42,7 +42,7 @@ class EducationCenter(models.Model):
     campaign = models.ForeignKey(Campaign, default=get_current_active_campaign, null=True, blank=True, on_delete=models.SET_NULL, related_name="education_centers")
 
     def __str__(self):
-        return self.name
+        return "{0} - {1}".format(self.name, self.campaign.name)
 
     def center_slug(self, year=True):
         now = datetime.datetime.now()
@@ -497,6 +497,15 @@ class Profile(models.Model):
     group_hashtag = models.CharField(max_length=20, null=True, blank=True, unique=True)
     campaign = models.ForeignKey(Campaign, default=get_current_active_campaign, null=True, blank=True, on_delete=models.SET_NULL, related_name="profiles")
     teacher_password = models.CharField(max_length=128, null=True)
+
+    def __str__(self):
+        if self.is_group:
+            user_type = 'group'
+        elif self.is_teacher:
+            user_type = 'teacher'
+        else:
+            user_type = 'other'
+        return "{0} - {1}".format(self.user.username, user_type)
 
     @property
     def center(self):

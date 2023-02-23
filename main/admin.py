@@ -12,9 +12,16 @@ class QuizAdmin(admin.ModelAdmin):
     list_display = ('id', 'author', 'name', 'html_header', 'published', 'type_text')
     search_fields = ('author__username', 'name', 'type_text')
 
-admin.site.register(EducationCenter)
+class ProfileAdmin(admin.ModelAdmin):
+    search_fields = ( 'user__username', )
+
+class EducationCenterAdmin(admin.ModelAdmin):
+    search_fields = ('name', 'campaign__name', )
+
+admin.site.register(EducationCenter, EducationCenterAdmin)
 admin.site.register(Quiz, QuizAdmin)
 admin.site.register(QuizRun, QuizRunAdmin)
 admin.site.register(Question)
 admin.site.register(Campaign)
+admin.site.register(Profile, ProfileAdmin)
 #admin.site.register(GroupAnswer)
