@@ -33,7 +33,7 @@ $(document).ready( function () {
             $('#file_name').val(data.result.url);
             $('.end_button').show();
           }else{
-            alert(data.result.error_imagen);
+            alert("File type " + data.result.invalid_file_type + " not allowed. Must be a zip file.");
           }
           $('#spinner').hide();
         }

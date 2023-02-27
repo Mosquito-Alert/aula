@@ -55,6 +55,7 @@ from django.db import connection
 from itertools import groupby
 from django.db.models import Count
 from slugify import slugify
+import magic
 
 def get_order_clause(params_dict, translation_dict=None):
     order_clause = []
@@ -1992,12 +1993,16 @@ def uploadpic(request):
 def uploadfile(request):
     if request.method == 'POST':
         f = request.FILES['camp_file']
-        new_name = str(uuid.uuid1()) + ".zip"
-        with open(settings.MEDIA_ROOT + "/tempfiles/" + new_name, 'wb+') as destination:
-            for chunk in f.chunks():
-                destination.write(chunk)
-        data = {'is_valid': True, 'id': 1, 'url': '/media/tempfiles/' + new_name,
-                'path': settings.MEDIA_ROOT + "/tempfiles/" + f.name}
+        detected = magic.detect_from_content(f.read(2048))
+        if detected.mime_type != 'application/zip':
+            data = {'is_valid': False, 'id': 1, 'invalid_file_type': detected.mime_type}
+        else:
+            new_name = str(uuid.uuid1()) + ".zip"
+            with open(settings.MEDIA_ROOT + "/tempfiles/" + new_name, 'wb+') as destination:
+                for chunk in f.chunks():
+                    destination.write(chunk)
+            data = {'is_valid': True, 'id': 1, 'url': '/media/tempfiles/' + new_name,
+                    'path': settings.MEDIA_ROOT + "/tempfiles/" + f.name}
         return JsonResponse(data)
 
 @login_required
