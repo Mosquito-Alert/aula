@@ -108,7 +108,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <p class="ord_{{ question.question_order }}"><strong>{{ question.question_order }}.</strong>
-                    <i>{{ question.text }}</i> <a title="{% trans 'Editar pregunta i respostes' %}" href="{% url 'question_link_update' question.id %}" class="btn btn-primary"><i class="fas fa-edit"></i></a> <button title="{% trans 'Eliminar pregunta' %}" id="{{ question.id }}" class="delete_button btn btn-danger"><i class="fas fa-backspace"></i></button> </p>
+                    <i>{{ question.text|linebreaks }}</i> <a title="{% trans 'Editar pregunta i respostes' %}" href="{% url 'question_link_update' question.id %}" class="btn btn-primary"><i class="fas fa-edit"></i></a> <button title="{% trans 'Eliminar pregunta' %}" id="{{ question.id }}" class="delete_button btn btn-danger"><i class="fas fa-backspace"></i></button> </p>
                 </div>
             </div>
             <div class="row">
@@ -124,7 +124,7 @@
             {% if quiz.is_poll %}
                 <div class="row">
                     <div class="col-md-12">
-                        <p class="ord_{{ question.question_order }}"><strong>{{ question.question_order }}.</strong> <i>{{ question.text }}</i> <a title="{% trans 'Editar pregunta i respostes' %}" href="{% url 'question_poll_update' question.id %}" class="btn btn-primary"><i class="fas fa-edit"></i></a> <button title="{% trans 'Eliminar pregunta' %}" id="{{ question.id }}" class="delete_button btn btn-danger"><i class="fas fa-backspace"></i></button> </p>
+                        <p class="ord_{{ question.question_order }}"><strong>{{ question.question_order }}.</strong> <i>{{ question.text|linebreaks }}</i> <a title="{% trans 'Editar pregunta i respostes' %}" href="{% url 'question_poll_update' question.id %}" class="btn btn-primary"><i class="fas fa-edit"></i></a> <button title="{% trans 'Eliminar pregunta' %}" id="{{ question.id }}" class="delete_button btn btn-danger"><i class="fas fa-backspace"></i></button> </p>
                     </div>
                 </div>
                 <div class="row">
@@ -143,13 +143,13 @@
             {% elif quiz.is_upload %}
                 <div class="row">
                     <div class="col-md-12">
-                        <p class="ord_{{ question.question_order }}"><strong>{{ question.question_order }}.</strong> <i>{{ question.text }}</i> <a title="{% trans 'Editar pregunta i respostes' %}" href="{% url 'question_upload_update' question.id %}" class="btn btn-primary"><i class="fas fa-edit"></i></a> <button title="{% trans 'Eliminar pregunta' %}" id="{{ question.id }}" class="delete_button btn btn-danger"><i class="fas fa-backspace"></i></button> </p>
+                        <p class="ord_{{ question.question_order }}"><strong>{{ question.question_order }}.</strong> <i>{{ question.text|linebreaks }}</i> <a title="{% trans 'Editar pregunta i respostes' %}" href="{% url 'question_upload_update' question.id %}" class="btn btn-primary"><i class="fas fa-edit"></i></a> <button title="{% trans 'Eliminar pregunta' %}" id="{{ question.id }}" class="delete_button btn btn-danger"><i class="fas fa-backspace"></i></button> </p>
                     </div>
                 </div>
             {% elif quiz.is_open %}
                 <div class="row">
                     <div class="col-md-12">
-                        <p class="ord_{{ question.question_order }}"><strong>{{ question.question_order }}.</strong> <i>{{ question.text }}</i> <a title="{% trans 'Editar pregunta i respostes' %}" href="{% url 'question_open_update' question.id %}" class="btn btn-primary"><i class="fas fa-edit"></i></a> <button title="{% trans 'Eliminar pregunta' %}" id="{{ question.id }}" class="delete_button btn btn-danger"><i class="fas fa-backspace"></i></button> </p>
+                        <p class="ord_{{ question.question_order }}"><strong>{{ question.question_order }}.</strong> <i>{{ question.text|linebreaks }}</i> <a title="{% trans 'Editar pregunta i respostes' %}" href="{% url 'question_open_update' question.id %}" class="btn btn-primary"><i class="fas fa-edit"></i></a> <button title="{% trans 'Eliminar pregunta' %}" id="{{ question.id }}" class="delete_button btn btn-danger"><i class="fas fa-backspace"></i></button> </p>
                     </div>
                 </div>
             {% else %}
@@ -161,7 +161,7 @@
                     </div>
                     <div class="row mt-3">
                         <div class="col-md-12">
-                            <p class="ord_{{ question.question_order }}"><strong>{{ question.question_order }}.</strong> <i>{{ question.text }}</i> <a title="{% trans 'Editar pregunta i respostes' %}" href="{% url 'question_update' question.id %}" class="btn btn-primary"><i class="fas fa-edit"></i></a> <button title="{% trans 'Eliminar pregunta' %}" id="{{ question.id }}" class="delete_button btn btn-danger"><i class="fas fa-backspace"></i></button></p>
+                            <p class="ord_{{ question.question_order }}"><strong>{{ question.question_order }}.</strong> <i>{{ question.text|linebreaks }}</i> <a title="{% trans 'Editar pregunta i respostes' %}" href="{% url 'question_update' question.id %}" class="btn btn-primary"><i class="fas fa-edit"></i></a> <button title="{% trans 'Eliminar pregunta' %}" id="{{ question.id }}" class="delete_button btn btn-danger"><i class="fas fa-backspace"></i></button></p>
                         </div>
                     </div>
                     <div class="row">
@@ -180,7 +180,7 @@
                     {% else %}
                         <div class="row">
                             <div class="col-md-12">
-                                <p class="ord_{{ question.question_order }}"><strong>{{ question.question_order }}.</strong> <i>{{ question.text }}</i> <a title="{% trans 'Editar pregunta i respostes' %}" href="{% url 'question_update' question.id %}" class="btn btn-primary"><i class="fas fa-edit"></i></a> <button title="{% trans 'Eliminar pregunta' %}" id="{{ question.id }}" class="delete_button btn btn-danger"><i class="fas fa-backspace"></i></button> </p>
+                                <p class="ord_{{ question.question_order }}"><strong>{{ question.question_order }}.</strong> <i>{{ question.text|linebreaks }}</i> <a title="{% trans 'Editar pregunta i respostes' %}" href="{% url 'question_update' question.id %}" class="btn btn-primary"><i class="fas fa-edit"></i></a> <button title="{% trans 'Eliminar pregunta' %}" id="{{ question.id }}" class="delete_button btn btn-danger"><i class="fas fa-backspace"></i></button> </p>
                             </div>
                         </div>
                             <div class="row">
