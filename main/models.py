@@ -311,7 +311,8 @@ class QuizRunAnswers(models.Model):
 
 class Question(models.Model):
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name='questions')
-    text = models.CharField('Question', max_length=500)
+    #text = models.CharField('Question', max_length=500)
+    text = models.TextField('Question')
     question_order = models.IntegerField('Question order inside the quiz', default=1)
     doc_link = models.URLField(max_length=1000, blank=True, null=True)
     question_picture = models.ImageField(upload_to='media/question_pics/', null=True)
