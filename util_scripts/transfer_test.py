@@ -196,10 +196,16 @@ answers_update_data_26_to_46 = [
     (	399	,	1758	,	85	,	335	),
 ]
 
+answers_update_data_103_to_74 = [
+
+]
+
 # select user_id from main_profile where campaign_id=2 and is_group=true
 # all campaign 2
 
+
 def main():
+    '''
     sql = 'update main_quizrun set quiz_id = 45 where quiz_id = 24 and taken_by_id in ( select user_id from main_profile where is_group=True and group_teacher_id in (598,599,600,601,602,603) );'
     print(sql)
     sql = 'update main_quizrunanswers set question_id={0},chosen_answer_id={1} where question_id ={2} and chosen_answer_id={3} and quizrun_id in (select id from main_quizrun where taken_by_id in ( select user_id from main_profile where is_group=True and group_teacher_id in (598,599,600,601,602,603) ));'
@@ -216,6 +222,27 @@ def main():
     print(sql)
     sql = 'update main_quizrunanswers set question_id={0},chosen_answer_id={1} where question_id ={2} and chosen_answer_id={3} and quizrun_id in (select id from main_quizrun where taken_by_id in ( select user_id from main_profile where is_group=True and group_teacher_id in (598,599,600,601,602,603) ));'
     for d in answers_update_data_26_to_46:
+        print(sql.format(d[0], d[1], d[2], d[3]))
+    '''
+    #Moure professor de campanya
+    sql = 'update main_profile set campaign_id = 6 where user_id=1212;'
+    print(sql)
+    # Moure alumnes de campanya
+    sql = 'update main_profile set campaign_id = 6 where user_id in (1249,1250,1248,1253,1251,1246,1247,1252);'
+    print(sql)
+    # Moure centre
+    sql = 'update main_educationcenter set campaign_id = 6 where id=113';
+    print(sql)
+
+    sql = 'update main_quizrun set quiz_id = 74 where quiz_id = 103 and taken_by_id in ( select user_id from main_profile where is_group=True and group_teacher_id = 1212 );'
+    print(sql)
+
+    # Eliminar respostes de 103
+    sql = 'delete from main_quizrunanswers where question_id in (883,884) and quizrun_id in ( select id from main_quizrun where taken_by_id in (1249,1250,1248,1253,1251,1246,1247,1252));'
+    print(sql)
+
+    sql = 'update main_quizrunanswers set question_id={0},chosen_answer_id={1} where question_id ={2} and chosen_answer_id={3} and quizrun_id in (select id from main_quizrun where taken_by_id in ( select user_id from main_profile where is_group=True and group_teacher_id = 1212 ));'
+    for d in answers_update_data_103_to_74:
         print(sql.format(d[0], d[1], d[2], d[3]))
 
 
