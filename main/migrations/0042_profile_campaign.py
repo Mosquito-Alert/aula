@@ -15,6 +15,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='profile',
             name='campaign',
-            field=models.ForeignKey(blank=True, default=main.models.get_current_active_campaign, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='profiles', to='main.campaign'),
+            field=models.ForeignKey(blank=True, default=main.models.get_current_active_campaign(), null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='profiles', to='main.campaign'),
         ),
     ]
