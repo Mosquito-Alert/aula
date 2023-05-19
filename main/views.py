@@ -1799,7 +1799,12 @@ def api_startrun(request):
             raise ParseError(detail='Run number not specified')
         else:
             if QuizRun.objects.filter( quiz=quiz_id, taken_by=taken_by, run_number=run_number ).exists():
-                return Response('Run number already exists',status=status.HTTP_404_NOT_FOUND)
+                data = {'message':'Run number already exists','code': 0}
+                return Response(data, status=status.HTTP_400_BAD_REQUEST)
+
+        if QuizRun.objects.filter( quiz=quiz_id, taken_by=taken_by ).filter(date_finished__isnull=True).exists():
+            data = {'message': 'There is a quizrun for this test and user not yet finished', 'code': 1}
+            return Response(data, status=status.HTTP_400_BAD_REQUEST)
         quiz = get_object_or_404(Quiz,pk=quiz_id)
         user_taken = get_object_or_404(User,pk=taken_by)
         q = QuizRun(taken_by=user_taken, quiz=quiz, run_number=run_number)
