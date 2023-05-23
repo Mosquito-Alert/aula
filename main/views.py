@@ -259,11 +259,11 @@ def quiz_is_repeatable_for_user(quiz, this_user):
         return False
     elif quiz.type == 2:
         if this_user.profile.is_group:
-            n_completed_quizruns_for_test = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=False).count()
+            n_completed_quizruns_for_test = QuizRun.objects.filter(taken_by=this_user).filter(quiz=quiz).filter(date_finished__isnull=False).count()
             if n_completed_quizruns_for_test >= this_user.profile.n_students_in_group:
                 return False
     elif quiz.type == 4:
-        n_completed_quizruns_for_test = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=False).count()
+        n_completed_quizruns_for_test = QuizRun.objects.filter(taken_by=this_user).filter(quiz=quiz).filter(date_finished__isnull=False).count()
         if n_completed_quizruns_for_test > 0:
             return False
     return True
