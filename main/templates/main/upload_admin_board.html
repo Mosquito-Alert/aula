@@ -2,6 +2,16 @@
 {% load static %}
 {% load i18n %}
 {% load imagekit %}
+{% block extra_css %}
+<style>
+    a.csv {
+        padding-right: 40px;
+        padding-top: 10px;
+        padding-bottom: 15px;
+        background: transparent url({% static 'main/icons/noun_report_3907422.svg' %}) no-repeat top right;
+    }
+</style>
+{% endblock %}
 {% block title %}{% trans 'Taulell d`arxius pujats comprovats' %}{% endblock %}
 
 {% block main_jumbo %}<img class="img_icons" src="{% static 'main/icons/noun-check-3554048.svg' %}"> {% trans 'Taulell d`arxius pujats comprovats' %}{% endblock %}
@@ -18,6 +28,9 @@
     </div>
     <hr>
     {% endif %}
+    <div class="row">
+        <a class="csv" href="{% url 'upload_admin_board_csv' %}">CSV</a>
+    </div>
     {% for center in data %}
     <div class="row alert alert-success">
         <div class="col-md-6"><h2><span class="badge badge-info">{{ center.center.name }} - {{ center.center.hashtag }}</span></h2></div>

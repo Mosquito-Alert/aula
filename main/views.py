@@ -56,6 +56,7 @@ from itertools import groupby
 from django.db.models import Count
 from slugify import slugify
 import magic
+import csv
 
 def get_order_clause(params_dict, translation_dict=None):
     order_clause = []
@@ -2375,6 +2376,62 @@ def upload_file_solutions_class(request, slug=None):
         return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
 
     return render(request, 'main/upload_file_solutions.html',{'my_quizzes': my_quizzes, 'grupos_profe': p, "teacher_filters": teacher_filters, "current_slug": slug})
+
+
+@login_required
+def upload_admin_board_csv(request):
+    this_user = request.user
+    if this_user.is_superuser:
+        centers = EducationCenter.objects.filter(campaign__active=True).order_by('name')
+        upload_quizzes = Quiz.objects.filter(type=3).filter(campaign__active=True).order_by('name')
+        quiz_names = [ q.name for q in upload_quizzes]
+        campaign = Campaign.objects.get(active=True)
+        data = []
+        checked_list = []
+        for center in centers:
+            groups = []
+            center_teachers = User.objects.filter(profile__is_teacher=True).filter(profile__teacher_belongs_to=center)
+            groups_center = User.objects.filter(profile__group_teacher__isnull=False).filter(profile__group_teacher__in=center_teachers).order_by('profile__group_public_name', 'profile__group_class')
+            for group in groups_center:
+                quizzes = []
+                for quiz in upload_quizzes:
+                    quizrun = QuizRun.objects.filter(quiz=quiz).filter(taken_by=group).exclude(date_finished=None)
+                    upload_done = quizrun.exists()
+                    the_actual_file = None
+                    if upload_done:
+                        the_actual_file = quizrun.first().uploaded_file.url
+                    else:
+                        the_actual_file = None
+                    checked = CheckedQuizrun.objects.filter(checked_by=this_user).filter(quiz=quiz).filter(group=group).exists()
+                    if checked:
+                        checked_list.append( str(quiz.id) + "_" + str(group.id) );
+                    quizzes.append( {'quiz': quiz, 'url_mat': the_actual_file, 'checked': checked } )
+                groups.append( { 'group': group,  'quizzes': quizzes} )
+            data.append({ 'center': center, 'groups': groups })
+
+        campaign_name = campaign.name
+        campaign_name_slug = slugify(campaign_name)
+        response = HttpResponse(content_type='text/csv')
+        response_fmt = 'attachment; filename="{0}.csv"'.format(campaign_name_slug)
+        response['Content-Disposition'] = response_fmt
+        writer = csv.writer(response)
+        header = [_('Campaigns'), _('Centres'), _('Grup'), _('Classe') ] + quiz_names
+        writer.writerow(header)
+        for d in data:
+            center_name = d['center'].name
+            for group in d['groups']:
+                group_name = "{0} ({1})".format(group['group'].profile.group_public_name, group['group'].username)
+                class_name = group['group'].profile.group_class
+                row = [campaign_name, center_name, group_name, class_name]
+                for q in group['quizzes']:
+                    #quiz_name = q['quiz'].name
+                    if q['url_mat'] is None:
+                        quiz_url = ''
+                    else:
+                        quiz_url = settings.SERVER_URL + q['url_mat']
+                    row.append(quiz_url)
+                writer.writerow(row)
+        return response
 
 
 @login_required

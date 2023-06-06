@@ -128,6 +128,7 @@ urlpatterns = [
     path('upload_file/solutions/', views.upload_file_solutions, name='upload_file_solutions'),
     path('upload_file/solutions/<str:slug>/', views.upload_file_solutions_class, name='upload_file_solutions_class'),
     path('upload_file/admin_board/', views.upload_admin_board, name='upload_admin_board'),
+    path('upload_file/admin_board_csv/', views.upload_admin_board_csv, name='upload_admin_board_csv'),
     path('tinymce/', include('tinymce.urls')),
     path('quiz/test_result/<int:quiz_id>/<int:group_id>/', views.quizrun_group_list, name='quizrun_group_list'),
     path('quizrun/delete/<int:quizrun_id>/', views.delete_quizrun, name='delete_quizrun'),

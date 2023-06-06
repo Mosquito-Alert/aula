@@ -198,3 +198,5 @@ TINYMCE_DEFAULT_CONFIG = {
     "a11ycheck ltr rtl | showcomments addcomment code",
     "custom_undo_redo_levels": 10,
 }
+
+SERVER_URL = 'https://humboldt2.ceab.csic.es'
