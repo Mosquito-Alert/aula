@@ -2,90 +2,94 @@ import app_config
 
 from main.models import BreedingSites, Campaign
 import csv
+import sys
+from csv import reader
 
 WORKING_DIR = app_config.proj_path + '/util_scripts/'
 
-hashtags = {
-    '1': [
-        '#cjdl21',
-        '#ifa21',
-        '#ic21',
-        '#eb21',
-        '#vdr21',
-        '#ildv21',
-        '#is21',
-        '#ijaz21',
-        '#igadh21',
-        '#ieo21',
-        '#iepp21',
-        '#ia21',
-        '#iac21',
-        '#cb21',
-        '#cemdls21',
-        '#cmada21',
-        '#st21',
-        '#spa21',
-        '#mr21',
-        '#gdlr21',
-        '#e21',
-        '#cmm21',
-        '#cli21',
-        '#cdnsdlm21',
-        '#ip21',
-        '#icre22',
-        '#im21'
-    ],
-    '2': [
-        '#cepaa22',
-        '#ct22',
-        '#itp22',
-        '#cnsdlm22',
-        '#cgdlr22',
-        '#cjdl22',
-        '#cmm22',
-        '#cii22',
-        '#ei22',
-        '#e22',
-        '#ia22',
-        '#icr22',
-        '#ic22',
-        '#ieo22',
-        '#ijaz22',
-        '#ildv22',
-        '#is22',
-        '#st22',
-        '#vdr22',
-        '#icn22',
-        '#idds22',
-        '#idc22',
-        '#iln22',
-        '#igm22',
-        '#iedg22',
-        '#isjdc22',
-        '#ialm22',
-        '#ccdm22',
-        '#ice22',
-        '#im22',
-        '#cmada22',
-        '#ijc22'
-    ],
-    '3': [
-        '#ctt22',
-        '#ijda22',
-        '#idp22',
-        '#ila22',
-        '#ime22',
-        '#inm22',
-        '#iv22',
-        '#iea22'
-    ],
-    '30': [
-        '#St21',
-        '#UC21',
-        '#KKCA21',
-        '#PL21'
-    ]
-}
+hashtags = {}
+
+# hashtags = {
+#     '1': [
+#         '#cjdl21',
+#         '#ifa21',
+#         '#ic21',
+#         '#eb21',
+#         '#vdr21',
+#         '#ildv21',
+#         '#is21',
+#         '#ijaz21',
+#         '#igadh21',
+#         '#ieo21',
+#         '#iepp21',
+#         '#ia21',
+#         '#iac21',
+#         '#cb21',
+#         '#cemdls21',
+#         '#cmada21',
+#         '#st21',
+#         '#spa21',
+#         '#mr21',
+#         '#gdlr21',
+#         '#e21',
+#         '#cmm21',
+#         '#cli21',
+#         '#cdnsdlm21',
+#         '#ip21',
+#         '#icre22',
+#         '#im21'
+#     ],
+#     '2': [
+#         '#cepaa22',
+#         '#ct22',
+#         '#itp22',
+#         '#cnsdlm22',
+#         '#cgdlr22',
+#         '#cjdl22',
+#         '#cmm22',
+#         '#cii22',
+#         '#ei22',
+#         '#e22',
+#         '#ia22',
+#         '#icr22',
+#         '#ic22',
+#         '#ieo22',
+#         '#ijaz22',
+#         '#ildv22',
+#         '#is22',
+#         '#st22',
+#         '#vdr22',
+#         '#icn22',
+#         '#idds22',
+#         '#idc22',
+#         '#iln22',
+#         '#igm22',
+#         '#iedg22',
+#         '#isjdc22',
+#         '#ialm22',
+#         '#ccdm22',
+#         '#ice22',
+#         '#im22',
+#         '#cmada22',
+#         '#ijc22'
+#     ],
+#     '3': [
+#         '#ctt22',
+#         '#ijda22',
+#         '#idp22',
+#         '#ila22',
+#         '#ime22',
+#         '#inm22',
+#         '#iv22',
+#         '#iea22'
+#     ],
+#     '30': [
+#         '#St21',
+#         '#UC21',
+#         '#KKCA21',
+#         '#PL21'
+#     ]
+# }
 
 
 def row_formatter(row):
@@ -97,12 +101,12 @@ def row_formatter(row):
         private_webmap_layer= row[23],
         photo_url= 'http://webserver.mosquitoalert.com' + row[15],
         note= row[22],
-        center_hashtag=row[54]
+        center_hashtag=row[44]
     )
     return b
 
 
-def load_campaign(id, pre_delete=False):
+def load_campaign(id, pre_delete=False, hashtags=None):
     if pre_delete:
         campaign_hashtags = hashtags[str(id)]
         BreedingSites.objects.filter(center_hashtag__in=campaign_hashtags).delete()
@@ -117,12 +121,33 @@ def load_campaign(id, pre_delete=False):
             breeding_sites.append(breeding_site)
     BreedingSites.objects.bulk_create(breeding_sites)
 
+def load_hashtags_from_file(file):
+    data = {}
+    with open(file, 'r') as read_obj:
+        csv_reader = reader(read_obj)
+        for row in csv_reader:
+            campaign_id = row[0]
+            hashtag = row[1]
+            try:
+                data[campaign_id]
+            except KeyError:
+                data[campaign_id] = []
+            data[campaign_id].append(hashtag)
+    return data
 
 def main():
-    load_campaign(1, pre_delete=True)
-    load_campaign(2, pre_delete=True)
-    load_campaign(3, pre_delete=True)
-    load_campaign(30, pre_delete=True)
+    args = sys.argv[1:]
+    filename = args[0]
+    hashtags = load_hashtags_from_file(filename)
+    load_campaign(5, pre_delete=True, hashtags=hashtags)
+    load_campaign(6, pre_delete=True, hashtags=hashtags)
+    load_campaign(7, pre_delete=True, hashtags=hashtags)
+    load_campaign(8, pre_delete=True, hashtags=hashtags)
+    load_campaign(9, pre_delete=True, hashtags=hashtags)
+    # load_campaign(1, pre_delete=True)
+    # load_campaign(2, pre_delete=True)
+    # load_campaign(3, pre_delete=True)
+    # load_campaign(30, pre_delete=True)
 
 
 if __name__ == '__main__':
