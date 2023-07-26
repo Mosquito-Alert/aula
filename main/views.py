@@ -1641,7 +1641,7 @@ def map_campaign_year(request, year=None):
         awards_data = json.dumps(get_center_awards())
         return render(request, 'main/map.html', {'centers': centers, 'count_data': count, 'bs': bs, 'current_year': current_year, 'awards_data': awards_data})
     else:
-        campaigns_year = Campaign.objects.filter(start_date__year=year)
+        campaigns_year = Campaign.objects.filter(end_date__year=year)
         centers = EducationCenter.objects.filter(campaign__in=campaigns_year).exclude(location__isnull=True)
         serializer = EducationCenterSerializer(centers, many=True)
         centers = json.dumps(serializer.data)
@@ -1684,7 +1684,8 @@ def get_participation_years(center):
     campaigns = Campaign.objects.filter(id__in=campaigns_by_center)
     years = []
     for c in campaigns:
-        years.append( str(c.start_date.year) )
+        if not str(c.end_date.year) in years:
+            years.append( str(c.end_date.year) )
     if len(years) > 0:
         return ','.join(years)
     return ''
