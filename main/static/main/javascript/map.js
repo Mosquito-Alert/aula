@@ -251,9 +251,9 @@ $(document).ready(function() {
         return new L.Control.Watermark(opts);
     }
 
-    L.control.watermark({ position: 'bottomleft', url: '/static/main/icons/logo_ASPB.svg', img_width: '200px' }).addTo(map)
-    L.control.watermark({ position: 'bottomleft', url: '/static/main/icons/mcin-fecyt-web.png', img_width: '400px' }).addTo(map)
-    L.control.watermark({ position: 'bottomleft', url: '/static/main/icons/one_health_pact.jpg', img_width: '150px' }).addTo(map)
+    L.control.watermark({ position: 'bottomleft', url: '/static/main/icons/one_health_pact.jpg', img_width: '100px' }).addTo(map)
+    L.control.watermark({ position: 'bottomleft', url: '/static/main/icons/logo_ASPB.svg', img_width: '150px' }).addTo(map)
+    L.control.watermark({ position: 'bottomleft', url: '/static/main/icons/mcin-fecyt-web.png', img_width: '420px' }).addTo(map)
 
     adjust_ui();
 });
