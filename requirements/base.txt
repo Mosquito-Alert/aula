@@ -1,0 +1,18 @@
+six==1.15.0
+python-slugify==5.0.2
+pytz==2020.1
+WeasyPrint==60.1
+python-magic==0.4.27
+
+# Django
+# ------------------------------------------------------------------------------
+Django==3.1
+django-environ==0.10.0
+django-crispy-forms==1.9.2
+django-imagekit==4.0.2
+django-tinymce==3.2.0
+
+# Django Admin
+
+# Django REST Framework
+djangorestframework==3.12.1

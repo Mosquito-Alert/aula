@@ -1,6 +1,6 @@
-from main.models import Campaign
+from main.models import get_current_active_campaign
 
 
 def campaign(request):
-    c = Campaign.objects.get(active=True)
+    c = get_current_active_campaign()
     return { 'campaign': c }

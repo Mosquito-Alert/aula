@@ -1,0 +1,11 @@
+# PRECAUTION: avoid production dependencies that aren't in development
+
+-r base.txt
+
+gunicorn==20.1.0  # https://github.com/benoitc/gunicorn
+psycopg2==2.8.5
+Collectfast==2.2.0  # https://github.com/antonagestam/collectfast
+
+# Django
+# ------------------------------------------------------------------------------
+django-storages[boto3]==1.12.3  # https://github.com/jschneier/django-storages

@@ -4,7 +4,6 @@ from django.http import HttpResponseRedirect
 from main.forms import QuizForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
-from aula import settings
 from main.models import EducationCenter, Word, Quiz, Answer, Question, QuizRun, QuizRunAnswers, Profile, get_string_from_groups, Campaign, QuizCorrection
 from main.forms import TeacherForm, SimplifiedTeacherForm, EducationCenterForm, TeacherUpdateForm, ChangePasswordForm, \
     SimplifiedAlumForm, SimplifiedGroupForm, AlumUpdateForm, QuestionForm, QuestionLinkForm, SimplifiedAlumFormForTeacher, \
@@ -51,7 +50,6 @@ import uuid
 from django.template.loader import render_to_string
 from weasyprint import HTML, CSS
 import logging
-from django.db import connection
 from itertools import groupby
 from django.db.models import Count
 from slugify import slugify
@@ -2092,27 +2090,15 @@ def group_credentials_list(request):
         'centro': centro.name
     }
 
-    #grupos = Profile.objects.filter(is_group=True).filter(group_teacher=this_user)
-
-    #queryset = User.objects.filter(profile__is_group=True).filter(profile__group_teacher=this_user).select_related()
-    #print(queryset)
-
-    cursor = connection.cursor()
-    cursor.execute('select main_profile.user_id as id, main_profile.group_public_name, main_profile.group_password, '
-                   'auth_user.username from public.main_profile, public.auth_user '
-                   'where main_profile.user_id = auth_user.id and main_profile.group_teacher_id = %s ', [this_user])
-    queryset = cursor.fetchall()
-    #b'select main_profile.user_id, main_profile.group_public_name, main_profile.group_password, auth_user.username from public.main_profile, public.auth_user where main_profile.user_id = auth_user.id and main_profile.group_teacher_id = 2 '
-
-    test = Profile.objects.raw("select m.user_id, m.group_public_name, m.group_password, a.username from public.main_profile m, auth_user a where m.user_id = a.id and m.group_teacher_id = 2")
+    queryset = Profile.objects.filter(group_teacher=this_user).select_related('user').all()
 
     grupos_info = []
 
-    for g in queryset:
+    for obj in queryset:
         grupos_info.append({
-            'nombre_publico_grupo': g[1],
-            'password_grupo': g[2],
-            'nombre_grupo': g[3]
+            'nombre_publico_grupo': obj.group_public_name,
+            'password_grupo': obj.group_password,
+            'nombre_grupo': obj.user.username
         })
 
     logger = logging.getLogger('weasyprint')
@@ -2429,7 +2415,7 @@ def upload_admin_board_csv(request):
                     if q['url_mat'] is None:
                         quiz_url = ''
                     else:
-                        quiz_url = settings.SERVER_URL + q['url_mat']
+                        quiz_url = request.build_absolute_uri(location=q['url_mat'])
                     row.append(quiz_url)
                 writer.writerow(row)
         return response

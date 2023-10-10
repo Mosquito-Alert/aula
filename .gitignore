@@ -1,6 +1,3 @@
-aula/settings_local.py
-aula/settings_local*
-aula/settings/local.pyc
 uploads/
 media/
 *pyc
@@ -12,3 +9,6 @@ media/
 static/*
 __pycache__/
 util_scripts/*.csv
+.env
+.envs/*
+!.envs/.local/

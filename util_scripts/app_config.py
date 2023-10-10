@@ -1,6 +1,6 @@
 import os, sys
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "aula.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.local")
 proj_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(proj_path)
 os.chdir(proj_path)
