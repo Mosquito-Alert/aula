@@ -28,8 +28,10 @@ class Campaign(models.Model):
 def get_current_active_campaign():
     try:
         return Campaign.objects.get(active=True).id
-    except Campaign.DoesNotExist:
+    except:
         return None
+    # except Campaign.DoesNotExist:
+    #     return None
 
 
 class EducationCenter(models.Model):
@@ -39,7 +41,7 @@ class EducationCenter(models.Model):
     active = models.BooleanField(default=True)
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
-    campaign = models.ForeignKey(Campaign, default=get_current_active_campaign, null=True, blank=True, on_delete=models.SET_NULL, related_name="education_centers")
+    campaign = models.ForeignKey(Campaign, default=get_current_active_campaign(), null=True, blank=True, on_delete=models.SET_NULL, related_name="education_centers")
 
     def __str__(self):
         return "{0} - {1}".format(self.name, self.campaign.name)
@@ -96,7 +98,7 @@ class Quiz(models.Model):
     type = models.IntegerField(choices=QUIZ_TYPES)
     # To take this quiz, you need to previously complete 'requisite'
     requisite = models.ForeignKey('main.Quiz', null=True, blank=True, on_delete=models.SET_NULL, related_name='allows')
-    campaign = models.ForeignKey(Campaign, default=get_current_active_campaign, null=True, blank=True, on_delete=models.SET_NULL, related_name="quizzes")
+    campaign = models.ForeignKey(Campaign, default=get_current_active_campaign(), null=True, blank=True, on_delete=models.SET_NULL, related_name="quizzes")
     seq = models.IntegerField('Sequence in which the quizzes are meant to be taken', blank=True, null=True)
 
     def clone(self):
@@ -496,7 +498,7 @@ class Profile(models.Model):
     center_string = models.CharField(max_length=1000, null=True, blank=True)
     n_students_in_group = models.IntegerField(default=3)
     group_hashtag = models.CharField(max_length=20, null=True, blank=True, unique=True)
-    campaign = models.ForeignKey(Campaign, default=get_current_active_campaign, null=True, blank=True, on_delete=models.SET_NULL, related_name="profiles")
+    campaign = models.ForeignKey(Campaign, default=get_current_active_campaign(), null=True, blank=True, on_delete=models.SET_NULL, related_name="profiles")
     teacher_password = models.CharField(max_length=128, null=True)
 
     def __str__(self):
@@ -566,7 +568,6 @@ def create_user_profile(sender, instance, created, **kwargs):
 
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, created, **kwargs):
-    print(created)
     # if instance.profile.is_alum:
     #     group_string = get_string_from_groups(instance.profile)
     #     center_string = None
