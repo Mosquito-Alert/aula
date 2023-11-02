@@ -462,26 +462,32 @@ class QuestionOpenForm(forms.ModelForm):
                     raise forms.ValidationError(_('Ja hi ha una pregunta amb aquest número d\'ordre per aquesta prova. Tria un número diferent'))
         return cleaned_data
 
-
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Fieldset, Submit
 class QuestionForm(forms.ModelForm):
-    question_order = forms.IntegerField(label=_("Ordre de la pregunta dins la prova"), required=True)
-    text = forms.CharField(label=_("Text de la pregunta"), widget=forms.Textarea(attrs={'class': 'form-control','rows':4}), required=True)
-    question_picture = forms.CharField(widget=forms.HiddenInput(), required=False)
-    answers_json = forms.CharField(widget=forms.HiddenInput(), required=False)
+    ##text = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control','rows':4}), required=True)
 
     class Meta:
         model = Question
-        fields = ("question_order","text","answers_json")
+        fields = ("quiz", "question_order", "text", "question_picture")
 
-    def clean_question_order(self):
-        cleaned_data = self.cleaned_data.get('question_order')
-        quiz_id = self.data.get('quiz_id',-1)
-        if quiz_id != -1:
-            questions = Question.objects.filter(quiz__id=int(quiz_id))
-            for q in questions:
-                if q.question_order == cleaned_data:
-                    raise forms.ValidationError(_('Ja hi ha una pregunta amb aquest número d\'ordre per aquesta prova. Tria un número diferent'))
-        return cleaned_data
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        #self.helper.form_id = 'question_form'
+        #self.helper.form_method = 'post'
+        #self.helper.form_action = 'question_new'
+        self.helper.form_tag = False # this is crucial
+
+class AnswerForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_tag = False
+
+    class Meta:
+        model = Answer
+        fields = ("label", "text", "is_correct")
 
 
 class CampaignForm(forms.ModelForm):

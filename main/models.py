@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models.constraints import UniqueConstraint
 from django.contrib.gis.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save,post_delete
@@ -312,10 +313,10 @@ class QuizRunAnswers(models.Model):
 class Question(models.Model):
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name='questions')
     #text = models.CharField('Question', max_length=500)
-    text = models.TextField('Question')
-    question_order = models.IntegerField('Question order inside the quiz', default=1)
+    text = models.TextField(_("Text de la pregunta"))
+    question_order = models.IntegerField(_("Ordre de la pregunta dins la prova"), default=1)
     doc_link = models.URLField(max_length=1000, blank=True, null=True)
-    question_picture = models.ImageField(upload_to='media/question_pics/', null=True)
+    question_picture = models.ImageField(upload_to='media/question_pics/', blank=True, null=True)
 
     def clone(self):
         q = Question(
@@ -365,6 +366,10 @@ class Question(models.Model):
         n_total = QuizRunAnswers.objects.filter(question=self).filter(answered=True).filter(quizrun__taken_by__in=teachers_in_center).count()
         return n_total
 
+    class Meta:
+        constraints = [
+            UniqueConstraint(fields=['quiz', 'question_order'], name='unique_question_position_for_quiz')
+        ]
 
 class Answer(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='answers')

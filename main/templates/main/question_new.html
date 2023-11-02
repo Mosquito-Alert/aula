@@ -16,8 +16,10 @@
 {% block sub_jumbo %}{% trans 'Aquesta pertany a la prova amb nom' %} <strong>{{ quiz.name }}</strong>{% endblock %}
 
 {% block main %}
+
+{% comment %}
 <div class="container">
-    <form id="question_form" action="{% url 'question_new' quiz.id %}" method="post">
+    <form id="question_form" enctype="multipart/form-data" action="{% url 'question_new' quiz.id %}" method="post">
         {% csrf_token %}
 
         <h3><img src="{% static 'main/icons/noun_Question_3611223.svg' %}" width="5%"> {% trans 'Pregunta' %}:</h3>
@@ -36,40 +38,31 @@
             </div>
         </div>
 
-        <div id="file_upload_div" class="form-group">
-            <label>{% trans 'Imatge de la pregunta' %}:</label>
-            <input id="fileupload" type="file" name="question_foto" style="display: none" data-url="{% url 'upload_question_pic' %}" data-form-data='{"csrfmiddlewaretoken": "{{ csrf_token }}"}'>
-            <table id="gallery" class="table table-bordered" style="margin-top: 15px;">
-                <tbody>
-                    {% if question_picture %}
-                      <tr>
-                          <td>
-                            <a target="_blank" href="{{ question_picture }}"><img style="height: 150px;" src="{{ question_picture }}"></a>
-                          </td>
-                          <td>
-                            <a href="#" class="btn btn-danger btn-sm btn-del btn-del-img imatgeRodal deleteFoto">{% trans 'Eliminar' %}</a>
-                          </td>
-                      </tr>
-                    {% endif %}
-                </tbody>
-            </table>
-            <button type="button" class="btn btn-primary js-upload-photos">
-                <span class="glyphicon glyphicon-cloud-upload"></span>{% trans 'Afegir foto' %}
-            </button>
-        </div>
-
         {{ form.answers_json }}
         <h3><img src="{% static 'main/icons/noun_Response Message_356176.svg' %}" width="5%"> {% trans 'Respostes' %}:</h3>
         <div id="answers">
         </div>
         <div id="general_errors"></div>
-        <input id="id_photo_path" type="hidden" name="question_picture" value="{{ question_picture }}">
-        <input type="hidden" name="quiz_id" value="{{ quiz.id }}">
         <button type="button" id="add_resposta" class="btn btn-info mt-2"><i class="fas fa-plus"></i></button><br>
         <input role="button" class="btn btn-success mt-2" type="submit" value="{% trans 'Desar' %}"/>
     </form>
 </div>
+{% endcomment %}
+<div class="container">
+    <form method="post" action="" class="">
+        
+        {% crispy form  %}
+        {% crispy formset formset.form.helper %}
+
+        <input class="submit" type="submit" value="Submit data">
+        
+    </form>
+    
+</div>
+
 {% endblock %}
+
+{% comment %}
 {% block extra_js %}
 <script src="{% static 'main/mustache/mustache.js' %}"></script>
 <script id="row_template" type="text/template">
@@ -121,3 +114,4 @@
 <script src="{% static 'main/javascript/question_new.js' %}"></script>
 {% endblock %}
 
+{% endcomment %}

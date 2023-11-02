@@ -551,33 +551,45 @@ def quiz_browse(request, quiz_id=None):
 
     return render(request, 'main/quiz_browse.html', {'quiz': quiz})
 
+from django.forms.models import inlineformset_factory
+from .forms import AnswerForm
 @login_required
 def question_new(request, quiz_id=None):
+    if not quiz_id:
+        raise forms.ValidationError("No existeix aquesta prova")
+    
+    quiz = get_object_or_404(Quiz, pk=quiz_id)
+    
+    AnswerInlineFormSet = inlineformset_factory(Question, Answer, form=AnswerForm, extra=1, can_delete=True)
+
+    question_obj = Question()
+    if request.method == "POST":
+        form = QuestionForm(request.POST, request.FILES, instance=question_obj, prefix="main")
+        formset = AnswerInlineFormSet(request.POST, request.FILES, instance=question_obj, prefix="nested")
+        
+        if form.is_valid() and formset.is_valid():
+            form.save()
+            formset.save()
+            return redirect('/quiz/update/' + str(quiz_id) + '/')
+    else:
+        form = QuestionForm(instance=question_obj, prefix="main")
+        formset = AnswerInlineFormSet(instance=question_obj, prefix="nested")
+    
+    return render(request, 'main/question_new.html', {"form":form, "formset": formset})
+
     quiz = None
     json_answers = None
-    question_picture = ''
     if quiz_id:
         quiz = get_object_or_404(Quiz, pk=quiz_id)
     else:
         raise forms.ValidationError("No existeix aquesta prova")
     if request.method == 'POST':
-        form = QuestionForm(request.POST)
-        if request.POST.get('question_picture'):
-            question_picture = request.POST.get('question_picture')
-        else:
-            question_picture = ''
+        print(request.POST, request.FILES)
+        form = QuestionForm(request.POST, request.FILES)
         json_answers = request.POST.get('answers_json','')
+        print(form.errors)
         if form.is_valid():
-            question = form.save(commit=False)
-
-            if question_picture != '':
-                copy(str(settings.BASE_DIR) + question_picture, settings.MEDIA_ROOT + "/question_pics/")
-                question.question_picture = '/question_pics/' + os.path.basename(question_picture)
-            elif question_picture == '':
-                question.question_picture = None
-
-            question.quiz = quiz
-            question.save()
+            question = form.save()
             if json_answers != '':
                 answers_data = json.loads(json_answers)
                 for a in answers_data:
@@ -590,7 +602,8 @@ def question_new(request, quiz_id=None):
                     new_answer.save()
             return HttpResponseRedirect('/quiz/update/' + str(quiz_id) + '/')
     else:
-        form = QuestionForm()
+        form = QuestionForm(initial={'quiz': quiz})
+        form.helper.form_action = request.get_full_path()
     return render(request, 'main/question_new.html', {'form': form, 'quiz': quiz, 'json_answers': json_answers})
 
 @login_required
@@ -667,11 +680,6 @@ def question_update(request, pk=None):
         question = get_object_or_404(Question, pk=pk)
         answers = question.sorted_answers_set
 
-        if question.question_picture:
-            question_picture = question.question_picture.name
-        else:
-            question_picture = ''
-
         json_answers = json.dumps([{'id': a.id, 'label': a.label, 'text': a.text, 'is_correct': a.is_correct} for a in answers])
     form = QuestionForm(request.POST or None, instance=question)
     if request.POST:
@@ -679,14 +687,6 @@ def question_update(request, pk=None):
         if form.is_valid():
             question = form.save(commit=False)
             question.answers.all().delete()
-
-            if 'question_picture' in request.POST:
-                if request.POST['question_picture'] != '' and request.POST['question_picture'] != question_picture:
-                    copy(str(settings.BASE_DIR) + request.POST['question_picture'], settings.MEDIA_ROOT + "/question_pics/")
-                    question.question_picture = '/question_pics/' + os.path.basename(request.POST['question_picture'])
-                elif request.POST['question_picture'] == '':
-                    question.question_picture = None
-
             question.save()
             answers_obj = json.loads(json_answers)
             for a in answers_obj:
