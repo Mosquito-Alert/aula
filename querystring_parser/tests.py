@@ -9,8 +9,8 @@ Updated 2012-09-24 Bernard 'berni' Kobos
 '''
 
 import sys
-from parser import parse, MalformedQueryStringError
-from builder import build
+from .parser import parse, MalformedQueryStringError
+from .builder import build
 import unittest
 
 
@@ -200,8 +200,7 @@ class NormalizedParse(unittest.TestCase):
                                   'words': [['', ''], ['', ''],
                                             ['renca', 'rukka']]},
                                  {'name': 'sekcja siatkarska2',
-                                  'words': [['wlos', 'a hair'], ['', ''],
-                                            ['', '']]}]}
+                                  'words': [['', ''], ['', ''], ['wlos', 'a hair']]}]}
 
     def test_parse_normalized(self):
         result = parse(build(self.knownValues), normalized=True)

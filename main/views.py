@@ -4,12 +4,11 @@ from django.http import HttpResponseRedirect
 from main.forms import QuizForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
-from aula import settings
 from main.models import EducationCenter, Word, Quiz, Answer, Question, QuizRun, QuizRunAnswers, Profile, get_string_from_groups, Campaign, QuizCorrection
 from main.forms import TeacherForm, SimplifiedTeacherForm, EducationCenterForm, TeacherUpdateForm, ChangePasswordForm, \
     SimplifiedAlumForm, SimplifiedGroupForm, AlumUpdateForm, QuestionForm, QuestionLinkForm, SimplifiedAlumFormForTeacher, \
     SimplifiedAlumFormForAdmin, AlumUpdateFormAdmin, QuizAdminForm, QuestionPollForm, QuizNewForm, QuestionUploadForm, CampaignForm, \
-    BreedingSites, Awards, QuestionOpenForm, OpenAnswerNewCorrectForm, CheckedQuizrun
+    BreedingSites, Awards, QuestionOpenForm, OpenAnswerNewCorrectForm, CheckedQuizrun, SimplifiedProfilePhoto
 from django.contrib.gis.geos import GEOSGeometry
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
@@ -51,12 +50,12 @@ import uuid
 from django.template.loader import render_to_string
 from weasyprint import HTML, CSS
 import logging
-from django.db import connection
 from itertools import groupby
 from django.db.models import Count
 from slugify import slugify
 import magic
 import csv
+from main.storages import MediaRootS3Boto3Storage
 
 def get_order_clause(params_dict, translation_dict=None):
     order_clause = []
@@ -1141,35 +1140,32 @@ def group_update(request, pk=None):
             center = group.profile.group_teacher.profile.teacher_belongs_to.id
     else:
         raise forms.ValidationError("No existeix aquest grup")
-    form = SimplifiedGroupForm(request.POST or None, instance=group)
+    form = SimplifiedGroupForm(request.POST or None, instance=group )
+    form_photo = SimplifiedProfilePhoto(request.POST or None, request.FILES, instance=group.profile)
     if request.method == 'POST':
         tutor = request.POST.get('group_teacher')
         center = request.POST.get('group_center')
-        if form.is_valid():
+        if form.is_valid() and form_photo.is_valid():
             user = form.save(commit=False)
             user.profile.group_password = form.cleaned_data.get('password1')
             user.profile.group_public_name = form.cleaned_data.get('group_public_name')
             user.profile.group_class = form.cleaned_data.get('group_class')
             user.profile.group_class_slug = slugify(form.cleaned_data.get('group_class'))
             user.profile.n_students_in_group = form.cleaned_data.get('n_students_in_group')
-            photo_path = form.cleaned_data.get('photo_path')
-            if photo_path and photo_path != '' and photo_path != 'None':
-                if str(settings.BASE_DIR) + photo_path != settings.MEDIA_ROOT + "/group_pics/" + os.path.basename(photo_path):
-                    copy(str(settings.BASE_DIR) + photo_path, settings.MEDIA_ROOT + "/group_pics/")
-                    user.profile.group_picture = 'group_pics/' + os.path.basename(photo_path)
-            else:
-                user.profile.group_picture = None
+            # if len(request.FILES) > 0:
+            #     user.profile.group_picture = request.FILES["photo_path"]
             if this_user.is_superuser:
                 tutor_user = User.objects.get(pk=int(tutor))
             elif this_user.profile and this_user.profile.is_teacher:
                 tutor_user = this_user
             user.profile.group_teacher = tutor_user
             user.save()
+            form_photo.save()
             return HttpResponseRedirect('/group/list/')
     if this_user.is_superuser:
-        return render(request, 'main/group_edit.html', {'form': form, 'group_id' : pk, 'photo_path': photo_path, 'group_password': group_password, 'group_public_name': group_public_name, 'username': username, 'centers':centers, 'tutor': tutor, 'center':center, 'n_students_in_group': n_students_in_group, 'group_class': group_class })
+        return render(request, 'main/group_edit.html', {'form': form, 'form_photo': form_photo, 'group_id' : pk, 'photo_path': photo_path, 'group_password': group_password, 'group_public_name': group_public_name, 'username': username, 'centers':centers, 'tutor': tutor, 'center':center, 'n_students_in_group': n_students_in_group, 'group_class': group_class })
     elif this_user.profile and this_user.profile.is_teacher:
-        return render(request, 'main/group_edit_teacher.html', {'form': form, 'group_id': pk, 'photo_path': photo_path, 'group_password': group_password, 'group_public_name': group_public_name, 'username': username, 'n_students_in_group': n_students_in_group, 'group_class': group_class})
+        return render(request, 'main/group_edit_teacher.html', {'form': form, 'form_photo': form_photo, 'group_id': pk, 'photo_path': photo_path, 'group_password': group_password, 'group_public_name': group_public_name, 'username': username, 'n_students_in_group': n_students_in_group, 'group_class': group_class})
     else:
         message = _("Estàs intentant accedir a una pàgina a la que no tens permís.")
         go_back_to = "my_hub"
@@ -1977,19 +1973,43 @@ def tutor_combo(request):
         serializer = GroupComboSerializer(queryset, many=True)
         return Response(serializer.data)
 
+@login_required
+def uploadpics3(request):
+    this_user = request.user
+    if this_user.is_superuser or (this_user.profile is not None and this_user.profile.is_teacher):
+        if request.method == 'POST':
+            s3media = MediaRootS3Boto3Storage()
+            f = request.FILES['camp_foto']
+            if s3media.exists(f.name):
+                data = {'is_valid': True, 'id': 1, 'url': settings.MEDIA_URL + f.name}
+            else:
+                uploaded_name = s3media.save(f.name, f)
+                data = {'is_valid': True, 'id': 1, 'url':  settings.MEDIA_URL + uploaded_name}
+            return JsonResponse(data)
+            # with open(settings.MEDIA_ROOT + "/tempfiles/" + f.name, 'wb+') as destination:
+            #     for chunk in f.chunks():
+            #         destination.write(chunk)
+            # data = {'is_valid': True, 'id':1, 'url':'/media/tempfiles/'+f.name, 'path':settings.MEDIA_ROOT + "/tempfiles/" + f.name}
+            # return JsonResponse(data)
 
 @login_required
 def uploadpic(request):
     this_user = request.user
     if this_user.is_superuser or (this_user.profile is not None and this_user.profile.is_teacher):
         if request.method == 'POST':
-            file = request.FILES
+            s3media = MediaRootS3Boto3Storage()
             f = request.FILES['camp_foto']
-            with open(settings.MEDIA_ROOT + "/tempfiles/" + f.name, 'wb+') as destination:
-                for chunk in f.chunks():
-                    destination.write(chunk)
-            data = {'is_valid': True, 'id':1, 'url':'/media/tempfiles/'+f.name, 'path':settings.MEDIA_ROOT + "/tempfiles/" + f.name}
+            if s3media.exists(f.name):
+                data = {'is_valid': True, 'id': 1, 'url': settings.MEDIA_URL + f.name}
+            else:
+                uploaded_name = s3media.save(f.name, f)
+                data = {'is_valid': True, 'id': 1, 'url':  settings.MEDIA_URL + uploaded_name}
             return JsonResponse(data)
+            # with open(settings.MEDIA_ROOT + "/tempfiles/" + f.name, 'wb+') as destination:
+            #     for chunk in f.chunks():
+            #         destination.write(chunk)
+            # data = {'is_valid': True, 'id':1, 'url':'/media/tempfiles/'+f.name, 'path':settings.MEDIA_ROOT + "/tempfiles/" + f.name}
+            # return JsonResponse(data)
 
 @login_required
 def uploadfile(request):
@@ -2092,27 +2112,15 @@ def group_credentials_list(request):
         'centro': centro.name
     }
 
-    #grupos = Profile.objects.filter(is_group=True).filter(group_teacher=this_user)
-
-    #queryset = User.objects.filter(profile__is_group=True).filter(profile__group_teacher=this_user).select_related()
-    #print(queryset)
-
-    cursor = connection.cursor()
-    cursor.execute('select main_profile.user_id as id, main_profile.group_public_name, main_profile.group_password, '
-                   'auth_user.username from public.main_profile, public.auth_user '
-                   'where main_profile.user_id = auth_user.id and main_profile.group_teacher_id = %s ', [this_user])
-    queryset = cursor.fetchall()
-    #b'select main_profile.user_id, main_profile.group_public_name, main_profile.group_password, auth_user.username from public.main_profile, public.auth_user where main_profile.user_id = auth_user.id and main_profile.group_teacher_id = 2 '
-
-    test = Profile.objects.raw("select m.user_id, m.group_public_name, m.group_password, a.username from public.main_profile m, auth_user a where m.user_id = a.id and m.group_teacher_id = 2")
+    queryset = Profile.objects.filter(group_teacher=this_user).select_related('user').all()
 
     grupos_info = []
 
-    for g in queryset:
+    for obj in queryset:
         grupos_info.append({
-            'nombre_publico_grupo': g[1],
-            'password_grupo': g[2],
-            'nombre_grupo': g[3]
+            'nombre_publico_grupo': obj.group_public_name,
+            'password_grupo': obj.group_password,
+            'nombre_grupo': obj.user.username
         })
 
     logger = logging.getLogger('weasyprint')
@@ -2429,7 +2437,7 @@ def upload_admin_board_csv(request):
                     if q['url_mat'] is None:
                         quiz_url = ''
                     else:
-                        quiz_url = settings.SERVER_URL + q['url_mat']
+                        quiz_url = request.build_absolute_uri(location=q['url_mat'])
                     row.append(quiz_url)
                 writer.writerow(row)
         return response

@@ -18,15 +18,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: aula/settings.py:155
+#: config.settings.base.py:155
 msgid "Spanish"
 msgstr "Español"
 
-#: aula/settings.py:156
+#: config.settings.base.py:156
 msgid "Catalan"
 msgstr "Catalan"
 
-#: aula/settings.py:157
+#: config.settings.base.py:157
 msgid "English"
 msgstr "Inglés"
 

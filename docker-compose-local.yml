@@ -1,0 +1,31 @@
+version: '3.9'
+
+volumes:
+  aula_local_postgres_data: {}
+
+services:
+  django:
+    build:
+      context: .
+      args:
+        BUILD_ENVIRONMENT: local
+    image: aula_local
+    container_name: aula_local_django
+    depends_on:
+      - postgres
+    volumes:
+      - .:/app:z
+    env_file:
+      - ./.envs/.local/.django
+      - ./.envs/.local/.postgres
+    ports:
+      - "8000:8000"
+    command: /start
+
+  postgres:
+    image: postgis/postgis:12-3.4
+    container_name: aula_local_postgres
+    volumes:
+      - aula_local_postgres_data:/var/lib/postgresql/data
+    env_file:
+      - ./.envs/.local/.postgres

@@ -26,10 +26,7 @@ class Campaign(models.Model):
 
 
 def get_current_active_campaign():
-    try:
-        return Campaign.objects.get(active=True).id
-    except Campaign.DoesNotExist:
-        return None
+    return Campaign.objects.filter(active=True).order_by('-start_date').first()
 
 
 class EducationCenter(models.Model):
@@ -39,7 +36,13 @@ class EducationCenter(models.Model):
     active = models.BooleanField(default=True)
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
-    campaign = models.ForeignKey(Campaign, default=get_current_active_campaign, null=True, blank=True, on_delete=models.SET_NULL, related_name="education_centers")
+    campaign = models.ForeignKey(Campaign, null=True, blank=True, on_delete=models.SET_NULL, related_name="education_centers")
+
+    def save(self, *args, **kwargs) -> None:
+        if self._state.adding:
+            self.campaign = self.campaign or get_current_active_campaign()
+
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return "{0} - {1}".format(self.name, self.campaign.name)
@@ -96,8 +99,14 @@ class Quiz(models.Model):
     type = models.IntegerField(choices=QUIZ_TYPES)
     # To take this quiz, you need to previously complete 'requisite'
     requisite = models.ForeignKey('main.Quiz', null=True, blank=True, on_delete=models.SET_NULL, related_name='allows')
-    campaign = models.ForeignKey(Campaign, default=get_current_active_campaign, null=True, blank=True, on_delete=models.SET_NULL, related_name="quizzes")
+    campaign = models.ForeignKey(Campaign, null=True, blank=True, on_delete=models.SET_NULL, related_name="quizzes")
     seq = models.IntegerField('Sequence in which the quizzes are meant to be taken', blank=True, null=True)
+
+    def save(self, *args, **kwargs) -> None:
+        if self._state.adding:
+            self.campaign = self.campaign or get_current_active_campaign()
+
+        super().save(*args, **kwargs)
 
     def clone(self):
         q = Quiz(
@@ -485,7 +494,7 @@ class Profile(models.Model):
     teacher_belongs_to = models.ForeignKey(EducationCenter, null=True, on_delete=models.SET_NULL)
     group_password = models.CharField('Password grup', max_length=4, null=True)
     group_public_name = models.CharField(max_length=255, null=True)
-    group_picture = models.ImageField(upload_to='media/group_pics/', null=True)
+    group_picture = models.ImageField(upload_to='group_pics/', null=True)
     group_picture_thumbnail = ImageSpecField(source='group_picture', processors=[ResizeToFill(150, 150)], options={'quality': 80})
     group_picture_thumbnail_small = ImageSpecField(source='group_picture', processors=[ResizeToFill(50, 50)],options={'quality': 80})
     group_teacher = models.ForeignKey(User, null=True, on_delete=models.SET_NULL, related_name="group_teacher")
@@ -496,8 +505,14 @@ class Profile(models.Model):
     center_string = models.CharField(max_length=1000, null=True, blank=True)
     n_students_in_group = models.IntegerField(default=3)
     group_hashtag = models.CharField(max_length=20, null=True, blank=True, unique=True)
-    campaign = models.ForeignKey(Campaign, default=get_current_active_campaign, null=True, blank=True, on_delete=models.SET_NULL, related_name="profiles")
+    campaign = models.ForeignKey(Campaign, null=True, blank=True, on_delete=models.SET_NULL, related_name="profiles")
     teacher_password = models.CharField(max_length=128, null=True)
+
+    def save(self, *args, **kwargs) -> None:
+        if self._state.adding:
+            self.campaign = self.campaign or get_current_active_campaign()
+
+        super().save(*args, **kwargs)
 
     def __str__(self):
         if self.is_group:

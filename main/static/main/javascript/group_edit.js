@@ -105,5 +105,12 @@ $(document).ready(function() {
         }
     });
 
+    $('#id_group_picture').on("change",function(evt){
+        const file = $('#id_group_picture').prop('files')[0];
+        if(file){
+            $("#img_preview").attr("src",URL.createObjectURL(file));
+        }
+    });
+
     init_ui();
 });

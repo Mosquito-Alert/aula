@@ -1,0 +1,7 @@
+# PostgreSQL
+# ------------------------------------------------------------------------------
+POSTGRES_HOST=postgres
+POSTGRES_PORT=5432
+POSTGRES_DB=aula
+POSTGRES_USER=dev_user
+POSTGRES_PASSWORD=dev_password_mVAEU04drj
