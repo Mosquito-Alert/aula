@@ -181,7 +181,11 @@ class GroupSerializer(serializers.ModelSerializer):
     def get_group_picture(self,obj):
         if obj.profile:
             if obj.profile.group_picture:
-                return obj.profile.group_picture.url
+                #return obj.profile.group_picture.url
+                try:
+                    return obj.profile.group_picture_thumbnail.url
+                except ValueError:
+                    return obj.profile.group_picture.url
         return ''
 
 

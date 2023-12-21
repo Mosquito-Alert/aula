@@ -41,7 +41,7 @@ class EducationCenter(models.Model):
     def save(self, *args, **kwargs) -> None:
         if self._state.adding:
             self.campaign = self.campaign or get_current_active_campaign()
-        
+
         super().save(*args, **kwargs)
 
     def __str__(self):
@@ -105,7 +105,7 @@ class Quiz(models.Model):
     def save(self, *args, **kwargs) -> None:
         if self._state.adding:
             self.campaign = self.campaign or get_current_active_campaign()
-        
+
         super().save(*args, **kwargs)
 
     def clone(self):
@@ -494,7 +494,7 @@ class Profile(models.Model):
     teacher_belongs_to = models.ForeignKey(EducationCenter, null=True, on_delete=models.SET_NULL)
     group_password = models.CharField('Password grup', max_length=4, null=True)
     group_public_name = models.CharField(max_length=255, null=True)
-    group_picture = models.ImageField(upload_to='media/group_pics/', null=True)
+    group_picture = models.ImageField(upload_to='group_pics/', null=True)
     group_picture_thumbnail = ImageSpecField(source='group_picture', processors=[ResizeToFill(150, 150)], options={'quality': 80})
     group_picture_thumbnail_small = ImageSpecField(source='group_picture', processors=[ResizeToFill(50, 50)],options={'quality': 80})
     group_teacher = models.ForeignKey(User, null=True, on_delete=models.SET_NULL, related_name="group_teacher")
@@ -511,7 +511,7 @@ class Profile(models.Model):
     def save(self, *args, **kwargs) -> None:
         if self._state.adding:
             self.campaign = self.campaign or get_current_active_campaign()
-        
+
         super().save(*args, **kwargs)
 
     def __str__(self):

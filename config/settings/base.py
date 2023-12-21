@@ -39,7 +39,7 @@ THIRD_PARTY_APPS = [
     'rest_framework.authtoken',
     'rest_framework',
     'crispy_forms',
-    
+
     'imagekit',
     'tinymce',
 ]
@@ -193,3 +193,5 @@ TINYMCE_DEFAULT_CONFIG = {
     "a11ycheck ltr rtl | showcomments addcomment code",
     "custom_undo_redo_levels": 10,
 }
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'

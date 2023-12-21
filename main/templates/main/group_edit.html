@@ -16,10 +16,10 @@
 
 {% block main %}
 <div class="container">
-    <form id="group_form" class="form" action="{% url 'group_update' group_id %}" method="post">
+    <form id="group_form" class="form" action="{% url 'group_update' group_id %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.username|as_crispy_field }}
-        <div id="div_id_password1" class="form-group">
+        <div id="div_id_password1" class="form-group mb-2">
           <label for="id_password1" class=" requiredField">
               {% trans 'Password (Es recomana un password curt, de 4 caràcters)' %}<span class="asteriskField">*</span>
           </label>
@@ -27,7 +27,7 @@
             <input type="text" name="password1" value="{{ group_password }}" autocomplete="new-password" class="form-control textinput textInput form-control" maxlength="4" required id="id_password1">
           </div>
         </div>
-        <div id="div_id_group_public_name" class="form-group">
+        <div id="div_id_group_public_name" class="form-group mb-2">
           <label for="id_group_public_name" class=" requiredField">
               {% trans 'Nom públic del grup' %}<span class="asteriskField">*</span>
           </label>
@@ -35,13 +35,13 @@
             <input type="text" name="group_public_name" value="{{ group_public_name }}" class="form-control textinput textInput form-control" maxlength="150" required id="id_group_public_name">
           </div>
         </div>
-        <div id="div_id_group_class" class="control-group">
+        <div id="div_id_group_class" class="control-group mb-2">
             <label for="id_group_class" class="control-label "> {% trans 'Nom de la classe (es fa servir per filtrar)' %}</label>
             <div class="controls">
                 <input type="text" name="group_class" value="{{ group_class|default_if_none:'' }}" class="form-control textinput textInput" id="id_group_class">
             </div>
         </div>
-        <div id="div_id_n_students_in_group" class="control-group">
+        <div id="div_id_n_students_in_group" class="control-group mb-2">
           <label for="id_n_students_in_group" class="control-label requiredField">
             {% trans 'Nombre estudiants al grup' %}<span class="asteriskField">*</span>
           </label>
@@ -49,28 +49,21 @@
             <input type="number" name="n_students_in_group" value="{{ n_students_in_group }}" class="form-control numberinput" required="" id="id_n_students_in_group">
           </div>
         </div>
-        <div id="file_upload_div" class="form-group">
-            <label>{% trans 'Imatge del grup' %}:</label>
-            <input id="fileupload" type="file" name="camp_foto" style="display: none" data-url="{% url 'uploadpic' %}" data-form-data='{"csrfmiddlewaretoken": "{{ csrf_token }}"}'>
-            <table id="gallery" class="table table-bordered" style="margin-top: 15px;">
-                <tbody>
-                    {% if photo_path %}
-                      <tr>
-                          <td>
-                            <a target="_blank" href="{{ photo_path }}"><img style="height: 150px;" src="{{ photo_path }}"></a>
-                          </td>
-                          <td>
-                            <a href="#" class="btn btn-danger btn-sm btn-del btn-del-img imatgeRodal deleteFoto">{% trans 'Eliminar' %}</a>
-                          </td>
-                      </tr>
-                    {% endif %}
-                </tbody>
-            </table>
-            <button type="button" class="btn btn-primary js-upload-photos">
-                <span class="glyphicon glyphicon-cloud-upload"></span>{% trans 'Afegir foto' %}
-            </button>
+        <div class="row">
+        <div class="control-group col-md-9 mb-2">
+            {{ form_photo.group_picture }}
         </div>
-        <input id="id_photo_path" type="hidden" name="photo_path" value="{{ photo_path }}">
+        <div class="control-group col-md-3 mb-2">
+            <img id="img_preview" src="{{ photo_path }}" width="100%">
+        </div>
+        </div>
+        <!--<div class="row">
+            <div class="col-md-6">
+                <div class="controls">
+                {{ form_photo.group_picture|as_crispy_field }}
+                </div>
+            </div>
+        </div>-->
         <div class="row">
             <div class="col-md-6">
                 <label for="center">{% trans 'Centre' %}:</label>
