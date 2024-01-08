@@ -25,7 +25,7 @@ $(document).ready( function () {
         'pagingType': 'full_numbers',
         'bLengthChange': false,
         'responsive': true,
-        'order': [[ 0, "desc" ]],
+        'order': [[ 1, "desc" ]],
         stateSave: true,
         'dom': '<"top"iflp<"clear">>rt<"bottom"iflp<"clear">>',
         stateSaveCallback: function(settings,data) {
@@ -42,7 +42,7 @@ $(document).ready( function () {
             { 'data': 'requisite' },
             { 'data': 'published' },
             { 'data': 'type_text' },
-            { 'data': 'quiz_start_url' },
+            { 'data': 'quiz_browse_url' },
         ],
         'columnDefs': [
             {
@@ -99,7 +99,7 @@ $(document).ready( function () {
             'sortable': false,
             'title': gettext('Enllaç a la prova'),
             'render': function(value){
-                    return protocol + host + value;
+                    return '<a target="_blank" href="' + protocol + host + value + '">link</a>';
                 }
             },
             {
