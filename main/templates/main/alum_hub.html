@@ -45,6 +45,8 @@
                     {% elif elem.status == 'done' %}
                         {% if elem.quiz.is_poll %}
                         <div class="test_button_wrapper"><a title="{% trans 'Veure resultats enquesta' %}" class="btn btn-success btn-sm" href="{% url 'poll_result' elem.quiz.id %}" target="_blank" role="button">{% trans 'Resultats' %} <i class="far fa-eye"></i></a></div>
+                        {% elif elem.quiz.is_material %}
+                        <div class="test_button_wrapper"><a title="{% trans 'Veure materials' %}" class="btn btn-success btn-sm" href="{{ elem.quiz.get_material_link }}" target="_blank" role="button">{% trans 'Veure material' %} <i class="far fa-eye"></i></a></div>
                         {% elif elem.quiz.is_upload %}
                         <div class="test_button_wrapper"><a title="{% trans 'Descarregar fitxer' %}" class="btn btn-success btn-sm" href="{{ elem.file_url }}" target="_blank" role="button">Fitxer <i class="fas fa-cloud-download-alt"></i></a></div>
                         {% elif elem.quiz.is_open %}

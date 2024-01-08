@@ -9,7 +9,8 @@ from django.utils.translation import gettext_lazy as _
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
 from slugify import slugify
-from django.db.models import Q
+from django.db.models import Q, Func, F, Value
+from django.db.models.constraints import UniqueConstraint
 import datetime
 
 
@@ -167,6 +168,13 @@ class Quiz(models.Model):
         except:
             pass
         return number
+
+    @property
+    def get_material_link(self):
+        if self.type == 1:
+            if Question.objects.filter(quiz=self).exists():
+                return Question.objects.filter(quiz=self).first().doc_link
+        return None
 
     @property
     def taken_by_n_people(self):

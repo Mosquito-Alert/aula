@@ -29,6 +29,7 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import UpdateModelMixin
 from rest_framework.viewsets import ModelViewSet
 from rest_framework import serializers
+from django.core.exceptions import MultipleObjectsReturned
 from django import forms
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
@@ -256,6 +257,8 @@ def teacher_polls(request):
 
 
 def quiz_is_repeatable_for_user(quiz, this_user):
+    if quiz.type == 1:
+        return False
     if quiz.type == 5:
         return False
     elif quiz.type == 2:
