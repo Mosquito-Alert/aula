@@ -15,11 +15,11 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='quiz',
             name='campaign',
-            field=models.ForeignKey(blank=True, default=main.models.get_current_active_campaign, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='quizzes', to='main.campaign'),
+            field=models.ForeignKey(blank=True, default=None, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='quizzes', to='main.campaign'),
         ),
         migrations.AlterField(
             model_name='educationcenter',
             name='campaign',
-            field=models.ForeignKey(blank=True, default=main.models.get_current_active_campaign, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='education_centers', to='main.campaign'),
+            field=models.ForeignKey(blank=True, default=None, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='education_centers', to='main.campaign'),
         ),
     ]
