@@ -574,7 +574,7 @@ def create_user_profile(sender, instance, created, **kwargs):
 
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, created, **kwargs):
-    print(created)
+    # print(created)
     # if instance.profile.is_alum:
     #     group_string = get_string_from_groups(instance.profile)
     #     center_string = None

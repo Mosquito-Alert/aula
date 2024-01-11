@@ -58,6 +58,7 @@ from django.db.models import Count
 from slugify import slugify
 import magic
 import csv
+from django.db.utils import IntegrityError
 
 def get_order_clause(params_dict, translation_dict=None):
     order_clause = []
@@ -1808,11 +1809,14 @@ def api_startrun(request):
         quiz = get_object_or_404(Quiz,pk=quiz_id)
         user_taken = get_object_or_404(User,pk=taken_by)
         q = QuizRun(taken_by=user_taken, quiz=quiz, run_number=run_number)
-        q.save()
-        for question in quiz.questions.all():
-            qa = QuizRunAnswers( quizrun=q, question=question )
-            qa.save()
-        return Response({'run_id': q.id})
+        try:
+            q.save()
+            for question in quiz.questions.all():
+                qa = QuizRunAnswers( quizrun=q, question=question )
+                qa.save()
+            return Response({'run_id': q.id})
+        except IntegrityError:
+            return Response('Two simultaneous in progress quizruns not allowed', status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
