@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-10 08:34+0000\n"
+"POT-Creation-Date: 2024-01-11 13:37+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -81,74 +81,78 @@ msgstr "Class name (used for filtering)"
 msgid "Nombre estudiants al grup"
 msgstr "Number of students in group"
 
-#: main/forms.py:107 main/forms.py:163 main/forms.py:202 main/forms.py:249
-#: main/forms.py:310 main/templates/registration/login.html:19
+#: main/forms.py:110
+msgid "El nombre d'estudiants al grup ha d'estar entre 2 i 5"
+msgstr "Number of students in group must be between 2 and 5"
+
+#: main/forms.py:124 main/forms.py:180 main/forms.py:219 main/forms.py:266
+#: main/forms.py:327 main/templates/registration/login.html:19
 msgid "Password"
 msgstr "Password"
 
-#: main/forms.py:108 main/forms.py:164 main/forms.py:203 main/forms.py:250
+#: main/forms.py:125 main/forms.py:181 main/forms.py:220 main/forms.py:267
 msgid "Repetir password"
 msgstr "Repeat password"
 
-#: main/forms.py:109 main/forms.py:147 main/forms.py:165 main/forms.py:204
+#: main/forms.py:126 main/forms.py:164 main/forms.py:182 main/forms.py:221
 #: main/templates/main/user_sub.html:13
 #: main/templates/registration/login.html:15
 msgid "Nom usuari"
 msgstr "Username"
 
-#: main/forms.py:110
+#: main/forms.py:127
 msgid "Professor"
 msgstr "Teacher"
 
-#: main/forms.py:111 main/templates/main/open_answers_result.html:32
+#: main/forms.py:128 main/templates/main/open_answers_result.html:32
 #: main/templates/main/poll_result_group.html:9
 #: main/templates/main/reports/poll_center_or_group.html:11
 #: main/templates/main/test_result.html:54
 #: main/templates/main/test_results_detail_view.html:10
-#: main/templates/main/upload_admin_board.html:28
-#: main/templates/main/upload_file_solutions.html:33
+#: main/templates/main/upload_admin_board.html:41
+#: main/templates/main/upload_file_solutions.html:33 main/views.py:2426
 msgid "Grup"
 msgstr "Group"
 
-#: main/forms.py:155 main/forms.py:166 main/forms.py:240
+#: main/forms.py:172 main/forms.py:183 main/forms.py:257
 msgid "Professor responsable"
 msgstr "Assigned teacher"
 
-#: main/forms.py:251 main/forms.py:360
+#: main/forms.py:268 main/forms.py:377
 msgid "Username"
 msgstr "Username"
 
-#: main/forms.py:252 main/forms.py:361
+#: main/forms.py:269 main/forms.py:378
 msgid "Centre al que pertany"
 msgstr "Center to which belongs"
 
-#: main/forms.py:307
+#: main/forms.py:324
 msgid "The two password fields didn’t match."
 msgstr "The two password fields didn’t match."
 
-#: main/forms.py:315
+#: main/forms.py:332
 msgid "Password confirmation"
 msgstr "Password confirmation"
 
-#: main/forms.py:377
+#: main/forms.py:394
 msgid "Els passwords són diferents! Si us plau torna a escriure'ls"
 msgstr "Passwords are different! Please write them again"
 
-#: main/forms.py:382
+#: main/forms.py:399
 msgid "Text que es mostrarà per solicitar la pujada d'un fitxer"
 msgstr "Text that will be shown when asking for a file upload"
 
-#: main/forms.py:390 main/forms.py:409 main/forms.py:438 main/forms.py:457
+#: main/forms.py:407 main/forms.py:426 main/forms.py:455 main/forms.py:474
 msgid "Ordre de la pregunta dins la prova"
 msgstr "Order of the question inside the test"
 
-#: main/forms.py:391 main/forms.py:410 main/forms.py:439 main/forms.py:458
+#: main/forms.py:408 main/forms.py:427 main/forms.py:456 main/forms.py:475
 #: main/templates/main/question_open_edit.html:15
 #: main/templates/main/question_open_new.html:15
 msgid "Text de la pregunta"
 msgstr "Question text"
 
-#: main/forms.py:404 main/forms.py:424 main/forms.py:452 main/forms.py:473
+#: main/forms.py:421 main/forms.py:441 main/forms.py:469 main/forms.py:490
 msgid ""
 "Ja hi ha una pregunta amb aquest número d'ordre per aquesta prova. Tria un "
 "número diferent"
@@ -156,53 +160,81 @@ msgstr ""
 "There already is a question with this number order for this test. Try a "
 "different number"
 
-#: main/forms.py:411
+#: main/forms.py:428
 msgid "Enllaç a document extern"
 msgstr "Link to an external document"
 
-#: main/forms.py:429
+#: main/forms.py:446
 msgid "Comentaris sobre la correcció de la prova"
 msgstr "Comments about the test correction"
 
-#: main/forms.py:430
+#: main/forms.py:447
 msgid "Valoració de la prova"
 msgstr "Test valoration"
 
-#: main/forms.py:494
+#: main/forms.py:509 main/templates/main/alum_new.html:19
+#: main/templates/main/campaign_new.html:20
+#: main/templates/main/center_edit.html:29
+#: main/templates/main/center_new.html:29
+#: main/templates/main/group_edit.html:93
+#: main/templates/main/group_edit_teacher.html:74
+#: main/templates/main/group_new.html:66
+#: main/templates/main/group_new_teacher.html:45
+#: main/templates/main/oac_new.html:56
+#: main/templates/main/question_edit.html:68
+#: main/templates/main/question_link_edit.html:30
+#: main/templates/main/question_link_new.html:30
+#: main/templates/main/question_new.html:69
+#: main/templates/main/question_open_edit.html:24
+#: main/templates/main/question_open_new.html:25
+#: main/templates/main/question_poll_edit.html:32
+#: main/templates/main/question_poll_new.html:31
+#: main/templates/main/question_upload_edit.html:22
+#: main/templates/main/question_upload_new.html:22
+#: main/templates/main/quiz_edit.html:69 main/templates/main/quiz_edit.html:70
+#: main/templates/main/quiz_edit_teacher.html:56
+#: main/templates/main/quiz_edit_teacher.html:57
+#: main/templates/main/quiz_new.html:49
+#: main/templates/main/quiz_new_teacher.html:34
+#: main/templates/main/teacher_edit.html:25
+msgid "Desar"
+msgstr "Save"
+
+#: main/forms.py:511
 msgid "Nom de la campanya"
 msgstr "Campaign name"
 
-#: main/forms.py:509
+#: main/forms.py:526
 msgid "La data d'inici no pot ser posterior o igual a la data de fi"
 msgstr "Start date can't be later or equal than the end date"
 
-#: main/models.py:82
+#: main/models.py:83
 msgid "Test"
 msgstr "Test"
 
-#: main/models.py:83
+#: main/models.py:84
 msgid "Material"
 msgstr "Material"
 
-#: main/models.py:84 main/templates/main/reports.html:18
+#: main/models.py:85 main/templates/main/reports.html:18
 #: main/templates/main/reports.html:60 main/templates/main/reports.html:88
 #: main/templates/main/reports.html:135
 msgid "Enquesta"
 msgstr "Poll"
 
-#: main/models.py:85
+#: main/models.py:86
 msgid "Pujar fitxer"
 msgstr "Upload file"
 
-#: main/models.py:86
+#: main/models.py:87
 msgid "Enquesta professorat"
 msgstr "Teacher poll"
 
-#: main/models.py:87
+#: main/models.py:88
 msgid "Resposta oberta"
 msgstr "Open answer"
 
-#: main/models.py:130
+#: main/models.py:131
 msgid "Tipus invàlid"
 msgstr "Invalid type"
 
@@ -219,7 +251,7 @@ msgstr "Administrator section"
 msgid "Menú principal administrador"
 msgstr "Administrator menu"
 
-#: main/templates/main/admin_menu.html:16
+#: main/templates/main/admin_menu.html:16 main/views.py:2426
 msgid "Campaigns"
 msgstr "Campaigns"
 
@@ -227,7 +259,7 @@ msgstr "Campaigns"
 msgid "Entrar i gestionar campanyes"
 msgstr "Add and manage campaigns"
 
-#: main/templates/main/admin_menu.html:27
+#: main/templates/main/admin_menu.html:27 main/views.py:2426
 msgid "Centres"
 msgstr "Centers"
 
@@ -263,7 +295,7 @@ msgstr "Available tests"
 msgid "Crea una prova."
 msgstr "Create test"
 
-#: main/templates/main/admin_menu.html:73
+#: main/templates/main/admin_menu.html:73 main/templates/main/alum_hub.html:49
 msgid "Veure materials"
 msgstr "Check materials"
 
@@ -281,8 +313,8 @@ msgid "Veure el progrés d&#39;alumnes i grups"
 msgstr "See the progress of students and groups"
 
 #: main/templates/main/admin_menu.html:97
-#: main/templates/main/upload_admin_board.html:5
-#: main/templates/main/upload_admin_board.html:7
+#: main/templates/main/upload_admin_board.html:15
+#: main/templates/main/upload_admin_board.html:17
 msgid "Taulell d`arxius pujats comprovats"
 msgstr "Checked uploads board"
 
@@ -291,8 +323,8 @@ msgid ""
 "Llistat de fitxers pujats per centre, permet marcar com a revisats els "
 "fitxers"
 msgstr ""
-"List of uploaded materials per center, allows checking the materials "
-"as revised"
+"List of uploaded materials per center, allows checking the materials as "
+"revised"
 
 #: main/templates/main/admin_menu.html:110 main/templates/main/reports.html:7
 #: main/templates/main/reports.html:9
@@ -364,26 +396,32 @@ msgstr "Continue"
 msgid "Veure resultats enquesta"
 msgstr "Check poll result"
 
-#: main/templates/main/alum_hub.html:47 main/templates/main/alum_hub.html:52
+#: main/templates/main/alum_hub.html:47 main/templates/main/alum_hub.html:54
 #: main/templates/main/teacher_polls.html:43
 msgid "Resultats"
 msgstr "Results"
 
 #: main/templates/main/alum_hub.html:49
+#, fuzzy
+#| msgid "Veure materials"
+msgid "Veure material"
+msgstr "Check materials"
+
+#: main/templates/main/alum_hub.html:51
 #: main/templates/main/teacher_polls.html:45
 msgid "Descarregar fitxer"
 msgstr "Download file"
 
-#: main/templates/main/alum_hub.html:54
+#: main/templates/main/alum_hub.html:56
 msgid "Aquest material encara no s`ha corregit"
 msgstr "This material has not yet been corrected"
 
-#: main/templates/main/alum_hub.html:58
+#: main/templates/main/alum_hub.html:60
 #: main/templates/main/teacher_polls.html:48
 msgid "Repetir la prova!"
 msgstr "Repeat the test!"
 
-#: main/templates/main/alum_hub.html:58
+#: main/templates/main/alum_hub.html:60
 msgid "Repetir"
 msgstr "Repeat"
 
@@ -402,35 +440,6 @@ msgstr "Create student"
 #: main/templates/main/alum_new.html:15
 msgid "Creant nou usuari per alumne"
 msgstr "Creating new user for student"
-
-#: main/templates/main/alum_new.html:19
-#: main/templates/main/campaign_edit.html:20
-#: main/templates/main/campaign_new.html:20
-#: main/templates/main/center_edit.html:29
-#: main/templates/main/center_new.html:29
-#: main/templates/main/group_edit.html:93
-#: main/templates/main/group_edit_teacher.html:74
-#: main/templates/main/group_new.html:66
-#: main/templates/main/group_new_teacher.html:45
-#: main/templates/main/oac_new.html:56
-#: main/templates/main/question_edit.html:68
-#: main/templates/main/question_link_edit.html:30
-#: main/templates/main/question_link_new.html:30
-#: main/templates/main/question_new.html:69
-#: main/templates/main/question_open_edit.html:24
-#: main/templates/main/question_open_new.html:25
-#: main/templates/main/question_poll_edit.html:32
-#: main/templates/main/question_poll_new.html:31
-#: main/templates/main/question_upload_edit.html:22
-#: main/templates/main/question_upload_new.html:22
-#: main/templates/main/quiz_edit.html:69 main/templates/main/quiz_edit.html:70
-#: main/templates/main/quiz_edit_teacher.html:56
-#: main/templates/main/quiz_edit_teacher.html:57
-#: main/templates/main/quiz_new.html:49
-#: main/templates/main/quiz_new_teacher.html:34
-#: main/templates/main/teacher_edit.html:25
-msgid "Desar"
-msgstr "Save"
 
 #: main/templates/main/base.html:90 main/templates/main/map.html:47
 msgid "Aula"
@@ -808,15 +817,15 @@ msgstr "Class filter"
 #: main/templates/main/open_answers_result.html:14
 #: main/templates/main/reports/progress_center.html:44
 #: main/templates/main/test_result.html:42
-#: main/templates/main/upload_admin_board.html:14
+#: main/templates/main/upload_admin_board.html:24
 #: main/templates/main/upload_file_solutions.html:14
 msgid "Sense filtre"
 msgstr "No filter"
 
 #: main/templates/main/open_answers_result.html:33
 #: main/templates/main/test_result.html:56
-#: main/templates/main/upload_admin_board.html:29
-#: main/templates/main/upload_file_solutions.html:34
+#: main/templates/main/upload_admin_board.html:42
+#: main/templates/main/upload_file_solutions.html:34 main/views.py:2426
 msgid "Classe"
 msgstr "Class"
 
@@ -1453,7 +1462,9 @@ msgstr "Comments on teacher polls"
 
 #: main/templates/main/reports.html:133
 msgid "help_comentaris_enquestes_professorat_centre"
-msgstr "This report shows the comments the teacher users have made when finishing their polls."
+msgstr ""
+"This report shows the comments the teacher users have made when finishing "
+"their polls."
 
 #: main/templates/main/reports/poll_center_or_group.html:6
 #: main/templates/main/reports/poll_center_or_group.html:8
@@ -1647,7 +1658,7 @@ msgstr "attempt"
 msgid "Resultats de proves"
 msgstr "Test results"
 
-#: main/templates/main/upload_admin_board.html:13
+#: main/templates/main/upload_admin_board.html:23
 msgid "Filtre per centre"
 msgstr "Center filter"
 
@@ -1715,47 +1726,47 @@ msgstr "username"
 msgid "password"
 msgstr "password"
 
-#: main/views.py:193 main/views.py:203 main/views.py:251 main/views.py:378
-#: main/views.py:936 main/views.py:972 main/views.py:1006 main/views.py:1172
-#: main/views.py:1222 main/views.py:1336 main/views.py:1347 main/views.py:1372
-#: main/views.py:1407 main/views.py:1445 main/views.py:1489 main/views.py:1503
-#: main/views.py:2367 main/views.py:2409 main/views.py:2539 main/views.py:2838
-#: main/views.py:2849 main/views.py:2900
+#: main/views.py:197 main/views.py:207 main/views.py:255 main/views.py:384
+#: main/views.py:942 main/views.py:978 main/views.py:1012 main/views.py:1178
+#: main/views.py:1228 main/views.py:1343 main/views.py:1354 main/views.py:1379
+#: main/views.py:1414 main/views.py:1452 main/views.py:1496 main/views.py:1510
+#: main/views.py:2382 main/views.py:2480 main/views.py:2610 main/views.py:2909
+#: main/views.py:2920 main/views.py:2971
 msgid "Estàs intentant accedir a una pàgina a la que no tens permís."
 msgstr "You are trying to access a restricted page"
 
-#: main/views.py:481
+#: main/views.py:487
 msgid "Sembla que aquesta prova no existeix."
 msgstr "Looks like this test does not exist"
 
-#: main/views.py:485
+#: main/views.py:491
 msgid "Sembla que aquesta prova no està completada."
 msgstr "Looks like this test is not complete"
 
-#: main/views.py:505 main/views.py:523 main/views.py:540 main/views.py:2208
-#: main/views.py:2238 main/views.py:2258 main/views.py:2287 main/views.py:2554
+#: main/views.py:511 main/views.py:529 main/views.py:546 main/views.py:2223
+#: main/views.py:2253 main/views.py:2273 main/views.py:2302 main/views.py:2625
 msgid "No existeix aquesta prova."
 msgstr "This test does not exist"
 
-#: main/views.py:509 main/views.py:527 main/views.py:2212 main/views.py:2242
-#: main/views.py:2262 main/views.py:2291 main/views.py:2559
+#: main/views.py:515 main/views.py:533 main/views.py:2227 main/views.py:2257
+#: main/views.py:2277 main/views.py:2306 main/views.py:2630
 msgid ""
 "El test seleccionat no l'ha realitzat cap grup i encara no té resultats."
 msgstr ""
 "The selected test has not been taken by any group and does not have results."
 
-#: main/views.py:546
+#: main/views.py:552
 msgid "No tens assignada aquesta prova, de manera que no la pots visualitzar."
 msgstr "This test has not been assigned to you, therefore you can't take it"
 
-#: main/views.py:713 main/views.py:760 main/views.py:798
+#: main/views.py:719 main/views.py:766 main/views.py:804
 msgid ""
 "Estàs intentant accedir a una prova creada per un professor que no és el teu "
 "tutor."
 msgstr ""
 "You are trying to access a test created by a teacher which is not your tutor."
 
-#: main/views.py:717
+#: main/views.py:723
 msgid ""
 "No es permet la pujada de materials a professors. Si vols pujar els "
 "materials d'un si us plau grup fes servir l'usuari del grup corresponent."
@@ -1763,16 +1774,16 @@ msgstr ""
 "Material upload is not allowed for professors. If you want to upload "
 "materials please use that group's user"
 
-#: main/views.py:721 main/views.py:764
+#: main/views.py:727 main/views.py:770
 msgid "Aquesta prova no existeix!"
 msgstr "This test does not exist!"
 
-#: main/views.py:731 main/views.py:771
+#: main/views.py:737 main/views.py:777
 msgid ""
 "Ho sentim, però les proves de pujada de fitxer només es poden fer una vegada."
 msgstr "Sorry, the data upload test can only be taken once."
 
-#: main/views.py:820
+#: main/views.py:826
 msgid ""
 "Aquesta prova està marcada com a finalitzada, o sigui que no la pots "
 "modificar. Si vols, la pots repetir."
@@ -1780,11 +1791,11 @@ msgstr ""
 "This test is marked as finished, so you can't modify it. If you want, you "
 "can repeat it."
 
-#: main/views.py:859
+#: main/views.py:865
 msgid "Aquesta prova no està publicada, no la pots començar."
 msgstr "This test is not yet published, you can't take it."
 
-#: main/views.py:866
+#: main/views.py:872
 msgid ""
 "Les proves de materials, pujada de fitxers i enquestes només es fan una "
 "vegada. Les pots repassar totes però des del menú de grup "
@@ -1792,7 +1803,7 @@ msgstr ""
 "Material, File upload and polls can only be taken once. You can review them "
 "from the group menu"
 
-#: main/views.py:872
+#: main/views.py:878
 msgid ""
 "La enquesta s'ha repetit tants cops com membres té el grup, no es permeten "
 "més repeticions."
@@ -1800,18 +1811,18 @@ msgstr ""
 "The poll has been repeated as many times as the number of members in the "
 "group,  more repetitions are not allowed."
 
-#: main/views.py:878
+#: main/views.py:884
 msgid "Aquesta prova té un requisit que no s'ha completat: "
 msgstr "This test has a prerequisite which has not yet been completed: "
 
-#: main/views.py:884
+#: main/views.py:890
 msgid ""
 "Estàs intentant començar una prova creada per un professor que no és el teu "
 "tutor."
 msgstr ""
 "You are trying to take a test created by a teacher which is not your tutor."
 
-#: main/views.py:888
+#: main/views.py:894
 msgid ""
 "La prova que estàs intentant començar forma part d'una campanya anterior, o "
 "sigui que no la pots fer. Si us plau, pregunta al teu professor."
@@ -1819,15 +1830,15 @@ msgstr ""
 "You are trying to start a test from a past campaign, so you can't take it."
 "Please, ask your professor."
 
-#: main/views.py:912
+#: main/views.py:918
 msgid "Estàs intentant editar una prova que no existeix."
 msgstr "You are trying to edit a non-existing test."
 
-#: main/views.py:1285 main/views.py:1310
+#: main/views.py:1291 main/views.py:1316
 msgid "Llistat de credencials"
 msgstr "Credentials list"
 
-#: main/views.py:2354 main/views.py:2465 main/views.py:2527
+#: main/views.py:2369 main/views.py:2536 main/views.py:2598
 msgid "Anònim"
 msgstr "Anonymous"
 

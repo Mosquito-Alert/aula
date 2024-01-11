@@ -104,6 +104,13 @@ class SimplifiedGroupForm(ModelForm):
             self.add_error("username", message)
         return username
 
+    def clean_n_students_in_group(self):
+        n_students = self.cleaned_data.get("n_students_in_group")
+        if n_students < 2 or n_students > 5:
+            message = _("El nombre d'estudiants al grup ha d'estar entre 2 i 5")
+            self.add_error("n_students_in_group", message)
+        return n_students
+
 
     def save(self, commit=True):
         user = super().save(commit=False)
