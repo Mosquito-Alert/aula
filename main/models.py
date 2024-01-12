@@ -268,6 +268,14 @@ class QuizRun(models.Model):
                 return answer.uploaded_material
         return None
 
+    @property
+    def authorized_public(self):
+        if self.quiz.is_upload:
+            answer = self.answers.first()
+            if answer is not None:
+                return answer.authorize_material_public_use
+        return False
+
     def __str__(self):
         return "{0} ({1}) - {2} - Intent {3}".format(self.quiz.name, self.quiz.type_text, self.taken_by.username, str(self.run_number))
 
@@ -310,6 +318,7 @@ class QuizRunAnswers(models.Model):
     answered = models.BooleanField(default=False)
     uploaded_material = models.FileField(upload_to='media/uploaded/', null=True, blank=True)
     open_answer = models.TextField(blank=True, null=True)
+    authorize_material_public_use = models.BooleanField(default=False)
 
 
     @property

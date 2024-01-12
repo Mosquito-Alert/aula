@@ -1724,6 +1724,23 @@ def center_info(request, pk=None):
         except EducationCenter.DoesNotExist:
             raise ParseError(detail='Center Not found')
 
+@api_view(['POST'])
+def auth_material(request):
+    if request.method == 'POST':
+        user = request.user
+        quizrun_id = request.data.get('quizrun_id', -1)
+        value = request.data.get('value', -1)
+        if quizrun_id == -1:
+            raise ParseError(detail='Quizrun id not specified')
+        if value == -1:
+            raise ParseError(detail='Quizrun authorization value not specified')
+        quizrun = get_object_or_404(QuizRun, pk=quizrun_id)
+        if quizrun.taken_by.id != user.id:
+            raise ParseError(detail='Quizrun authorization not allowed for other user')
+        quizrunanswer = QuizRunAnswers.objects.filter(quizrun=quizrun).first()
+        quizrunanswer.authorize_material_public_use = True if value == '1' else False
+        quizrunanswer.save()
+        return Response({'success': True}, status=status.HTTP_200_OK)
 
 @api_view(['POST'])
 def toggle_check(request):

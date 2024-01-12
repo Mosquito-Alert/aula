@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-11 13:37+0000\n"
+"POT-Creation-Date: 2024-01-12 10:52+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -108,7 +108,7 @@ msgstr ""
 #: main/templates/main/test_result.html:54
 #: main/templates/main/test_results_detail_view.html:10
 #: main/templates/main/upload_admin_board.html:41
-#: main/templates/main/upload_file_solutions.html:33 main/views.py:2426
+#: main/templates/main/upload_file_solutions.html:33 main/views.py:2443
 msgid "Grup"
 msgstr ""
 
@@ -247,7 +247,7 @@ msgstr ""
 msgid "Menú principal administrador"
 msgstr ""
 
-#: main/templates/main/admin_menu.html:16 main/views.py:2426
+#: main/templates/main/admin_menu.html:16 main/views.py:2443
 msgid "Campaigns"
 msgstr ""
 
@@ -255,7 +255,7 @@ msgstr ""
 msgid "Entrar i gestionar campanyes"
 msgstr ""
 
-#: main/templates/main/admin_menu.html:27 main/views.py:2426
+#: main/templates/main/admin_menu.html:27 main/views.py:2443
 msgid "Centres"
 msgstr ""
 
@@ -813,7 +813,7 @@ msgstr ""
 #: main/templates/main/open_answers_result.html:33
 #: main/templates/main/test_result.html:56
 #: main/templates/main/upload_admin_board.html:42
-#: main/templates/main/upload_file_solutions.html:34 main/views.py:2426
+#: main/templates/main/upload_file_solutions.html:34 main/views.py:2443
 msgid "Classe"
 msgstr ""
 
@@ -1195,7 +1195,7 @@ msgid ""
 msgstr ""
 
 #: main/templates/main/quiz_take.html:233
-#: main/templates/main/quiz_take_upload.html:43
+#: main/templates/main/quiz_take_upload.html:61
 msgid "Has completat el material! Fes clic en aquest botó per acabar..."
 msgstr ""
 
@@ -1329,11 +1329,27 @@ msgstr ""
 msgid "Pujada de dades per la prova"
 msgstr ""
 
-#: main/templates/main/quiz_take_upload.html:28
+#: main/templates/main/quiz_take_upload.html:20
+msgid ""
+"Ens agradaria publicar el teu material al mapa de resultats de final de "
+"semestre, però només ho farem si ens dones el teu permís..."
+msgstr ""
+
+#: main/templates/main/quiz_take_upload.html:24
+msgid ""
+"NO AUTORITZO que el meu material s\\'usi en publicacions o mapes públics"
+msgstr ""
+
+#: main/templates/main/quiz_take_upload.html:30
+msgid ""
+"SÍ AUTORITZO que el meu material s\\'usi en publicacions o mapes públics"
+msgstr ""
+
+#: main/templates/main/quiz_take_upload.html:46
 msgid "Pujant fitxer"
 msgstr ""
 
-#: main/templates/main/quiz_take_upload.html:37
+#: main/templates/main/quiz_take_upload.html:55
 msgid "Afegir fitxer"
 msgstr ""
 
@@ -1702,8 +1718,8 @@ msgstr ""
 #: main/views.py:942 main/views.py:978 main/views.py:1012 main/views.py:1178
 #: main/views.py:1228 main/views.py:1343 main/views.py:1354 main/views.py:1379
 #: main/views.py:1414 main/views.py:1452 main/views.py:1496 main/views.py:1510
-#: main/views.py:2382 main/views.py:2480 main/views.py:2610 main/views.py:2909
-#: main/views.py:2920 main/views.py:2971
+#: main/views.py:2399 main/views.py:2497 main/views.py:2627 main/views.py:2926
+#: main/views.py:2937 main/views.py:2988
 msgid "Estàs intentant accedir a una pàgina a la que no tens permís."
 msgstr ""
 
@@ -1715,13 +1731,13 @@ msgstr ""
 msgid "Sembla que aquesta prova no està completada."
 msgstr ""
 
-#: main/views.py:511 main/views.py:529 main/views.py:546 main/views.py:2223
-#: main/views.py:2253 main/views.py:2273 main/views.py:2302 main/views.py:2625
+#: main/views.py:511 main/views.py:529 main/views.py:546 main/views.py:2240
+#: main/views.py:2270 main/views.py:2290 main/views.py:2319 main/views.py:2642
 msgid "No existeix aquesta prova."
 msgstr ""
 
-#: main/views.py:515 main/views.py:533 main/views.py:2227 main/views.py:2257
-#: main/views.py:2277 main/views.py:2306 main/views.py:2630
+#: main/views.py:515 main/views.py:533 main/views.py:2244 main/views.py:2274
+#: main/views.py:2294 main/views.py:2323 main/views.py:2647
 msgid ""
 "El test seleccionat no l'ha realitzat cap grup i encara no té resultats."
 msgstr ""
@@ -1797,7 +1813,7 @@ msgstr ""
 msgid "Llistat de credencials"
 msgstr ""
 
-#: main/views.py:2369 main/views.py:2536 main/views.py:2598
+#: main/views.py:2386 main/views.py:2553 main/views.py:2615
 msgid "Anònim"
 msgstr ""
 
