@@ -16,7 +16,25 @@
 <div class="container">
     <div id="file_upload_div" class="form-group">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-12">
+                <p>{% trans 'Ens agradaria publicar el teu material al mapa de resultats de final de semestre, però no ho farem si no ens dones el teu permís...' %}</p>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="yesnoradios" id="auth_no" value="0">
+                  <label class="form-check-label" for="auth_no">
+                    {% trans 'NO autoritzo que el meu material s\'usi en publicacions o mapes públics' %}
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="yesnoradios" id="auth_si" value="1">
+                  <label class="form-check-label" for="auth_si">
+                    {% trans 'SÍ autoritzo que el meu material s\'usi en publicacions o mapes públics ' %}
+                  </label>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-md-12">
                 <div>
                     <p><strong>{{ question.text }}</strong></p>
                 </div>
@@ -48,8 +66,10 @@
 {% block extra_js %}
 <script>
     var quizrun_id = {{ quiz_run.id }};
+    var checked_value = {% if quiz_run.authorized_public %}true{% else %}false{% endif %};
     var _quiz_complete_upload = "{% url 'complete_upload' %}";
     var _quiz_complete_url = "{% url 'quiz_take_endsummary' quiz_run.id %}";
+    var _authorize = "{% url 'auth_material' %}";
 </script>
 <script src="{% static 'main/csrf_utils.js' %}"></script>
 <script src="{% static 'main/cookies.js' %}"></script>

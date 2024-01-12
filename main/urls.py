@@ -117,6 +117,7 @@ urlpatterns = [
     path('api/group_combo/', views.group_combo, name="group_combo"),
     path('api/complete_upload/', views.complete_upload, name="complete_upload"),
     path('api/toggle_check/', views.toggle_check, name="toggle_check"),
+    path('api/auth_material/', views.auth_material, name="auth_material"),
     path('api/requirements_combo/', views.requirements_combo, name="requirements_combo"),
     path('api/toggle_campaign_active/', views.toggle_campaign_active, name="toggle_campaign_active"),
     path('makepdf', views.group_credentials_list, name='generatePDF'),

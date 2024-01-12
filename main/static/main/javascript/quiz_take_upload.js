@@ -60,6 +60,26 @@ $(document).ready( function () {
         });
     };
 
+    var authorize = function(quizrun_id, value){
+        $.ajax({
+            url: _authorize,
+            data: {'quizrun_id':quizrun_id,'value':value},
+            method: 'POST',
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type)) {
+                    var csrftoken = getCookie('csrftoken');
+                    xhr.setRequestHeader('X-CSRFToken', csrftoken);
+                }
+            },
+            success: function( data, textStatus, jqXHR ) {
+
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+
+            }
+        });
+    }
+
     $(".js-upload-photos").click(function () {
         $("#fileupload").click();
     });
@@ -79,4 +99,14 @@ $(document).ready( function () {
             $('.end_button').hide();
         }
     });
+
+    $("input[name='yesnoradios']").change(function(){
+        authorize(quizrun_id, $(this).val());
+    });
+
+    if( checked_value == true ){
+        $("input[name='yesnoradios'][value=1]").attr('checked', true);
+    }else{
+        $("input[name='yesnoradios'][value=0]").attr('checked', true);
+    }
 });
