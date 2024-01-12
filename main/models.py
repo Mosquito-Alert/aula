@@ -555,6 +555,15 @@ class Profile(models.Model):
             group_campaign = self.campaign
             return Quiz.objects.filter(Q(author=self.group_teacher) | Q(author__isnull=True)).filter(campaign=group_campaign).filter(published=True).exclude(type=4).order_by('name')
 
+    @property
+    def available_tests_ordered(self):
+        if self.is_teacher:
+            return None
+        elif self.is_group:
+            group_campaign = self.campaign
+            return Quiz.objects.filter(Q(author=self.group_teacher) | Q(author__isnull=True)).filter(
+                campaign=group_campaign).filter(published=True).exclude(type=4).order_by('seq')
+
     # for normal users, the campaign is assigned and never changed. The admin can change the current campaign at a given time
     @property
     def get_user_campaign(self):
