@@ -17,6 +17,9 @@
     .result_link{
         text-align: center;
     }
+    .sequence-badge {
+        font-size: 14px;
+    }
 </style>
 {% endblock %}
 {% block title %}{% trans 'Informes' %} - {% trans 'Progrés de proves per centre' %}{% endblock %}
@@ -54,9 +57,10 @@
     </div>
     <div class="row">
         <div class="flex_wrapper">
-            {% for quiz in group.profile.available_tests %}
+            {% for quiz in group.profile.available_tests_ordered %}
             <div class="card mb-1 box-shadow quiz_box" id="{{ group.id }}_{{ quiz.id }}_color">
                 <div class="card-body">
+                    <p><span class="badge badge-info sequence-badge">{{ quiz.seq }}</span></p>
                     <p><strong>{{ quiz.name }}</strong></p>
                     <p class="state_icon" id="{{ group.id }}_{{ quiz.id }}_state"></p>
                     <p id="{{ group.id }}_{{ quiz.id }}_linkp" class="result_link"><a id="{{ group.id }}_{{ quiz.id }}_link" href="" target="_blank"><i class="fas fa-2x fa-eye" aria-hidden="true"></i></a></p>
