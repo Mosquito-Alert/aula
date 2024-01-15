@@ -2475,21 +2475,21 @@ def upload_admin_board(request):
         for center in centers:
             groups = []
             center_teachers = User.objects.filter(profile__is_teacher=True).filter(profile__teacher_belongs_to=center)
-            groups_center = User.objects.filter(profile__group_teacher__isnull=False).filter(profile__group_teacher__in=center_teachers).order_by('profile__group_public_name', 'profile__group_class')
+            groups_center = User.objects.filter(profile__group_teacher__isnull=False).filter(profile__group_teacher__in=center_teachers).order_by('profile__group_class', 'profile__group_public_name' )
             for group in groups_center:
                 quizzes = []
                 for quiz in upload_quizzes:
                     quizrun = QuizRun.objects.filter(quiz=quiz).filter(taken_by=group).exclude(date_finished=None)
                     upload_done = quizrun.exists()
                     the_actual_file = None
+                    quizrun_id = -1
                     if upload_done:
                         the_actual_file = quizrun.first().uploaded_file.url
-                    else:
-                        the_actual_file = None
+                        quizrun_id = quizrun.first().uploaded_file_id
                     checked = CheckedQuizrun.objects.filter(checked_by=this_user).filter(quiz=quiz).filter(group=group).exists()
                     if checked:
                         checked_list.append( str(quiz.id) + "_" + str(group.id) );
-                    quizzes.append( {'quiz': quiz, 'url_mat': the_actual_file, 'checked': checked } )
+                    quizzes.append( {'quiz': quiz, 'url_mat': the_actual_file, 'quizrun_id': quizrun_id, 'checked': checked } )
                 groups.append( { 'group': group,  'quizzes': quizzes} )
             data.append({ 'center': center, 'groups': groups })
         return render(request, 'main/upload_admin_board.html', {"data":data, "upload_quizzes": upload_quizzes, 'checked_list': checked_list, 'filter_centers': filter_centers, 'current_center_filter': int(center_filter_id) if center_filter_id else None })
@@ -2650,11 +2650,30 @@ def quizrun_group_list(request, quiz_id=None, group_id=None):
 
     return render(request, 'main/quizrun_group_list.html', {'quizruns': quizruns})
 
+def get_filename_from_quizrunanswer(quizrunanswer):
+    campaign_name = slugify(quizrunanswer.quizrun.quiz.campaign.name)
+    quiz_name = slugify(quizrunanswer.quizrun.quiz.name)
+    if quizrunanswer.quizrun.taken_by.profile.center_string is None:
+        center = 'nocenter'
+    else:
+        center = slugify(quizrunanswer.quizrun.taken_by.profile.center_string)
+    group_class = quizrunanswer.quizrun.taken_by.profile.group_class_slug
+    group_name = slugify(quizrunanswer.quizrun.taken_by.profile.group_public_name)
+    filename = '{0}_{1}_{2}_{3}_{4}'.format(campaign_name, quiz_name, center, group_class, group_name)
+    return filename
+
+@login_required
+def named_download(request, quizrunanswer_id):
+    quizrunanswer = QuizRunAnswers.objects.get(pk=quizrunanswer_id)
+    data = quizrunanswer.uploaded_material
+    filename = get_filename_from_quizrunanswer(quizrunanswer)
+    response = HttpResponse(data, content_type='application/force-download')
+    response['Content-Disposition'] = f'attachment; filename={filename}.zip'
+    return response
 
 @api_view(['POST'])
 @login_required
 def delete_quizrun(request, quizrun_id=None):
-    print(quizrun_id)
     if quizrun_id:
         QuizRun.objects.filter(id=quizrun_id).delete()
 
