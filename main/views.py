@@ -2475,7 +2475,7 @@ def upload_admin_board(request):
         for center in centers:
             groups = []
             center_teachers = User.objects.filter(profile__is_teacher=True).filter(profile__teacher_belongs_to=center)
-            groups_center = User.objects.filter(profile__group_teacher__isnull=False).filter(profile__group_teacher__in=center_teachers).order_by('profile__group_public_name', 'profile__group_class')
+            groups_center = User.objects.filter(profile__group_teacher__isnull=False).filter(profile__group_teacher__in=center_teachers).order_by('profile__group_class', 'profile__group_public_name' )
             for group in groups_center:
                 quizzes = []
                 for quiz in upload_quizzes:
