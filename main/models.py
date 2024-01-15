@@ -269,6 +269,14 @@ class QuizRun(models.Model):
         return None
 
     @property
+    def uploaded_file_id(self):
+        if self.quiz.is_upload:
+            answer = self.answers.first()
+            if answer is not None:
+                return answer.id
+        return None
+
+    @property
     def authorized_public(self):
         if self.quiz.is_upload:
             answer = self.answers.first()

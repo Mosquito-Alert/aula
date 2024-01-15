@@ -52,7 +52,8 @@
                     {% for subelem in elem.quizzes %}
                     <td id="tr_{{ subelem.quiz.id }}_{{ elem.group.id }}" style="margin: 5px; padding: 5px;" class="{% if subelem.checked %}yes_visited{% else %}no_visited{% endif %}">
                         {% if subelem.url_mat %}
-                            <a href="{{ subelem.url_mat }}" target="_blank"> <i class="fas fa-download" style="color: green;"></i></a>
+                            <!--<a data-qrid="{{ subelem.quizrun_id }}" href="{{ subelem.url_mat }}" target="_blank"> <i class="fas fa-download" style="color: green;"></i></a>-->
+                            <a href="{% url 'named_download' subelem.quizrun_id %}" target="_blank"> <i class="fas fa-download" style="color: green;"></i></a>
                         {% else %}
                             <i class="fas fa-times" style="color: red;"></i>
                         {%endif%}
