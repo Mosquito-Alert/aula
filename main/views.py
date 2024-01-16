@@ -238,7 +238,7 @@ def teacher_polls(request):
         all_quizzes_ordered = get_ordered_quiz_sequence(this_user)
         polls_in_progress_ids = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=True).values('quiz__id').distinct()
         polls_done_ids = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=False).values('quiz__id').distinct()
-        available_polls = Quiz.objects.filter(campaign=teacher_campaign).filter(type=4).filter(author__isnull=True).filter(published=True).exclude(id__in=polls_in_progress_ids).exclude(id__in=polls_done_ids).order_by('id')
+        available_polls = Quiz.objects.filter(campaign=teacher_campaign).filter( Q(type=4) | Q(type=6)).filter(author__isnull=True).filter(published=True).exclude(id__in=polls_in_progress_ids).exclude(id__in=polls_done_ids).order_by('id')
         in_progress_polls = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=True).order_by('-date')
         done_polls = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=False).order_by('-date')
         done_poll_ids = [a.quiz.id for a in done_polls]
@@ -279,17 +279,17 @@ def get_ordered_quiz_sequence(this_user):
     teach = None
     if this_user.profile.is_group:
         teach = this_user.profile.group_teacher
-        all_quizzes_ordered = Quiz.objects.filter(Q(author=teach) | Q(author__isnull=True)).filter(published=True).filter(campaign=this_user_campaign).exclude(type=4).order_by('seq')
+        all_quizzes_ordered = Quiz.objects.filter(Q(author=teach) | Q(author__isnull=True)).filter(published=True).filter(campaign=this_user_campaign).exclude(type=4).exclude(type=6).order_by('seq')
     else: #is teacher
-        all_quizzes_ordered = Quiz.objects.filter(author__isnull=True).filter(published=True).filter(campaign=this_user_campaign).filter(type=4).order_by('seq')
+        all_quizzes_ordered = Quiz.objects.filter(author__isnull=True).filter(published=True).filter(campaign=this_user_campaign).filter( Q(type=4) | Q(type=6) ).order_by('seq')
     quizzes_in_progress_ids = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=True).values('quiz__id').distinct()
     in_progress = [ q['quiz__id'] for q in quizzes_in_progress_ids ]
     quizzes_done_ids = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=False).values('quiz__id').distinct()
     done = [ q['quiz__id'] for q in quizzes_done_ids ]
     if this_user.profile.is_group:
-        available_quizzes = Quiz.objects.filter(Q(author=teach) | Q(author__isnull=True)).filter(published=True).filter(campaign=this_user_campaign).exclude(type=4).exclude(id__in=quizzes_in_progress_ids).exclude(id__in=quizzes_done_ids).order_by('id')
+        available_quizzes = Quiz.objects.filter(Q(author=teach) | Q(author__isnull=True)).filter(published=True).filter(campaign=this_user_campaign).exclude(type=4).exclude(type=6).exclude(id__in=quizzes_in_progress_ids).exclude(id__in=quizzes_done_ids).order_by('id')
     else:
-        available_quizzes = Quiz.objects.filter(Q(author=teach) | Q(author__isnull=True)).filter(published=True).filter(campaign=this_user_campaign).filter(type=4).exclude(id__in=quizzes_in_progress_ids).exclude(id__in=quizzes_done_ids).order_by('id')
+        available_quizzes = Quiz.objects.filter(Q(author=teach) | Q(author__isnull=True)).filter(published=True).filter(campaign=this_user_campaign).filter(Q(type=4) | Q(type=6)).exclude(id__in=quizzes_in_progress_ids).exclude(id__in=quizzes_done_ids).order_by('id')
     available_ids =  [ q.id for q in available_quizzes ]
     ordered_quizzes = []
     for quiz in all_quizzes_ordered:

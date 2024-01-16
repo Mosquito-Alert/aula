@@ -86,6 +86,7 @@ QUIZ_TYPES = (
     (3, _('Pujar fitxer')),
     (4, _('Enquesta professorat')),
     (5, _('Resposta oberta')),
+    (6, _('Resposta oberta professorat')),
 )
 
 
@@ -127,6 +128,7 @@ class Quiz(models.Model):
             3: QUIZ_TYPES[3][1],
             4: QUIZ_TYPES[4][1],
             5: QUIZ_TYPES[5][1],
+            6: QUIZ_TYPES[6][1],
         }
         return switcher.get(self.type,_('Tipus invàlid'))
 
@@ -145,7 +147,7 @@ class Quiz(models.Model):
 
     @property
     def is_open(self):
-        return self.type == 5
+        return self.type == 5 or self.type == 6
 
     @property
     def is_material(self):

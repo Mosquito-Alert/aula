@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-12 10:52+0000\n"
+"POT-Creation-Date: 2024-01-16 08:32+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -235,7 +235,11 @@ msgstr "Encuesta profesorado"
 msgid "Resposta oberta"
 msgstr "Respuesta abierta"
 
-#: main/models.py:131
+#: main/models.py:89
+msgid "Resposta oberta professorat"
+msgstr "Respuesta abierta profesorado"
+
+#: main/models.py:133
 msgid "Tipus invàlid"
 msgstr "Tipo no válido"
 
@@ -330,7 +334,7 @@ msgstr ""
 #: main/templates/main/admin_menu.html:110 main/templates/main/reports.html:7
 #: main/templates/main/reports.html:9
 #: main/templates/main/reports/poll_center_or_group.html:6
-#: main/templates/main/reports/progress_center.html:22
+#: main/templates/main/reports/progress_center.html:25
 #: main/templates/main/teacher_menu.html:80
 msgid "Informes"
 msgstr "Informes"
@@ -406,10 +410,8 @@ msgid "Resultats"
 msgstr "Resultados"
 
 #: main/templates/main/alum_hub.html:49
-#, fuzzy
-#| msgid "Veure materials"
 msgid "Veure material"
-msgstr "Ver materiales"
+msgstr "Ver material"
 
 #: main/templates/main/alum_hub.html:51
 #: main/templates/main/teacher_polls.html:45
@@ -421,7 +423,7 @@ msgid "Aquest material encara no s`ha corregit"
 msgstr "Este material todavía no ha sido corregido"
 
 #: main/templates/main/alum_hub.html:60
-#: main/templates/main/teacher_polls.html:48
+#: main/templates/main/teacher_polls.html:50
 msgid "Repetir la prova!"
 msgstr "¡Repetir la prueba!"
 
@@ -813,14 +815,14 @@ msgid "Llista de proves per grup"
 msgstr "Lista de pruebas por grupo"
 
 #: main/templates/main/open_answers_result.html:13
-#: main/templates/main/reports/progress_center.html:43
+#: main/templates/main/reports/progress_center.html:46
 #: main/templates/main/test_result.html:41
 #: main/templates/main/upload_file_solutions.html:13
 msgid "Filtre per classe"
 msgstr "Filtro por clase"
 
 #: main/templates/main/open_answers_result.html:14
-#: main/templates/main/reports/progress_center.html:44
+#: main/templates/main/reports/progress_center.html:47
 #: main/templates/main/test_result.html:42
 #: main/templates/main/upload_admin_board.html:24
 #: main/templates/main/upload_file_solutions.html:14
@@ -872,7 +874,7 @@ msgstr "Resultados encuesta"
 
 #: main/templates/main/poll_result_group.html:10
 #: main/templates/main/reports/poll_center_or_group.html:13
-#: main/templates/main/reports/progress_center.html:26
+#: main/templates/main/reports/progress_center.html:29
 #: main/templates/main/test_result.html:53
 #: main/templates/main/test_results_detail_view.html:11
 msgid "Center"
@@ -921,6 +923,7 @@ msgstr "Imagen de la pregunta"
 #: main/templates/main/question_new.html:62
 #: main/templates/main/question_poll_edit.html:26
 #: main/templates/main/question_poll_new.html:25
+#: main/templates/main/teacher_polls.html:47
 msgid "Respostes"
 msgstr "Respuestas"
 
@@ -1093,16 +1096,16 @@ msgstr "Añadir preguntas a una encuesta"
 msgid "Afegir pregunta de pujada de fitxer"
 msgstr "Añadir pregunta de subida de fichero"
 
-#: main/templates/main/quiz_edit.html:83
+#: main/templates/main/quiz_edit.html:83 main/templates/main/quiz_edit.html:85
 msgid "Afegir pregunta amb resposta oberta"
 msgstr "Añadir pregunta con respuesta abierta"
 
-#: main/templates/main/quiz_edit.html:111
-#: main/templates/main/quiz_edit.html:127
-#: main/templates/main/quiz_edit.html:146
-#: main/templates/main/quiz_edit.html:152
-#: main/templates/main/quiz_edit.html:164
-#: main/templates/main/quiz_edit.html:183
+#: main/templates/main/quiz_edit.html:113
+#: main/templates/main/quiz_edit.html:129
+#: main/templates/main/quiz_edit.html:148
+#: main/templates/main/quiz_edit.html:154
+#: main/templates/main/quiz_edit.html:166
+#: main/templates/main/quiz_edit.html:185
 #: main/templates/main/quiz_edit_teacher.html:94
 #: main/templates/main/quiz_edit_teacher.html:109
 #: main/templates/main/quiz_edit_teacher.html:126
@@ -1111,12 +1114,12 @@ msgstr "Añadir pregunta con respuesta abierta"
 msgid "Editar pregunta i respostes"
 msgstr "Editar pregunta y respuestas"
 
-#: main/templates/main/quiz_edit.html:111
-#: main/templates/main/quiz_edit.html:127
-#: main/templates/main/quiz_edit.html:146
-#: main/templates/main/quiz_edit.html:152
-#: main/templates/main/quiz_edit.html:164
-#: main/templates/main/quiz_edit.html:183
+#: main/templates/main/quiz_edit.html:113
+#: main/templates/main/quiz_edit.html:129
+#: main/templates/main/quiz_edit.html:148
+#: main/templates/main/quiz_edit.html:154
+#: main/templates/main/quiz_edit.html:166
+#: main/templates/main/quiz_edit.html:185
 #: main/templates/main/quiz_edit_teacher.html:94
 #: main/templates/main/quiz_edit_teacher.html:109
 #: main/templates/main/quiz_edit_teacher.html:126
@@ -1125,7 +1128,7 @@ msgstr "Editar pregunta y respuestas"
 msgid "Eliminar pregunta"
 msgstr "Eliminar pregunta"
 
-#: main/templates/main/quiz_edit.html:213
+#: main/templates/main/quiz_edit.html:215
 #: main/templates/main/quiz_edit_teacher.html:184
 msgid ""
 "Aquesta prova encara no té contingut. El pots afegir fent servir el botó (+)"
@@ -1372,14 +1375,12 @@ msgstr ""
 #: main/templates/main/quiz_take_upload.html:24
 msgid ""
 "NO AUTORITZO que el meu material s\\'usi en publicacions o mapes públics"
-msgstr ""
-"NO AUTORIZO que mi material se use en publicaciones o mapas públicos"
+msgstr "NO AUTORIZO que mi material se use en publicaciones o mapas públicos"
 
 #: main/templates/main/quiz_take_upload.html:30
 msgid ""
 "SÍ AUTORITZO que el meu material s\\'usi en publicacions o mapes públics"
-msgstr ""
-"SÍ, AUTORIZO que mi material se use un publicaciones o mapas públicos"
+msgstr "SÍ, AUTORIZO que mi material se use un publicaciones o mapas públicos"
 
 #: main/templates/main/quiz_take_upload.html:46
 msgid "Pujant fitxer"
@@ -1505,28 +1506,28 @@ msgstr "El grupo no ha completado esta encuesta"
 msgid "Ningú del centre ha completat aquesta enquesta"
 msgstr "Nadie del centro ha completado esta encuesta"
 
-#: main/templates/main/reports/progress_center.html:22
-#: main/templates/main/reports/progress_center.html:24
+#: main/templates/main/reports/progress_center.html:25
+#: main/templates/main/reports/progress_center.html:27
 msgid "Progrés de proves per centre"
 msgstr "Progreso de pruebas por centro"
 
-#: main/templates/main/reports/progress_center.html:32
+#: main/templates/main/reports/progress_center.html:35
 msgid "Com es llegeix aquest informe"
 msgstr "Como se lee este informe"
 
-#: main/templates/main/reports/progress_center.html:34
+#: main/templates/main/reports/progress_center.html:37
 msgid "El grup ha completat la prova"
 msgstr "El grupo ha completado la prueba"
 
-#: main/templates/main/reports/progress_center.html:35
+#: main/templates/main/reports/progress_center.html:38
 msgid "El grup ha finalitzat la prova, que està pendent de correcció"
 msgstr "El grupo ha finalizado la prueba, que está pendiente de corrección"
 
-#: main/templates/main/reports/progress_center.html:36
+#: main/templates/main/reports/progress_center.html:39
 msgid "El grup ha respost algunes preguntes, però no ha acabat"
 msgstr "El grupo ha respondido algunas preguntas, pero no ha terminado"
 
-#: main/templates/main/reports/progress_center.html:37
+#: main/templates/main/reports/progress_center.html:40
 msgid "El grup no ha començat encara a fer la prova"
 msgstr "El grupo todavía no ha empezado a hacer la prueba"
 
@@ -1759,8 +1760,8 @@ msgstr "Password"
 #: main/views.py:942 main/views.py:978 main/views.py:1012 main/views.py:1178
 #: main/views.py:1228 main/views.py:1343 main/views.py:1354 main/views.py:1379
 #: main/views.py:1414 main/views.py:1452 main/views.py:1496 main/views.py:1510
-#: main/views.py:2399 main/views.py:2497 main/views.py:2627 main/views.py:2926
-#: main/views.py:2937 main/views.py:2988
+#: main/views.py:2399 main/views.py:2497 main/views.py:2627 main/views.py:2945
+#: main/views.py:2956 main/views.py:3007
 msgid "Estàs intentant accedir a una pàgina a la que no tens permís."
 msgstr "Estás intentando acceder a una página para la que no tienes permiso."
 

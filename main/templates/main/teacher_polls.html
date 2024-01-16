@@ -43,6 +43,8 @@
                         <div class="test_button_wrapper"><a title="{% trans 'Veure resultats enquesta' %}" class="btn btn-success btn-sm" href="{% url 'poll_result' elem.quiz.id %}" target="_blank" role="button">{% trans 'Resultats' %} <i class="far fa-eye"></i></a></div>
                         {% elif elem.quiz.is_upload %}
                         <div class="test_button_wrapper"><a title="{% trans 'Descarregar fitxer' %}" class="btn btn-success btn-sm" href="{{ elem.file_url }}" target="_blank" role="button">Fitxer <i class="fas fa-cloud-download-alt"></i></a></div>
+                        {% elif elem.quiz.is_open %}
+                        <div class="test_button_wrapper"><a title="{% trans 'Respostes' %}" class="btn btn-success btn-sm" href="#" target="_blank" role="button">{% trans 'Respostes' %} <i class="far fa-eye"></i></a></div>
                         {% endif %}
                         {% if elem.repeatable %}
                         <div class="test_button_wrapper"><a title="{% trans 'Repetir la prova!' %}" class="btn btn-success btn-sm" href="{% url 'quiz_take_splash' elem.quiz.id %}" role="button">Repetir <i class="fas fa-undo"></i></a></div>

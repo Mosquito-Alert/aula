@@ -80,7 +80,9 @@
         {% elif quiz.type == 4 %}
         <button type="button" id="add_poll_question" title="{% trans 'Afegir pregunta d&#39;enquesta' %}" class="btn btn-info mt-2 mb-3"><img src="{% static 'main/icons/noun_poll_1644723.svg' %}" width="50px"><i class="fas fa-plus"></i></button>
         {% elif quiz.type == 5 %}
-        <button type="button" id="add_open_question" title="{% trans 'Afegir pregunta amb resposta oberta' %}" class="btn btn-info mt-2 mb-3"><img src="{% static 'main/icons//noun-blog-1923415.svg' %}" width="50px"><i class="fas fa-plus"></i></button>
+        <button type="button" id="add_open_question" title="{% trans 'Afegir pregunta amb resposta oberta' %}" class="btn btn-info mt-2 mb-3"><img src="{% static 'main/icons/noun-blog-1923415.svg' %}" width="50px"><i class="fas fa-plus"></i></button>
+        {% elif quiz.type == 6 %}
+        <button type="button" id="add_open_question_teacher" title="{% trans 'Afegir pregunta amb resposta oberta' %}" class="btn btn-info mt-2 mb-3"><img src="{% static 'main/icons/noun-blog-1923415.svg' %}" width="50px"><i class="fas fa-plus"></i></button>
         {% endif %}
     </form>
 </div>
