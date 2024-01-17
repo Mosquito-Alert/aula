@@ -238,7 +238,7 @@ def teacher_polls(request):
         all_quizzes_ordered = get_ordered_quiz_sequence(this_user)
         polls_in_progress_ids = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=True).values('quiz__id').distinct()
         polls_done_ids = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=False).values('quiz__id').distinct()
-        available_polls = Quiz.objects.filter(campaign=teacher_campaign).filter(type=4).filter(author__isnull=True).filter(published=True).exclude(id__in=polls_in_progress_ids).exclude(id__in=polls_done_ids).order_by('id')
+        available_polls = Quiz.objects.filter(campaign=teacher_campaign).filter( Q(type=4) | Q(type=6)).filter(author__isnull=True).filter(published=True).exclude(id__in=polls_in_progress_ids).exclude(id__in=polls_done_ids).order_by('id')
         in_progress_polls = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=True).order_by('-date')
         done_polls = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=False).order_by('-date')
         done_poll_ids = [a.quiz.id for a in done_polls]
@@ -279,17 +279,17 @@ def get_ordered_quiz_sequence(this_user):
     teach = None
     if this_user.profile.is_group:
         teach = this_user.profile.group_teacher
-        all_quizzes_ordered = Quiz.objects.filter(Q(author=teach) | Q(author__isnull=True)).filter(published=True).filter(campaign=this_user_campaign).exclude(type=4).order_by('seq')
+        all_quizzes_ordered = Quiz.objects.filter(Q(author=teach) | Q(author__isnull=True)).filter(published=True).filter(campaign=this_user_campaign).exclude(type=4).exclude(type=6).order_by('seq')
     else: #is teacher
-        all_quizzes_ordered = Quiz.objects.filter(author__isnull=True).filter(published=True).filter(campaign=this_user_campaign).filter(type=4).order_by('seq')
+        all_quizzes_ordered = Quiz.objects.filter(author__isnull=True).filter(published=True).filter(campaign=this_user_campaign).filter( Q(type=4) | Q(type=6) ).order_by('seq')
     quizzes_in_progress_ids = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=True).values('quiz__id').distinct()
     in_progress = [ q['quiz__id'] for q in quizzes_in_progress_ids ]
     quizzes_done_ids = QuizRun.objects.filter(taken_by=this_user).filter(date_finished__isnull=False).values('quiz__id').distinct()
     done = [ q['quiz__id'] for q in quizzes_done_ids ]
     if this_user.profile.is_group:
-        available_quizzes = Quiz.objects.filter(Q(author=teach) | Q(author__isnull=True)).filter(published=True).filter(campaign=this_user_campaign).exclude(type=4).exclude(id__in=quizzes_in_progress_ids).exclude(id__in=quizzes_done_ids).order_by('id')
+        available_quizzes = Quiz.objects.filter(Q(author=teach) | Q(author__isnull=True)).filter(published=True).filter(campaign=this_user_campaign).exclude(type=4).exclude(type=6).exclude(id__in=quizzes_in_progress_ids).exclude(id__in=quizzes_done_ids).order_by('id')
     else:
-        available_quizzes = Quiz.objects.filter(Q(author=teach) | Q(author__isnull=True)).filter(published=True).filter(campaign=this_user_campaign).filter(type=4).exclude(id__in=quizzes_in_progress_ids).exclude(id__in=quizzes_done_ids).order_by('id')
+        available_quizzes = Quiz.objects.filter(Q(author=teach) | Q(author__isnull=True)).filter(published=True).filter(campaign=this_user_campaign).filter(Q(type=4) | Q(type=6)).exclude(id__in=quizzes_in_progress_ids).exclude(id__in=quizzes_done_ids).order_by('id')
     available_ids =  [ q.id for q in available_quizzes ]
     ordered_quizzes = []
     for quiz in all_quizzes_ordered:
@@ -314,7 +314,7 @@ def get_ordered_quiz_sequence(this_user):
                         the_correction = corrected.first()
                     else:
                         the_correction = None
-                    ordered_quizzes.append({'quiz': quiz, 'status': 'done', 'repeatable': False, 'is_corrected': is_corrected, 'correction': the_correction})
+                    ordered_quizzes.append({'quiz': quiz, 'status': 'done', 'repeatable': False, 'is_corrected': is_corrected, 'correction': the_correction, 'done_quizrun': done_quizrun})
                 else:
                     ordered_quizzes.append({'quiz': quiz, 'status': 'done', 'repeatable': quiz_is_repeatable_for_user(quiz,this_user)})
     return ordered_quizzes
@@ -518,6 +518,34 @@ def poll_result_group(request, quiz_id=None, group_id=None):
 
     return render(request, 'main/poll_result_group.html', {'quiz': quiz, 'group': group})
 
+@login_required
+def teacher_open_result(request, quiz_id=None):
+    this_user = request.user
+    quiz = None
+    if quiz_id:
+        quiz = get_object_or_404(Quiz, pk=quiz_id)
+    else:
+        message = _("No existeix aquesta prova.")
+        go_back_to = "quiz_results"
+        return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
+    if not QuizRun.objects.filter(quiz=quiz).exists():
+        message = _("El test seleccionat no l'ha realitzat cap grup i encara no té resultats.")
+        go_back_to = "quiz_results"
+        return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
+
+    data = {}
+    data['questions'] = []
+    for q in quiz.sorted_questions_set:
+        centers = []
+        for c in quiz.centers_available:
+            teachers = []
+            for teacher in c.center_teachers:
+                quizrun = QuizRun.objects.filter(taken_by=teacher).filter(quiz=quiz).filter(date_finished__isnull=False).first()
+                answer = QuizRunAnswers.objects.filter(quizrun=quizrun).filter(question=q).first()
+                teachers.append({'teacher': teacher, 'answer': answer})
+            centers.append({ 'center': c, 'teachers': teachers })
+        data['questions'].append({ 'question': q, 'centers': centers })
+    return render(request, 'main/teacher_open_result.html', {'quiz': quiz, 'data': data})
 
 @login_required
 def poll_result(request, quiz_id=None):
@@ -1381,6 +1409,13 @@ def open_answer_edit(request, quizcorrection_id=None):
         return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
 
 @login_required
+def open_answer_teacher_detail(request, quizrun_id=None):
+    this_user = request.user
+    quizrun = QuizRun.objects.get(pk=quizrun_id)
+    answers = QuizRunAnswers.objects.filter(quizrun=quizrun)
+    return render(request, 'main/open_answer_detail_teacher.html', {'quizrun': quizrun, 'answers': answers})
+
+@login_required
 def open_answer_detail(request, quizcorrection_id=None):
     this_user = request.user
     quizcorrection = QuizCorrection.objects.get(pk=quizcorrection_id)
@@ -2220,7 +2255,7 @@ def quiz_datatable_results(request):
 
         if this_user.is_superuser:
             #queryset = Quiz.objects.select_related('author').all()
-            queryset = Quiz.objects.filter(Q(type=0) | Q(type=2) | Q(type=4)).filter(campaign__active=True)
+            queryset = Quiz.objects.filter(Q(type=0) | Q(type=2) | Q(type=4) | Q(type=6) ).filter(campaign__active=True)
         elif this_user.profile.is_teacher:
             queryset = Quiz.objects.select_related('author').filter(Q(author=this_user) | Q(author__isnull=True)).filter(Q(type=0) | Q(type=2)).filter(campaign=this_user.profile.campaign)
         else:

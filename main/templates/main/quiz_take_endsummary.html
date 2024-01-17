@@ -62,7 +62,11 @@
         <h2>{% trans 'Has contestat totes les preguntes de la prova!' %}:</h2>
     </div>
     <div class="row">
-        <div class="col-md-12 alert alert-success"><h1><p class="text-center">{% trans 'Abans de saber el resultat, cal que el teu tutor corregeixi la prova. Estigues atent a missatges al teu espai!' %}</p></h1></div>
+        {% if quizrun.quiz.is_open_teacher %}
+            <div class="col-md-12 alert alert-success"><h1><p class="text-center">{% trans 'Gràcies per les teves respostes, és informació molt útil de cara a millorar el projecte.' %}</p></h1></div>
+        {% else %}
+            <div class="col-md-12 alert alert-success"><h1><p class="text-center">{% trans 'Abans de saber el resultat, cal que el teu tutor corregeixi la prova. Estigues atent a missatges al teu espai!' %}</p></h1></div>
+        {% endif %}
     </div>
     {% endif %}
     <div class="col-xs-12" style="height:20px;"></div>

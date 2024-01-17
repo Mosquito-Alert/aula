@@ -82,6 +82,8 @@ $(document).ready( function () {
         }else if(testType === 2 || testType === 4){ //POLL
             console.log(_poll_results)
             window.location.href = _poll_results.replace('0', quiz_id); + '/';
+        }else if(testType === 6){ //OPEN ANSWER TEACHER
+            window.location.href = _teacher_open_results.replace('0', quiz_id); + '/';
         }
     });
 });

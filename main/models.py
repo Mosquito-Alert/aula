@@ -65,6 +65,11 @@ class EducationCenter(models.Model):
         else:
             return User.objects.filter(profile__center_string=self.name).filter(profile__campaign=self.campaign).filter(profile__is_group=True).order_by('profile__group_public_name')
 
+
+    @property
+    def center_teachers(self):
+        return User.objects.filter(profile__teacher_belongs_to=self).filter(profile__campaign=self.campaign).filter(profile__is_teacher=True).order_by('username')
+
     def n_groups_center(self):
         return self.center_groups().count()
 
@@ -86,6 +91,7 @@ QUIZ_TYPES = (
     (3, _('Pujar fitxer')),
     (4, _('Enquesta professorat')),
     (5, _('Resposta oberta')),
+    (6, _('Resposta oberta professorat')),
 )
 
 
@@ -127,6 +133,7 @@ class Quiz(models.Model):
             3: QUIZ_TYPES[3][1],
             4: QUIZ_TYPES[4][1],
             5: QUIZ_TYPES[5][1],
+            6: QUIZ_TYPES[6][1],
         }
         return switcher.get(self.type,_('Tipus invàlid'))
 
@@ -145,7 +152,11 @@ class Quiz(models.Model):
 
     @property
     def is_open(self):
-        return self.type == 5
+        return self.type == 5 or self.type == 6
+
+    @property
+    def is_open_teacher(self):
+        return self.type == 6
 
     @property
     def is_material(self):
@@ -212,6 +223,10 @@ class Quiz(models.Model):
         taken_by = QuizRun.objects.filter(quiz=self).filter(date_finished__isnull=False).values('taken_by__id').distinct()
         for user in taken_by:
             return QuizRun.objects.filter(taken_by__id=user['taken_by__id']).filter(quiz=self).filter(date_finished__isnull=False).distinct()
+
+    @property
+    def centers_available(self):
+        return EducationCenter.objects.filter(campaign=self.campaign).order_by('name')
 
 
 

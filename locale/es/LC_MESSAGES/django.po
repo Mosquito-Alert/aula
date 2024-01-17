@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-12 10:52+0000\n"
+"POT-Creation-Date: 2024-01-17 12:13+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -111,7 +111,7 @@ msgstr "Profesor"
 #: main/templates/main/test_result.html:54
 #: main/templates/main/test_results_detail_view.html:10
 #: main/templates/main/upload_admin_board.html:41
-#: main/templates/main/upload_file_solutions.html:33 main/views.py:2443
+#: main/templates/main/upload_file_solutions.html:33 main/views.py:2478
 msgid "Grup"
 msgstr "Grupo"
 
@@ -209,33 +209,37 @@ msgstr "Nombre de la campaña"
 msgid "La data d'inici no pot ser posterior o igual a la data de fi"
 msgstr "La fecha de inicio no puede ser posterior o igual a la fecha final"
 
-#: main/models.py:83
+#: main/models.py:88
 msgid "Test"
 msgstr "Test"
 
-#: main/models.py:84
+#: main/models.py:89
 msgid "Material"
 msgstr "Material"
 
-#: main/models.py:85 main/templates/main/reports.html:18
+#: main/models.py:90 main/templates/main/reports.html:18
 #: main/templates/main/reports.html:60 main/templates/main/reports.html:88
 #: main/templates/main/reports.html:135
 msgid "Enquesta"
 msgstr "Encuesta"
 
-#: main/models.py:86
+#: main/models.py:91
 msgid "Pujar fitxer"
 msgstr "Subir archivo"
 
-#: main/models.py:87
+#: main/models.py:92
 msgid "Enquesta professorat"
 msgstr "Encuesta profesorado"
 
-#: main/models.py:88
+#: main/models.py:93
 msgid "Resposta oberta"
 msgstr "Respuesta abierta"
 
-#: main/models.py:131
+#: main/models.py:94
+msgid "Resposta oberta professorat"
+msgstr "Respuesta abierta profesorado"
+
+#: main/models.py:138
 msgid "Tipus invàlid"
 msgstr "Tipo no válido"
 
@@ -252,7 +256,7 @@ msgstr "Espacio de administradores"
 msgid "Menú principal administrador"
 msgstr "Menú principal administrador"
 
-#: main/templates/main/admin_menu.html:16 main/views.py:2443
+#: main/templates/main/admin_menu.html:16 main/views.py:2478
 msgid "Campaigns"
 msgstr "Campañas"
 
@@ -260,7 +264,7 @@ msgstr "Campañas"
 msgid "Entrar i gestionar campanyes"
 msgstr "Añadir y gestionar campañas"
 
-#: main/templates/main/admin_menu.html:27 main/views.py:2443
+#: main/templates/main/admin_menu.html:27 main/views.py:2478
 msgid "Centres"
 msgstr "Centros"
 
@@ -330,7 +334,7 @@ msgstr ""
 #: main/templates/main/admin_menu.html:110 main/templates/main/reports.html:7
 #: main/templates/main/reports.html:9
 #: main/templates/main/reports/poll_center_or_group.html:6
-#: main/templates/main/reports/progress_center.html:22
+#: main/templates/main/reports/progress_center.html:25
 #: main/templates/main/teacher_menu.html:80
 msgid "Informes"
 msgstr "Informes"
@@ -406,10 +410,8 @@ msgid "Resultats"
 msgstr "Resultados"
 
 #: main/templates/main/alum_hub.html:49
-#, fuzzy
-#| msgid "Veure materials"
 msgid "Veure material"
-msgstr "Ver materiales"
+msgstr "Ver material"
 
 #: main/templates/main/alum_hub.html:51
 #: main/templates/main/teacher_polls.html:45
@@ -421,7 +423,7 @@ msgid "Aquest material encara no s`ha corregit"
 msgstr "Este material todavía no ha sido corregido"
 
 #: main/templates/main/alum_hub.html:60
-#: main/templates/main/teacher_polls.html:48
+#: main/templates/main/teacher_polls.html:50
 msgid "Repetir la prova!"
 msgstr "¡Repetir la prueba!"
 
@@ -771,6 +773,7 @@ msgstr "Corrigiendo prueba"
 
 #: main/templates/main/oac_new.html:10
 #: main/templates/main/open_answer_detail.html:9
+#: main/templates/main/open_answer_detail_teacher.html:9
 #: main/templates/main/quiz_edit.html:30
 #: main/templates/main/quiz_edit_teacher.html:21
 #: main/templates/main/quiz_new.html:16
@@ -804,6 +807,15 @@ msgstr "Prueba corregida por"
 msgid "Comentaris del corrector"
 msgstr "Comentarios del corrector"
 
+#: main/templates/main/open_answer_detail_teacher.html:4
+#: main/templates/main/open_answer_detail_teacher.html:6
+msgid "Respostes de prova de resposta oberta"
+msgstr "Respuestas de prueba de respuesta abierta"
+
+#: main/templates/main/open_answer_detail_teacher.html:11
+msgid "Nom usuari professor"
+msgstr "Nombre usuario profesor"
+
 #: main/templates/main/open_answers_result.html:5
 msgid "Proves de resposta oberta"
 msgstr "Pruebas de respuesta abierta"
@@ -813,14 +825,14 @@ msgid "Llista de proves per grup"
 msgstr "Lista de pruebas por grupo"
 
 #: main/templates/main/open_answers_result.html:13
-#: main/templates/main/reports/progress_center.html:43
+#: main/templates/main/reports/progress_center.html:46
 #: main/templates/main/test_result.html:41
 #: main/templates/main/upload_file_solutions.html:13
 msgid "Filtre per classe"
 msgstr "Filtro por clase"
 
 #: main/templates/main/open_answers_result.html:14
-#: main/templates/main/reports/progress_center.html:44
+#: main/templates/main/reports/progress_center.html:47
 #: main/templates/main/test_result.html:42
 #: main/templates/main/upload_admin_board.html:24
 #: main/templates/main/upload_file_solutions.html:14
@@ -830,7 +842,7 @@ msgstr "Sin filtro"
 #: main/templates/main/open_answers_result.html:33
 #: main/templates/main/test_result.html:56
 #: main/templates/main/upload_admin_board.html:42
-#: main/templates/main/upload_file_solutions.html:34 main/views.py:2443
+#: main/templates/main/upload_file_solutions.html:34 main/views.py:2478
 msgid "Classe"
 msgstr "Clase"
 
@@ -872,7 +884,7 @@ msgstr "Resultados encuesta"
 
 #: main/templates/main/poll_result_group.html:10
 #: main/templates/main/reports/poll_center_or_group.html:13
-#: main/templates/main/reports/progress_center.html:26
+#: main/templates/main/reports/progress_center.html:29
 #: main/templates/main/test_result.html:53
 #: main/templates/main/test_results_detail_view.html:11
 msgid "Center"
@@ -921,6 +933,7 @@ msgstr "Imagen de la pregunta"
 #: main/templates/main/question_new.html:62
 #: main/templates/main/question_poll_edit.html:26
 #: main/templates/main/question_poll_new.html:25
+#: main/templates/main/teacher_polls.html:47
 msgid "Respostes"
 msgstr "Respuestas"
 
@@ -1093,16 +1106,16 @@ msgstr "Añadir preguntas a una encuesta"
 msgid "Afegir pregunta de pujada de fitxer"
 msgstr "Añadir pregunta de subida de fichero"
 
-#: main/templates/main/quiz_edit.html:83
+#: main/templates/main/quiz_edit.html:83 main/templates/main/quiz_edit.html:85
 msgid "Afegir pregunta amb resposta oberta"
 msgstr "Añadir pregunta con respuesta abierta"
 
-#: main/templates/main/quiz_edit.html:111
-#: main/templates/main/quiz_edit.html:127
-#: main/templates/main/quiz_edit.html:146
-#: main/templates/main/quiz_edit.html:152
-#: main/templates/main/quiz_edit.html:164
-#: main/templates/main/quiz_edit.html:183
+#: main/templates/main/quiz_edit.html:113
+#: main/templates/main/quiz_edit.html:129
+#: main/templates/main/quiz_edit.html:148
+#: main/templates/main/quiz_edit.html:154
+#: main/templates/main/quiz_edit.html:166
+#: main/templates/main/quiz_edit.html:185
 #: main/templates/main/quiz_edit_teacher.html:94
 #: main/templates/main/quiz_edit_teacher.html:109
 #: main/templates/main/quiz_edit_teacher.html:126
@@ -1111,12 +1124,12 @@ msgstr "Añadir pregunta con respuesta abierta"
 msgid "Editar pregunta i respostes"
 msgstr "Editar pregunta y respuestas"
 
-#: main/templates/main/quiz_edit.html:111
-#: main/templates/main/quiz_edit.html:127
-#: main/templates/main/quiz_edit.html:146
-#: main/templates/main/quiz_edit.html:152
-#: main/templates/main/quiz_edit.html:164
-#: main/templates/main/quiz_edit.html:183
+#: main/templates/main/quiz_edit.html:113
+#: main/templates/main/quiz_edit.html:129
+#: main/templates/main/quiz_edit.html:148
+#: main/templates/main/quiz_edit.html:154
+#: main/templates/main/quiz_edit.html:166
+#: main/templates/main/quiz_edit.html:185
 #: main/templates/main/quiz_edit_teacher.html:94
 #: main/templates/main/quiz_edit_teacher.html:109
 #: main/templates/main/quiz_edit_teacher.html:126
@@ -1125,7 +1138,7 @@ msgstr "Editar pregunta y respuestas"
 msgid "Eliminar pregunta"
 msgstr "Eliminar pregunta"
 
-#: main/templates/main/quiz_edit.html:213
+#: main/templates/main/quiz_edit.html:215
 #: main/templates/main/quiz_edit_teacher.html:184
 msgid ""
 "Aquesta prova encara no té contingut. El pots afegir fent servir el botó (+)"
@@ -1297,7 +1310,15 @@ msgstr "¡Has subido el fichero!"
 msgid "Has contestat totes les preguntes de la prova!"
 msgstr "¡Has contestado todas las preguntas de la prueba!"
 
-#: main/templates/main/quiz_take_endsummary.html:65
+#: main/templates/main/quiz_take_endsummary.html:66
+msgid ""
+"Gràcies per les teves respostes, és informació molt útil de cara a millorar "
+"el projecte."
+msgstr ""
+"Gracias por tus respuestas, es información muy útil de cara a mejorar el "
+"proyecto"
+
+#: main/templates/main/quiz_take_endsummary.html:68
 msgid ""
 "Abans de saber el resultat, cal que el teu tutor corregeixi la prova. "
 "Estigues atent a missatges al teu espai!"
@@ -1305,22 +1326,22 @@ msgstr ""
 "Antes de saber el resultado, es necesario que tu tutor corrija la prueba. "
 "¡Estate atento al estado de la prueba en tu espacio!"
 
-#: main/templates/main/quiz_take_endsummary.html:69
+#: main/templates/main/quiz_take_endsummary.html:73
 msgid "Ara pots"
 msgstr "Ahora puedes"
 
-#: main/templates/main/quiz_take_endsummary.html:72
+#: main/templates/main/quiz_take_endsummary.html:76
 msgid "Repetir la prova "
 msgstr "Repetir la prueba "
 
-#: main/templates/main/quiz_take_endsummary.html:73
 #: main/templates/main/quiz_take_endsummary.html:77
-#: main/templates/main/quiz_take_endsummary.html:79
+#: main/templates/main/quiz_take_endsummary.html:81
+#: main/templates/main/quiz_take_endsummary.html:83
 msgid "Tornar a l&#39;inici"
 msgstr "Volver al inicio"
 
-#: main/templates/main/quiz_take_endsummary.html:74
-#: main/templates/main/quiz_take_endsummary.html:81
+#: main/templates/main/quiz_take_endsummary.html:78
+#: main/templates/main/quiz_take_endsummary.html:85
 msgid "Llençar més confetti! "
 msgstr "¡Lanzar más confetti!"
 
@@ -1372,14 +1393,12 @@ msgstr ""
 #: main/templates/main/quiz_take_upload.html:24
 msgid ""
 "NO AUTORITZO que el meu material s\\'usi en publicacions o mapes públics"
-msgstr ""
-"NO AUTORIZO que mi material se use en publicaciones o mapas públicos"
+msgstr "NO AUTORIZO que mi material se use en publicaciones o mapas públicos"
 
 #: main/templates/main/quiz_take_upload.html:30
 msgid ""
 "SÍ AUTORITZO que el meu material s\\'usi en publicacions o mapes públics"
-msgstr ""
-"SÍ, AUTORIZO que mi material se use un publicaciones o mapas públicos"
+msgstr "SÍ, AUTORIZO que mi material se use un publicaciones o mapas públicos"
 
 #: main/templates/main/quiz_take_upload.html:46
 msgid "Pujant fitxer"
@@ -1505,28 +1524,28 @@ msgstr "El grupo no ha completado esta encuesta"
 msgid "Ningú del centre ha completat aquesta enquesta"
 msgstr "Nadie del centro ha completado esta encuesta"
 
-#: main/templates/main/reports/progress_center.html:22
-#: main/templates/main/reports/progress_center.html:24
+#: main/templates/main/reports/progress_center.html:25
+#: main/templates/main/reports/progress_center.html:27
 msgid "Progrés de proves per centre"
 msgstr "Progreso de pruebas por centro"
 
-#: main/templates/main/reports/progress_center.html:32
+#: main/templates/main/reports/progress_center.html:35
 msgid "Com es llegeix aquest informe"
 msgstr "Como se lee este informe"
 
-#: main/templates/main/reports/progress_center.html:34
+#: main/templates/main/reports/progress_center.html:37
 msgid "El grup ha completat la prova"
 msgstr "El grupo ha completado la prueba"
 
-#: main/templates/main/reports/progress_center.html:35
+#: main/templates/main/reports/progress_center.html:38
 msgid "El grup ha finalitzat la prova, que està pendent de correcció"
 msgstr "El grupo ha finalizado la prueba, que está pendiente de corrección"
 
-#: main/templates/main/reports/progress_center.html:36
+#: main/templates/main/reports/progress_center.html:39
 msgid "El grup ha respost algunes preguntes, però no ha acabat"
 msgstr "El grupo ha respondido algunas preguntas, pero no ha terminado"
 
-#: main/templates/main/reports/progress_center.html:37
+#: main/templates/main/reports/progress_center.html:40
 msgid "El grup no ha començat encara a fer la prova"
 msgstr "El grupo todavía no ha empezado a hacer la prueba"
 
@@ -1563,12 +1582,16 @@ msgstr ""
 "de la aplicación, que pueden realizar pruebas de conocimientos."
 
 #: main/templates/main/teacher_menu.html:35
-msgid "Enquestes"
-msgstr "Encuestas"
+msgid "Enquestes i proves de resposta oberta"
+msgstr "Encuestas y pruebas de respuesta abierta"
 
 #: main/templates/main/teacher_menu.html:37
-msgid "Fer i consultar resultats d&#39;enquestes al professorat"
-msgstr "Hacer y consultar resultados de encuestas al profesorado"
+msgid ""
+"Fer i consultar resultats d&#39;enquestes i proves de resposta oberta per al "
+"professorat"
+msgstr ""
+"Hacer y consultar resultados de encuestas y pruebas de respuesta abierta "
+"para el profesorado"
 
 #: main/templates/main/teacher_menu.html:47
 msgid ""
@@ -1596,10 +1619,39 @@ msgstr "Corregir las pruebas de respuesta abierta de los alumnos de mi grupo"
 msgid "Creant nou usuari per mestre"
 msgstr "Creando nuevo usuario para profesor"
 
+#: main/templates/main/teacher_open_result.html:14
+#: main/templates/main/teacher_open_result.html:16
+msgid "Resultats prova de resposta oberta per a professors"
+msgstr "Resultados prueba de respuesta abierta para profesores"
+
+#: main/templates/main/teacher_open_result.html:24
+#: main/templates/main/teacher_open_result.html:26
+#: main/templates/main/test_result.html:14
+#: main/templates/main/test_result.html:17
+#: main/templates/main/test_result.html:19
+msgid "Completat"
+msgstr "Completado"
+
+#: main/templates/main/teacher_open_result.html:24
+#: main/templates/main/test_result.html:14
+#: main/templates/main/test_result.html:17
+#: main/templates/main/test_result.html:19
+#: main/templates/main/upload_file_solutions.html:24
+msgid "grups"
+msgstr "grupos"
+
+#: main/templates/main/teacher_open_result.html:26
+msgid "professors"
+msgstr "profesores"
+
+#: main/templates/main/teacher_open_result.html:37
+msgid "Sense resposta"
+msgstr "Sin respuesta"
+
 #: main/templates/main/teacher_polls.html:4
 #: main/templates/main/teacher_polls.html:6
-msgid "Enquestes professorat"
-msgstr "Encuestas profesorado"
+msgid "Enquestes i proves de resposta oberta professorat"
+msgstr "Encuestas y pruebas de respuesta abierta del profesorado"
 
 #: main/templates/main/test_result.html:4
 #: main/templates/main/test_result.html:6
@@ -1607,19 +1659,6 @@ msgstr "Encuestas profesorado"
 #: main/templates/main/test_results_detail_view.html:7
 msgid "Resultats test"
 msgstr "Resultados test"
-
-#: main/templates/main/test_result.html:14
-#: main/templates/main/test_result.html:17
-#: main/templates/main/test_result.html:19
-msgid "Completat"
-msgstr "Completado"
-
-#: main/templates/main/test_result.html:14
-#: main/templates/main/test_result.html:17
-#: main/templates/main/test_result.html:19
-#: main/templates/main/upload_file_solutions.html:24
-msgid "grups"
-msgstr "grupos"
 
 #: main/templates/main/test_result.html:26
 msgid "Veure gràfica de resultats"
@@ -1756,11 +1795,11 @@ msgid "password"
 msgstr "Password"
 
 #: main/views.py:197 main/views.py:207 main/views.py:255 main/views.py:384
-#: main/views.py:942 main/views.py:978 main/views.py:1012 main/views.py:1178
-#: main/views.py:1228 main/views.py:1343 main/views.py:1354 main/views.py:1379
-#: main/views.py:1414 main/views.py:1452 main/views.py:1496 main/views.py:1510
-#: main/views.py:2399 main/views.py:2497 main/views.py:2627 main/views.py:2926
-#: main/views.py:2937 main/views.py:2988
+#: main/views.py:970 main/views.py:1006 main/views.py:1040 main/views.py:1206
+#: main/views.py:1256 main/views.py:1371 main/views.py:1382 main/views.py:1407
+#: main/views.py:1449 main/views.py:1487 main/views.py:1531 main/views.py:1545
+#: main/views.py:2434 main/views.py:2532 main/views.py:2662 main/views.py:2980
+#: main/views.py:2991 main/views.py:3042
 msgid "Estàs intentant accedir a una pàgina a la que no tens permís."
 msgstr "Estás intentando acceder a una página para la que no tienes permiso."
 
@@ -1772,24 +1811,25 @@ msgstr "Parece que esta prueba no existe."
 msgid "Sembla que aquesta prova no està completada."
 msgstr "Parece que esta prueba no está completada."
 
-#: main/views.py:511 main/views.py:529 main/views.py:546 main/views.py:2240
-#: main/views.py:2270 main/views.py:2290 main/views.py:2319 main/views.py:2642
+#: main/views.py:511 main/views.py:528 main/views.py:557 main/views.py:574
+#: main/views.py:2275 main/views.py:2305 main/views.py:2325 main/views.py:2354
+#: main/views.py:2677
 msgid "No existeix aquesta prova."
 msgstr "No existe esta prueba."
 
-#: main/views.py:515 main/views.py:533 main/views.py:2244 main/views.py:2274
-#: main/views.py:2294 main/views.py:2323 main/views.py:2647
+#: main/views.py:515 main/views.py:532 main/views.py:561 main/views.py:2279
+#: main/views.py:2309 main/views.py:2329 main/views.py:2358 main/views.py:2682
 msgid ""
 "El test seleccionat no l'ha realitzat cap grup i encara no té resultats."
 msgstr ""
 "El test seleccionado no lo ha completado ningún grupo y todavía no tiene "
 "resultados."
 
-#: main/views.py:552
+#: main/views.py:580
 msgid "No tens assignada aquesta prova, de manera que no la pots visualitzar."
 msgstr "No tienes asignada esta prueba, de manera que no puedes visualizarla."
 
-#: main/views.py:719 main/views.py:766 main/views.py:804
+#: main/views.py:747 main/views.py:794 main/views.py:832
 msgid ""
 "Estàs intentant accedir a una prova creada per un professor que no és el teu "
 "tutor."
@@ -1797,7 +1837,7 @@ msgstr ""
 "Estás intentando acceder a una prueba creada por un profesor que no es tu "
 "tutor."
 
-#: main/views.py:723
+#: main/views.py:751
 msgid ""
 "No es permet la pujada de materials a professors. Si vols pujar els "
 "materials d'un si us plau grup fes servir l'usuari del grup corresponent."
@@ -1805,18 +1845,18 @@ msgstr ""
 "No se permite la subida de materiales a profesores. Si quieres subir los "
 "materiales de un grupo, por favor usa el usuario del grupo correspondiente."
 
-#: main/views.py:727 main/views.py:770
+#: main/views.py:755 main/views.py:798
 msgid "Aquesta prova no existeix!"
 msgstr "¡Esta prueba no existe!"
 
-#: main/views.py:737 main/views.py:777
+#: main/views.py:765 main/views.py:805
 msgid ""
 "Ho sentim, però les proves de pujada de fitxer només es poden fer una vegada."
 msgstr ""
 "Lo sentimos, pero las pruebas de subida de fichero sólo pueden hacerse una "
 "vez."
 
-#: main/views.py:826
+#: main/views.py:854
 msgid ""
 "Aquesta prova està marcada com a finalitzada, o sigui que no la pots "
 "modificar. Si vols, la pots repetir."
@@ -1824,11 +1864,11 @@ msgstr ""
 "Esta prueba está marcada como finalizada, o sea que no puedes modificarla. "
 "Si quieres, puedes repetirla."
 
-#: main/views.py:865
+#: main/views.py:893
 msgid "Aquesta prova no està publicada, no la pots començar."
 msgstr "Esta prueba no está publicada, no puedes empezarla."
 
-#: main/views.py:872
+#: main/views.py:900
 msgid ""
 "Les proves de materials, pujada de fitxers i enquestes només es fan una "
 "vegada. Les pots repassar totes però des del menú de grup "
@@ -1836,7 +1876,7 @@ msgstr ""
 "Las pruebas de materiales, subida de ficheros y encuestas se hacen unasola "
 "vez. Puedes repasarlas todas desde el menú de grupo"
 
-#: main/views.py:878
+#: main/views.py:906
 msgid ""
 "La enquesta s'ha repetit tants cops com membres té el grup, no es permeten "
 "més repeticions."
@@ -1844,11 +1884,11 @@ msgstr ""
 "La encuesta se ha repetido tantas veces como miembros tiene el grupo, no se "
 "permiten más repeticiones."
 
-#: main/views.py:884
+#: main/views.py:912
 msgid "Aquesta prova té un requisit que no s'ha completat: "
 msgstr "Esta prueba tiene un requisito que no se ha completado: "
 
-#: main/views.py:890
+#: main/views.py:918
 msgid ""
 "Estàs intentant començar una prova creada per un professor que no és el teu "
 "tutor."
@@ -1856,7 +1896,7 @@ msgstr ""
 "Estás intentando empezar una prueba creada por un profesor que no es tu "
 "tutor."
 
-#: main/views.py:894
+#: main/views.py:922
 msgid ""
 "La prova que estàs intentant començar forma part d'una campanya anterior, o "
 "sigui que no la pots fer. Si us plau, pregunta al teu professor."
@@ -1864,17 +1904,23 @@ msgstr ""
 "La prueba que estás intentando empezar forma parte de una campaña anterior, "
 "osea que no deberías hacerla. Por favor, pregunta a tu profesor."
 
-#: main/views.py:918
+#: main/views.py:946
 msgid "Estàs intentant editar una prova que no existeix."
 msgstr "Estás intentando acceder a una prueba que no existe."
 
-#: main/views.py:1291 main/views.py:1316
+#: main/views.py:1319 main/views.py:1344
 msgid "Llistat de credencials"
 msgstr "Lista de credenciales"
 
-#: main/views.py:2386 main/views.py:2553 main/views.py:2615
+#: main/views.py:2421 main/views.py:2588 main/views.py:2650
 msgid "Anònim"
 msgstr "Anónimo"
+
+#~ msgid "Enquestes"
+#~ msgstr "Encuestas"
+
+#~ msgid "Enquestes professorat"
+#~ msgstr "Encuestas profesorado"
 
 #~ msgid "Hola"
 #~ msgstr "Hola"
