@@ -24,6 +24,7 @@ urlpatterns = [
     path('quiz/browse/<int:quiz_id>/', views.quiz_browse, name='quiz_browse'),
     path('quiz/browse/', views.quiz_browse, name='quiz_browse_no_id'),
     path('quiz/poll_result/<int:quiz_id>/', views.poll_result, name='poll_result'),
+    path('quiz/teacher_open_result/<int:quiz_id>/', views.teacher_open_result, name='teacher_open_result'),
     # This does the same as /reports/poll_center_or_group
     # it's not deleted because the implementation uses custom template tags, kept as reference
     #path('quiz/poll_result/<int:quiz_id>/<int:group_id>/', views.poll_result_group, name='poll_result_group'),
@@ -46,6 +47,7 @@ urlpatterns = [
     path('quiz/open_answer/update/<int:quizcorrection_id>', views.open_answer_edit, name='open_answer_edit'),
     path('quiz/open_answer/new/<int:quizrun_id>', views.open_answer_new, name='open_answer_new'),
     path('quiz/open_answer/detail/<int:quizcorrection_id>', views.open_answer_detail, name='open_answer_detail'),
+    path('quiz/open_answer_teacher/detail/<int:quizrun_id>', views.open_answer_teacher_detail, name='open_answer_teacher_detail'),
     path('question/new/<int:quiz_id>/', views.question_new, name='question_new'),
     path('question/new/', views.question_new, name='question_new'),
     path('question_link/new/<int:quiz_id>/', views.question_link_new, name='question_link_new'),

@@ -1,0 +1,43 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% load i18n %}
+{% block extra_css %}
+    <style>
+    .greyed {
+        color: #6c757d;
+    }
+    .greened {
+        color: green;
+    }
+    </style>
+{% endblock %}
+{% block title %}{% trans 'Resultats prova de resposta oberta per a professors' %}{% endblock %}
+
+{% block main_jumbo %}<img class="img_icons" src="{% static 'main/icons/noun_test_3271143.svg' %}"> {% trans 'Resultats prova de resposta oberta per a professors' %} - {{ quiz.name }}{% endblock %}
+{% block sub_jumbo %}{% endblock %}
+
+{% block main %}
+<div class="container">
+    <div class="row alert alert-success">
+        <div class="col-md-6"><h2><span class="badge badge-info">{{ quiz.name }}</span>{% if quiz.author %} - {{ quiz.author.username }}{% endif %}</h2></div>
+        {% if quiz.author %}
+            <div class="col-md-4" style="text-align:right;">{% trans 'Completat' %} {{ quiz.taken_by_n_people }}/{{ quiz.author.profile.tutored_groups }} {% trans 'grups' %}</div>
+        {% else %}
+            <div class="col-md-4" style="text-align:right;">{% trans 'Completat' %} {{ quiz.taken_by_n_people }} {% trans 'professors' %}</div>
+        {% endif %}
+    </div>
+    {% for question in data.questions %}
+        <div class="row col-md-12"><p class="ord_{{ question.question_order }}"><strong>{{ question.question.question_order }}.</strong> <i>{{ question.question.text }}</i> </p></div>
+        {% for center in question.centers %}
+            <div class="row col-md-11 offset-md-1"><p><b>{{ center.center.name }}</b></p></div>
+            {% for teacher in center.teachers %}
+                {% if teacher.answer.open_answer %}
+                    <div class="row col-md-10 offset-md-2"><p class="greened">{{ teacher.teacher.username }} - <i>{{ teacher.answer.open_answer }}</i></p></div>
+                {% else %}
+                    <div class="row col-md-10 offset-md-2"><p class="greyed">{{ teacher.teacher.username }} - <i>{% trans 'Sense resposta' %}</i></p></div>
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+    {% endfor %}
+</div>
+{% endblock %}
