@@ -41,6 +41,7 @@ urlpatterns = [
     path('quiz/take/endsummary/<int:quizrun_id>/', views.quiz_take_endsummary, name='quiz_take_endsummary'),
     path('quiz/assign_admin/', views.quiz_assign_admin, name='quiz_assign_admin'),
     path('quiz/search/', views.quiz_search, name='quiz_search'),
+    path('quiz/copy/', views.quiz_copy, name='quiz_copy'),
     path('quiz/solutions/', views.quiz_solutions, name='quiz_solutions'),
     path('quiz/open_answer_results/', views.open_answer_results, name='open_answer_results'),
     path('quiz/open_answer_results/<str:slug>/', views.open_answer_results_class, name='open_answer_results_class'),
@@ -147,5 +148,6 @@ urlpatterns = [
     #path('map/<int:campaign>/', views.map_campaign, name='map_campaign'),
     path('map/<int:year>/', views.map_campaign_year, name='map_campaign_year'),
     path('api/center_info/', views.center_info, name='center_info' ),
+    path('api/quizzes_campaign/', views.quizzes_campaign, name='quizzes_campaign' ),
     path('api/center_info/<int:pk>/', views.center_info, name='center_info' ),
 ]

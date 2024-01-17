@@ -60,6 +60,7 @@ import magic
 import csv
 from django.db.utils import IntegrityError
 
+
 def get_order_clause(params_dict, translation_dict=None):
     order_clause = []
     try:
@@ -1730,6 +1731,17 @@ def get_participation_years(center):
     return ''
 
 @api_view(['GET'])
+def quizzes_campaign(request):
+    if request.method == 'GET':
+        campaign_id = request.query_params.get('campaign_id',-1)
+        if campaign_id == -1:
+            raise ParseError(detail='Invalid campaign id')
+        campaign = Campaign.objects.get(pk=campaign_id)
+        quizzes = Quiz.objects.filter(campaign=campaign).order_by('seq')
+        serializer = QuizSerializer(quizzes, many=True)
+        return Response(serializer.data)
+
+@api_view(['GET'])
 @permission_classes([AllowAny])
 def center_info(request, pk=None):
     if request.method == 'GET':
@@ -1964,6 +1976,11 @@ def group_search(request):
         serializer = GroupSearchSerializer(queryset, many=True)
         return Response(serializer.data)
 
+
+@login_required
+def quiz_copy(request):
+    campaigns = Campaign.objects.all().order_by('name')
+    return render(request, 'main/quiz_copy.html', { 'campaigns' : campaigns })
 
 @api_view(['GET'])
 def quiz_search(request):
