@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-31 11:14+0000\n"
+"POT-Creation-Date: 2024-01-19 14:13+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -42,7 +42,7 @@ msgid "Desactivar usuari"
 msgstr "Desactivar usuario"
 
 #: main/static/main/javascript/alum_list.js:122
-#: main/static/main/javascript/campaign_list.js:50
+#: main/static/main/javascript/campaign_list.js:51
 #: main/static/main/javascript/group_list.js:114
 #: main/static/main/javascript/quiz_list.js:110
 #: main/static/main/javascript/teacher_list.js:100
@@ -94,19 +94,19 @@ msgstr ""
 msgid "Campanya activa"
 msgstr "Campaña activa"
 
-#: main/static/main/javascript/campaign_list.js:55
+#: main/static/main/javascript/campaign_list.js:59
 msgid "Nom de la campanya"
 msgstr "Nombre de la campaña"
 
-#: main/static/main/javascript/campaign_list.js:59
+#: main/static/main/javascript/campaign_list.js:63
 msgid "Data inici"
 msgstr "Fecha inicio"
 
-#: main/static/main/javascript/campaign_list.js:63
+#: main/static/main/javascript/campaign_list.js:67
 msgid "Data fi"
 msgstr "Fecha finalización"
 
-#: main/static/main/javascript/campaign_list.js:72
+#: main/static/main/javascript/campaign_list.js:77
 msgid ""
 "La campanya que has clicat s'establirà com a activa. Segur que vols "
 "continuar?"
@@ -295,7 +295,39 @@ msgstr "Selecciona tutor..."
 msgid "Tria primer un centre..."
 msgstr "Escoge primero un centro..."
 
-#: main/static/main/javascript/quiz_edit.js:42
+#: main/static/main/javascript/quiz_copy.js:55
+msgid "Nom de la nova prova:"
+msgstr "Nombre de la nueva prueba:"
+
+#: main/static/main/javascript/quiz_copy.js:56
+msgid "Enllaç a la nova prova (consultar):"
+msgstr "Enlace a la nueva prueba (consultar):"
+
+#: main/static/main/javascript/quiz_copy.js:57
+msgid "Enllaç a la nova prova (editar):"
+msgstr "Enlace a la nueva prueba (editar):"
+
+#: main/static/main/javascript/quiz_copy.js:79
+msgid "Error recuperant llista de proves"
+msgstr "Error recuperando lista de pruebas"
+
+#: main/static/main/javascript/quiz_copy.js:103
+msgid "Error copiant prova:"
+msgstr "Error copiando prueba:"
+
+#: main/static/main/javascript/quiz_copy.js:103
+msgid " "
+msgstr ""
+
+#: main/static/main/javascript/quiz_copy.js:137
+msgid "Cal seleccionar la campanya a la que es copiarà la prova"
+msgstr "Es necesario seleccionar la campaña a la que se copiará la prueba"
+
+#: main/static/main/javascript/quiz_copy.js:141
+msgid "Cal seleccionar la prova que es vol copiar"
+msgstr "Es necesario seleccionar la prueba que se quiere copiar"
+
+#: main/static/main/javascript/quiz_edit.js:46
 #: main/static/main/javascript/quiz_edit_teacher.js:38
 msgid ""
 "ATENCIÓ: s'esborrarà la pregunta i totes les respostes. Segur que vols "
@@ -304,32 +336,33 @@ msgstr ""
 "ATENCIÓN: se borrará la pregunta y todas las respuestas. ¿Seguro que quieres "
 "continuar?"
 
-#: main/static/main/javascript/quiz_edit.js:56
+#: main/static/main/javascript/quiz_edit.js:60
 #: main/static/main/javascript/quiz_edit_teacher.js:52
 msgid "Pregunta eliminada!"
 msgstr "¡Pregunta eliminada!"
 
-#: main/static/main/javascript/quiz_edit.js:64
+#: main/static/main/javascript/quiz_edit.js:68
 #: main/static/main/javascript/quiz_edit_teacher.js:60
 msgid "Error eliminant pregunta"
 msgstr "Error eliminando pregunta"
 
-#: main/static/main/javascript/quiz_edit.js:74
+#: main/static/main/javascript/quiz_edit.js:78
 #: main/static/main/javascript/quiz_edit_teacher.js:70
 msgid "Eliminant pregunta..."
 msgstr "Eliminando pregunta..."
 
-#: main/static/main/javascript/quiz_edit.js:117
+#: main/static/main/javascript/quiz_edit.js:121
 #: main/static/main/javascript/quiz_new.js:29
 msgid "Error recuperant llista de requeriments"
 msgstr "Error recuperando lista de requerimientos"
 
 #: main/static/main/javascript/quiz_list.js:50
-#: main/static/main/javascript/quiz_results.js:38
+#: main/static/main/javascript/quiz_results.js:39
 msgid "Nom de la prova"
 msgstr "Nombre de la prueba"
 
 #: main/static/main/javascript/quiz_list.js:54
+#: main/static/main/javascript/quiz_results.js:43
 msgid "Ordre"
 msgstr "Orden"
 
@@ -338,7 +371,7 @@ msgid "Autor"
 msgstr "Autor"
 
 #: main/static/main/javascript/quiz_list.js:63
-#: main/static/main/javascript/quiz_results.js:47
+#: main/static/main/javascript/quiz_results.js:52
 msgid "Anònim"
 msgstr "Anónimo"
 
@@ -386,16 +419,16 @@ msgstr "Lo sentimos, no se permita la edición de pruebas ya publicadas."
 msgid "Segur que vols esborrar la prova?"
 msgstr "¿Seguro que quieres borrar la prueba?"
 
-#: main/static/main/javascript/quiz_results.js:42
+#: main/static/main/javascript/quiz_results.js:47
 msgid "Nom autor"
 msgstr "Nombre del autor"
 
-#: main/static/main/javascript/quiz_results.js:53
+#: main/static/main/javascript/quiz_results.js:58
 msgid "Tipus de prova"
 msgstr "Tipo de prueba"
 
-#: main/static/main/javascript/quiz_results.js:57
-#: main/static/main/javascript/quiz_results.js:61
+#: main/static/main/javascript/quiz_results.js:62
+#: main/static/main/javascript/quiz_results.js:66
 msgid "Veure resultats"
 msgstr "Ver resultados"
 
@@ -445,7 +478,7 @@ msgstr "¡Prueba finalizada!"
 msgid "Error completant prova"
 msgstr "Error completando prueba"
 
-#: main/static/main/javascript/quiz_take_upload.js:77
+#: main/static/main/javascript/quiz_take_upload.js:97
 msgid "Eliminar el fitxer?"
 msgstr "¿Eliminar el fichero?"
 

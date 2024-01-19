@@ -1,0 +1,73 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% load i18n %}
+{% block title %}{% trans 'Eina de còpia de proves' %}{% endblock %}
+
+{% block main_jumbo %}<img class="img_icons" src="{% static 'main/icons/noun-copy-1118296.svg' %}"> {% trans 'Eina de còpia de proves' %}{% endblock %}
+{% block sub_jumbo %}{% trans 'Permet fer una còpia d&#39;una prova' %}{% endblock %}
+
+{% block main %}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="form-group">
+                <label for="origin_campaign">{% trans 'Campanya d&#39;origen' %}</label>
+                <select id="origin_campaign" class="form-control">
+                    <option value="">----</option>
+                    {% for c in campaigns %}
+                    <option value="{{ c.id }}">{{ c.name }} - ({{ c.start_date }})</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-group">
+                <label for="origin_test">{% trans 'Prova a copiar' %}</label>
+                <select id="origin_test" class="form-control">
+                    <option value="">----</option>
+                </select>
+            </div>
+            <div id="progress_load_tests" class="spinner-border" style="display:none;"></div>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col text-center">
+            <button type="button" id="test_copy" class="btn btn-success"><img class="img_icons" title="{% trans 'Copiar' %}" src="{% static 'main/icons/noun-arrow-2094739.svg' %}"></button>
+            <div id="progress_copy_tests" class="spinner-border" style="display:none;"></div>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col">
+            <div class="form-group">
+                <label for="destination_campaign">{% trans 'Campanya destinació' %}</label>
+                <select id="destination_campaign" class="form-control">
+                    <option value="">----</option>
+                    {% for c in campaigns %}
+                    <option value="{{ c.id }}">{{ c.name }} - ({{ c.start_date }})</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-group">
+                <label for="destination_test">{% trans 'Nou nom de la prova' %}</label>
+                <input class="form-control" id="destination_test" placeholder="{% trans 'Nom de la prova copiada' %}">
+            </div>
+        </div>
+    </div>
+    <div id="success_info" class="row mt-4 alert alert-success" style="display:none;">
+        <h4>{% trans 'Prova copiada amb èxit!' %}</h4>
+        <ul id="success_details"></ul>
+    </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'main/javascript/utils.js' %}"></script>
+<script src="{% static 'main/csrf_utils.js' %}"></script>
+<script src="{% static 'main/cookies.js' %}"></script>
+<script src="{% static 'main/javascript/quiz_copy.js' %}"></script>
+<script>
+    var _quizzes_list_url = "{% url 'quizzes_campaign' %}";
+    var _api_copytest_url = "{% url 'api_copytest' %}";
+</script>
+{% endblock %}
