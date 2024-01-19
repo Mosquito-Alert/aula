@@ -57,6 +57,7 @@ class QuizSerializer(serializers.ModelSerializer):
     requisite = NestedQuizSerializer()
     quiz_start_url = serializers.SerializerMethodField('get_start_url')
     quiz_browse_url = serializers.SerializerMethodField('get_browse_url')
+    quiz_edit_url = serializers.SerializerMethodField('get_edit_url')
     type_text = serializers.SerializerMethodField('get_type_text')
     seq = serializers.SerializerMethodField('get_seq')
 
@@ -74,6 +75,9 @@ class QuizSerializer(serializers.ModelSerializer):
 
     def get_browse_url(self, obj):
         return reverse('quiz_browse', kwargs={'quiz_id': obj.id})
+
+    def get_edit_url(self, obj):
+        return reverse('quiz_update', kwargs={'pk': obj.id})
 
     def get_start_url(self,obj):
         if obj.type == 3:

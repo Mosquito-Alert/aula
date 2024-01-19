@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-17 12:13+0000\n"
+"POT-Creation-Date: 2024-01-19 14:13+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -110,7 +110,7 @@ msgstr "Teacher"
 #: main/templates/main/test_result.html:54
 #: main/templates/main/test_results_detail_view.html:10
 #: main/templates/main/upload_admin_board.html:41
-#: main/templates/main/upload_file_solutions.html:33 main/views.py:2478
+#: main/templates/main/upload_file_solutions.html:33 main/views.py:2536
 msgid "Grup"
 msgstr "Group"
 
@@ -255,7 +255,7 @@ msgstr "Administrator section"
 msgid "Menú principal administrador"
 msgstr "Administrator menu"
 
-#: main/templates/main/admin_menu.html:16 main/views.py:2478
+#: main/templates/main/admin_menu.html:16 main/views.py:2536
 msgid "Campaigns"
 msgstr "Campaigns"
 
@@ -263,7 +263,7 @@ msgstr "Campaigns"
 msgid "Entrar i gestionar campanyes"
 msgstr "Add and manage campaigns"
 
-#: main/templates/main/admin_menu.html:27 main/views.py:2478
+#: main/templates/main/admin_menu.html:27 main/views.py:2536
 msgid "Centres"
 msgstr "Centers"
 
@@ -330,7 +330,15 @@ msgstr ""
 "List of uploaded materials per center, allows checking the materials as "
 "revised"
 
-#: main/templates/main/admin_menu.html:110 main/templates/main/reports.html:7
+#: main/templates/main/admin_menu.html:108
+msgid "Utilitat de còpia de proves"
+msgstr "Test copy utility"
+
+#: main/templates/main/admin_menu.html:110
+msgid "Permet copiar proves senceres d&#39;una campanya a una altra"
+msgstr "Utility used to copy full tests from one campaign to another"
+
+#: main/templates/main/admin_menu.html:119 main/templates/main/reports.html:7
 #: main/templates/main/reports.html:9
 #: main/templates/main/reports/poll_center_or_group.html:6
 #: main/templates/main/reports/progress_center.html:25
@@ -338,7 +346,7 @@ msgstr ""
 msgid "Informes"
 msgstr "Reports"
 
-#: main/templates/main/admin_menu.html:112
+#: main/templates/main/admin_menu.html:121
 #: main/templates/main/teacher_menu.html:82
 msgid ""
 "Generar diversos tipus d&#39;informes sobre participació, dades avançades "
@@ -837,7 +845,7 @@ msgstr "No filter"
 #: main/templates/main/open_answers_result.html:33
 #: main/templates/main/test_result.html:56
 #: main/templates/main/upload_admin_board.html:42
-#: main/templates/main/upload_file_solutions.html:34 main/views.py:2478
+#: main/templates/main/upload_file_solutions.html:34 main/views.py:2536
 msgid "Classe"
 msgstr "Class"
 
@@ -1024,6 +1032,42 @@ msgstr "Review materials"
 #: main/templates/main/quiz_browse.html:7
 msgid "Nom del material"
 msgstr "Material name"
+
+#: main/templates/main/quiz_copy.html:4 main/templates/main/quiz_copy.html:6
+msgid "Eina de còpia de proves"
+msgstr "Test copy tool"
+
+#: main/templates/main/quiz_copy.html:7
+msgid "Permet fer una còpia d&#39;una prova"
+msgstr "Allows copying a test"
+
+#: main/templates/main/quiz_copy.html:14
+msgid "Campanya d&#39;origen"
+msgstr "Origin campaign"
+
+#: main/templates/main/quiz_copy.html:25
+msgid "Prova a copiar"
+msgstr "Test to be copied"
+
+#: main/templates/main/quiz_copy.html:35
+msgid "Copiar"
+msgstr "Copy"
+
+#: main/templates/main/quiz_copy.html:42
+msgid "Campanya destinació"
+msgstr "Destination campaign"
+
+#: main/templates/main/quiz_copy.html:53
+msgid "Nou nom de la prova"
+msgstr "New test name"
+
+#: main/templates/main/quiz_copy.html:54
+msgid "Nom de la prova copiada"
+msgstr "Name of copied test"
+
+#: main/templates/main/quiz_copy.html:59
+msgid "Prova copiada amb èxit!"
+msgstr "Test successfully copied!"
 
 #: main/templates/main/quiz_edit.html:8
 #: main/templates/main/quiz_edit_teacher.html:8
@@ -1786,48 +1830,48 @@ msgstr "username"
 msgid "password"
 msgstr "password"
 
-#: main/views.py:197 main/views.py:207 main/views.py:255 main/views.py:384
-#: main/views.py:970 main/views.py:1006 main/views.py:1040 main/views.py:1206
-#: main/views.py:1256 main/views.py:1371 main/views.py:1382 main/views.py:1407
-#: main/views.py:1449 main/views.py:1487 main/views.py:1531 main/views.py:1545
-#: main/views.py:2434 main/views.py:2532 main/views.py:2662 main/views.py:2980
-#: main/views.py:2991 main/views.py:3042
+#: main/views.py:199 main/views.py:209 main/views.py:257 main/views.py:386
+#: main/views.py:972 main/views.py:1008 main/views.py:1042 main/views.py:1208
+#: main/views.py:1258 main/views.py:1373 main/views.py:1384 main/views.py:1409
+#: main/views.py:1451 main/views.py:1489 main/views.py:1533 main/views.py:1547
+#: main/views.py:2492 main/views.py:2590 main/views.py:2720 main/views.py:3038
+#: main/views.py:3049 main/views.py:3100
 msgid "Estàs intentant accedir a una pàgina a la que no tens permís."
 msgstr "You are trying to access a restricted page"
 
-#: main/views.py:487
+#: main/views.py:489
 msgid "Sembla que aquesta prova no existeix."
 msgstr "Looks like this test does not exist"
 
-#: main/views.py:491
+#: main/views.py:493
 msgid "Sembla que aquesta prova no està completada."
 msgstr "Looks like this test is not complete"
 
-#: main/views.py:511 main/views.py:528 main/views.py:557 main/views.py:574
-#: main/views.py:2275 main/views.py:2305 main/views.py:2325 main/views.py:2354
-#: main/views.py:2677
+#: main/views.py:513 main/views.py:530 main/views.py:559 main/views.py:576
+#: main/views.py:2333 main/views.py:2363 main/views.py:2383 main/views.py:2412
+#: main/views.py:2735
 msgid "No existeix aquesta prova."
 msgstr "This test does not exist"
 
-#: main/views.py:515 main/views.py:532 main/views.py:561 main/views.py:2279
-#: main/views.py:2309 main/views.py:2329 main/views.py:2358 main/views.py:2682
+#: main/views.py:517 main/views.py:534 main/views.py:563 main/views.py:2337
+#: main/views.py:2367 main/views.py:2387 main/views.py:2416 main/views.py:2740
 msgid ""
 "El test seleccionat no l'ha realitzat cap grup i encara no té resultats."
 msgstr ""
 "The selected test has not been taken by any group and does not have results."
 
-#: main/views.py:580
+#: main/views.py:582
 msgid "No tens assignada aquesta prova, de manera que no la pots visualitzar."
 msgstr "This test has not been assigned to you, therefore you can't take it"
 
-#: main/views.py:747 main/views.py:794 main/views.py:832
+#: main/views.py:749 main/views.py:796 main/views.py:834
 msgid ""
 "Estàs intentant accedir a una prova creada per un professor que no és el teu "
 "tutor."
 msgstr ""
 "You are trying to access a test created by a teacher which is not your tutor."
 
-#: main/views.py:751
+#: main/views.py:753
 msgid ""
 "No es permet la pujada de materials a professors. Si vols pujar els "
 "materials d'un si us plau grup fes servir l'usuari del grup corresponent."
@@ -1835,16 +1879,16 @@ msgstr ""
 "Material upload is not allowed for professors. If you want to upload "
 "materials please use that group's user"
 
-#: main/views.py:755 main/views.py:798
+#: main/views.py:757 main/views.py:800
 msgid "Aquesta prova no existeix!"
 msgstr "This test does not exist!"
 
-#: main/views.py:765 main/views.py:805
+#: main/views.py:767 main/views.py:807
 msgid ""
 "Ho sentim, però les proves de pujada de fitxer només es poden fer una vegada."
 msgstr "Sorry, the data upload test can only be taken once."
 
-#: main/views.py:854
+#: main/views.py:856
 msgid ""
 "Aquesta prova està marcada com a finalitzada, o sigui que no la pots "
 "modificar. Si vols, la pots repetir."
@@ -1852,11 +1896,11 @@ msgstr ""
 "This test is marked as finished, so you can't modify it. If you want, you "
 "can repeat it."
 
-#: main/views.py:893
+#: main/views.py:895
 msgid "Aquesta prova no està publicada, no la pots començar."
 msgstr "This test is not yet published, you can't take it."
 
-#: main/views.py:900
+#: main/views.py:902
 msgid ""
 "Les proves de materials, pujada de fitxers i enquestes només es fan una "
 "vegada. Les pots repassar totes però des del menú de grup "
@@ -1864,7 +1908,7 @@ msgstr ""
 "Material, File upload and polls can only be taken once. You can review them "
 "from the group menu"
 
-#: main/views.py:906
+#: main/views.py:908
 msgid ""
 "La enquesta s'ha repetit tants cops com membres té el grup, no es permeten "
 "més repeticions."
@@ -1872,18 +1916,18 @@ msgstr ""
 "The poll has been repeated as many times as the number of members in the "
 "group,  more repetitions are not allowed."
 
-#: main/views.py:912
+#: main/views.py:914
 msgid "Aquesta prova té un requisit que no s'ha completat: "
 msgstr "This test has a prerequisite which has not yet been completed: "
 
-#: main/views.py:918
+#: main/views.py:920
 msgid ""
 "Estàs intentant començar una prova creada per un professor que no és el teu "
 "tutor."
 msgstr ""
 "You are trying to take a test created by a teacher which is not your tutor."
 
-#: main/views.py:922
+#: main/views.py:924
 msgid ""
 "La prova que estàs intentant començar forma part d'una campanya anterior, o "
 "sigui que no la pots fer. Si us plau, pregunta al teu professor."
@@ -1891,15 +1935,15 @@ msgstr ""
 "You are trying to start a test from a past campaign, so you can't take it."
 "Please, ask your professor."
 
-#: main/views.py:946
+#: main/views.py:948
 msgid "Estàs intentant editar una prova que no existeix."
 msgstr "You are trying to edit a non-existing test."
 
-#: main/views.py:1319 main/views.py:1344
+#: main/views.py:1321 main/views.py:1346
 msgid "Llistat de credencials"
 msgstr "Credentials list"
 
-#: main/views.py:2421 main/views.py:2588 main/views.py:2650
+#: main/views.py:2479 main/views.py:2646 main/views.py:2708
 msgid "Anònim"
 msgstr "Anonymous"
 

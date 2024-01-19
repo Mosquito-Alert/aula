@@ -113,6 +113,7 @@ urlpatterns = [
     path('api/startrun/', views.api_startrun, name='api_startrun'),
     path('api/writeanswer/', views.api_writeanswer, name='api_writeanswer'),
     path('api/finishquiz/', views.api_finishquiz, name='api_finishquiz'),
+    path('api/copy_test/', views.copy_test, name='api_copytest'),
     path('uploadpic', views.uploadpic, name="uploadpic"),
     path('uploadfile', views.uploadfile, name="uploadfile"),
     path('uploadquestionpic', views.upload_question_pic, name="upload_question_pic"),

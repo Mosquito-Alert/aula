@@ -59,6 +59,7 @@ from slugify import slugify
 import magic
 import csv
 from django.db.utils import IntegrityError
+from django.db import transaction
 
 
 def get_order_clause(params_dict, translation_dict=None):
@@ -1740,6 +1741,46 @@ def quizzes_campaign(request):
         quizzes = Quiz.objects.filter(campaign=campaign).order_by('seq')
         serializer = QuizSerializer(quizzes, many=True)
         return Response(serializer.data)
+
+@api_view(['POST'])
+@transaction.atomic
+def copy_test(request):
+    if request.method == 'POST':
+        quiz_id = request.data.get('quiz_id', -1)
+        campaign_to = request.data.get('campaign_to',-1)
+        quiz_name = request.data.get('quiz_name', None)
+        new_name = None
+        original_quiz = Quiz.objects.get(pk=quiz_id)
+        destination_campaign = Campaign.objects.get(pk=campaign_to)
+        if quiz_name is None or quiz_name == '':
+            original_name = original_quiz.name
+            new_name = original_name + '_COPY'
+        else:
+            new_name = quiz_name
+
+        new_quiz = original_quiz.clone()
+        new_quiz.id = None
+        new_quiz.name = new_name
+        new_quiz.campaign = destination_campaign
+        new_quiz.requisite = None
+        new_quiz.published = False
+        new_quiz.save()
+
+        for question in original_quiz.sorted_questions_set:
+            new_question = question.clone()
+            new_question.id = None
+            new_question.quiz = new_quiz
+            new_question.save()
+            for answer in question.answers.all():
+                new_answer = answer.clone()
+                new_answer.id = None
+                new_answer.question = new_question
+                new_answer.save()
+
+        serializer = QuizSerializer(new_quiz)
+
+        return Response( data={'new_quiz': serializer.data}, status=status.HTTP_201_CREATED)
+
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
