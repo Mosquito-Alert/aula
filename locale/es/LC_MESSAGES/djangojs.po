@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-19 14:13+0000\n"
+"POT-Creation-Date: 2024-01-22 15:32+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -43,6 +43,7 @@ msgstr "Desactivar usuario"
 
 #: main/static/main/javascript/alum_list.js:122
 #: main/static/main/javascript/campaign_list.js:51
+#: main/static/main/javascript/center_map.js:40
 #: main/static/main/javascript/group_list.js:114
 #: main/static/main/javascript/quiz_list.js:110
 #: main/static/main/javascript/teacher_list.js:100
@@ -130,40 +131,57 @@ msgstr "Error modificando centro"
 msgid "Inactivant centre..."
 msgstr "Desactivando centro..."
 
-#: main/static/main/javascript/center_list.js:115
+#: main/static/main/javascript/center_list.js:117
 msgid "Nom"
 msgstr "Nombre"
 
-#: main/static/main/javascript/center_list.js:119
+#: main/static/main/javascript/center_list.js:121
 #: main/static/main/javascript/group_list.js:173
 msgid "Hashtag"
 msgstr "Hashtag"
 
-#: main/static/main/javascript/center_list.js:133
+#: main/static/main/javascript/center_list.js:125
+msgid "Grups al centre"
+msgstr "Grupos en el centro"
+
+#: main/static/main/javascript/center_list.js:130
+msgid "Estudiants al centre"
+msgstr "Estudiantes en el centro"
+
+#: main/static/main/javascript/center_list.js:135
 msgid "Data creació"
 msgstr "Fecha creación"
 
-#: main/static/main/javascript/center_list.js:143
+#: main/static/main/javascript/center_list.js:145
 msgid "Data modificació"
 msgstr "Fecha modificación"
 
-#: main/static/main/javascript/center_list.js:153
+#: main/static/main/javascript/center_list.js:155
 msgid "Centre actiu?"
 msgstr "¿Centro activo?"
 
-#: main/static/main/javascript/center_list.js:171
+#: main/static/main/javascript/center_list.js:173
 msgid ""
 "El centre està actiu i es marcarà com a inactiu. Segur que vols continuar?"
 msgstr ""
 "El centro está activo y se marcará como inactivo. ¿Seguro que quieres "
 "continuar?"
 
-#: main/static/main/javascript/center_list.js:173
+#: main/static/main/javascript/center_list.js:175
 msgid ""
 "El centre està inactiu i es marcarà com a actiu. Segur que vols continuar?"
 msgstr ""
 "El centro está inactivo y se marcará como activo. ¿Seguro que quieres "
 "continuar?"
+
+#: main/static/main/javascript/center_map.js:38
+msgid "N. grups"
+msgstr "N. grupos"
+
+#: main/static/main/javascript/center_map.js:39
+#: main/static/main/javascript/group_list.js:169
+msgid "N. alumnes"
+msgstr "N. alumnos"
 
 #: main/static/main/javascript/group_edit.js:55
 #: main/static/main/javascript/group_new.js:47
@@ -234,10 +252,6 @@ msgstr "Imagen del grupo"
 #: main/static/main/javascript/group_list.js:158
 msgid "Grup actiu?"
 msgstr "¿Grupo activo?"
-
-#: main/static/main/javascript/group_list.js:169
-msgid "N. alumnes"
-msgstr "N. alumnos"
 
 #: main/static/main/javascript/group_list.js:184
 msgid ""

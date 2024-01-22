@@ -24,6 +24,11 @@
 {% block main %}
 <div class="container">
     {% if user.is_superuser and user.is_staff %}
+    <div class="row justify-content-start">
+        <a href="{% url 'center_map' %}" type="button" class="btn btn-info" title="{% trans 'Mapa' %}"><img width="50" src="{% static 'main/icons/noun-map-1855005.svg' %}"></a>
+    </div>
+    {% endif %}
+    {% if user.is_superuser and user.is_staff %}
     <div class="row justify-content-end">
         <a href="{% url 'center_new' %}" type="button" class="btn btn-info">{% trans 'Afegir' %} <i class="fas fa-plus"></i></a>
     </div>

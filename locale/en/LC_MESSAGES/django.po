@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-22 11:46+0000\n"
+"POT-Creation-Date: 2024-01-22 15:32+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -110,7 +110,7 @@ msgstr "Teacher"
 #: main/templates/main/test_result.html:54
 #: main/templates/main/test_results_detail_view.html:10
 #: main/templates/main/upload_admin_board.html:41
-#: main/templates/main/upload_file_solutions.html:33 main/views.py:2536
+#: main/templates/main/upload_file_solutions.html:33 main/views.py:2543
 msgid "Grup"
 msgstr "Group"
 
@@ -208,37 +208,37 @@ msgstr "Campaign name"
 msgid "La data d'inici no pot ser posterior o igual a la data de fi"
 msgstr "Start date can't be later or equal than the end date"
 
-#: main/models.py:92 main/models.py:201
+#: main/models.py:95 main/models.py:204
 msgid "Test"
 msgstr "Test"
 
-#: main/models.py:93 main/models.py:202
+#: main/models.py:96 main/models.py:205
 msgid "Material"
 msgstr "Material"
 
-#: main/models.py:94 main/models.py:203 main/templates/main/reports.html:18
+#: main/models.py:97 main/models.py:206 main/templates/main/reports.html:18
 #: main/templates/main/reports.html:60 main/templates/main/reports.html:88
 #: main/templates/main/reports.html:135
 msgid "Enquesta"
 msgstr "Poll"
 
-#: main/models.py:95 main/models.py:204
+#: main/models.py:98 main/models.py:207
 msgid "Pujar fitxer"
 msgstr "Upload file"
 
-#: main/models.py:96 main/models.py:205
+#: main/models.py:99 main/models.py:208
 msgid "Enquesta professorat"
 msgstr "Teacher poll"
 
-#: main/models.py:97 main/models.py:206
+#: main/models.py:100 main/models.py:209
 msgid "Resposta oberta"
 msgstr "Open answer"
 
-#: main/models.py:98 main/models.py:207
+#: main/models.py:101 main/models.py:210
 msgid "Resposta oberta professorat"
 msgstr "Open answer teachers"
 
-#: main/models.py:142
+#: main/models.py:145
 msgid "Tipus invàlid"
 msgstr "Invalid type"
 
@@ -255,7 +255,7 @@ msgstr "Administrator section"
 msgid "Menú principal administrador"
 msgstr "Administrator menu"
 
-#: main/templates/main/admin_menu.html:16 main/views.py:2536
+#: main/templates/main/admin_menu.html:16 main/views.py:2543
 msgid "Campaigns"
 msgstr "Campaigns"
 
@@ -263,7 +263,7 @@ msgstr "Campaigns"
 msgid "Entrar i gestionar campanyes"
 msgstr "Add and manage campaigns"
 
-#: main/templates/main/admin_menu.html:27 main/views.py:2536
+#: main/templates/main/admin_menu.html:27 main/views.py:2543
 msgid "Centres"
 msgstr "Centers"
 
@@ -552,7 +552,7 @@ msgid "Llista de campanyes"
 msgstr "Campaign list"
 
 #: main/templates/main/campaign_list.html:29
-#: main/templates/main/center_list.html:28
+#: main/templates/main/center_list.html:33
 #: main/templates/main/group_list.html:31 main/templates/main/quiz_list.html:28
 #: main/templates/main/teacher_list.html:28
 msgid "Afegir"
@@ -586,6 +586,19 @@ msgstr "List/Edit/Delete centers"
 #: main/templates/main/center_list.html:21
 msgid "Llista de centres"
 msgstr "List centers"
+
+#: main/templates/main/center_list.html:28
+msgid "Mapa"
+msgstr ""
+
+#: main/templates/main/center_map.html:14
+#: main/templates/main/center_map.html:16
+msgid "Mapa de centres"
+msgstr "Centers map"
+
+#: main/templates/main/center_map.html:17
+msgid "Mapa de centres per la campanya"
+msgstr "Centers map for campaign"
 
 #: main/templates/main/center_new.html:15
 msgid "Crear centre"
@@ -845,7 +858,7 @@ msgstr "No filter"
 #: main/templates/main/open_answers_result.html:33
 #: main/templates/main/test_result.html:56
 #: main/templates/main/upload_admin_board.html:42
-#: main/templates/main/upload_file_solutions.html:34 main/views.py:2536
+#: main/templates/main/upload_file_solutions.html:34 main/views.py:2543
 msgid "Classe"
 msgstr "Class"
 
@@ -1836,10 +1849,10 @@ msgstr "password"
 
 #: main/views.py:199 main/views.py:209 main/views.py:257 main/views.py:386
 #: main/views.py:972 main/views.py:1008 main/views.py:1042 main/views.py:1208
-#: main/views.py:1258 main/views.py:1373 main/views.py:1384 main/views.py:1409
-#: main/views.py:1451 main/views.py:1489 main/views.py:1533 main/views.py:1547
-#: main/views.py:2492 main/views.py:2590 main/views.py:2720 main/views.py:3070
-#: main/views.py:3081 main/views.py:3132
+#: main/views.py:1258 main/views.py:1380 main/views.py:1391 main/views.py:1416
+#: main/views.py:1458 main/views.py:1496 main/views.py:1540 main/views.py:1554
+#: main/views.py:2499 main/views.py:2597 main/views.py:2727 main/views.py:3079
+#: main/views.py:3090 main/views.py:3141
 msgid "Estàs intentant accedir a una pàgina a la que no tens permís."
 msgstr "You are trying to access a restricted page"
 
@@ -1852,13 +1865,13 @@ msgid "Sembla que aquesta prova no està completada."
 msgstr "Looks like this test is not complete"
 
 #: main/views.py:513 main/views.py:530 main/views.py:559 main/views.py:576
-#: main/views.py:2333 main/views.py:2363 main/views.py:2383 main/views.py:2412
-#: main/views.py:2735
+#: main/views.py:2340 main/views.py:2370 main/views.py:2390 main/views.py:2419
+#: main/views.py:2742
 msgid "No existeix aquesta prova."
 msgstr "This test does not exist"
 
-#: main/views.py:517 main/views.py:534 main/views.py:563 main/views.py:2337
-#: main/views.py:2367 main/views.py:2387 main/views.py:2416 main/views.py:2740
+#: main/views.py:517 main/views.py:534 main/views.py:563 main/views.py:2344
+#: main/views.py:2374 main/views.py:2394 main/views.py:2423 main/views.py:2747
 msgid ""
 "El test seleccionat no l'ha realitzat cap grup i encara no té resultats."
 msgstr ""
@@ -1947,7 +1960,7 @@ msgstr "You are trying to edit a non-existing test."
 msgid "Llistat de credencials"
 msgstr "Credentials list"
 
-#: main/views.py:2479 main/views.py:2646 main/views.py:2708
+#: main/views.py:2486 main/views.py:2653 main/views.py:2715
 msgid "Anònim"
 msgstr "Anonymous"
 

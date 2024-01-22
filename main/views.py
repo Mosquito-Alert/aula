@@ -1353,6 +1353,13 @@ def group_list_pdf(request):
     return response
     #return Response(json.loads(json.dumps(records)))
 
+@login_required
+def center_map(request):
+    current_campaign = Campaign.objects.get(active=True)
+    centers = EducationCenter.objects.filter(campaign=current_campaign)
+    serializer = EducationCenterSerializer(centers, many=True)
+    centers = json.dumps(serializer.data)
+    return render(request, 'main/center_map.html', {'campaign':current_campaign, 'centers': centers})
 
 @login_required
 def center_list(request):
