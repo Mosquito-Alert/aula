@@ -70,6 +70,10 @@ class EducationCenter(models.Model):
     def center_teachers(self):
         return User.objects.filter(profile__teacher_belongs_to=self).filter(profile__campaign=self.campaign).filter(profile__is_teacher=True).order_by('username')
 
+    @property
+    def center_pupil_tests(self):
+        return Quiz.objects.filter(author__isnull=True).filter(campaign=self.campaign).filter(published=True).exclude(type=4).exclude(type=6).order_by('seq')
+
     def n_groups_center(self):
         return self.center_groups().count()
 
@@ -193,6 +197,21 @@ class Quiz(models.Model):
 
     def is_completed_by(self,group_id):
         return QuizRun.objects.filter(quiz=self).filter(date_finished__isnull=False).filter(taken_by=group_id).exists()
+
+    (0, _('Test')),
+    (1, _('Material')),
+    (2, _('Enquesta')),
+    (3, _('Pujar fitxer')),
+    (4, _('Enquesta professorat')),
+    (5, _('Resposta oberta')),
+    (6, _('Resposta oberta professorat')),
+
+    def n_completed_by_group(self, group):
+        # these can be repeated
+        if self.type == 0 or self.type == 2:
+            return QuizRun.objects.filter(quiz=self).filter(date_finished__isnull=False).filter(taken_by__in=group).values('taken_by').distinct().count()
+        else:
+            return QuizRun.objects.filter(quiz=self).filter(date_finished__isnull=False).filter(taken_by__in=group).count()
 
     # @property
     # def taken_by_n_people_per_teacher(self):
@@ -576,7 +595,7 @@ class Profile(models.Model):
             return None
         elif self.is_group:
             group_campaign = self.campaign
-            return Quiz.objects.filter(Q(author=self.group_teacher) | Q(author__isnull=True)).filter(campaign=group_campaign).filter(published=True).exclude(type=4).order_by('name')
+            return Quiz.objects.filter(Q(author=self.group_teacher) | Q(author__isnull=True)).filter(campaign=group_campaign).filter(published=True).exclude(type=4).exclude(type=6).order_by('name')
 
     @property
     def available_tests_ordered(self):
@@ -585,7 +604,7 @@ class Profile(models.Model):
         elif self.is_group:
             group_campaign = self.campaign
             return Quiz.objects.filter(Q(author=self.group_teacher) | Q(author__isnull=True)).filter(
-                campaign=group_campaign).filter(published=True).exclude(type=4).order_by('seq')
+                campaign=group_campaign).filter(published=True).exclude(type=4).exclude(type=6).order_by('seq')
 
     # for normal users, the campaign is assigned and never changed. The admin can change the current campaign at a given time
     @property

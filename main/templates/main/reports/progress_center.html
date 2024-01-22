@@ -20,6 +20,26 @@
     .sequence-badge {
         font-size: 14px;
     }
+    .pie {
+      --w:65px;
+      width: var(--w);
+      aspect-ratio: 1;
+      position: relative;
+      display: inline-grid;
+      place-content: center;
+      margin: 5px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+    .pie:before {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      inset: 0;
+      background: conic-gradient(var(--c) calc(var(--p)*1%),#0000 0);
+      -webkit-mask:radial-gradient(farthest-side,#0000 calc(99% - var(--b)),#000 calc(100% - var(--b)));
+              mask:radial-gradient(farthest-side,#0000 calc(99% - var(--b)),#000 calc(100% - var(--b)));
+    }
 </style>
 {% endblock %}
 {% block title %}{% trans 'Informes' %} - {% trans 'Progrés de proves per centre' %}{% endblock %}
@@ -71,6 +91,15 @@
     </div>
     <hr>
     {% endfor %}
+    <div class="row">
+        <h4>{% trans 'Progrés de proves (grups completats/grups totals)' %}</h4>
+    </div>
+    <div class="row mt-2">
+    {% for elem in breakdown %}
+        <div class="col-md-4"><span class="badge badge-info sequence-badge">{{ elem.quiz.seq }}</span> - {{ elem.quiz.name }}</div>
+        <div class="col-md-2"><div class="pie" style="--p:{{elem.perc}};--b:10px;--c:{{elem.color}};">{{ elem.done }}/{{ elem.total }}</div></div>
+    {% endfor %}
+    </div>
 </div>
 {% endblock %}
 {% block extra_js %}
