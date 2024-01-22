@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-19 14:13+0000\n"
+"POT-Creation-Date: 2024-01-22 11:46+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -204,37 +204,37 @@ msgstr ""
 msgid "La data d'inici no pot ser posterior o igual a la data de fi"
 msgstr ""
 
-#: main/models.py:88
+#: main/models.py:92 main/models.py:201
 msgid "Test"
 msgstr ""
 
-#: main/models.py:89
+#: main/models.py:93 main/models.py:202
 msgid "Material"
 msgstr ""
 
-#: main/models.py:90 main/templates/main/reports.html:18
+#: main/models.py:94 main/models.py:203 main/templates/main/reports.html:18
 #: main/templates/main/reports.html:60 main/templates/main/reports.html:88
 #: main/templates/main/reports.html:135
 msgid "Enquesta"
 msgstr ""
 
-#: main/models.py:91
+#: main/models.py:95 main/models.py:204
 msgid "Pujar fitxer"
 msgstr ""
 
-#: main/models.py:92
+#: main/models.py:96 main/models.py:205
 msgid "Enquesta professorat"
 msgstr ""
 
-#: main/models.py:93
+#: main/models.py:97 main/models.py:206
 msgid "Resposta oberta"
 msgstr ""
 
-#: main/models.py:94
+#: main/models.py:98 main/models.py:207
 msgid "Resposta oberta professorat"
 msgstr ""
 
-#: main/models.py:138
+#: main/models.py:142
 msgid "Tipus invàlid"
 msgstr ""
 
@@ -335,7 +335,7 @@ msgstr ""
 #: main/templates/main/admin_menu.html:119 main/templates/main/reports.html:7
 #: main/templates/main/reports.html:9
 #: main/templates/main/reports/poll_center_or_group.html:6
-#: main/templates/main/reports/progress_center.html:25
+#: main/templates/main/reports/progress_center.html:45
 #: main/templates/main/teacher_menu.html:80
 msgid "Informes"
 msgstr ""
@@ -818,14 +818,14 @@ msgid "Llista de proves per grup"
 msgstr ""
 
 #: main/templates/main/open_answers_result.html:13
-#: main/templates/main/reports/progress_center.html:46
+#: main/templates/main/reports/progress_center.html:66
 #: main/templates/main/test_result.html:41
 #: main/templates/main/upload_file_solutions.html:13
 msgid "Filtre per classe"
 msgstr ""
 
 #: main/templates/main/open_answers_result.html:14
-#: main/templates/main/reports/progress_center.html:47
+#: main/templates/main/reports/progress_center.html:67
 #: main/templates/main/test_result.html:42
 #: main/templates/main/upload_admin_board.html:24
 #: main/templates/main/upload_file_solutions.html:14
@@ -877,7 +877,7 @@ msgstr ""
 
 #: main/templates/main/poll_result_group.html:10
 #: main/templates/main/reports/poll_center_or_group.html:13
-#: main/templates/main/reports/progress_center.html:29
+#: main/templates/main/reports/progress_center.html:49
 #: main/templates/main/test_result.html:53
 #: main/templates/main/test_results_detail_view.html:11
 msgid "Center"
@@ -1520,29 +1520,33 @@ msgstr ""
 msgid "Ningú del centre ha completat aquesta enquesta"
 msgstr ""
 
-#: main/templates/main/reports/progress_center.html:25
-#: main/templates/main/reports/progress_center.html:27
+#: main/templates/main/reports/progress_center.html:45
+#: main/templates/main/reports/progress_center.html:47
 msgid "Progrés de proves per centre"
 msgstr ""
 
-#: main/templates/main/reports/progress_center.html:35
+#: main/templates/main/reports/progress_center.html:55
 msgid "Com es llegeix aquest informe"
 msgstr ""
 
-#: main/templates/main/reports/progress_center.html:37
+#: main/templates/main/reports/progress_center.html:57
 msgid "El grup ha completat la prova"
 msgstr ""
 
-#: main/templates/main/reports/progress_center.html:38
+#: main/templates/main/reports/progress_center.html:58
 msgid "El grup ha finalitzat la prova, que està pendent de correcció"
 msgstr ""
 
-#: main/templates/main/reports/progress_center.html:39
+#: main/templates/main/reports/progress_center.html:59
 msgid "El grup ha respost algunes preguntes, però no ha acabat"
 msgstr ""
 
-#: main/templates/main/reports/progress_center.html:40
+#: main/templates/main/reports/progress_center.html:60
 msgid "El grup no ha començat encara a fer la prova"
+msgstr ""
+
+#: main/templates/main/reports/progress_center.html:95
+msgid "Progrés de proves (grups completats/grups totals)"
 msgstr ""
 
 #: main/templates/main/reports/teacher_poll_comments.html:29
@@ -1787,8 +1791,8 @@ msgstr ""
 #: main/views.py:972 main/views.py:1008 main/views.py:1042 main/views.py:1208
 #: main/views.py:1258 main/views.py:1373 main/views.py:1384 main/views.py:1409
 #: main/views.py:1451 main/views.py:1489 main/views.py:1533 main/views.py:1547
-#: main/views.py:2492 main/views.py:2590 main/views.py:2720 main/views.py:3038
-#: main/views.py:3049 main/views.py:3100
+#: main/views.py:2492 main/views.py:2590 main/views.py:2720 main/views.py:3070
+#: main/views.py:3081 main/views.py:3132
 msgid "Estàs intentant accedir a una pàgina a la que no tens permís."
 msgstr ""
 

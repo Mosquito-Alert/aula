@@ -2859,7 +2859,24 @@ def center_progress_class(request, center_id=None, slug=None):
                 state = 'progress'
 
             data[str(group.id) + '_' + str(quiz.id)] = {'state': state, 'type': quiz.type, 'upload_url': uploaded_file, 'correction_id': correction_id}
-    return render(request, 'main/reports/progress_center.html', {'center': center, 'data': json.dumps(data), 'teacher_filters': teacher_filters, 'groups': slug_groups, 'current_slug': slug})
+    breakdown = []
+    total_groups = len(slug_groups)
+    if total_groups > 0:
+        for quiz in center.center_pupil_tests:
+            total = total_groups
+            done = quiz.n_completed_by_group(slug_groups)
+            perc = round((done / total) * 100)
+            color = None
+            if perc < 25:
+                color = 'red'
+            elif 25 <= perc < 50:
+                color = 'orange'
+            elif 50 <= perc < 75:
+                color = 'yellow'
+            else:
+                color = 'green'
+            breakdown.append( {'quiz':quiz, 'total': total_groups, 'done': quiz.n_completed_by_group(slug_groups), 'perc': perc, 'color': color} )
+    return render(request, 'main/reports/progress_center.html', {'center': center, 'data': json.dumps(data), 'teacher_filters': teacher_filters, 'groups': slug_groups, 'current_slug': slug, 'breakdown': breakdown})
 
 @login_required
 def center_progress(request, center_id=None):
@@ -2910,7 +2927,24 @@ def center_progress(request, center_id=None):
                 state = 'progress'
 
             data[ str(group.id) + '_' + str(quiz.id) ] = { 'state': state, 'type': quiz.type, 'upload_url': uploaded_file, 'correction_id': correction_id }
-    return render(request, 'main/reports/progress_center.html', {'center': center, 'data': json.dumps(data), 'teacher_filters': teacher_filters, 'groups': center_groups})
+    breakdown = []
+    total_groups = len(center_groups)
+    if total_groups > 0:
+        for quiz in center.center_pupil_tests:
+            total = total_groups
+            done = quiz.n_completed_by_group(center_groups)
+            perc = round((done / total) * 100)
+            color = None
+            if perc < 25:
+                color = 'red'
+            elif 25 <= perc < 50:
+                color = 'orange'
+            elif 50 <= perc < 75:
+                color = 'yellow'
+            else:
+                color = 'green'
+            breakdown.append({'quiz': quiz, 'total': total_groups, 'done': quiz.n_completed_by_group(center_groups), 'perc': perc, 'color': color})
+    return render(request, 'main/reports/progress_center.html', {'center': center, 'data': json.dumps(data), 'teacher_filters': teacher_filters, 'groups': center_groups, 'breakdown': breakdown})
 
 
 @login_required
