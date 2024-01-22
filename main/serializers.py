@@ -1,11 +1,14 @@
 from rest_framework import serializers
-from main.models import EducationCenter, Quiz, Question, QuizRunAnswers, QuizRun, Campaign, BreedingSites, Awards
+from main.models import EducationCenter, Quiz, Question, QuizRunAnswers, QuizRun, Campaign, BreedingSites, Awards, Profile
 from django.contrib.auth.models import User
 from django.urls import reverse
+from django.db.models import Sum
 
 class EducationCenterSerializer(serializers.ModelSerializer):
     pos_x = serializers.SerializerMethodField()
     pos_y = serializers.SerializerMethodField()
+    n_groups_in_center = serializers.SerializerMethodField()
+    n_pupils_in_center = serializers.SerializerMethodField()
 
     class Meta:
         model = EducationCenter
@@ -24,6 +27,16 @@ class EducationCenterSerializer(serializers.ModelSerializer):
             return None
         else:
             return geom.x
+
+    def get_n_groups_in_center(self, obj):
+        return Profile.objects.filter(center_string=obj.name).filter(is_group=True).count()
+
+    def get_n_pupils_in_center(self, obj):
+        qs = Profile.objects.filter(center_string=obj.name).filter(is_group=True).values('center_string').annotate(total_pupils=Sum('n_students_in_group'))
+        if qs.count() > 0:
+            return qs[0]['total_pupils']
+        return 0
+
 
 
 class QuestionSerializer(serializers.ModelSerializer):

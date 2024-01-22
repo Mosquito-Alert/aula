@@ -76,6 +76,7 @@ urlpatterns = [
     path('teacher/datatablelist/', views.teachers_datatable_list, name='teachers_datatable_list'),
     path('center/new/', views.center_new, name='center_new'),
     path('center/list/', views.center_list, name='center_list'),
+    path('center/map/', views.center_map, name='center_map'),
     path('center/update/<int:pk>/', views.center_update, name='center_update'),
     path('center/update/', views.center_update, name='center_update_no_id'),
     path('center/datatablelist/', views.centers_datatable_list, name='centers_datatable_list'),

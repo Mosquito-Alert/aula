@@ -75,8 +75,10 @@ var table = $('#center_list').DataTable( {
     'columns': [
         { 'data': 'name' }
         ,{ 'data': 'hashtag' }
-        ,{ 'data': 'pos_x' }
-        ,{ 'data': 'pos_y' }
+        //,{ 'data': 'pos_x' }
+        //,{ 'data': 'pos_y' }
+        ,{ 'data': 'n_groups_in_center' }
+        ,{ 'data': 'n_pupils_in_center' }
         ,{ 'data': 'created_date' }
         ,{ 'data': 'modified_date' }
         ,{ 'data': 'active' }
@@ -120,13 +122,13 @@ var table = $('#center_list').DataTable( {
         },
         {
             'targets':2,
-            'title': 'X',
-            'sortable': false
+            'title': gettext('Grups al centre'),
+            sortable: false
         },
         {
             'targets':3,
-            'title': 'Y',
-            'sortable': false
+            'title': gettext('Estudiants al centre'),
+            sortable: false
         },
         {
             'targets':4,

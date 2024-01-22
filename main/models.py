@@ -24,6 +24,9 @@ class Campaign(models.Model):
 
     def __str__(self):
         return self.name
+    @property
+    def centers(self):
+        return EducationCenter.objects.filter(campaign=self)
 
 
 def get_current_active_campaign():
