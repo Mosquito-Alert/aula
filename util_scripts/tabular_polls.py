@@ -13,7 +13,7 @@ def main(quiz_id):
         questions_table[question.question_order - 1] = { 'text':question.text, 'id': question.id }
     quizruns = QuizRun.objects.filter(quiz=q).exclude(date_finished__isnull=True).order_by('taken_by_id','run_number')
     results = []
-    headers = ['quiz_id','quiz_name','date_finished','attempt_n','group_id']
+    headers = ['quiz_id','quiz_name','date_finished','attempt_n','group_id','center','class']
     for question_data in questions_table:
         headers.append( question_data['text'] )
     results.append(headers)
@@ -24,6 +24,8 @@ def main(quiz_id):
         row.append(qr.date_finished)
         row.append( qr.run_number )
         row.append( qr.taken_by_id )
+        row.append( qr.taken_by.profile.center_string )
+        row.append(qr.taken_by.profile.group_class )
         #then append answers
         for this_question in questions_table:
             chosen_answer = QuizRunAnswers.objects.get(quizrun=qr,question_id=this_question['id']).chosen_answer
