@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-22 15:32+0000\n"
+"POT-Creation-Date: 2024-01-31 07:59+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1500,6 +1500,7 @@ msgstr ""
 
 #: main/templates/main/reports.html:28 main/templates/main/reports.html:97
 #: main/templates/main/reports.html:116 main/templates/main/reports.html:144
+#: main/templates/main/reports.html:163
 msgid "Tria un centre"
 msgstr "Choose center"
 
@@ -1513,7 +1514,7 @@ msgstr "All groups"
 
 #: main/templates/main/reports.html:52 main/templates/main/reports.html:79
 #: main/templates/main/reports.html:107 main/templates/main/reports.html:127
-#: main/templates/main/reports.html:154
+#: main/templates/main/reports.html:154 main/templates/main/reports.html:174
 msgid "Generar informe"
 msgstr "Generate report"
 
@@ -1563,6 +1564,14 @@ msgid "help_comentaris_enquestes_professorat_centre"
 msgstr ""
 "This report shows the comments the teacher users have made when finishing "
 "their polls."
+
+#: main/templates/main/reports.html:159
+msgid "Distribució nombre alumnes per grup"
+msgstr ""
+
+#: main/templates/main/reports.html:160
+msgid "help_n_pupils_group_distribution"
+msgstr ""
 
 #: main/templates/main/reports/poll_center_or_group.html:6
 #: main/templates/main/reports/poll_center_or_group.html:8

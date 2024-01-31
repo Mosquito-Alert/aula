@@ -155,6 +155,25 @@
         </div>
     </div>
     {% endif %}
+    <div class="form row alert alert-success">
+        <div class="col-md-12"><h4>{% trans 'Distribució nombre alumnes per grup' %}:</h4></div>
+        <div class="col-md-12"><p>{% trans 'help_n_pupils_group_distribution' %}</p></div>
+        {% if not user.profile.is_teacher %}
+        <div class="col-md-3 form-group">
+            <label for="select_pupil_distribution_center">{% trans 'Tria un centre' %}*:</label>
+            <select class="form-control" id="select_pupil_distribution_center">
+                <option value="">...</option>
+                {% for center in centers %}
+                <option value="{{ center.id }}">{{ center.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        {% endif %}
+        <div class="col-md-3 form-group">
+            <label>&nbsp;</label>
+            <button type="button" id="pupil_distribution_center" class="form-control btn btn-primary">{% trans 'Generar informe' %} <i class="fas fa-bolt"></i></button>
+        </div>
+    </div>
 </div>
 {% endblock %}
 {% block extra_js %}

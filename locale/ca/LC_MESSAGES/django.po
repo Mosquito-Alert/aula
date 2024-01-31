@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-22 15:32+0000\n"
+"POT-Creation-Date: 2024-01-31 07:59+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1469,6 +1469,7 @@ msgstr ""
 
 #: main/templates/main/reports.html:28 main/templates/main/reports.html:97
 #: main/templates/main/reports.html:116 main/templates/main/reports.html:144
+#: main/templates/main/reports.html:163
 msgid "Tria un centre"
 msgstr ""
 
@@ -1482,7 +1483,7 @@ msgstr ""
 
 #: main/templates/main/reports.html:52 main/templates/main/reports.html:79
 #: main/templates/main/reports.html:107 main/templates/main/reports.html:127
-#: main/templates/main/reports.html:154
+#: main/templates/main/reports.html:154 main/templates/main/reports.html:174
 msgid "Generar informe"
 msgstr ""
 
@@ -1533,6 +1534,16 @@ msgid "help_comentaris_enquestes_professorat_centre"
 msgstr ""
 "Aquest informe mostra els comentaris que han fet els professors en "
 "finalitzar les seves enquestes."
+
+#: main/templates/main/reports.html:159
+msgid "Distribució nombre alumnes per grup"
+msgstr ""
+
+#: main/templates/main/reports.html:160
+msgid "help_n_pupils_group_distribution"
+msgstr ""
+"Mostra el número d'alumnes per grup, així com la distribució "
+"de número d'alumnes"
 
 #: main/templates/main/reports/poll_center_or_group.html:6
 #: main/templates/main/reports/poll_center_or_group.html:8
