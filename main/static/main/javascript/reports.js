@@ -146,6 +146,10 @@ $(document).ready( function () {
 
     $('#pupil_distribution_center').click(function(){
         var center_id = $('#select_pupil_distribution_center').val();
-        generate_n_pupils_group(center_id);
+        if(center_id == '' || center_id == null){
+            toastr.error(gettext('Cal seleccionar un centre'));
+        }else{
+            generate_n_pupils_group(center_id);
+        }
     });
 });

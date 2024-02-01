@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-31 07:59+0000\n"
+"POT-Creation-Date: 2024-02-01 15:08+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -340,6 +340,7 @@ msgstr "Utility used to copy full tests from one campaign to another"
 
 #: main/templates/main/admin_menu.html:119 main/templates/main/reports.html:7
 #: main/templates/main/reports.html:9
+#: main/templates/main/reports/n_pupils_distribution_center.html:6
 #: main/templates/main/reports/poll_center_or_group.html:6
 #: main/templates/main/reports/progress_center.html:45
 #: main/templates/main/teacher_menu.html:80
@@ -856,6 +857,7 @@ msgid "Sense filtre"
 msgstr "No filter"
 
 #: main/templates/main/open_answers_result.html:33
+#: main/templates/main/reports/n_pupils_distribution_center.html:24
 #: main/templates/main/test_result.html:56
 #: main/templates/main/upload_admin_board.html:42
 #: main/templates/main/upload_file_solutions.html:34 main/views.py:2543
@@ -1566,12 +1568,32 @@ msgstr ""
 "their polls."
 
 #: main/templates/main/reports.html:159
+#: main/templates/main/reports/n_pupils_distribution_center.html:6
+#: main/templates/main/reports/n_pupils_distribution_center.html:8
 msgid "Distribució nombre alumnes per grup"
-msgstr ""
+msgstr "Distribution of number of students by group"
 
 #: main/templates/main/reports.html:160
 msgid "help_n_pupils_group_distribution"
 msgstr ""
+"This report shows the number of students in each class, and "
+"also the number of groups with a given number of students"
+
+#: main/templates/main/reports/n_pupils_distribution_center.html:20
+msgid "Nombre alumnes per classe"
+msgstr "Number of students per class"
+
+#: main/templates/main/reports/n_pupils_distribution_center.html:27
+msgid "N Alumnes"
+msgstr "N Students"
+
+#: main/templates/main/reports/n_pupils_distribution_center.html:33
+msgid "Classe no assignada"
+msgstr "Not assigned class"
+
+#: main/templates/main/reports/n_pupils_distribution_center.html:46
+msgid "No hi ha alumnes registrats al centre"
+msgstr "No students registered in center"
 
 #: main/templates/main/reports/poll_center_or_group.html:6
 #: main/templates/main/reports/poll_center_or_group.html:8
@@ -1860,8 +1882,8 @@ msgstr "password"
 #: main/views.py:972 main/views.py:1008 main/views.py:1042 main/views.py:1208
 #: main/views.py:1258 main/views.py:1380 main/views.py:1391 main/views.py:1416
 #: main/views.py:1458 main/views.py:1496 main/views.py:1540 main/views.py:1554
-#: main/views.py:2499 main/views.py:2597 main/views.py:2727 main/views.py:3079
-#: main/views.py:3090 main/views.py:3141
+#: main/views.py:2499 main/views.py:2597 main/views.py:2727 main/views.py:3092
+#: main/views.py:3103 main/views.py:3154
 msgid "Estàs intentant accedir a una pàgina a la que no tens permís."
 msgstr "You are trying to access a restricted page"
 
