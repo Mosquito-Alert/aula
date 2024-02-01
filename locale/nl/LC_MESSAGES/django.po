@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-22 15:32+0000\n"
+"POT-Creation-Date: 2024-02-01 15:08+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -334,6 +334,7 @@ msgstr ""
 
 #: main/templates/main/admin_menu.html:119 main/templates/main/reports.html:7
 #: main/templates/main/reports.html:9
+#: main/templates/main/reports/n_pupils_distribution_center.html:6
 #: main/templates/main/reports/poll_center_or_group.html:6
 #: main/templates/main/reports/progress_center.html:45
 #: main/templates/main/teacher_menu.html:80
@@ -846,6 +847,7 @@ msgid "Sense filtre"
 msgstr ""
 
 #: main/templates/main/open_answers_result.html:33
+#: main/templates/main/reports/n_pupils_distribution_center.html:24
 #: main/templates/main/test_result.html:56
 #: main/templates/main/upload_admin_board.html:42
 #: main/templates/main/upload_file_solutions.html:34 main/views.py:2543
@@ -1465,6 +1467,7 @@ msgstr ""
 
 #: main/templates/main/reports.html:28 main/templates/main/reports.html:97
 #: main/templates/main/reports.html:116 main/templates/main/reports.html:144
+#: main/templates/main/reports.html:163
 msgid "Tria un centre"
 msgstr ""
 
@@ -1478,7 +1481,7 @@ msgstr ""
 
 #: main/templates/main/reports.html:52 main/templates/main/reports.html:79
 #: main/templates/main/reports.html:107 main/templates/main/reports.html:127
-#: main/templates/main/reports.html:154
+#: main/templates/main/reports.html:154 main/templates/main/reports.html:174
 msgid "Generar informe"
 msgstr ""
 
@@ -1518,6 +1521,32 @@ msgstr ""
 
 #: main/templates/main/reports.html:133
 msgid "help_comentaris_enquestes_professorat_centre"
+msgstr ""
+
+#: main/templates/main/reports.html:159
+#: main/templates/main/reports/n_pupils_distribution_center.html:6
+#: main/templates/main/reports/n_pupils_distribution_center.html:8
+msgid "Distribució nombre alumnes per grup"
+msgstr ""
+
+#: main/templates/main/reports.html:160
+msgid "help_n_pupils_group_distribution"
+msgstr ""
+
+#: main/templates/main/reports/n_pupils_distribution_center.html:20
+msgid "Nombre alumnes per classe"
+msgstr ""
+
+#: main/templates/main/reports/n_pupils_distribution_center.html:27
+msgid "N Alumnes"
+msgstr ""
+
+#: main/templates/main/reports/n_pupils_distribution_center.html:33
+msgid "Classe no assignada"
+msgstr ""
+
+#: main/templates/main/reports/n_pupils_distribution_center.html:46
+msgid "No hi ha alumnes registrats al centre"
 msgstr ""
 
 #: main/templates/main/reports/poll_center_or_group.html:6
@@ -1804,8 +1833,8 @@ msgstr ""
 #: main/views.py:972 main/views.py:1008 main/views.py:1042 main/views.py:1208
 #: main/views.py:1258 main/views.py:1380 main/views.py:1391 main/views.py:1416
 #: main/views.py:1458 main/views.py:1496 main/views.py:1540 main/views.py:1554
-#: main/views.py:2499 main/views.py:2597 main/views.py:2727 main/views.py:3079
-#: main/views.py:3090 main/views.py:3141
+#: main/views.py:2499 main/views.py:2597 main/views.py:2727 main/views.py:3092
+#: main/views.py:3103 main/views.py:3154
 msgid "Estàs intentant accedir a una pàgina a la que no tens permís."
 msgstr ""
 

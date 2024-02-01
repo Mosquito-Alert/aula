@@ -54,7 +54,7 @@ from weasyprint import HTML, CSS
 import logging
 from django.db import connection
 from itertools import groupby
-from django.db.models import Count
+from django.db.models import Count, Sum
 from slugify import slugify
 import magic
 import csv
@@ -2972,6 +2972,19 @@ def reports_poll_class(request, poll_id=None, teacher_id=None, slug=None):
                     'perc': answer.answered_by_perc_class(teacher.id, slug)}
 
     return render(request, 'main/reports/poll_center_or_group.html', {'quiz': poll, 'data': json.dumps(data),'len_data': len(data), 'group': group, 'center': center})
+
+@login_required
+def n_pupils_distribution_center(request, center_id=None):
+    center = EducationCenter.objects.get(pk=center_id)
+    base_qs = User.objects.filter(profile__campaign=center.campaign).filter(profile__center_string=center.name).filter(profile__is_group=True)
+    n_class = base_qs.values('profile__group_class').annotate(n_class=Sum('profile__n_students_in_group')).order_by('profile__group_class')
+    dist_n = base_qs.values('profile__n_students_in_group').annotate(n_dist=Count('profile__group_class'))
+    data = {
+        'center': center,
+        'n_class': [ {'group_class': n['profile__group_class'], 'n_class': n['n_class']} for n in n_class ],
+        'n_dist': [ { 'n_students_in_group': n['profile__n_students_in_group'], 'n_dist': n['n_dist'] } for n in dist_n ]
+    }
+    return render(request, 'main/reports/n_pupils_distribution_center.html', {'data': data})
 
 
 @login_required

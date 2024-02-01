@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-22 15:32+0000\n"
+"POT-Creation-Date: 2024-02-01 15:08+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -500,28 +500,30 @@ msgid "Eliminant dades d'intent..."
 msgstr "Removing attempt data..."
 
 #: main/static/main/javascript/reports.js:5
+#: main/static/main/javascript/reports.js:108
+#: main/static/main/javascript/reports.js:150
+msgid "Cal seleccionar un centre"
+msgstr "You must select a center"
+
+#: main/static/main/javascript/reports.js:13
 msgid "Cal triar com a mínim un centre, i opcionalment un grup dins del centre"
 msgstr ""
 "You have to choose at least one center, and optionally a group inside the "
 "center"
 
-#: main/static/main/javascript/reports.js:62
+#: main/static/main/javascript/reports.js:70
 msgid "Error recuperant llista de grups per centre"
 msgstr "Error recovering group list by center"
 
-#: main/static/main/javascript/reports.js:86
+#: main/static/main/javascript/reports.js:94
 msgid "Cal seleccionar una enquesta i un centre"
 msgstr "You must select a poll and a center"
 
-#: main/static/main/javascript/reports.js:100
-msgid "Cal seleccionar un centre"
-msgstr "You must select a center"
-
-#: main/static/main/javascript/reports.js:110
+#: main/static/main/javascript/reports.js:118
 msgid "Cal seleccionar una enquesta"
 msgstr "You must select a poll"
 
-#: main/static/main/javascript/reports.js:120
+#: main/static/main/javascript/reports.js:128
 msgid "Cal seleccionar una enquesta i una classe"
 msgstr "You must select a poll and a class"
 
