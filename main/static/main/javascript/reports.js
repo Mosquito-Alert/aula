@@ -1,5 +1,13 @@
 $(document).ready( function () {
 
+    var generate_n_pupils_group = function(center_id){
+        if( center_id == null ){
+            toastr.error(gettext('Cal seleccionar un centre'));
+        }
+        var url = '/reports/n_pupils_distribution_center/' + center_id + '/';
+        window.open(url, '_blank').focus();
+    }
+
     var generate_query_poll_center_or_group = function(poll_id, center_id, group_id){
         if( (center_id == null || center_id == '') && (group_id == null || group_id == '') ){
             toastr.error(gettext('Cal triar com a mínim un centre, i opcionalment un grup dins del centre'));
@@ -134,5 +142,10 @@ $(document).ready( function () {
         }
         var url = '/reports/teacher_poll_comments/' + poll_id + '/' + center_id + '/';
         window.open(url, '_blank').focus();
+    });
+
+    $('#pupil_distribution_center').click(function(){
+        var center_id = $('#select_pupil_distribution_center').val();
+        generate_n_pupils_group(center_id);
     });
 });

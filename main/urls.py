@@ -91,6 +91,7 @@ urlpatterns = [
     path('reports/center_progress/<int:center_id>/<str:slug>/', views.center_progress_class, name='center_progress_class'),
     path('reports/teacher_poll_comments/', views.teacher_poll_comments, name='teacher_poll_comments'),
     path('reports/teacher_poll_comments/<int:poll_id>/<int:center_id>/', views.teacher_poll_comments, name='teacher_poll_comments'),
+    path('reports/n_pupils_distribution_center/<int:center_id>/', views.n_pupils_distribution_center, name='n_pupils_distribution_center'),
     path('alum/new/', views.alum_new, name='alum_new'),
     path('alum/list/', views.alum_list, name='alum_list'),
     path('alum/update/<int:pk>/', views.alum_update, name='alum_update'),

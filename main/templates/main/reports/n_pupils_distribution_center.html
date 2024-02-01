@@ -1,0 +1,65 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% load i18n %}
+{% block extra_css %}
+{% endblock %}
+{% block title %}{% trans 'Informes' %} - {% trans 'Distribució nombre alumnes per grup' %}{% endblock %}
+
+{% block main_jumbo %}<img class="img_icons" src="{% static 'main/icons/noun_report_3907422.svg' %}"> {% trans 'Distribució nombre alumnes per grup' %} - <strong>{{ data.center.name }}</strong>{% endblock %}
+{% block sub_jumbo %}{% endblock %}
+
+{% block main %}
+<div class="container">
+    {% if data.n_class %}
+    <div class="row">
+        <div class="col-md-6 offset-md-1">
+            <div class="row">
+                <h4><strong>{{ data.center.name }}</strong></h4>
+            </div>
+            <div class="row">
+                <h5>{% trans 'Nombre alumnes per classe' %}</h5>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <strong>{% trans 'Classe' %}</strong>
+                </div>
+                <div class="col-md-3">
+                    <strong>{% trans 'N Alumnes' %}</strong>
+                </div>
+            </div>
+            {% for elem in data.n_class %}
+            <div class="row">
+                <div class="col-md-3">
+                    {% if elem.group_class %}{{ elem.group_class }}{% else %}{% trans 'Classe no assignada' %}{% endif %}
+                </div>
+                <div class="col-md-3">
+                    {{ elem.n_class }}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="col-md-5">
+            <canvas id="myDonutChart" width="100" height="100"></canvas>
+        </div>
+    </div>
+    {% else %}
+        <h4><strong>{% trans 'No hi ha alumnes registrats al centre' %} {{ data.center.name }}</strong></h4>
+    {% endif %}
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+    var all_labels = [];
+    var all_data = [];
+    var label_n = gettext("Grups de");
+    {% for elem in data.n_dist %}
+    all_labels.push(label_n + ' {{ elem.n_students_in_group }} - {{ elem.n_dist }}');
+    all_data.push({{ elem.n_dist }});
+    {% endfor %}
+</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{% static 'main/csrf_utils.js' %}"></script>
+<script src="{% static 'main/cookies.js' %}"></script>
+<script src="{% static 'main/javascript/n_pupils_distribution_center.js' %}"></script>
+<!--<script src="{% static 'main/javascript/poll_center_or_group.js' %}"></script>-->
+{% endblock %}
