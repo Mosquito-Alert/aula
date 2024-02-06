@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-01 15:08+0000\n"
+"POT-Creation-Date: 2024-02-06 15:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -372,7 +372,7 @@ msgstr "Groups main menu"
 
 #: main/templates/main/alum_hub.html:21
 #: main/templates/main/teacher_polls.html:21
-#: main/templates/main/test_result.html:58
+#: main/templates/main/test_result.html:56
 msgid "Millor puntuació"
 msgstr "Best score"
 
@@ -858,7 +858,7 @@ msgstr "No filter"
 
 #: main/templates/main/open_answers_result.html:33
 #: main/templates/main/reports/n_pupils_distribution_center.html:24
-#: main/templates/main/test_result.html:56
+#: main/templates/main/test_result.html:55
 #: main/templates/main/upload_admin_board.html:42
 #: main/templates/main/upload_file_solutions.html:34 main/views.py:2543
 msgid "Classe"
@@ -1517,6 +1517,7 @@ msgstr "All groups"
 #: main/templates/main/reports.html:52 main/templates/main/reports.html:79
 #: main/templates/main/reports.html:107 main/templates/main/reports.html:127
 #: main/templates/main/reports.html:154 main/templates/main/reports.html:174
+#: main/templates/main/reports.html:191
 msgid "Generar informe"
 msgstr "Generate report"
 
@@ -1576,8 +1577,23 @@ msgstr "Distribution of number of students by group"
 #: main/templates/main/reports.html:160
 msgid "help_n_pupils_group_distribution"
 msgstr ""
-"This report shows the number of students in each class, and "
-"also the number of groups with a given number of students"
+"This report shows the number of students in each class, and also the number "
+"of groups with a given number of students"
+
+#: main/templates/main/reports.html:178
+msgid "Resultats tabulars enquestes i proves"
+msgstr "Tabular results for tests and polls"
+
+#: main/templates/main/reports.html:179
+msgid "help_tabular_results"
+msgstr ""
+"This report generates lists of results of tests in tabular format. "
+"The question text is on the report header, a column for each question, "
+"and the answers are in rows, with each response in a column"
+
+#: main/templates/main/reports.html:181
+msgid "Tria una prova"
+msgstr "Choose test"
 
 #: main/templates/main/reports/n_pupils_distribution_center.html:20
 msgid "Nombre alumnes per classe"
@@ -1758,30 +1774,30 @@ msgstr "Test results for all groups"
 msgid "Resultats de la prova per als meus grups"
 msgstr "Test results for my groups"
 
-#: main/templates/main/test_result.html:59
+#: main/templates/main/test_result.html:57
 msgid "Millor intent"
 msgstr "Best attempt"
 
-#: main/templates/main/test_result.html:60
+#: main/templates/main/test_result.html:58
 msgid "Prova finalitzada"
 msgstr "Finished test"
 
-#: main/templates/main/test_result.html:61
+#: main/templates/main/test_result.html:59
 msgid "Vista de detall"
 msgstr "Detail view"
 
-#: main/templates/main/test_result.html:87
-#: main/templates/main/test_result.html:113
+#: main/templates/main/test_result.html:85
+#: main/templates/main/test_result.html:111
 msgid "Llistar intents"
 msgstr "List attempts"
 
-#: main/templates/main/test_result.html:123
+#: main/templates/main/test_result.html:121
 msgid ""
 "Cap dels teus grups ha completat la prova encara, no es poden mostrar els "
 "resultats"
 msgstr "None of your tutored groups has completed the test, can't show results"
 
-#: main/templates/main/test_result.html:131
+#: main/templates/main/test_result.html:129
 msgid "Resultats globals de la prova"
 msgstr "Global test results"
 
@@ -1882,8 +1898,8 @@ msgstr "password"
 #: main/views.py:972 main/views.py:1008 main/views.py:1042 main/views.py:1208
 #: main/views.py:1258 main/views.py:1380 main/views.py:1391 main/views.py:1416
 #: main/views.py:1458 main/views.py:1496 main/views.py:1540 main/views.py:1554
-#: main/views.py:2499 main/views.py:2597 main/views.py:2727 main/views.py:3092
-#: main/views.py:3103 main/views.py:3154
+#: main/views.py:2499 main/views.py:2597 main/views.py:2727 main/views.py:3138
+#: main/views.py:3149 main/views.py:3200
 msgid "Estàs intentant accedir a una pàgina a la que no tens permís."
 msgstr "You are trying to access a restricted page"
 

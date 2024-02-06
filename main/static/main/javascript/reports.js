@@ -1,5 +1,10 @@
 $(document).ready( function () {
 
+    var generate_tabular_results = function(quiz_id){
+        var url = '/reports/tabular_report/' + quiz_id + '/';
+        window.open(url, '_blank').focus();
+    }
+
     var generate_n_pupils_group = function(center_id){
         if( center_id == null ){
             toastr.error(gettext('Cal seleccionar un centre'));
@@ -150,6 +155,15 @@ $(document).ready( function () {
             toastr.error(gettext('Cal seleccionar un centre'));
         }else{
             generate_n_pupils_group(center_id);
+        }
+    });
+
+    $('#tabular_results').click(function(){
+        var center_id = $('#select_test_tabular').val();
+        if(center_id == '' || center_id == null){
+            toastr.error(gettext('Cal seleccionar una prova'));
+        }else{
+            generate_tabular_results(center_id);
         }
     });
 });
