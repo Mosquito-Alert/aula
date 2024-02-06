@@ -2802,6 +2802,7 @@ def reports(request):
         my_groups = User.objects.filter(profile__is_group=True).filter(profile__group_teacher=this_user).filter(profile__campaign=this_user.profile.campaign).order_by('profile__group_public_name')
         centers = EducationCenter.objects.filter(active=True).filter(campaign=this_user.profile.campaign).order_by('name')
         polls = Quiz.objects.filter(type=2).filter(campaign=this_user.profile.campaign).order_by('name')
+        tabular_quizzes = Quiz.objects.filter(Q(type=0) | Q(type=2)).filter(campaign=this_user.profile.campaign).order_by('seq')
         teacher_filters = []
         filters = Profile.objects.filter(group_teacher=this_user).values('group_class','group_class_slug').distinct().order_by('group_class')
         for f in filters:
@@ -2812,9 +2813,10 @@ def reports(request):
         my_groups = User.objects.filter(profile__is_group=True).filter(profile__group_teacher=this_user).filter(profile__campaign__active=True).order_by('profile__group_public_name')
         centers = EducationCenter.objects.filter(active=True).filter(campaign__active=True).order_by('name')
         polls = Quiz.objects.filter(type=2).filter(campaign__active=True).order_by('name')
+        tabular_quizzes = Quiz.objects.filter(Q(type=0) | Q(type=2)).filter(campaign__active=True).order_by('seq')
         teacher_polls = Quiz.objects.filter(type=4).filter(campaign__active=True).order_by('name')
         teacher_filters = []
-    return render(request, 'main/reports.html', { "centers":centers, "polls":polls, "teacher_polls": teacher_polls, "my_groups":my_groups, "teacher_filters": teacher_filters })
+    return render(request, 'main/reports.html', { "centers":centers, "polls":polls, "teacher_polls": teacher_polls, "my_groups":my_groups, "teacher_filters": teacher_filters, "tabular_quizzes": tabular_quizzes })
 
 
 @login_required
@@ -2972,6 +2974,50 @@ def reports_poll_class(request, poll_id=None, teacher_id=None, slug=None):
                     'perc': answer.answered_by_perc_class(teacher.id, slug)}
 
     return render(request, 'main/reports/poll_center_or_group.html', {'quiz': poll, 'data': json.dumps(data),'len_data': len(data), 'group': group, 'center': center})
+
+
+@login_required
+def tabular_report(request, quiz_id=None):
+    this_user = request.user
+    q = Quiz.objects.get(pk=quiz_id)
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="{0}_{1}.csv"'.format( slugify(q.name), slugify(q.campaign.name) )
+
+    questions = q.sorted_questions_set
+    questions_table = [0 for i in range(len(questions))]
+    for question in questions:
+        questions_table[question.question_order - 1] = {'text': question.text, 'id': question.id}
+    if this_user.is_superuser:
+        quizruns = QuizRun.objects.filter(quiz=q).exclude(date_finished__isnull=True).order_by('taken_by_id', 'run_number')
+    else:
+        groups_teacher = User.objects.filter(profile__is_group=True).filter(profile__center_string=this_user.profile.teacher_belongs_to.name)
+        quizruns = QuizRun.objects.filter(quiz=q).filter(taken_by__in=groups_teacher).exclude(date_finished__isnull=True).order_by('taken_by_id', 'run_number')
+    results = []
+    headers = ['quiz_id', 'quiz_name', 'date_finished', 'attempt_n', 'group_id', 'group_name','center', 'class']
+    for question_data in questions_table:
+        headers.append(question_data['text'])
+    results.append(headers)
+    for qr in quizruns:
+        row = []
+        row.append(q.id)
+        row.append(q.name)
+        row.append(qr.date_finished)
+        row.append(qr.run_number)
+        row.append(qr.taken_by_id)
+        row.append(qr.taken_by.profile.group_public_name)
+        row.append(qr.taken_by.profile.center_string)
+        row.append(qr.taken_by.profile.group_class)
+        # then append answers
+        for this_question in questions_table:
+            chosen_answer = QuizRunAnswers.objects.get(quizrun=qr, question_id=this_question['id']).chosen_answer
+            row.append(chosen_answer.text)
+        results.append(row)
+
+    writer = csv.writer(response, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL)
+    for r in results:
+        writer.writerow(r)
+
+    return response
 
 @login_required
 def n_pupils_distribution_center(request, center_id=None):
