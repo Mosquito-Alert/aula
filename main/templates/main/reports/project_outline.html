@@ -1,0 +1,95 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% load i18n %}
+{% block extra_css %}
+{% endblock %}
+{% block title %}{% trans 'Informes' %} - {% trans 'Visió general del projecte' %}{% endblock %}
+
+{% block main_jumbo %}<img class="img_icons" src="{% static 'main/icons/noun_List_648391.svg' %}"> {% trans 'Visió general del projecte' %} {% endblock %}
+{% block sub_jumbo %}{% trans 'Campanya' %} - {{ campaign.name }}{% endblock %}
+
+{% block main %}
+<div class="container">
+    <p><i class="fa-solid fa-caret-right"></i></p>
+    {% for quiz in quizzes %}
+        <div class="row alert alert-success">
+                <div class="col-md-10"><h3>{{ quiz.seq }} - {{ quiz.name }} <span class="badge badge-{{quiz.color_bootstrap}}">{{ quiz.type_text }}</span></h3></div>
+                <div class="col-md-1"><a href="{% url 'quiz_pdf' quiz.id %}" target="_blank" type="button" class="btn btn-info">PDF</a></div>
+                <div id="quiz_header_{{quiz.id}}" class="header col-md-1"><h2><span><i class="fas fa-plus-square"></i></span></h2></div>
+        </div>
+        <div id="quiz_content_{{quiz.id}}" class="content" style="display:none;">
+            {% if quiz.html_header %}
+            <div class="container">
+                {{ quiz.html_header |safe }}
+            </div>
+            {% endif %}
+            <div class="container">
+                {% for question in quiz.sorted_questions_set %}
+                <div id="question_{{ question.id }}" class="mb-3">
+                    {% if question.doc_link %}
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div>
+                                    <p class="ord_{{ question.question_order }}"><strong>{{ question.question_order }}.</strong> <i>{{ question.text|linebreaks }}</i> </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="ml-5">
+                                    <p class="ord_{{ question.question_order }}"><a href="{{ question.doc_link }}" target="_blank">{{ question.doc_link }}</a></p>
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div>
+                                    {% if quiz.is_poll %}
+                                    <p class="ord_{{ question.question_order }}"><strong>{{ question.question_order }}.</strong> <i>{{ question.text|linebreaks }}</i> </p>
+                                    {% else %}
+                                    <p class="ord_{{ question.question_order }}"><strong>{{ question.question_order }}.</strong> <i>{{ question.text|linebreaks }}</i> </p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                            {% if question.question_picture %}
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <img class="img-fluid" style="padding-left:20px; display: block; margin: auto; width: 300px;" src="/media{{ question.question_picture }}">
+                                    </div>
+                                    <div class="col-md-8">
+                                        {% for answer in question.sorted_answers_set %}
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="ml-5">
+                                                        <p>{{ answer.label }}) {{ answer.text }}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% else %}
+                                {% for answer in question.sorted_answers_set %}
+                                    <div class="row">
+
+                                        <div class="col-md-12">
+                                            <div class="ml-5">
+                                                <p>{{ answer.label }}) {{ answer.text }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                {% endfor %}
+        </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'main/javascript/project_outline.js' %}"></script>
+{% endblock %}

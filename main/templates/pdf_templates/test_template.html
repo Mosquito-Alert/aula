@@ -1,0 +1,104 @@
+{% load static %}
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block meta %}
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>{{ titulo }}</title>
+    {% endblock %}
+
+    <link href="{% static 'main/bootstrap-4.3.1/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'main/css/aula.css' %}">
+    <link rel="stylesheet" href="{% static 'main/css/pdf/pdfStyles.css' %}">
+</head>
+<body>
+
+<div class="container">
+    <h2>{{ campaign.name }}</h2>
+    <div class="row alert alert-success">
+            <div class="col-md-10"><h2>{{ quiz.seq }} - {{ quiz.name }} <span class="badge badge-{{quiz.color_bootstrap}}">{{ quiz.type_text }}</span></h2></div>
+            <div id="quiz_header_{{quiz.id}}" class="header col-md-1"><h2><span><i class="fas fa-plus-square"></i></span></h2></div>
+    </div>
+    <div id="quiz_content_{{quiz.id}}" class="content">
+        {% if quiz.html_header %}
+        <div class="container">
+            {{ quiz.html_header |safe }}
+        </div>
+        {% endif %}
+        <div class="container">
+            {% for question in quiz.sorted_questions_set %}
+            <div id="question_{{ question.id }}" class="mb-3">
+                {% if question.doc_link %}
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div>
+                                <p class="ord_{{ question.question_order }}"><strong>{{ question.question_order }}.</strong> <i>{{ question.text|linebreaks }}</i> </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="ml-5">
+                                <p class="ord_{{ question.question_order }}"><a href="{{ question.doc_link }}" target="_blank">{{ question.doc_link }}</a></p>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div>
+                                {% if quiz.is_poll %}
+                                <p class="ord_{{ question.question_order }}"><strong>{{ question.question_order }}.</strong> <i>{{ question.text|linebreaks }}</i> </p>
+                                {% else %}
+                                <p class="ord_{{ question.question_order }}"><strong>{{ question.question_order }}.</strong> <i>{{ question.text|linebreaks }}</i> </p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                        {% if question.question_picture %}
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <img class="img-fluid" style="padding-left:20px; display: block; margin: auto; width: 300px;" src="/media{{ question.question_picture }}">
+                                </div>
+                                <div class="col-md-8">
+                                    {% for answer in question.sorted_answers_set %}
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="ml-5">
+                                                    <p>{{ answer.label }}) {{ answer.text }}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% else %}
+                            {% for answer in question.sorted_answers_set %}
+                                <div class="row">
+
+                                    <div class="col-md-12">
+                                        <div class="ml-5">
+                                            <p>{{ answer.label }}) {{ answer.text }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endif %}
+                </div>
+            {% endfor %}
+    </div>
+    </div>
+
+</div>
+</body>
+<script src="{% static 'main/jquery/jquery-3.5.1.min.js' %}"></script>
+<script src="{% static 'main/bootstrap-4.3.1/js/bootstrap.bundle.min.js' %}"></script>
+<script src="https://kit.fontawesome.com/027a77898a.js" crossorigin="anonymous"></script>
+<script src="{% static 'main/jquery-ui/jquery-ui.min.js' %}"></script>
+</html>
