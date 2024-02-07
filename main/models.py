@@ -132,6 +132,17 @@ class Quiz(models.Model):
         return self.type == 4
 
     @property
+    def color_bootstrap(self):
+        values = {
+            0: 'primary',
+            1: 'secondary',
+            2: 'success',
+            3: 'warning',
+            5: 'info'
+        }
+        return values.get(self.type, 5)
+
+    @property
     def type_text(self):
         switcher = {
             0: QUIZ_TYPES[0][1],

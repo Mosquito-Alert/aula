@@ -1283,6 +1283,25 @@ def group_list(request):
 
 
 @login_required
+def quiz_pdf(request, quiz_id=None):
+    this_user = request.user
+    quiz = Quiz.objects.get(pk=quiz_id)
+
+    campaign = None
+    if this_user.profile.is_teacher:
+        campaign = this_user.profile.campaign
+    elif this_user.is_superuser:
+        campaign = Campaign.objects.filter(active=True).first()
+
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'filename="{0}_{1}.pdf"'.format( slugify(campaign.name), slugify(quiz.name) )
+    html_string = render_to_string("pdf_templates/test_template.html",{'quiz': quiz, 'campaign': campaign})
+    pdf_file = HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf()
+    response.write(pdf_file)
+
+    return response
+
+@login_required
 def group_list_pdf(request):
     this_user = request.user
     search_field_list = ('username', 'group_public_name', 'group_center', 'group_tutor')
@@ -2975,6 +2994,16 @@ def reports_poll_class(request, poll_id=None, teacher_id=None, slug=None):
 
     return render(request, 'main/reports/poll_center_or_group.html', {'quiz': poll, 'data': json.dumps(data),'len_data': len(data), 'group': group, 'center': center})
 
+@login_required
+def project_outline(request):
+    this_user = request.user
+    campaign = None
+    if this_user.profile.is_teacher:
+        campaign = this_user.profile.campaign
+    elif this_user.is_superuser:
+        campaign = Campaign.objects.filter(active=True).first()
+    quizzes = Quiz.objects.filter(campaign=campaign).filter(published=True).filter(Q(type=0)|Q(type=1)|Q(type=2)|Q(type=3)|Q(type=5)).order_by('seq')
+    return render(request, 'main/reports/project_outline.html',{ 'campaign':campaign,'quizzes':quizzes })
 
 @login_required
 def tabular_report(request, quiz_id=None):
