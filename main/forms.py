@@ -95,14 +95,14 @@ class SimplifiedGroupForm(ModelForm):
         model = User
         fields = ['username']
 
-    def clean_username(self):
-        username = self.cleaned_data.get("username")
-        if User.objects.filter(username=username).exists():
-            the_user = User.objects.get(username=username)
-            user_type = 'group' if the_user.profile.is_group else 'teacher'
-            message = "The username {0} is used by another user of type {1} in campaign '{2}'".format( the_user.username, user_type, the_user.profile.campaign.name )
-            self.add_error("username", message)
-        return username
+    # def clean_username(self):
+    #     username = self.cleaned_data.get("username")
+    #     if User.objects.filter(username=username).exists():
+    #         the_user = User.objects.get(username=username)
+    #         user_type = 'group' if the_user.profile.is_group else 'teacher'
+    #         message = "The username {0} is used by another user of type {1} in campaign '{2}'".format( the_user.username, user_type, the_user.profile.campaign.name )
+    #         self.add_error("username", message)
+    #     return username
 
     def clean_n_students_in_group(self):
         n_students = self.cleaned_data.get("n_students_in_group")
