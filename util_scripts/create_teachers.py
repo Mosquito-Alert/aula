@@ -9,12 +9,13 @@ from django.db.utils import IntegrityError
 from django.contrib.gis.geos import GEOSGeometry
 import csv
 import datetime
+from django.db import transaction
 
 
 #USERS_FILE = app_config.proj_path + '/util_scripts/docents_2022.csv'
-USERS_FILE = app_config.proj_path + '/util_scripts/docents_2023_1.csv'
+USERS_FILE = app_config.proj_path + '/util_scripts/docents_2024.csv'
 #USERS_FILE = app_config.proj_path + '/util_scripts/test_profe.csv'
-OUT_FILE = app_config.proj_path + '/util_scripts/docents_2023_1_out.csv'
+OUT_FILE = app_config.proj_path + '/util_scripts/docents_2024_out.csv'
 
 
 def clean_teacher_name(original_name):
@@ -67,7 +68,14 @@ def create_users():
             except EducationCenter.DoesNotExist:
                 location = GEOSGeometry('POINT (0 0)', srid=4326)
                 center = EducationCenter(name=center_name, location=location, campaign=campaign)
-                center.hashtag = center.center_slug()
+                if center_name == 'INS Jaume Balmes':
+                    center.hashtag = '#ijba24'
+                elif center_name == 'Escola Proa':
+                    center.hashtag = '#epr24'
+                elif center_name == 'INS Poeta Maragall':
+                    center.hashtag = '#ipma24'
+                else:
+                    center.hashtag = center.center_slug()
                 center.save()
                 print("Center does not exist")
 
@@ -114,6 +122,7 @@ def delete_users(campaign):
 
 
 if __name__ == '__main__':
-    # campaign = Campaign.objects.get(pk=5)
-    create_users()
-    #delete_users( campaign )
+    with transaction.atomic():
+        # campaign = Campaign.objects.get(pk=5)
+        create_users()
+        #delete_users( campaign )
