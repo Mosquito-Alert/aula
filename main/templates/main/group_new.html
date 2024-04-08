@@ -19,6 +19,11 @@
     <button type="button" class="btn btn-primary suggest-fields">{% trans 'Suggerir camps' %} <i class="fas fa-bolt"></i></button>
     <div class="col-xs-12" style="height:50px;"></div>
     <form id="group_form" class="form" action="{% url 'group_new' %}" method="post">
+        {% if form.errors %}
+        <div class="alert alert-danger">
+            {{ form.errors }}
+        </div>
+        {% endif %}
         {% csrf_token %}
         {{ form|crispy }}
         <div id="file_upload_div" class="form-group">

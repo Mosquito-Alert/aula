@@ -140,3 +140,7 @@
 .date_cell {
     padding: 5px;
 }
+
+.help-block {
+    color: red;
+}
