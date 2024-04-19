@@ -19,6 +19,10 @@ class QuizForm(ModelForm):
     published = forms.BooleanField(label=_("Prova publicada?"),widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}), required=False)
     requisite = forms.ModelChoiceField(label=_("Cal completar la prova del desplegable per poder fer aquesta prova"), queryset=Quiz.objects.all().order_by('name'), widget=forms.Select(attrs={'class': 'form-control'}), required=False)
 
+    def clean(self):
+        cleaned_data = super(QuizForm, self).clean()
+        return cleaned_data
+
     def __init__(self, *args, **kwargs):
         super(QuizForm, self).__init__(*args, **kwargs)
         userid = kwargs.pop('userid', None)
@@ -55,6 +59,10 @@ class QuizNewForm(ModelForm):
             qs = qs.exclude(id=inst.id)
         self.fields['requisite'].queryset = qs.order_by('name')
 
+    def clean(self):
+        cleaned_data = super(QuizNewForm, self).clean()
+        return cleaned_data
+
     class Meta:
         model = Quiz
         fields = ['name', 'seq', 'published', 'html_header', 'requisite', 'type']
@@ -68,6 +76,15 @@ class QuizAdminForm(ModelForm):
     requisite = forms.IntegerField(widget=forms.HiddenInput(), required=False)
     type = forms.ChoiceField(choices=QUIZ_TYPES, widget=forms.Select(attrs={'class': 'form-control'}))
     author = forms.ModelChoiceField(label=_("Autor"), queryset=User.objects.filter(profile__is_teacher=True).filter(profile__campaign__active=True).order_by('username'),widget=forms.Select(attrs={'class': 'form-control'}), required=False)
+
+    def clean(self):
+        cleaned_data = super(QuizAdminForm, self).clean()
+        if cleaned_data['published'] == True:
+            if self.instance is not None:
+                if Question.objects.filter(quiz=self.instance).count() == 0:
+                    message = _("No es permet publicar una prova sense preguntes. Per desar, desmarca la casella 'Publicat'")
+                    self.add_error("published", message)
+        return cleaned_data
 
     class Meta:
         model = Quiz
