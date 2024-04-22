@@ -1957,27 +1957,28 @@ def api_finishquiz(request):
 @api_view(['POST'])
 def api_startrun(request):
     if request.method == 'POST':
-        quiz_id = request.data.get('quiz_id', -1)
-        taken_by = request.data.get('taken_by', -1)
-        run_number = request.data.get('run_number', -1)
-        if quiz_id == -1:
-            raise ParseError(detail='Quiz id not specified')
-        if run_number == -1:
-            raise ParseError(detail='Run number not specified')
-        else:
-            if QuizRun.objects.filter( quiz=quiz_id, taken_by=taken_by, run_number=run_number ).exists():
-                return Response('Run number already exists',status=status.HTTP_404_NOT_FOUND)
-        quiz = get_object_or_404(Quiz,pk=quiz_id)
-        user_taken = get_object_or_404(User,pk=taken_by)
-        q = QuizRun(taken_by=user_taken, quiz=quiz, run_number=run_number)
-        try:
-            q.save()
-            for question in quiz.questions.all():
-                qa = QuizRunAnswers( quizrun=q, question=question )
-                qa.save()
-            return Response({'run_id': q.id})
-        except IntegrityError:
-            return Response('Two simultaneous in progress quizruns not allowed', status=status.HTTP_400_BAD_REQUEST)
+        with transaction.atomic():
+            quiz_id = request.data.get('quiz_id', -1)
+            taken_by = request.data.get('taken_by', -1)
+            run_number = request.data.get('run_number', -1)
+            if quiz_id == -1:
+                raise ParseError(detail='Quiz id not specified')
+            if run_number == -1:
+                raise ParseError(detail='Run number not specified')
+            else:
+                if QuizRun.objects.filter( quiz=quiz_id, taken_by=taken_by, run_number=run_number ).exists():
+                    return Response('Run number already exists',status=status.HTTP_404_NOT_FOUND)
+            quiz = get_object_or_404(Quiz,pk=quiz_id)
+            user_taken = get_object_or_404(User,pk=taken_by)
+            q = QuizRun(taken_by=user_taken, quiz=quiz, run_number=run_number)
+            try:
+                q.save()
+                for question in quiz.questions.all():
+                    qa = QuizRunAnswers( quizrun=q, question=question )
+                    qa.save()
+                return Response({'run_id': q.id})
+            except IntegrityError:
+                return Response('Two simultaneous in progress quizruns not allowed', status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])

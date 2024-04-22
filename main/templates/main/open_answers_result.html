@@ -37,9 +37,13 @@
             </tr>
             {% for group in quiz.groups %}
                 <tr style="text-align: center;">
+                    {% if group.group.profile.group_picture %}
                     <td>
                         <img src="{{ group.group.profile.group_picture.url }}">
                     </td>
+                    {% else %}
+                    <td></td>
+                    {% endif %}
                     <td>{{ group.group.profile.center }}</td>
                     <td>{{ group.group.profile.group_public_name }}</td>
                     <td>{{ group.group.profile.group_class }}</td>
