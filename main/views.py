@@ -1300,6 +1300,7 @@ def quiz_pdf(request, quiz_id=None):
     response.write(pdf_file)
 
     return response
+    # return render(request, 'pdf_templates/test_template.html', {'quiz': quiz, 'campaign': campaign})
 
 @login_required
 def group_list_pdf(request):

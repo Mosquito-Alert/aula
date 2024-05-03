@@ -115,6 +115,15 @@
     <div class="card-deck mb-3 text-center">
         <div class="card mb-4 box-shadow">
             <div class="card-body">
+                <a href="{% url 'project_outline' %}" class="btn btn-primary btn-sm">
+                    <h5 class="card-title">{% trans 'Visió general del projecte' %}</h5>
+                    <img class="img_icons" src="{% static 'main/icons/noun_List_648391.svg' %}">
+                    <p class="card-text">{% trans 'Índex consultable de totes les proves dels alumnes de la campanya actual' %}.</p>
+                </a>
+            </div>
+        </div>
+        <div class="card mb-4 box-shadow">
+            <div class="card-body">
                 <a href="{% url 'reports' %}" class="btn btn-primary btn-sm">
                 <h5 class="card-title">{% trans 'Informes' %}</h5>
                 <img class="img_icons" src="{% static 'main/icons/noun_report_3907422.svg' %}">
