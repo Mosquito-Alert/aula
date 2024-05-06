@@ -298,6 +298,7 @@ class QuizRun(models.Model):
                 return False
         return True
 
+    @property
     def is_done(self):
         if not self.all_questions_answered():
             return False
