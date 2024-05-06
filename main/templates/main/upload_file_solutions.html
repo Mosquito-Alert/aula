@@ -26,7 +26,7 @@
 
     <div class="row alert alert-success ml-5">
 
-        <table style="width:100%;">
+        <table id="materials" style="width:100%;">
             <tr style="text-align: center;">
                 <th></th>
                 <th>{% trans 'Centre' %}</th>
@@ -35,6 +35,9 @@
                 <th>{% trans 'Arxiu pujat' %}</th>
                 <th>{% trans 'Link a l&#39;arxiu' %}</th>
                 <th>{% trans 'Data pujada arxiu' %}</th>
+                {% if user.is_superuser %}
+                <th>{% trans 'Eliminar material' %}</th>
+                {% endif %}
             </tr>
             {% for quizrun in quiz.grupos %}
                 <tr style="text-align: center;">
@@ -59,6 +62,15 @@
                     {% else %}
                         <td> - </td>
                     {% endif %}
+                    {% if user.is_superuser  %}
+                        {% if quizrun.uploadedFileFlag %}
+                        <td><button data-quizrun-id="{{ quizrun.quizrun.id }}" title="{% trans 'Eliminar material' %}" class="delete_button btn btn-danger"><i class="fas fa-backspace"></i></button></td>
+                        {% else %}
+                        <td> - </td>
+                        {% endif %}
+                    {% else %}
+                        <td> - </td>
+                    {% endif %}
                 </tr>
             {% endfor %}
         </table>
@@ -68,4 +80,8 @@
 
 {% endblock %}
 {% block extra_js %}
+<script src="{% static 'main/csrf_utils.js' %}"></script>
+<script src="{% static 'main/cookies.js' %}"></script>
+<script src="{% static 'main/toastr/toastr.js' %}"></script>
+<script src="{% static 'main/javascript/upload_file_solutions.js' %}"></script>
 {% endblock %}

@@ -1838,6 +1838,26 @@ def copy_test(request):
         serializer = QuizSerializer(new_quiz)
         return Response( data={'new_quiz': serializer.data}, status=status.HTTP_201_CREATED)
 
+@api_view(['DELETE'])
+def delete_material(request, pk=None):
+    if request.method == 'DELETE':
+        with transaction.atomic():
+            try:
+                this_user = request.user
+                if this_user.is_superuser:
+                    quizrun = QuizRun.objects.get(pk=pk)
+                    quizrunanswer = QuizRunAnswers.objects.get(quizrun=quizrun)
+                    if quizrunanswer.uploaded_material.file:
+                        if os.path.isfile(quizrunanswer.uploaded_material.file.name):
+                            os.remove(quizrunanswer.uploaded_material.file.name)
+                    quizrunanswer.delete()
+                    quizrun.delete()
+                    return Response({'success': True}, status=status.HTTP_204_NO_CONTENT)
+            except Exception as e:
+                return Response({'success': False, 'msg': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+
+
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
@@ -2551,7 +2571,7 @@ def upload_file_solutions_class(request, slug=None):
         go_back_to = "my_hub"
         return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
 
-    return render(request, 'main/upload_file_solutions.html',{'my_quizzes': my_quizzes, 'grupos_profe': p, "teacher_filters": teacher_filters, "current_slug": slug})
+    return render(request, 'main/upload_file_solutions.html',{'my_quizzes': my_quizzes, 'grupos_profe': p, "teacher_filters": teacher_filters, "current_slug": slug, "user": this_user})
 
 
 @login_required
@@ -2682,7 +2702,8 @@ def upload_file_solutions(request):
                         'clase': grupo.profile.group_class if grupo.profile.group_class is not None else '',
                         'uploadedFileFlag': True,
                         'linkFile': quizrun[0].uploaded_file,
-                        'uploadDate': quizrun[0].date_finished
+                        'uploadDate': quizrun[0].date_finished,
+                        'quizrun': quizrun.first()
                     })
                 else:
                     url_pic = ''
@@ -2697,7 +2718,8 @@ def upload_file_solutions(request):
                         'clase': grupo.profile.group_class if grupo.profile.group_class is not None else '',
                         'uploadedFileFlag': False,
                         'linkFile': None,
-                        'uploadDate': None
+                        'uploadDate': None,
+                        'quizrun': quizrun.first()
                     })
             arrayGrupos.sort(key=lambda x: (x['centro'], x['clase'], x['nombreGrupo']))
             #Crear array amb informacio de cada prova
@@ -2744,7 +2766,8 @@ def upload_file_solutions(request):
                         'clase': grupo.profile.group_class if grupo.profile.group_class is not None else '',
                         'uploadedFileFlag': True,
                         'linkFile': quizrun[0].uploaded_file,
-                        'uploadDate': quizrun[0].date_finished
+                        'uploadDate': quizrun[0].date_finished,
+                        'quizrun': quizrun.first()
                     })
                 else:
                     url_pic = ''
@@ -2759,7 +2782,8 @@ def upload_file_solutions(request):
                         'clase': grupo.profile.group_class if grupo.profile.group_class is not None else '',
                         'uploadedFileFlag': False,
                         'linkFile': None,
-                        'uploadDate': None
+                        'uploadDate': None,
+                        'quizrun': None
                     })
             arrayGrupos.sort(key=lambda x: (x['centro'], x['clase'], x['nombreGrupo']))
             #Crear array amb informacio de cada prova
@@ -2778,7 +2802,7 @@ def upload_file_solutions(request):
         message = _("Estàs intentant accedir a una pàgina a la que no tens permís.")
         go_back_to = "my_hub"
         return render(request, 'main/invalid_operation.html', {'error_message': message, 'go_back_to': go_back_to})
-    return render(request, 'main/upload_file_solutions.html', {'my_quizzes': my_quizzes, 'grupos_profe': p, "teacher_filters": teacher_filters})
+    return render(request, 'main/upload_file_solutions.html', {'my_quizzes': my_quizzes, 'grupos_profe': p, "teacher_filters": teacher_filters, "user": this_user})
 
 
 
