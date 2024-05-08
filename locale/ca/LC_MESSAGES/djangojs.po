@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-01 15:08+0000\n"
+"POT-Creation-Date: 2024-05-08 06:02+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -493,30 +493,34 @@ msgstr ""
 msgid "Eliminant dades d'intent..."
 msgstr ""
 
-#: main/static/main/javascript/reports.js:5
-#: main/static/main/javascript/reports.js:108
-#: main/static/main/javascript/reports.js:150
+#: main/static/main/javascript/reports.js:10
+#: main/static/main/javascript/reports.js:113
+#: main/static/main/javascript/reports.js:155
 msgid "Cal seleccionar un centre"
 msgstr ""
 
-#: main/static/main/javascript/reports.js:13
+#: main/static/main/javascript/reports.js:18
 msgid "Cal triar com a mínim un centre, i opcionalment un grup dins del centre"
 msgstr ""
 
-#: main/static/main/javascript/reports.js:70
+#: main/static/main/javascript/reports.js:75
 msgid "Error recuperant llista de grups per centre"
 msgstr ""
 
-#: main/static/main/javascript/reports.js:94
+#: main/static/main/javascript/reports.js:99
 msgid "Cal seleccionar una enquesta i un centre"
 msgstr ""
 
-#: main/static/main/javascript/reports.js:118
+#: main/static/main/javascript/reports.js:123
 msgid "Cal seleccionar una enquesta"
 msgstr ""
 
-#: main/static/main/javascript/reports.js:128
+#: main/static/main/javascript/reports.js:133
 msgid "Cal seleccionar una enquesta i una classe"
+msgstr ""
+
+#: main/static/main/javascript/reports.js:164
+msgid "Cal seleccionar una prova"
 msgstr ""
 
 #: main/static/main/javascript/teacher_list.js:16
@@ -533,4 +537,18 @@ msgstr ""
 
 #: main/static/main/javascript/teacher_list.js:32
 msgid "Inactivant professor..."
+msgstr ""
+
+#: main/static/main/javascript/upload_file_solutions.js:28
+msgid "Material esborrat amb èxit!"
+msgstr ""
+
+#: main/static/main/javascript/upload_file_solutions.js:31
+msgid "Error esborrant material - "
+msgstr ""
+
+#: main/static/main/javascript/upload_file_solutions.js:37
+msgid ""
+"ATENCIÓ: S'esborrarà el material, incloent el fitxer, i l'alumne haurà de "
+"repetir la prova. Segur que vols continuar?"
 msgstr ""

@@ -1,3 +1,14 @@
+var reset_row = function(quizrun_id){
+    var controls = ['uploadedflag','linkfile','uploaddate','delete'];
+    for(var i=0; i < controls.length; i++){
+        if(controls[i]=='uploadedflag'){
+            $('#' + quizrun_id + '_' + controls[i]).html('<i class="fas fa-times" style="color: red;" aria-hidden="true"></i>');
+        }else{
+            $('#' + quizrun_id + '_' + controls[i]).html(' - ');
+        }
+    }
+}
+
 $(document).ready(function() {
 
 var delete_material = function(quizrun_id, to_state){
@@ -12,7 +23,9 @@ var delete_material = function(quizrun_id, to_state){
             }
         },
         success: function( data, textStatus, jqXHR ) {
-            location.reload();
+            //location.reload();
+            reset_row(quizrun_id);
+            toastr.success(gettext('Material esborrat amb èxit!'));
         },
         error: function(jqXHR, textStatus, errorThrown){
             toastr.error(gettext('Error esborrant material - ') + jqXHR.responseJSON.msg);

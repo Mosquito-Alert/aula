@@ -48,28 +48,28 @@
                     <td>{{ quizrun.nombreGrupo }}</td>
                     <td>{{ quizrun.clase }}</td>
                     {% if quizrun.uploadedFileFlag %}
-                        <td><i class="fas fa-check" style="color: green;"></i></td>
+                        <td id="{{ quizrun.quizrun.id }}_uploadedflag"><i class="fas fa-check" style="color: green;"></i></td>
                     {% else %}
-                        <td><i class="fas fa-times" style="color: red;"></i></td>
+                        <td id="{{ quizrun.quizrun.id }}_uploadedflag"><i class="fas fa-times" style="color: red;"></i></td>
                     {% endif %}
                     {% if quizrun.linkFile %}
-                        <td><a href="{{ quizrun.linkFile.url }}">{% trans 'Verue arxiu' %}</a></td>
+                        <td id="{{ quizrun.quizrun.id }}_linkfile"><a href="{{ quizrun.linkFile.url }}">{% trans 'Verue arxiu' %}</a></td>
                     {% else %}
-                        <td> - </td>
+                        <td id="{{ quizrun.quizrun.id }}_linkfile"> - </td>
                     {% endif %}
                     {% if quizrun.uploadDate %}
-                        <td>{{ quizrun.uploadDate }}</td>
+                        <td id="{{ quizrun.quizrun.id }}_uploaddate">{{ quizrun.uploadDate }}</td>
                     {% else %}
-                        <td> - </td>
+                        <td id="{{ quizrun.quizrun.id }}_uploaddate"> - </td>
                     {% endif %}
                     {% if user.is_superuser  %}
                         {% if quizrun.uploadedFileFlag %}
-                        <td><button data-quizrun-id="{{ quizrun.quizrun.id }}" title="{% trans 'Eliminar material' %}" class="delete_button btn btn-danger"><i class="fas fa-backspace"></i></button></td>
+                        <td  id="{{ quizrun.quizrun.id }}_delete"><button data-quizrun-id="{{ quizrun.quizrun.id }}" title="{% trans 'Eliminar material' %}" class="delete_button btn btn-danger"><i class="fas fa-backspace"></i></button></td>
                         {% else %}
-                        <td> - </td>
+                        <td  id="{{ quizrun.quizrun.id }}_delete"> - </td>
                         {% endif %}
                     {% else %}
-                        <td> - </td>
+                        <td  id="{{ quizrun.quizrun.id }}_delete"> - </td>
                     {% endif %}
                 </tr>
             {% endfor %}
