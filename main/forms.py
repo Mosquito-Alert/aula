@@ -84,6 +84,9 @@ class QuizAdminForm(ModelForm):
                 if Question.objects.filter(quiz=self.instance).count() == 0:
                     message = _("No es permet publicar una prova sense preguntes. Per desar, desmarca la casella 'Publicat'")
                     self.add_error("published", message)
+                elif Question.objects.filter(quiz=self.instance).count() > 1 and cleaned_data['type'] == '3':
+                    message = _("Una prova de pujada de fitxer no es pot publicar si té més d'una pregunta")
+                    self.add_error("published", message)
         return cleaned_data
 
     class Meta:
