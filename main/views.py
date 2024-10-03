@@ -1709,9 +1709,8 @@ def map_campaign_year(request, year=None):
         current_year = max_year['year__max']
         centermapdata = CenterMapData.objects.filter(year=current_year)
         serializer = CenterMapDataSerializer(centermapdata, many=True)
-        bs = get_center_bs_sites()
         centers = json.dumps(serializer.data)
-        return render(request, 'main/map.html', {'centers': centers, 'current_year': current_year, 'bs': bs})
+        return render(request, 'main/map.html', {'centers': centers, 'current_year': current_year})
 
         # centers = EducationCenter.objects.exclude(location__isnull=True)
         # serializer = EducationCenterSerializer(centers, many=True)
@@ -1726,9 +1725,8 @@ def map_campaign_year(request, year=None):
         current_year = year
         centermapdata = CenterMapData.objects.filter(year=current_year)
         serializer = CenterMapDataSerializer(centermapdata, many=True)
-        bs = get_center_bs_sites()
         centers = json.dumps(serializer.data)
-        return render(request, 'main/map.html', {'centers': centers, 'current_year': current_year, 'bs': bs})
+        return render(request, 'main/map.html', {'centers': centers, 'current_year': current_year})
 
         # campaigns_year = Campaign.objects.filter(end_date__year=year)
         # centers = EducationCenter.objects.filter(campaign__in=campaigns_year).exclude(location__isnull=True)
@@ -1859,6 +1857,8 @@ def copy_test(request):
         serializer = QuizSerializer(new_quiz)
         return Response( data={'new_quiz': serializer.data}, status=status.HTTP_201_CREATED)
 
+
+
 @api_view(['DELETE'])
 def delete_material(request, pk=None):
     if request.method == 'DELETE':
@@ -1878,7 +1878,15 @@ def delete_material(request, pk=None):
                 return Response({'success': False, 'msg': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
-
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def center_bs(request, hash=None):
+    if request.method == 'GET':
+        if hash == None:
+            raise ParseError(detail='Hash is mandatory')
+        breeding_sites = BreedingSites.objects.filter(center_hashtag='#'+hash).order_by('center_hashtag')
+        serializer = BreedingSiteSerializer(breeding_sites, many=True)
+        return Response(serializer.data)
 
 @api_view(['GET'])
 @permission_classes([AllowAny])

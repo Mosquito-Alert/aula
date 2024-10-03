@@ -157,4 +157,5 @@ urlpatterns = [
     path('api/quizzes_campaign/', views.quizzes_campaign, name='quizzes_campaign' ),
     path('api/center_info/<int:pk>/', views.center_info, name='center_info' ),
     path('api/delete_material/<int:pk>/', views.delete_material, name='delete_material' ),
+    path('api/center_bs/<str:hash>/', views.center_bs, name='center_bs' ),
 ]
