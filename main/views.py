@@ -1709,8 +1709,9 @@ def map_campaign_year(request, year=None):
         current_year = max_year['year__max']
         centermapdata = CenterMapData.objects.filter(year=current_year)
         serializer = CenterMapDataSerializer(centermapdata, many=True)
+        bs = get_center_bs_sites()
         centers = json.dumps(serializer.data)
-        return render(request, 'main/map.html', {'centers': centers, 'current_year': current_year})
+        return render(request, 'main/map.html', {'centers': centers, 'current_year': current_year, 'bs': bs})
 
         # centers = EducationCenter.objects.exclude(location__isnull=True)
         # serializer = EducationCenterSerializer(centers, many=True)
@@ -1725,8 +1726,9 @@ def map_campaign_year(request, year=None):
         current_year = year
         centermapdata = CenterMapData.objects.filter(year=current_year)
         serializer = CenterMapDataSerializer(centermapdata, many=True)
+        bs = get_center_bs_sites()
         centers = json.dumps(serializer.data)
-        return render(request, 'main/map.html', {'centers': centers, 'current_year': current_year})
+        return render(request, 'main/map.html', {'centers': centers, 'current_year': current_year, 'bs': bs})
 
         # campaigns_year = Campaign.objects.filter(end_date__year=year)
         # centers = EducationCenter.objects.filter(campaign__in=campaigns_year).exclude(location__isnull=True)

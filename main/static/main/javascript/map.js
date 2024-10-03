@@ -198,7 +198,7 @@ $(document).ready(function() {
             var ec_id = e.target.options.id;
             var hashtag = e.target.options.hashtag;
             get_center_info(ec_id, bar);
-            //show_breeding_sites_for_hash(hashtag);
+            show_breeding_sites_for_hash(hashtag);
         });
         layer_data.push(m);
     }
