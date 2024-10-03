@@ -16,11 +16,11 @@
     <div class="content">
         <ul>
             {% if participation_years %}
-            <article class="message">
+            <!--<article class="message">
                 <div class="message-header">
                     <li class="is-info">Años de participación: {{ participation_years }}</li>
                 </div>
-            </article>
+            </article>-->
             {% endif %}
             <article class="message">
               <div class="message-header">
@@ -55,19 +55,19 @@
                     <ul>
                     {% for award in awards %}
                         {%if award.award == 'Originalidad' %}
-                            <li class="is-size-7" style="color: green"><img src="/static/main/icons/noun_solution_2998552.svg" width="25px"> <b>{{ award.award }}</b> (formato: {{ award.format }}) al grupo <b>{{ award.group.profile.group_public_name }}</b> ({{ award.age_bracket }})</li>
+                            <li class="is-size-7" style="color: green"><img src="/static/main/icons/noun_solution_2998552.svg" width="25px"> <b>{{ award.award }}</b> (formato: {{ award.format }}) al grupo <b>{{ award.group_name }}</b> ({{ award.age_bracket }})</li>
                         {%elif award.award == 'Primer premio' %}
-                            <li class="is-size-7" style="color: #C9B037"><img src="/static/main/icons/noun-medal-5019175.svg" width="25px"> <b>{{ award.award }}</b> (formato: {{ award.format }}) al grupo <b>{{ award.group.profile.group_public_name }}</b> ({{ award.age_bracket }})</li>
+                            <li class="is-size-7" style="color: #C9B037"><img src="/static/main/icons/noun-medal-5019175.svg" width="25px"> <b>{{ award.award }}</b> (formato: {{ award.format }}) al grupo <b>{{ award.group_name }}</b> ({{ award.age_bracket }})</li>
                         {%elif award.award == 'Segundo premio' %}
-                            <li class="is-size-7" style="color: #B4B4B4"><img src="/static/main/icons/noun-medal-5019175.svg" width="25px"> <b>{{ award.award }}</b> (formato: {{ award.format }}) al grupo <b>{{ award.group.profile.group_public_name }}</b> ({{ award.age_bracket }})</li>
+                            <li class="is-size-7" style="color: #B4B4B4"><img src="/static/main/icons/noun-medal-5019175.svg" width="25px"> <b>{{ award.award }}</b> (formato: {{ award.format }}) al grupo <b>{{ award.group_name }}</b> ({{ award.age_bracket }})</li>
                         {%elif award.award == 'Tercer premio' %}
-                            <li class="is-size-7" style="color: #AD8A56"><img src="/static/main/icons/noun-medal-5019175.svg" width="25px"> <b>{{ award.award }}</b> (formato: {{ award.format }}) al grupo <b>{{ award.group.profile.group_public_name }}</b> ({{ award.age_bracket }})</li>
+                            <li class="is-size-7" style="color: #AD8A56"><img src="/static/main/icons/noun-medal-5019175.svg" width="25px"> <b>{{ award.award }}</b> (formato: {{ award.format }}) al grupo <b>{{ award.group_name }}</b> ({{ award.age_bracket }})</li>
                         {%elif award.award == 'Cuarto premio' %}
-                            <li class="is-size-7" style="color: #AD8A56"><img src="/static/main/icons/noun-medal-5019175.svg" width="25px"> <b>{{ award.award }}</b> (formato: {{ award.format }}) al grupo <b>{{ award.group.profile.group_public_name }}</b> ({{ award.age_bracket }})</li>
+                            <li class="is-size-7" style="color: #AD8A56"><img src="/static/main/icons/noun-medal-5019175.svg" width="25px"> <b>{{ award.award }}</b> (formato: {{ award.format }}) al grupo <b>{{ award.group_name }}</b> ({{ award.age_bracket }})</li>
                         {%elif award.award == 'Diploma' %}
-                            <li class="is-size-7" style="color: green"><img src="/static/main/icons/noun-diploma-1167133.svg" width="25px"> <b>{{ award.award }}</b> (formato: {{ award.format }}) al grupo <b>{{ award.group.profile.group_public_name }}</b> ({{ award.age_bracket }})</li>
+                            <li class="is-size-7" style="color: green"><img src="/static/main/icons/noun-diploma-1167133.svg" width="25px"> <b>{{ award.award }}</b> (formato: {{ award.format }}) al grupo <b>{{ award.group_name }}</b> ({{ award.age_bracket }})</li>
                         {% else %}
-                            <li class="is-size-7"> <b>{{ award.award }}</b> (formato: {{ award.format }}) al grupo <b>{{ award.group.profile.group_public_name }}</b> ({{ award.age_bracket }})</li>
+                            <li class="is-size-7"> <b>{{ award.award }}</b> (formato: {{ award.format }}) al grupo <b>{{ award.group_name }}</b> ({{ award.age_bracket }})</li>
                         {% endif %}
                     {% endfor %}
                     </ul>

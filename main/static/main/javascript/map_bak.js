@@ -47,42 +47,6 @@ $(document).ready(function() {
 	}
 
 	var show_breeding_sites_for_hash = function(hashtag){
-	    $.ajax({
-            url: '/api/center_bs/' + hashtag + '/',
-            method: "GET",
-            beforeSend: function(xhr, settings) {
-                if (!csrfSafeMethod(settings.type)) {
-                    var csrftoken = getCookie('csrftoken');
-                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
-                }
-            },
-            success: function( data, textStatus, jqXHR ) {
-                var bounds = L.latLngBounds();
-                var breeding_site_markers = [];
-                marker_cluster_layer = L.markerClusterGroup();
-                for(var i=0; i<data.length; i++){
-                    var this_bs = data[i];
-                    var marker;
-                    if( this_bs.private_webmap_layer == 'storm_drain_dry' ){
-                        marker = new myMarker([this_bs.lat, this_bs.lon],{icon:sd_dry_icon, id: this_bs.id, hashtag: this_bs.hashtag});
-                    }else if( this_bs.private_webmap_layer == 'storm_drain_water' ){
-                        marker = new myMarker([this_bs.lat, this_bs.lon],{icon:sd_water_icon, id: this_bs.id, hashtag: this_bs.hashtag});
-                    }else{
-                        marker = new myMarker([this_bs.lat, this_bs.lon],{icon:sd_other_icon, id: this_bs.id, hashtag: this_bs.hashtag});
-                    }
-                    marker.bindPopup(get_popup_text(this_bs));
-                    breeding_site_markers.push(marker);
-                    bounds.extend( [ this_bs.lat, this_bs.lon] );
-                    marker_cluster_layer.addLayer(marker);
-                }
-                map.addLayer(marker_cluster_layer);
-                map.fitBounds(bounds, {"animate":true,"pan": {"duration": 1}});
-            },
-            error: function(jqXHR, textStatus, errorThrown){
-                console.log(errorThrown);
-            }
-        });
-	    /*
 	    var breeding_sites_by_hash = _bs_data[hashtag];
 	    var bounds = L.latLngBounds();
         var breeding_site_markers = [];
@@ -114,7 +78,7 @@ $(document).ready(function() {
                     "duration": 1
                 }
             });
-        }*/
+        }
 	}
 
 	var get_center_info = function(center_id, sidebar){
@@ -206,12 +170,17 @@ $(document).ready(function() {
     for(var i = 0; i < _center_data.length; i++){
         var ec = _center_data[i];
         var m;
-        if( ec.has_awards == true ){
-            m = new myMarker([ec.lat, ec.lon],{icon:school_icon_laureate, id: ec.id, hashtag: ec.hashtag});
+//        if( _count_data[ec.hashtag] != null ){
+//            m = new myMarker([ec.pos_x, ec.pos_y],{icon:full_school_icon, id: ec.id, hashtag: ec.hashtag});
+//        }else{
+//            m = new myMarker([ec.pos_x, ec.pos_y],{icon:school_icon, id: ec.id, hashtag: ec.hashtag});
+//        }
+        if(_awards_data[ec.hashtag] != null){
+            m = new myMarker([ec.pos_x, ec.pos_y],{icon:school_icon_laureate, id: ec.id, hashtag: ec.hashtag});
         }else{
-            m = new myMarker([ec.lat, ec.lon],{icon:school_icon, id: ec.id, hashtag: ec.hashtag});
+            m = new myMarker([ec.pos_x, ec.pos_y],{icon:school_icon, id: ec.id, hashtag: ec.hashtag});
         }
-        default_bounds.extend( [ec.lat, ec.lon] );
+        default_bounds.extend( [ec.pos_x, ec.pos_y] );
         m.on('click', function(e){
             if(bar){
                 bar.close();
@@ -225,7 +194,11 @@ $(document).ready(function() {
             );
             bar = L.control.sidebar({ container: 'sidebar', position: 'right', }).addTo(map);
             bar.on('closing',function(e){
+//                if(selected_marker){
+//                    map.fitBounds(default_bounds);
+//                }
                 if(marker_cluster_layer){
+                    //map.removeLayer(breeding_site_markers_layer);
                     map.removeLayer(marker_cluster_layer);
                 }
             });
@@ -234,7 +207,7 @@ $(document).ready(function() {
             var ec_id = e.target.options.id;
             var hashtag = e.target.options.hashtag;
             get_center_info(ec_id, bar);
-            show_breeding_sites_for_hash(hashtag.substring(1));
+            show_breeding_sites_for_hash(hashtag);
         });
         layer_data.push(m);
     }
