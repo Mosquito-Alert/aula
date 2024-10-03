@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from main.models import EducationCenter, Quiz, Question, QuizRunAnswers, QuizRun, Campaign, BreedingSites, Awards, Profile
+from main.models import EducationCenter, Quiz, Question, QuizRunAnswers, QuizRun, Campaign, BreedingSites, Awards, Profile, CenterMapData
 from django.contrib.auth.models import User
 from django.urls import reverse
 from django.db.models import Sum
@@ -283,4 +283,9 @@ class BreedingSiteSerializer(serializers.ModelSerializer):
 class AwardSerializer(serializers.ModelSerializer):
     class Meta:
         model = Awards
+        fields = '__all__'
+
+class CenterMapDataSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CenterMapData
         fields = '__all__'

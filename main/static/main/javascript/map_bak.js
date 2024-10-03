@@ -170,12 +170,17 @@ $(document).ready(function() {
     for(var i = 0; i < _center_data.length; i++){
         var ec = _center_data[i];
         var m;
-        if( ec.has_awards == true ){
-            m = new myMarker([ec.lat, ec.lon],{icon:school_icon_laureate, id: ec.id, hashtag: ec.hashtag});
+//        if( _count_data[ec.hashtag] != null ){
+//            m = new myMarker([ec.pos_x, ec.pos_y],{icon:full_school_icon, id: ec.id, hashtag: ec.hashtag});
+//        }else{
+//            m = new myMarker([ec.pos_x, ec.pos_y],{icon:school_icon, id: ec.id, hashtag: ec.hashtag});
+//        }
+        if(_awards_data[ec.hashtag] != null){
+            m = new myMarker([ec.pos_x, ec.pos_y],{icon:school_icon_laureate, id: ec.id, hashtag: ec.hashtag});
         }else{
-            m = new myMarker([ec.lat, ec.lon],{icon:school_icon, id: ec.id, hashtag: ec.hashtag});
+            m = new myMarker([ec.pos_x, ec.pos_y],{icon:school_icon, id: ec.id, hashtag: ec.hashtag});
         }
-        default_bounds.extend( [ec.lat, ec.lon] );
+        default_bounds.extend( [ec.pos_x, ec.pos_y] );
         m.on('click', function(e){
             if(bar){
                 bar.close();
@@ -189,7 +194,11 @@ $(document).ready(function() {
             );
             bar = L.control.sidebar({ container: 'sidebar', position: 'right', }).addTo(map);
             bar.on('closing',function(e){
+//                if(selected_marker){
+//                    map.fitBounds(default_bounds);
+//                }
                 if(marker_cluster_layer){
+                    //map.removeLayer(breeding_site_markers_layer);
                     map.removeLayer(marker_cluster_layer);
                 }
             });
@@ -198,7 +207,7 @@ $(document).ready(function() {
             var ec_id = e.target.options.id;
             var hashtag = e.target.options.hashtag;
             get_center_info(ec_id, bar);
-            //show_breeding_sites_for_hash(hashtag);
+            show_breeding_sites_for_hash(hashtag);
         });
         layer_data.push(m);
     }

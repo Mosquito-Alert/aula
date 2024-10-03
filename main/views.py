@@ -5,11 +5,11 @@ from main.forms import QuizForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from aula import settings
-from main.models import EducationCenter, Word, Quiz, Answer, Question, QuizRun, QuizRunAnswers, Profile, get_string_from_groups, Campaign, QuizCorrection
+from main.models import EducationCenter, Word, Quiz, Answer, Question, QuizRun, QuizRunAnswers, Profile, get_string_from_groups, Campaign, QuizCorrection, CenterMapData
 from main.forms import TeacherForm, SimplifiedTeacherForm, EducationCenterForm, TeacherUpdateForm, ChangePasswordForm, \
     SimplifiedAlumForm, SimplifiedGroupForm, AlumUpdateForm, QuestionForm, QuestionLinkForm, SimplifiedAlumFormForTeacher, \
     SimplifiedAlumFormForAdmin, AlumUpdateFormAdmin, QuizAdminForm, QuestionPollForm, QuizNewForm, QuestionUploadForm, CampaignForm, \
-    BreedingSites, Awards, QuestionOpenForm, OpenAnswerNewCorrectForm, CheckedQuizrun
+    BreedingSites, Awards, QuestionOpenForm, OpenAnswerNewCorrectForm, CheckedQuizrun, MapAwardData
 from django.contrib.gis.geos import GEOSGeometry
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
@@ -22,9 +22,9 @@ import operator
 from main.serializers import EducationCenterSerializer, TeacherSerializer, UserSerializer, AlumSerializer, \
     GroupSerializer, GroupSearchSerializer, TeacherComboSerializer, AlumSearchSerializer, QuizSerializer, \
     QuestionSerializer, QuizSearchSerializer, QuizRunAnswerSerializer, QuizRunSerializer, QuizComboSerializer, \
-    GroupComboSerializer, CampaignSerializer, BreedingSiteSerializer, AwardSerializer
+    GroupComboSerializer, CampaignSerializer, BreedingSiteSerializer, AwardSerializer, CenterMapDataSerializer
 from rest_framework import status,viewsets, generics
-from django.db.models import Q
+from django.db.models import Q, Max
 from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import UpdateModelMixin
 from rest_framework.viewsets import ModelViewSet
@@ -1653,14 +1653,20 @@ def api_writeanswer(request):
 
 
 def map(request):
-    centers = EducationCenter.objects.exclude(location__isnull=True)
-    serializer = EducationCenterSerializer(centers, many=True)
+    max_year = CenterMapData.objects.aggregate(Max('year'))
+    current_year = max_year['year__max']
+    centermapdata = CenterMapData.objects.filter(year=current_year)
+    serializer = CenterMapDataSerializer(centermapdata, many=True)
     centers = json.dumps(serializer.data)
-    count_data = get_center_bs_sites_count()
-    count = json.dumps(count_data)
-    bs = get_center_bs_sites()
-    awards_data = json.dumps(get_center_awards())
-    return render(request, 'main/map.html', { 'centers' :  centers, 'count_data': count, 'bs': bs, 'awards_data': awards_data})
+    return render(request, 'main/map.html', {'centers': centers, 'current_year': current_year})
+    # centers = EducationCenter.objects.exclude(location__isnull=True)
+    # serializer = EducationCenterSerializer(centers, many=True)
+    # centers = json.dumps(serializer.data)
+    # count_data = get_center_bs_sites_count()
+    # count = json.dumps(count_data)
+    # bs = get_center_bs_sites()
+    # awards_data = json.dumps(get_center_awards())
+    # return render(request, 'main/map.html', { 'centers' :  centers, 'count_data': count, 'bs': bs, 'awards_data': awards_data})
 
 
 def get_center_awards():
@@ -1699,25 +1705,38 @@ def get_center_bs_sites(campaigns=None):
 
 def map_campaign_year(request, year=None):
     if year is None:
-        centers = EducationCenter.objects.exclude(location__isnull=True)
-        serializer = EducationCenterSerializer(centers, many=True)
+        max_year = CenterMapData.objects.aggregate(Max('year'))
+        current_year = max_year['year__max']
+        centermapdata = CenterMapData.objects.filter(year=current_year)
+        serializer = CenterMapDataSerializer(centermapdata, many=True)
         centers = json.dumps(serializer.data)
-        count_data = get_center_bs_sites_count()
-        count = json.dumps(count_data)
-        bs = get_center_bs_sites()
-        current_year = 0
-        awards_data = json.dumps(get_center_awards())
-        return render(request, 'main/map.html', {'centers': centers, 'count_data': count, 'bs': bs, 'current_year': current_year, 'awards_data': awards_data})
+        return render(request, 'main/map.html', {'centers': centers, 'current_year': current_year})
+
+        # centers = EducationCenter.objects.exclude(location__isnull=True)
+        # serializer = EducationCenterSerializer(centers, many=True)
+        # centers = json.dumps(serializer.data)
+        # count_data = get_center_bs_sites_count()
+        # count = json.dumps(count_data)
+        # bs = get_center_bs_sites()
+        # current_year = 0
+        # awards_data = json.dumps(get_center_awards())
+        # return render(request, 'main/map.html', {'centers': centers, 'count_data': count, 'bs': bs, 'current_year': current_year, 'awards_data': awards_data})
     else:
-        campaigns_year = Campaign.objects.filter(end_date__year=year)
-        centers = EducationCenter.objects.filter(campaign__in=campaigns_year).exclude(location__isnull=True)
-        serializer = EducationCenterSerializer(centers, many=True)
+        current_year = year
+        centermapdata = CenterMapData.objects.filter(year=current_year)
+        serializer = CenterMapDataSerializer(centermapdata, many=True)
         centers = json.dumps(serializer.data)
-        count_data = get_center_bs_sites_count()
-        count = json.dumps(count_data)
-        bs = get_center_bs_sites(campaigns_year)
-        awards_data = json.dumps(get_center_awards())
-        return render(request, 'main/map.html', {'centers': centers, 'count_data': count, 'bs': bs, 'current_year': year, 'awards_data': awards_data})
+        return render(request, 'main/map.html', {'centers': centers, 'current_year': current_year})
+
+        # campaigns_year = Campaign.objects.filter(end_date__year=year)
+        # centers = EducationCenter.objects.filter(campaign__in=campaigns_year).exclude(location__isnull=True)
+        # serializer = EducationCenterSerializer(centers, many=True)
+        # centers = json.dumps(serializer.data)
+        # count_data = get_center_bs_sites_count()
+        # count = json.dumps(count_data)
+        # bs = get_center_bs_sites(campaigns_year)
+        # awards_data = json.dumps(get_center_awards())
+        # return render(request, 'main/map.html', {'centers': centers, 'count_data': count, 'bs': bs, 'current_year': year, 'awards_data': awards_data})
 
 
 def map_campaign(request, campaign):
@@ -1867,25 +1886,41 @@ def center_info(request, pk=None):
         if pk is None:
             raise ParseError(detail='Center id is mandatory')
         try:
-            center = EducationCenter.objects.get(pk=pk)
-            participation_years = get_participation_years(center)
-            n_points_data = get_number_of_points_center(center)
-            awards = Awards.objects.filter(center=center).order_by('age_bracket', 'award')
+            info = CenterMapData.objects.get(pk=pk)
+            awards = MapAwardData.objects.filter(center_hashtag=info.hashtag)
             context = {
-                'center_name': center.name,
-                'hashtag': center.hashtag,
-                'n_points_total': n_points_data['total'],
-                'n_points_water': n_points_data['sd_water'],
-                'n_points_dry': n_points_data['sd_dry'],
-                'n_points_other': n_points_data['sd_other'],
-                'n_groups': center.n_groups_center(),
-                'n_students': center.n_students_center(),
-                'participation_years': participation_years,
+                'center_name': info.name,
+                'hashtag': info.hashtag,
+                'n_points_total': info.n_bs_total,
+                'n_points_water': info.n_storm_drain_water,
+                'n_points_dry': info.n_storm_drain_dry,
+                'n_points_other': info.no_other_bs,
+                'n_groups': info.n_groups,
+                'n_students': info.n_pupils,
+                'participation_years': info.participation_years,
                 'awards': awards
             }
             html_data = render_to_string('main/map_bulma_card.html',context=context)
-            serializer = EducationCenterSerializer(center)
-            return Response({'ec': serializer.data, 'html': html_data})
+            return Response({'html': html_data})
+            # center = EducationCenter.objects.get(pk=pk)
+            # participation_years = get_participation_years(center)
+            # n_points_data = get_number_of_points_center(center)
+            # awards = Awards.objects.filter(center=center).order_by('age_bracket', 'award')
+            # context = {
+            #     'center_name': center.name,
+            #     'hashtag': center.hashtag,
+            #     'n_points_total': n_points_data['total'],
+            #     'n_points_water': n_points_data['sd_water'],
+            #     'n_points_dry': n_points_data['sd_dry'],
+            #     'n_points_other': n_points_data['sd_other'],
+            #     'n_groups': center.n_groups_center(),
+            #     'n_students': center.n_students_center(),
+            #     'participation_years': participation_years,
+            #     'awards': awards
+            # }
+            # html_data = render_to_string('main/map_bulma_card.html',context=context)
+            # serializer = EducationCenterSerializer(center)
+            # return Response({'ec': serializer.data, 'html': html_data})
         except EducationCenter.DoesNotExist:
             raise ParseError(detail='Center Not found')
 

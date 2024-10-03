@@ -715,3 +715,27 @@ class CheckedQuizrun(models.Model):
     checked_by = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE, related_name="checked_quizruns")
     quiz = models.ForeignKey(Quiz, null=True, blank=True, on_delete=models.CASCADE, related_name="checks")
     group = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE, related_name="checkedbyadmin_quizruns")
+
+class CenterMapData(models.Model):
+    name = models.CharField(max_length=500)
+    lat = models.FloatField()
+    lon = models.FloatField()
+    year = models.IntegerField()
+    participation_years = models.CharField(max_length=100, null=True)
+    hashtag = models.CharField(max_length=100)
+    n_pupils = models.IntegerField(default=0)
+    n_groups = models.IntegerField(default=0)
+    n_bs_total = models.IntegerField(default=0)
+    n_storm_drain_water = models.IntegerField(default=0)
+    n_storm_drain_dry = models.IntegerField(default=0)
+    no_other_bs = models.IntegerField(default=0)
+    has_awards = models.BooleanField(default=False)
+
+class MapAwardData(models.Model):
+    age_bracket = models.CharField(max_length=500)
+    format = models.CharField(max_length=500)
+    award = models.CharField(max_length=500)
+    center_hashtag = models.CharField(max_length=100)
+    center_name = models.CharField(max_length=500)
+    group_hashtag = models.CharField(max_length=100)
+    group_name = models.CharField(max_length=500)

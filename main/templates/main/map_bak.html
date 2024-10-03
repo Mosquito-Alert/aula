@@ -59,7 +59,6 @@
         <option value="2021">2021</option>
         <option value="2022">2022</option>
         <option value="2023">2023</option>
-        <option value="2024">2024</option>
     </select>
 </div>
 </main>
@@ -74,11 +73,9 @@
     var currentLang = '{{ LANGUAGE_CODE }}';
     var admin_edit = {% if user.is_superuser and user.is_staff or user.profile.is_teacher %}true{% else %}false{% endif %};
     var _center_data = JSON.parse('{{ centers | escapejs }}');
-    /*
     var _count_data = JSON.parse('{{ count_data | escapejs }}');
     var _awards_data = JSON.parse('{{ awards_data | escapejs }}');
     var _bs_data = JSON.parse('{{ bs | escapejs }}');
-    */
     var _school_icon_url = "{% static 'main/icons/school_marker.png' %}";
     var _full_school_icon_url = "{% static 'main/icons/school_marker_full.png' %}";
     var _selected_school_icon_url = "{% static 'main/icons/selected_school_marker.png' %}";
