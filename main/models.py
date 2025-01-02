@@ -572,7 +572,8 @@ class Profile(models.Model):
     group_hashtag = models.CharField(max_length=20, null=True, blank=True, unique=True)
     campaign = models.ForeignKey(Campaign, default=get_current_active_campaign, null=True, blank=True, on_delete=models.SET_NULL, related_name="profiles")
     teacher_password = models.CharField(max_length=128, null=True)
-
+    consent_form_visited = models.BooleanField(default=False)
+    
     def __str__(self):
         if self.is_group:
             user_type = 'group'

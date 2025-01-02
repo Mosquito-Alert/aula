@@ -1,0 +1,16 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block title %}{% trans 'Formulari de consentiment' %}{% endblock %}
+
+{% block main_jumbo %}{% trans 'Formulari de consentiment' %}{% endblock %}
+{% block sub_jumbo %}{% trans 'text_llarg_consentiment' %}{% endblock %}
+
+{% block main %}
+<div class="container">
+    <div class="col-xs-12"></div>
+    <h4 class="error">{% trans 'Formulari de consentiment' %}</h4>
+</div>
+{% endblock %}
