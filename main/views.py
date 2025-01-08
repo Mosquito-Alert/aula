@@ -1941,6 +1941,22 @@ def center_info(request, pk=None):
         except EducationCenter.DoesNotExist:
             raise ParseError(detail='Center Not found')
 
+
+@api_view(['POST'])
+def visited_consent(request):
+    if request.method == 'POST':
+        user = request.user
+        if user.profile.is_group:
+            if not user.profile.consent_form_visited:
+                user.profile.consent_form_visited = True
+                user.profile.save()
+                return Response({'success': True}, status=status.HTTP_200_OK)
+            else:
+                return Response({'success': True, 'message': 'Consent already visited, nothing to do'}, status=status.HTTP_304_NOT_MODIFIED)
+        else:
+            return Response({'success': True, 'message': 'Operation not allowed for non-group user'}, status=status.HTTP_304_NOT_MODIFIED)
+
+
 @api_view(['POST'])
 def auth_material(request):
     if request.method == 'POST':

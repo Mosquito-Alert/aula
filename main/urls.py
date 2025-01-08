@@ -159,4 +159,5 @@ urlpatterns = [
     path('api/center_info/<int:pk>/', views.center_info, name='center_info' ),
     path('api/delete_material/<int:pk>/', views.delete_material, name='delete_material' ),
     path('api/center_bs/<str:hash>/', views.center_bs, name='center_bs' ),
+    path('api/visited_consent/', views.visited_consent, name='visited_consent' ),
 ]

@@ -11,6 +11,45 @@
 {% block main %}
 <div class="container">
     <div class="col-xs-12"></div>
-    <h4 class="error">{% trans 'Formulari de consentiment' %}</h4>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+    <p>
+        <b>TOTS ELS ALUMNES DEL GRUP</b> autoritzen que el materials produïts pel grup s'usin en publicacions o mapes públics
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="yesnoradios" id="auth_no" value="0">
+          <label class="form-check-label" for="auth_no">
+            {% trans "NO, no ho autoritzem" %}
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="yesnoradios" id="auth_si" value="1">
+          <label class="form-check-label" for="auth_si">
+            {% trans "SÍ, ho autoritzem" %}
+          </label>
+        </div>
+    </p>
+    <p>
+        <b>EL RESPONSABLE LEGAL O TUTOR DEL GRUP</b> autoritza que el materials produïts pel grup s'usin en publicacions o mapes públics
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="yesnoradios_tutor" id="auth_no_tutor" value="0">
+          <label class="form-check-label" for="auth_no_tutor">
+            {% trans "NO, no ho autoritzo" %}
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="yesnoradios_tutor" id="auth_si_tutor" value="1">
+          <label class="form-check-label" for="auth_si_tutor">
+            {% trans "SÍ, ho autoritzo" %}
+          </label>
+        </div>
+    </p>
+    <a class="btn btn-success mt-2" href="{% url 'my_hub' %}">{% trans 'Ok, porta\'m al meu espai' %}</a>
 </div>
+{% endblock %}
+{% block extra_js %}
+<script>
+    var _post_visited_consent = '{% url 'visited_consent' %}';
+</script>
+<script src="{% static 'main/csrf_utils.js' %}"></script>
+<script src="{% static 'main/cookies.js' %}"></script>
+<script src="{% static 'main/javascript/consent_form.js' %}"></script>
 {% endblock %}
