@@ -112,6 +112,8 @@ class Quiz(models.Model):
     requisite = models.ForeignKey('main.Quiz', null=True, blank=True, on_delete=models.SET_NULL, related_name='allows')
     campaign = models.ForeignKey(Campaign, default=get_current_active_campaign, null=True, blank=True, on_delete=models.SET_NULL, related_name="quizzes")
     seq = models.IntegerField('Sequence in which the quizzes are meant to be taken', blank=True, null=True)
+    # When this quiz is completed, send notification
+    notify_on_completion = models.BooleanField(default=False)
 
     def clone(self):
         q = Quiz(
@@ -716,6 +718,7 @@ class CheckedQuizrun(models.Model):
     quiz = models.ForeignKey(Quiz, null=True, blank=True, on_delete=models.CASCADE, related_name="checks")
     group = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE, related_name="checkedbyadmin_quizruns")
 
+
 class CenterMapData(models.Model):
     name = models.CharField(max_length=500)
     lat = models.FloatField()
@@ -731,6 +734,7 @@ class CenterMapData(models.Model):
     no_other_bs = models.IntegerField(default=0)
     has_awards = models.BooleanField(default=False)
 
+
 class MapAwardData(models.Model):
     age_bracket = models.CharField(max_length=500)
     format = models.CharField(max_length=500)
@@ -739,3 +743,24 @@ class MapAwardData(models.Model):
     center_name = models.CharField(max_length=500)
     group_hashtag = models.CharField(max_length=100)
     group_name = models.CharField(max_length=500)
+
+
+class InternalNotification(models.Model):
+    from_user = models.ForeignKey(User,on_delete=models.CASCADE,related_name="senders")
+    to_user = models.ForeignKey(User,on_delete=models.CASCADE,related_name="receivers")
+    notification_text = models.CharField(max_length=1500)
+    read = models.BooleanField(default=False)
+    created = models.DateTimeField(auto_now_add=True)
+    class_label = models.CharField(max_length=150, null=True)
+
+    def crea_query_de_filtre(json_filtre):
+        field = json_filtre['field']
+        value = json_filtre['value']
+        if json_filtre['value'] == 'totes':
+            return None
+        elif json_filtre['value'] == 'llegides':
+            value = False
+        else:
+            value = True
+        filter_kwargs = {field:value}
+        return Q(**filter_kwargs)
