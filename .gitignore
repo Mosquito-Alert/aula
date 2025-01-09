@@ -12,3 +12,4 @@ media/
 static/*
 __pycache__/
 util_scripts/*.csv
+venv

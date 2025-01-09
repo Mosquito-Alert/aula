@@ -296,11 +296,12 @@ def get_ordered_quiz_sequence(this_user):
     ordered_quizzes = []
     for quiz in all_quizzes_ordered:
         # quiz_status - locked/startable/repeatable/in_progress/done
+        done_n_times_by = QuizRun.objects.filter(quiz=quiz).filter(date_finished__isnull=False).filter(taken_by=this_user).count()
         if quiz.requisite and not quiz.requisite.id in done:
             ordered_quizzes.append( {'quiz': quiz, 'status': 'blocked', 'blocked_by' : quiz.requisite})
         else:
             if quiz.id in available_ids:
-                ordered_quizzes.append( { 'quiz': quiz, 'status': 'available', 'repeatable': quiz_is_repeatable_for_user(quiz,this_user) })
+                ordered_quizzes.append( { 'quiz': quiz, 'status': 'available', 'repeatable': quiz_is_repeatable_for_user(quiz,this_user), 'done_n_times_by': done_n_times_by })
             elif quiz.id in in_progress:
                 in_progress_quizrun = QuizRun.objects.get(taken_by=this_user, date_finished__isnull=True, quiz=quiz)
                 ordered_quizzes.append({'quiz': quiz, 'status': 'in_progress', 'repeatable': False, 'quizrun':in_progress_quizrun })
@@ -318,7 +319,7 @@ def get_ordered_quiz_sequence(this_user):
                         the_correction = None
                     ordered_quizzes.append({'quiz': quiz, 'status': 'done', 'repeatable': False, 'is_corrected': is_corrected, 'correction': the_correction, 'done_quizrun': done_quizrun})
                 else:
-                    ordered_quizzes.append({'quiz': quiz, 'status': 'done', 'repeatable': quiz_is_repeatable_for_user(quiz,this_user)})
+                    ordered_quizzes.append({'quiz': quiz, 'status': 'done', 'repeatable': quiz_is_repeatable_for_user(quiz,this_user), 'done_n_times_by': done_n_times_by})
     return ordered_quizzes
 
 
