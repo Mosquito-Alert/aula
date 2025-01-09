@@ -25,6 +25,10 @@
                         {% if elem.is_corrected %}
                             <div class="result_wrapper"><h4><strong>{% trans 'Nota' %}</strong>: {{ elem.correction.correction_value }}</h4></div>
                         {% endif %}
+                    {% elif elem.quiz.is_poll %}
+                        {%if user.profile.is_group and elem.done_n_times_by > 0 %}
+                        <div style="{% if elem.done_n_times_by < user.profile.n_students_in_group %}background-color: orange;{% endif %}" class="result_wrapper"><h4><strong>{% trans 'Fet per' %}</strong>: {{ elem.done_n_times_by }} / {{ user.profile.n_students_in_group }} </h4></div>
+                        {% endif %}
                     {% endif %}
                 </div>
                 <div class="test_button_container">
