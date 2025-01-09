@@ -1,11 +1,35 @@
 $(document).ready( function () {
+    var mark_as_read = function(id){
+        $.ajax({
+            url: '/internalnotification/update-partial/' + id + '/',
+            data: {"read":true},
+            method: 'PUT',
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type)) {
+                    var csrftoken = getCookie('csrftoken');
+                    xhr.setRequestHeader('X-CSRFToken', csrftoken);
+                }
+            },
+            success: function( data, textStatus, jqXHR ) {
+                if(data.is_active==false){
+                    toastr.success(gettext('Alumne desactivat!'));
+                }else{
+                    toastr.success(gettext('Alumne activat!'));
+                }
+                table.ajax.reload();
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                toastr.error(gettext('Error modificant alumne'));
+            }
+        });
+    };
+
     var table = $('#notifications_list').DataTable( {
         'ajax': {
             'url': _notification_list_url,
             'dataType': 'json',
             'data': function(d){
                 const selectedValue = $('input[name="radiollegit"]:checked').val();
-                console.log(`Selected: ${selectedValue}`);
                 d.filtrejson = JSON.stringify({ 'field':'read', 'value': selectedValue });
             }
         },
@@ -40,10 +64,14 @@ $(document).ready( function () {
         'columnDefs': [
             {
                 'targets': 5,
-                'data': 'is_active',
                 'sortable': false,
+                'data': 'read',
                 'render': function(value){
-                    return '<button title="' + gettext('Desactivar usuari') + '" class="delete_button btn btn-danger"><i class="fas fa-backspace"></i></button>';
+                    if(value){
+                        return '<button title="' + gettext('Marcar com no llegit') + '" class="read_button btn btn-danger"></button>';
+                    }else{
+                        return '<button title="' + gettext('Marcar com llegit') + '" class="read_button btn btn-danger"></button>';
+                    }
                 }
             },
             {
@@ -59,5 +87,18 @@ $(document).ready( function () {
 
     $('input[name="radiollegit"]').on('change', function () {
         table.ajax.reload();
+    });
+
+    $('#notifications_list tbody').on('click', 'td button.read_button', function () {
+        var tr = $(this).closest('tr');
+        var row = table.row( tr );
+        var id = row.data().id;
+        console.log(id);
+        var read = row.data().read;
+//        if(active){
+//            confirmDialog(gettext("El professor està actiu i es marcarà com a inactiu. Això vol dir que no es podrà loginar. Segur que vols continuar?"),id,false);
+//        }else{
+//            confirmDialog(gettext("El professor està inactiu i es marcarà com a actiu. Això vol dir que no es podrà loginar. Segur que vols continuar?"),id,true);
+//        }
     });
 });

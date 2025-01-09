@@ -47,5 +47,7 @@
     const _notification_list_url = "{% url 'notifications_datatable_list' %}";
 </script>
 <script src="//cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+<script src="{% static 'main/csrf_utils.js' %}"></script>
+<script src="{% static 'main/cookies.js' %}"></script>
 <script src="{% static 'main/javascript/notifications.js' %}"></script>
 {% endblock %}

@@ -2342,6 +2342,14 @@ class AdminOrTeacherOnlyPermission(permissions.BasePermission):
         return False
 
 
+@permission_classes([AdminOnlyPermission])
+class InternalNotificationUpdateView(GenericAPIView, UpdateModelMixin):
+    queryset = InternalNotification.objects.all()
+    serializer_class = InternalNotificationSerializer
+
+    def put(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
+
 @permission_classes([AdminOrTeacherOnlyPermission])
 class UserPartialUpdateView(GenericAPIView, UpdateModelMixin):
     queryset = User.objects.all()
