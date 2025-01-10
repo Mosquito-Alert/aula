@@ -1,8 +1,8 @@
 $(document).ready( function () {
-    var mark_as_read = function(id){
+    var mark_as_read = function(id, read){
         $.ajax({
             url: '/internalnotification/update-partial/' + id + '/',
-            data: {"read":true},
+            data: {"read":read},
             method: 'PUT',
             beforeSend: function(xhr, settings) {
                 if (!csrfSafeMethod(settings.type)) {
@@ -11,15 +11,11 @@ $(document).ready( function () {
                 }
             },
             success: function( data, textStatus, jqXHR ) {
-                if(data.is_active==false){
-                    toastr.success(gettext('Alumne desactivat!'));
-                }else{
-                    toastr.success(gettext('Alumne activat!'));
-                }
+                console.log(data);
                 table.ajax.reload();
             },
             error: function(jqXHR, textStatus, errorThrown){
-                toastr.error(gettext('Error modificant alumne'));
+                toastr.error(gettext('Error marcant notificació!'));
             }
         });
     };
@@ -45,7 +41,7 @@ $(document).ready( function () {
         'pagingType': 'full_numbers',
         'bLengthChange': false,
         'responsive': true,
-        'order': [[ 4, "desc" ]],
+        'order': [[ 3, "desc" ]],
         stateSave: true,
         'dom': '<"top"iflp<"clear">>rt<"bottom"iflp<"clear">>',
         stateSaveCallback: function(settings,data) {
@@ -55,32 +51,50 @@ $(document).ready( function () {
             return JSON.parse( localStorage.getItem( 'DataTables_' + settings.sInstance ) );
         },
         'columns': [
-            { 'data': 'id' }
-            ,{ 'data': 'center' }
+            //{ 'data': 'id' }
+            { 'data': 'center' }
             ,{ 'data': 'notification_text' }
             ,{ 'data': 'read' }
             ,{ 'data': 'created' }
         ],
         'columnDefs': [
+//            {
+//                'targets': 4,
+//                'sortable': false,
+//                'data': 'read',
+//                'render': function(value){
+//                    if(value){
+//                        return '<button title="' + gettext('Marcar com no llegit') + '" class="read_button btn btn-danger"></button>';
+//                    }else{
+//                        return '<button title="' + gettext('Marcar com llegit') + '" class="read_button btn btn-danger"></button>';
+//                    }
+//                }
+//            },
             {
-                'targets': 5,
-                'sortable': false,
-                'data': 'read',
-                'render': function(value){
-                    if(value){
-                        return '<button title="' + gettext('Marcar com no llegit') + '" class="read_button btn btn-danger"></button>';
-                    }else{
-                        return '<button title="' + gettext('Marcar com llegit') + '" class="read_button btn btn-danger"></button>';
-                    }
-                }
-            },
-            {
-                'targets':1,
+                'targets':0,
                 'title': gettext('Centre')
             },
             {
-                'targets':2,
+                'targets':1,
                 'title': gettext('Notificacio')
+            },
+            {
+                "targets": 2,
+                "title": gettext("Llegida"),
+                "render": function(value){
+                    var retVal = "";
+                    if(value){
+                        retVal += '<input type="checkbox" class="visible_chk" checked/>';
+                    }else{
+                        retVal += '<input type="checkbox" class="visible_chk"/>';
+                    }
+                    return retVal;
+                },
+                "sortable": false
+            },
+            {
+                'targets':3,
+                'title': gettext('Data')
             }
         ]
     } );
@@ -89,16 +103,13 @@ $(document).ready( function () {
         table.ajax.reload();
     });
 
-    $('#notifications_list tbody').on('click', 'td button.read_button', function () {
+
+    $('#notifications_list tbody').on('click', 'td input.visible_chk', function () {
         var tr = $(this).closest('tr');
         var row = table.row( tr );
         var id = row.data().id;
         console.log(id);
         var read = row.data().read;
-//        if(active){
-//            confirmDialog(gettext("El professor està actiu i es marcarà com a inactiu. Això vol dir que no es podrà loginar. Segur que vols continuar?"),id,false);
-//        }else{
-//            confirmDialog(gettext("El professor està inactiu i es marcarà com a actiu. Això vol dir que no es podrà loginar. Segur que vols continuar?"),id,true);
-//        }
+        mark_as_read(id, !read);
     });
 });

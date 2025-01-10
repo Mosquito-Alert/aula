@@ -223,8 +223,7 @@ def teacher_menu(request):
 @login_required
 def admin_menu(request):
     if request.user.is_superuser:
-        unread_notifications = InternalNotification.objects.filter(to_user=request.user).filter(read=False).count()
-        return render(request, 'main/admin_menu.html', { 'unread_notifications': unread_notifications })
+        return render(request, 'main/admin_menu.html', { })
     else:
         message = _("Estàs intentant accedir a una pàgina a la que no tens permís.")
         if request.user.profile.is_alum:

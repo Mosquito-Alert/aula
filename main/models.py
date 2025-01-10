@@ -759,8 +759,8 @@ class InternalNotification(models.Model):
         if json_filtre['value'] == 'totes':
             return None
         elif json_filtre['value'] == 'llegides':
-            value = False
-        else:
             value = True
+        else:
+            value = False
         filter_kwargs = {field:value}
         return Q(**filter_kwargs)
