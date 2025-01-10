@@ -134,7 +134,7 @@ def generic_datatable_list_endpoint(request,search_field_list,queryset, queryCla
     except KeyError:
         pass
 
-    queryset = queryClass.objects.all()
+    # queryset = queryClass.objects.all()
 
     if q:
         queryset = queryset.filter(q)
