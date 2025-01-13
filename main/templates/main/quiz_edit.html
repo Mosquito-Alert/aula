@@ -62,6 +62,11 @@
             {{ form.type.errors }}
         </div>
         <div class="form-check mb-3">
+            {{ form.notify_on_completion }}
+            <label class="form-check-label" for="{{ form.notify_on_completion.id_for_label }}">{% trans 'Notificar quan es completi la prova?' %}</label>
+            {{ form.notify_on_completion.errors }}
+        </div>
+        <div class="form-check mb-3">
             {{ form.published }}
             <label class="form-check-label" for="{{ form.published.id_for_label }}">{% trans 'Prova publicada' %}</label>
             {{ form.published.errors }}

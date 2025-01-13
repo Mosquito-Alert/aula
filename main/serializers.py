@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from main.models import EducationCenter, Quiz, Question, QuizRunAnswers, QuizRun, Campaign, BreedingSites, Awards, Profile, CenterMapData
+from main.models import EducationCenter, Quiz, Question, QuizRunAnswers, QuizRun, Campaign, BreedingSites, Awards, Profile, CenterMapData, InternalNotification
 from django.contrib.auth.models import User
 from django.urls import reverse
 from django.db.models import Sum
@@ -285,7 +285,28 @@ class AwardSerializer(serializers.ModelSerializer):
         model = Awards
         fields = '__all__'
 
+
 class CenterMapDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = CenterMapData
         fields = '__all__'
+
+
+class InternalNotificationSerializer(serializers.ModelSerializer):
+    center = serializers.SerializerMethodField('get_center')
+    from_user = serializers.SerializerMethodField('get_from_user')
+    class Meta:
+        model = InternalNotification
+        fields = '__all__'
+
+    def get_center(self,obj):
+        if obj.from_user.profile:
+            return obj.from_user.profile.center_string
+        else:
+            return ''
+
+    def get_from_user(self,obj):
+        if obj.from_user.username:
+            return obj.from_user.username
+        else:
+            return ''

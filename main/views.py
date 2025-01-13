@@ -5,7 +5,7 @@ from main.forms import QuizForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from aula import settings
-from main.models import EducationCenter, Word, Quiz, Answer, Question, QuizRun, QuizRunAnswers, Profile, get_string_from_groups, Campaign, QuizCorrection, CenterMapData
+from main.models import EducationCenter, Word, Quiz, Answer, Question, QuizRun, QuizRunAnswers, Profile, get_string_from_groups, Campaign, QuizCorrection, CenterMapData, InternalNotification
 from main.forms import TeacherForm, SimplifiedTeacherForm, EducationCenterForm, TeacherUpdateForm, ChangePasswordForm, \
     SimplifiedAlumForm, SimplifiedGroupForm, AlumUpdateForm, QuestionForm, QuestionLinkForm, SimplifiedAlumFormForTeacher, \
     SimplifiedAlumFormForAdmin, AlumUpdateFormAdmin, QuizAdminForm, QuestionPollForm, QuizNewForm, QuestionUploadForm, CampaignForm, \
@@ -22,14 +22,15 @@ import operator
 from main.serializers import EducationCenterSerializer, TeacherSerializer, UserSerializer, AlumSerializer, \
     GroupSerializer, GroupSearchSerializer, TeacherComboSerializer, AlumSearchSerializer, QuizSerializer, \
     QuestionSerializer, QuizSearchSerializer, QuizRunAnswerSerializer, QuizRunSerializer, QuizComboSerializer, \
-    GroupComboSerializer, CampaignSerializer, BreedingSiteSerializer, AwardSerializer, CenterMapDataSerializer
+    GroupComboSerializer, CampaignSerializer, BreedingSiteSerializer, AwardSerializer, CenterMapDataSerializer, \
+    InternalNotificationSerializer
 from rest_framework import status,viewsets, generics
 from django.db.models import Q, Max
 from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import UpdateModelMixin
 from rest_framework.viewsets import ModelViewSet
 from rest_framework import serializers
-from django.core.exceptions import MultipleObjectsReturned
+from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 from django import forms
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
@@ -61,6 +62,11 @@ import csv
 from django.db.utils import IntegrityError
 from django.db import transaction
 
+def get_admin_user():
+    try:
+        return User.objects.get(pk=1)
+    except ObjectDoesNotExist:
+        return None
 
 def get_order_clause(params_dict, translation_dict=None):
     order_clause = []
@@ -100,7 +106,7 @@ def get_filter_clause(params_dict, fields, translation_dict=None):
     return filter_clause
 
 
-def generic_datatable_list_endpoint(request,search_field_list,queryset, classSerializer, field_translation_dict=None, order_translation_dict=None, paginate=True):
+def generic_datatable_list_endpoint(request,search_field_list,queryset, queryClass, classSerializer, field_translation_dict=None, order_translation_dict=None, paginate=True):
     draw = -1
     start = 0
     try:
@@ -119,6 +125,19 @@ def generic_datatable_list_endpoint(request,search_field_list,queryset, classSer
     order_clause = get_order_clause(get_dict, order_translation_dict)
 
     filter_clause = get_filter_clause(get_dict, search_field_list, field_translation_dict)
+
+    q = None
+    try:
+        string_json = get_dict['filtrejson']
+        json_filter_data = json.loads(string_json)
+        q = queryClass.crea_query_de_filtre(json_filter_data)
+    except KeyError:
+        pass
+
+    # queryset = queryClass.objects.all()
+
+    if q:
+        queryset = queryset.filter(q)
 
     if len(filter_clause) == 0:
         queryset = queryset.order_by(*order_clause)
@@ -204,7 +223,7 @@ def teacher_menu(request):
 @login_required
 def admin_menu(request):
     if request.user.is_superuser:
-        return render(request, 'main/admin_menu.html', {})
+        return render(request, 'main/admin_menu.html', { })
     else:
         message = _("Estàs intentant accedir a una pàgina a la que no tens permís.")
         if request.user.profile.is_alum:
@@ -1319,7 +1338,7 @@ def group_list_pdf(request):
     if this_user.is_superuser:
         queryset = User.objects.filter(profile__is_group=True).filter(is_active=True)
 
-        data = generic_datatable_list_endpoint(request, search_field_list, queryset, GroupSerializer, field_translation_list, sort_translation_list, paginate=False)
+        data = generic_datatable_list_endpoint(request, search_field_list, queryset, User, GroupSerializer, field_translation_list, sort_translation_list, paginate=False)
         records = data.data['data']
 
         grupos_info = []
@@ -1345,7 +1364,7 @@ def group_list_pdf(request):
 
     elif this_user.profile and this_user.profile.is_teacher:
         queryset = User.objects.filter(profile__is_group=True).filter(profile__group_teacher=this_user)
-        data = generic_datatable_list_endpoint(request, search_field_list, queryset, GroupSerializer, field_translation_list, sort_translation_list, paginate=False)
+        data = generic_datatable_list_endpoint(request, search_field_list, queryset, User, GroupSerializer, field_translation_list, sort_translation_list, paginate=False)
         records = data.data['data']
 
         grupos_info = []
@@ -1586,7 +1605,7 @@ def teachers_datatable_list(request):
         queryset = User.objects.filter(profile__is_teacher=True).filter(profile__campaign__active=True)
         field_translation_list = {'username': 'username', 'center': 'profile__teacher_belongs_to__name', 'password': 'profile__teacher_password'}
         sort_translation_list = {'username': 'username', 'center': 'profile__teacher_belongs_to__name', 'password': 'profile__teacher_password'}
-        response = generic_datatable_list_endpoint(request, search_field_list, queryset, TeacherSerializer, field_translation_list, sort_translation_list)
+        response = generic_datatable_list_endpoint(request, search_field_list, queryset, User, TeacherSerializer, field_translation_list, sort_translation_list)
         return response
 
 
@@ -2017,6 +2036,20 @@ def api_finishquiz(request):
         if quizrun.quiz.comment_at_the_end:
             quizrun.finishing_comments = comments
         quizrun.save()
+        if quizrun.quiz.notify_on_completion:
+            admin_user = get_admin_user()
+            if admin_user is not None:
+                if quiz_is_repeatable_for_user(quizrun.quiz,quizrun.taken_by):
+                    notification_text = f"Prova {quizrun.quiz.name} completada per {quizrun.taken_by.username}, intent {quizrun.run_number}, centre {quizrun.taken_by.profile.center_string} campanya {quizrun.taken_by.profile.campaign.name}"
+                else:
+                    notification_text = f"Prova {quizrun.quiz.name} completada per {quizrun.taken_by.username}, centre {quizrun.taken_by.profile.center_string} campanya {quizrun.taken_by.profile.campaign.name}"
+                i = InternalNotification(
+                    from_user=quizrun.taken_by,
+                    to_user=admin_user,
+                    notification_text=notification_text,
+                    class_label='COMPLETED_TEST'
+                )
+                i.save()
         serializer = QuizRunSerializer(quizrun)
         return Response(serializer.data)
 
@@ -2076,7 +2109,16 @@ def quiz_datatable_list(request):
             queryset = Quiz.objects.select_related('author').filter(campaign=this_user.profile.campaign).filter(author=this_user)
         else:
             pass  # this should not happen
-        response = generic_datatable_list_endpoint(request, search_field_list, queryset, QuizSerializer, field_translation_list, sort_translation_list)
+        response = generic_datatable_list_endpoint(request, search_field_list, queryset, Quiz, QuizSerializer, field_translation_list, sort_translation_list)
+        return response
+
+
+@api_view(['GET'])
+def notifications_datatable_list(request):
+    if request.method == 'GET':
+        search_field_list = ('notification_text','from_user__username','from_user__profile__center_string')
+        queryset = InternalNotification.objects.all()
+        response = generic_datatable_list_endpoint(request, search_field_list, queryset, InternalNotification, InternalNotificationSerializer)
         return response
 
 
@@ -2085,7 +2127,7 @@ def centers_datatable_list(request):
     if request.method == 'GET':
         search_field_list = ('name','hashtag')
         queryset = EducationCenter.objects.filter(campaign__active=True).all()
-        response = generic_datatable_list_endpoint(request, search_field_list, queryset, EducationCenterSerializer)
+        response = generic_datatable_list_endpoint(request, search_field_list, queryset, EducationCenter, EducationCenterSerializer)
         return response
 
 
@@ -2102,7 +2144,7 @@ def alum_datatable_list(request):
             pass #this should not happen
         field_translation_list = {'username': 'username', 'teacher': 'profile__alum_teacher__username', 'groups': 'profile__groups_string'}
         sort_translation_list = {'username': 'username', 'teacher': 'profile__alum_teacher__username', 'groups': 'profile__groups_string'}
-        response = generic_datatable_list_endpoint(request, search_field_list, queryset, AlumSerializer, field_translation_list, sort_translation_list)
+        response = generic_datatable_list_endpoint(request, search_field_list, queryset, User, AlumSerializer, field_translation_list, sort_translation_list)
         return response
 
 
@@ -2126,7 +2168,7 @@ def group_datatable_list(request):
             pass #not allowed
         field_translation_list = {'username': 'username', 'group_public_name': 'profile__group_public_name', 'group_class': 'profile__group_class', 'group_center': 'profile__center_string', 'group_tutor':  'profile__group_teacher__username', 'group_n_students': 'profile__n_students_in_group'}
         sort_translation_list = {'username': 'username', 'group_public_name': 'profile__group_public_name', 'group_class': 'profile__group_class', 'group_center': 'profile__center_string', 'group_tutor':  'profile__group_teacher__username', 'group_n_students': 'profile__n_students_in_group'}
-        response = generic_datatable_list_endpoint(request, search_field_list, queryset, GroupSerializer, field_translation_list, sort_translation_list)
+        response = generic_datatable_list_endpoint(request, search_field_list, queryset, User, GroupSerializer, field_translation_list, sort_translation_list)
         return response
 
 
@@ -2299,6 +2341,14 @@ class AdminOrTeacherOnlyPermission(permissions.BasePermission):
         return False
 
 
+@permission_classes([AdminOnlyPermission])
+class InternalNotificationUpdateView(GenericAPIView, UpdateModelMixin):
+    queryset = InternalNotification.objects.all()
+    serializer_class = InternalNotificationSerializer
+
+    def put(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
+
 @permission_classes([AdminOrTeacherOnlyPermission])
 class UserPartialUpdateView(GenericAPIView, UpdateModelMixin):
     queryset = User.objects.all()
@@ -2442,7 +2492,7 @@ def quiz_datatable_results(request):
             queryset = Quiz.objects.select_related('author').filter(Q(author=this_user) | Q(author__isnull=True)).filter(Q(type=0) | Q(type=2)).filter(campaign=this_user.profile.campaign)
         else:
             pass  # this should not happen
-        response = generic_datatable_list_endpoint(request, search_field_list, queryset, QuizSerializer, field_translation_list, sort_translation_list)
+        response = generic_datatable_list_endpoint(request, search_field_list, queryset, Quiz, QuizSerializer, field_translation_list, sort_translation_list)
     return response
 
 
@@ -2915,6 +2965,11 @@ def test_results_detail_view(request, quiz_id=None, group_id=None):
 
     return render(request, 'main/test_results_detail_view.html', {'quizruns': quizruns, 'answers_by_quizrun': answers_by_quizrun, 'quiz_info': quiz, 'group_info': group})
 
+
+@login_required
+def notifications(request):
+    return render(request, 'main/notifications.html',{})
+
 @login_required
 def reports(request):
     this_user = request.user
@@ -3295,7 +3350,7 @@ def campaign_datatable_list(request):
             queryset = Campaign.objects.all().order_by('name')
         else:
             pass  # this should not happen
-        response = generic_datatable_list_endpoint(request, search_field_list, queryset, CampaignSerializer, field_translation_list, sort_translation_list)
+        response = generic_datatable_list_endpoint(request, search_field_list, queryset, Campaign, CampaignSerializer, field_translation_list, sort_translation_list)
     return response
 
 

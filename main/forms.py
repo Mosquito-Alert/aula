@@ -72,6 +72,7 @@ class QuizAdminForm(ModelForm):
     name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), required=True)
     seq = forms.IntegerField(widget=forms.TextInput(attrs={'class': 'form-control'}), required=True)
     published = forms.BooleanField(label=_("Prova publicada?"),widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}), required=False)
+    notify_on_completion = forms.BooleanField(label=_("Notificar quan es completi la prova?"),widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}), required=False)
     html_header = forms.CharField(widget=TinyMCE(attrs={'cols': 80, 'rows': 20}), required=False)
     requisite = forms.IntegerField(widget=forms.HiddenInput(), required=False)
     type = forms.ChoiceField(choices=QUIZ_TYPES, widget=forms.Select(attrs={'class': 'form-control'}))
@@ -91,7 +92,7 @@ class QuizAdminForm(ModelForm):
 
     class Meta:
         model = Quiz
-        fields = ['name', 'seq', 'html_header', 'published', 'type', 'author']
+        fields = ['name', 'seq', 'html_header', 'published', 'type', 'author', 'notify_on_completion']
 
 
 class EducationCenterForm(ModelForm):
