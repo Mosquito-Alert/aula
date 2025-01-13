@@ -92,7 +92,7 @@ class QuizAdminForm(ModelForm):
 
     class Meta:
         model = Quiz
-        fields = ['name', 'seq', 'html_header', 'published', 'type', 'author']
+        fields = ['name', 'seq', 'html_header', 'published', 'type', 'author', 'notify_on_completion']
 
 
 class EducationCenterForm(ModelForm):
