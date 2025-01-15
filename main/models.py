@@ -573,6 +573,8 @@ class Profile(models.Model):
     campaign = models.ForeignKey(Campaign, default=get_current_active_campaign, null=True, blank=True, on_delete=models.SET_NULL, related_name="profiles")
     teacher_password = models.CharField(max_length=128, null=True)
     consent_form_visited = models.BooleanField(default=False)
+    auth_tutor = models.BooleanField(default=False)
+    auth_group = models.BooleanField(default=False)
     
     def __str__(self):
         if self.is_group:
@@ -590,6 +592,10 @@ class Profile(models.Model):
         if self.is_group:
             return self.group_teacher.profile.teacher_belongs_to.name
         return ''
+
+    @property
+    def full_auth_granted(self):
+        return self.auth_tutor and self.auth_group
 
     @property
     def groups_list(self):

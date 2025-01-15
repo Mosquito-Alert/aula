@@ -160,4 +160,5 @@ urlpatterns = [
     path('api/delete_material/<int:pk>/', views.delete_material, name='delete_material' ),
     path('api/center_bs/<str:hash>/', views.center_bs, name='center_bs' ),
     path('api/visited_consent/', views.visited_consent, name='visited_consent' ),
+    path('api/input_consent/', views.input_consent, name='input_consent' ),
 ]

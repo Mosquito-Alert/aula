@@ -40,6 +40,7 @@
                 <th></th>
                 <th>{% trans 'Grup' %}</th>
                 <th>{% trans 'Classe' %}</th>
+                <th>{% trans 'Permís' %}</th>
                 {% for quiz in upload_quizzes %}
                 <th><h5><span class="badge badge-secondary">{{ quiz.name }}</span></h5></th>
                 {% endfor %}
@@ -49,6 +50,7 @@
                     <td style="margin: 5px; padding: 5px;"></td>
                     <td style="margin: 5px; padding: 5px;">{{ elem.group.profile.group_public_name }} ({{ elem.group.username }})</td>
                     <td style="margin: 5px; padding: 5px;">{{ elem.group.profile.group_class|default_if_none:"" }}</td>
+                    <td style="margin: 5px; padding: 5px;">{% if elem.group.profile.full_auth_granted %}<i title="{% trans 'Tant el grup com el tutor dónen permís per compartir els materials' %}" style="color:green;" class="fas fa-thumbs-up"></i>{% else %}<i title="{% trans 'O bé el grup o el tutor NO dónen permís per compartir els materials' %}" style="color:red;" class="fas fa-thumbs-down"></i>{% endif %}</td>
                     {% for subelem in elem.quizzes %}
                     <td id="tr_{{ subelem.quiz.id }}_{{ elem.group.id }}" style="margin: 5px; padding: 5px;" class="{% if subelem.checked %}yes_visited{% else %}no_visited{% endif %}">
                         {% if subelem.url_mat %}
