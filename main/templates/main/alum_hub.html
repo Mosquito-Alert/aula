@@ -7,6 +7,12 @@
 
 {% block main %}
 <div class="container">
+    <div class="row">
+        <div class="col-md-12"> {% trans 'text_llarg_hub_alumne' %} </div>
+    </div>
+</div>
+<hr>
+<div class="container">
     <div class="justify-content-left test_container">
         {% for elem in all_quizzes_ordered %}
         <div class="card card_test {{ elem.status }}">
