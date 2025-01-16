@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-08 06:02+0000\n"
+"POT-Creation-Date: 2025-01-16 10:29+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -173,6 +173,14 @@ msgstr ""
 msgid "N. alumnes"
 msgstr ""
 
+#: main/static/main/javascript/consent_form.js:50
+msgid "Error escrivint autorització"
+msgstr ""
+
+#: main/static/main/javascript/consent_form.js:68
+msgid "Error marcant formulari com visitat"
+msgstr ""
+
 #: main/static/main/javascript/group_edit.js:55
 #: main/static/main/javascript/group_new.js:47
 #: main/static/main/javascript/quiz_assign_admin.js:46
@@ -222,6 +230,7 @@ msgid "Nom públic"
 msgstr ""
 
 #: main/static/main/javascript/group_list.js:134
+#: main/static/main/javascript/notifications.js:75
 #: main/static/main/javascript/quiz_list.js:69
 #: main/static/main/javascript/teacher_list.js:124
 msgid "Centre"
@@ -261,6 +270,22 @@ msgstr ""
 
 #: main/static/main/javascript/group_new.js:74
 msgid "Eliminar"
+msgstr ""
+
+#: main/static/main/javascript/notifications.js:18
+msgid "Error marcant notificació!"
+msgstr ""
+
+#: main/static/main/javascript/notifications.js:79
+msgid "Notificacio"
+msgstr ""
+
+#: main/static/main/javascript/notifications.js:83
+msgid "Llegida"
+msgstr ""
+
+#: main/static/main/javascript/notifications.js:97
+msgid "Data"
 msgstr ""
 
 #: main/static/main/javascript/question_editor.js:103
@@ -450,7 +475,7 @@ msgstr ""
 msgid "Finalitzant prova..."
 msgstr ""
 
-#: main/static/main/javascript/quiz_take.js:153
+#: main/static/main/javascript/quiz_take.js:154
 msgid ""
 "Estàs a punt de finalitzar la prova. Si continues, no la podràs modificar "
 "més (tot i que pots repetir-la més tard) i rebràs el resultat en pantalla. "
@@ -465,15 +490,15 @@ msgstr ""
 msgid "Fitxer pujat amb èxit!"
 msgstr ""
 
-#: main/static/main/javascript/quiz_take_upload.js:54
+#: main/static/main/javascript/quiz_take_upload.js:55
 msgid "Prova finalitzada!"
 msgstr ""
 
-#: main/static/main/javascript/quiz_take_upload.js:58
+#: main/static/main/javascript/quiz_take_upload.js:59
 msgid "Error completant prova"
 msgstr ""
 
-#: main/static/main/javascript/quiz_take_upload.js:97
+#: main/static/main/javascript/quiz_take_upload.js:98
 msgid "Eliminar el fitxer?"
 msgstr ""
 

@@ -28,9 +28,9 @@
 {% block main %}
 <div class="container">
     <div class="col-xs-12"></div>
-    <p>Ens agradaria publicar el teu material al mapa de resultats de final de semestre, però només ho farem si tenim el teu permís i el del teu tutor legal.</p>
+    <p>{% trans "Ens agradaria publicar el teu material al mapa de resultats de final de semestre, però només ho farem si tenim el teu permís i el del teu tutor legal." %}</p>
     <p>
-        <b>TOTS ELS ALUMNES DEL GRUP</b> autoritzen que el materials produïts pel grup s'usin en publicacions o mapes públics
+        <b>{% trans "TOTS ELS ALUMNES DEL GRUP" %}</b>{% trans "auhorizes_string" %}
         <div class="form-check">
           <input class="form-check-input" type="radio" name="yesnoradios" id="auth_no" value="0">
           <label class="form-check-label" for="auth_no">
@@ -45,7 +45,7 @@
         </div>
     </p>
     <p>
-        <b>EL RESPONSABLE LEGAL O TUTOR DEL GRUP</b> autoritza que el materials produïts pel grup s'usin en publicacions o mapes públics
+        <b>{% trans "EL RESPONSABLE LEGAL O TUTOR DEL GRUP" %}</b>{% trans "auhorizes_string" %}
         <div class="form-check">
           <input class="form-check-input" type="radio" name="yesnoradios_tutor" id="auth_no_tutor" value="0">
           <label class="form-check-label" for="auth_no_tutor">
@@ -62,20 +62,20 @@
 </div>
 <div class="container yes_consent_message" style="display:none;">
     <div class="row">
-        <div class="col-xs-6 alert alert-success"><span class="align-middle">Tenim el teu consentiment!</span></div>
+        <div class="col-xs-6 alert alert-success"><span class="align-middle">{% trans "Tenim el teu consentiment!" %}</span></div>
         <div class="col-xs-6 icon_success"></div>
     </div>
 </div>
 <div class="container no_consent_message">
     <div class="row">
-        <div class="col-xs-6 alert alert-danger"><span class="align-middle">No tenim el teu consentiment</span></div>
+        <div class="col-xs-6 alert alert-danger"><span class="align-middle">{% trans "No tenim el teu consentiment" %}</span></div>
         <div class="col-xs-6 icon_fail"></div>
     </div>
 </div>
 <div class="container">
     <div class="row">
         <div class="col-md-12 text-center">
-            <a class="btn btn-success mt-2" href="{% url 'my_hub' %}">{% trans 'Ok, porta\'m al meu espai' %}</a>
+            <a class="btn btn-success mt-2" href="{% url 'my_hub' %}">{% trans "Ok, vull anar al meu espai" %}</a>
         </div>
     </div>
 </div>
