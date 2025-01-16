@@ -126,6 +126,13 @@
 {% block main_jumbo %}{% trans 'Estàs fent la prova' %} - {{ quiz.name }}{% endblock %}
 
 {% block main %}
+<div class="container">
+    <div class="row save_hub_button">
+        <div class="mx-auto">
+            <a href="{% url 'my_hub' %}" role="button" class="btn btn-success mt-2">{% trans 'Desar prova i tornar al menú principal' %}</a>
+        </div>
+    </div>
+</div>
 <div class="col-xs-12" style="height:50px;"></div>
 {% if quiz.html_header %}
 <div class="container">

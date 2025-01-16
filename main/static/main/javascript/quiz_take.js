@@ -123,6 +123,7 @@ $(document).ready( function () {
 
     var showFinishButton = function(){
         $('.end_button').show();
+        $('.save_hub_button').hide();
     }
 
     var hideFinishButton = function(){
