@@ -1165,7 +1165,7 @@ msgstr "Nombre del material"
 
 #: main/templates/main/quiz_copy.html:4 main/templates/main/quiz_copy.html:6
 msgid "Eina de còpia de proves"
-msgstr "Utilidade de copia de pruebas"
+msgstr "Utilidad de copia de pruebas"
 
 #: main/templates/main/quiz_copy.html:7
 msgid "Permet fer una còpia d&#39;una prova"
