@@ -32,6 +32,7 @@ $(document).ready( function () {
             "<tr>");
             $('#file_name').val(data.result.url);
             $('.end_button').show();
+            $('.save_hub_button').hide();
           }else{
             alert("File type " + data.result.invalid_file_type + " not allowed. Must be a zip file.");
           }
