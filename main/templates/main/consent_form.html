@@ -1,0 +1,93 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block title %}{% trans 'Formulari de consentiment' %}{% endblock %}
+
+{% block main_jumbo %}{% trans 'Formulari de consentiment' %}{% endblock %}
+{% block sub_jumbo %}{% endblock %}
+
+{% block extra_css %}
+<style>
+    .icon_fail{
+        background-image: url({% static 'main/icons/fail.svg' %});
+        background-repeat: no-repeat;
+        width: 50px;
+        height: 50px;
+    }
+    .icon_success{
+        background-image: url({% static 'main/icons/success.svg' %});
+        background-repeat: no-repeat;
+        width: 50px;
+        height: 50px;
+    }
+</style>
+{% endblock %}
+
+{% block main %}
+<div class="container">
+    <div class="col-xs-12"></div>
+    <p>Ens agradaria publicar el teu material al mapa de resultats de final de semestre, però només ho farem si tenim el teu permís i el del teu tutor legal.</p>
+    <p>
+        <b>TOTS ELS ALUMNES DEL GRUP</b> autoritzen que el materials produïts pel grup s'usin en publicacions o mapes públics
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="yesnoradios" id="auth_no" value="0">
+          <label class="form-check-label" for="auth_no">
+            {% trans "NO, no ho autoritzem" %}
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="yesnoradios" id="auth_si" value="1">
+          <label class="form-check-label" for="auth_si">
+            {% trans "SÍ, ho autoritzem" %}
+          </label>
+        </div>
+    </p>
+    <p>
+        <b>EL RESPONSABLE LEGAL O TUTOR DEL GRUP</b> autoritza que el materials produïts pel grup s'usin en publicacions o mapes públics
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="yesnoradios_tutor" id="auth_no_tutor" value="0">
+          <label class="form-check-label" for="auth_no_tutor">
+            {% trans "NO, no ho autoritzo" %}
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="yesnoradios_tutor" id="auth_si_tutor" value="1">
+          <label class="form-check-label" for="auth_si_tutor">
+            {% trans "SÍ, ho autoritzo" %}
+          </label>
+        </div>
+    </p>
+</div>
+<div class="container yes_consent_message" style="display:none;">
+    <div class="row">
+        <div class="col-xs-6 alert alert-success"><span class="align-middle">Tenim el teu consentiment!</span></div>
+        <div class="col-xs-6 icon_success"></div>
+    </div>
+</div>
+<div class="container no_consent_message">
+    <div class="row">
+        <div class="col-xs-6 alert alert-danger"><span class="align-middle">No tenim el teu consentiment</span></div>
+        <div class="col-xs-6 icon_fail"></div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <a class="btn btn-success mt-2" href="{% url 'my_hub' %}">{% trans 'Ok, porta\'m al meu espai' %}</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+    var _post_visited_consent = '{% url 'visited_consent' %}';
+    var _post_consent = '{% url 'input_consent' %}';
+    const init_auth_group = {{ init_auth_group|yesno:"true,false" }};
+    const init_auth_tutor = {{ init_auth_tutor|yesno:"true,false" }};
+</script>
+<script src="{% static 'main/csrf_utils.js' %}"></script>
+<script src="{% static 'main/cookies.js' %}"></script>
+<script src="{% static 'main/javascript/consent_form.js' %}"></script>
+{% endblock %}

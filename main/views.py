@@ -207,7 +207,10 @@ def my_hub(request):
         response = redirect('/group_menu')
         return response
     if is_group_test(this_user):
-        response = redirect('/group_menu')
+        if not this_user.profile.consent_form_visited:
+            response = redirect('/consent_form')
+        else:
+            response = redirect('/group_menu')
         return response
 
 @login_required
@@ -341,6 +344,10 @@ def get_ordered_quiz_sequence(this_user):
                     ordered_quizzes.append({'quiz': quiz, 'status': 'done', 'repeatable': quiz_is_repeatable_for_user(quiz,this_user), 'done_n_times_by': done_n_times_by})
     return ordered_quizzes
 
+@login_required
+def consent_form(request):
+    this_user = request.user
+    return render(request, 'main/consent_form.html', { 'init_auth_group': this_user.profile.auth_group, 'init_auth_tutor': this_user.profile.auth_tutor })
 
 @login_required
 def group_menu(request):
@@ -1953,6 +1960,46 @@ def center_info(request, pk=None):
             # return Response({'ec': serializer.data, 'html': html_data})
         except EducationCenter.DoesNotExist:
             raise ParseError(detail='Center Not found')
+
+
+@api_view(['POST'])
+def input_consent(request):
+    if request.method == 'POST':
+        user = request.user
+        consent_class = request.data.get('consent_class')
+        allowed_values = ['0','1']
+        if consent_class is None:
+            return Response(
+                {"error": "The 'consent_class' parameter is required."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        if consent_class not in allowed_values:
+            return Response(
+                {"error": "Invalid value for consent_class."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        value = request.data.get('value', 'false')
+        if consent_class == '0':
+            user.profile.auth_group = False if value == 'false' else True
+        elif consent_class == '1':
+            user.profile.auth_tutor = False if value == 'false' else True
+        user.profile.save()
+        return Response({'success': True, 'auth_group': user.profile.auth_group, 'auth_tutor': user.profile.auth_tutor}, status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+def visited_consent(request):
+    if request.method == 'POST':
+        user = request.user
+        if user.profile.is_group:
+            if not user.profile.consent_form_visited:
+                user.profile.consent_form_visited = True
+                user.profile.save()
+                return Response({'success': True}, status=status.HTTP_200_OK)
+            else:
+                return Response({'success': True, 'message': 'Consent already visited, nothing to do'}, status=status.HTTP_304_NOT_MODIFIED)
+        else:
+            return Response({'success': True, 'message': 'Operation not allowed for non-group user'}, status=status.HTTP_304_NOT_MODIFIED)
+
 
 @api_view(['POST'])
 def auth_material(request):
