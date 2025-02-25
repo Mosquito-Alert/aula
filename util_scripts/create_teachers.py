@@ -1,3 +1,5 @@
+import sys
+
 import app_config
 
 from main.models import Profile, EducationCenter, Campaign
@@ -13,10 +15,44 @@ from django.db import transaction
 
 
 #USERS_FILE = app_config.proj_path + '/util_scripts/docents_2022.csv'
-USERS_FILE = app_config.proj_path + '/util_scripts/docents_2024.csv'
+USERS_FILE = app_config.proj_path + '/util_scripts/docents_2025_1.csv'
 #USERS_FILE = app_config.proj_path + '/util_scripts/test_profe.csv'
-OUT_FILE = app_config.proj_path + '/util_scripts/docents_2024_out.csv'
+OUT_FILE = app_config.proj_path + '/util_scripts/docents_2025_1_out.csv'
 
+ALIAS_HASHES = {
+    'Colegio Eskibel': {
+        'FECYT 24/25 ESO':'#cee25',
+        'FECYT 24/25 PRIMARIA':'#cep25',
+        'FECYT 24/25 BATX':'#ceb25'
+    },
+    'INS Valldemossa': {
+        'BCN 24/25 ESO':'#ive25'
+    },
+    'CPR Casa de la Virgen': {
+        'FECYT 24/25 ESO':'#cve25',
+        'FECYT 24/25 BATX':'#cvb25'
+    },
+    'Santa Magdalena Sofia': {
+        'FECYT 24/25 PRIMARIA': '#smsp25',
+        'FECYT 24/25 ESO': '#smse25',
+        'FECYT 24/25 BATX': '#smsb25'
+    },
+    'IES ALONSO DE ERCILLA': {
+        'FECYT 24/25 ESO':'#iade25',
+        'FECYT 24/25 BATX':'#iadeb25'
+    },
+    'IES CERVANTES':{
+        'FECYT 24/25 BATX': '#icb25'
+    },
+    'IES La Serranía':{
+        'FECYT 24/25 ESO': '#ilse25',
+        'FECYT 24/25 BATX': '#ilsb25'
+    },
+    'IES Ruiz Gijón':{
+        'FECYT 24/25 ESO': '#irge25',
+        'FECYT 24/25 BATX': '#irgb25'
+    }
+}
 
 def clean_teacher_name(original_name):
     return original_name.split('@')[0].lower()
@@ -66,18 +102,19 @@ def create_users():
                 center = EducationCenter.objects.get(name=center_name, campaign=campaign)
                 print("Center does exist")
             except EducationCenter.DoesNotExist:
+                print("Center does not exist")
                 location = GEOSGeometry('POINT (0 0)', srid=4326)
                 center = EducationCenter(name=center_name, location=location, campaign=campaign)
-                if center_name == 'INS Jaume Balmes':
-                    center.hashtag = '#ijba24'
-                elif center_name == 'Escola Proa':
-                    center.hashtag = '#epr24'
-                elif center_name == 'INS Poeta Maragall':
-                    center.hashtag = '#ipma24'
-                else:
+                try:
+                    center.hashtag = ALIAS_HASHES[center_name][campaign_name]
+                except KeyError:
                     center.hashtag = center.center_slug()
-                center.save()
-                print("Center does not exist")
+                try:
+                    center.save()
+                except IntegrityError as ie:
+                    print(ie)
+                    print("Failed save for center {}".format(center_name))
+                    sys.exit(1)
 
             password = generate_password()
             if User.objects.filter(username=original_teacher_name).exists():
