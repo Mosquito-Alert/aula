@@ -700,6 +700,11 @@ def save_user_profile(sender, instance, created, **kwargs):
     instance.profile.save()
 
 
+class ConsentPupil(models.Model):
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="group_consent")
+    n = models.IntegerField()
+    consent = models.BooleanField(default=False)
+
 class BreedingSites(models.Model):
     version_uuid = models.CharField(max_length=36, blank=True, unique=True)
     observation_date = models.DateTimeField(null=True, blank=True)

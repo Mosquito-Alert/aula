@@ -5,7 +5,8 @@ from main.forms import QuizForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from aula import settings
-from main.models import EducationCenter, Word, Quiz, Answer, Question, QuizRun, QuizRunAnswers, Profile, get_string_from_groups, Campaign, QuizCorrection, CenterMapData, InternalNotification
+from main.models import EducationCenter, Word, Quiz, Answer, Question, QuizRun, QuizRunAnswers, Profile, \
+    get_string_from_groups, Campaign, QuizCorrection, CenterMapData, InternalNotification, ConsentPupil
 from main.forms import TeacherForm, SimplifiedTeacherForm, EducationCenterForm, TeacherUpdateForm, ChangePasswordForm, \
     SimplifiedAlumForm, SimplifiedGroupForm, AlumUpdateForm, QuestionForm, QuestionLinkForm, SimplifiedAlumFormForTeacher, \
     SimplifiedAlumFormForAdmin, AlumUpdateFormAdmin, QuizAdminForm, QuestionPollForm, QuizNewForm, QuestionUploadForm, CampaignForm, \
@@ -344,10 +345,22 @@ def get_ordered_quiz_sequence(this_user):
                     ordered_quizzes.append({'quiz': quiz, 'status': 'done', 'repeatable': quiz_is_repeatable_for_user(quiz,this_user), 'done_n_times_by': done_n_times_by})
     return ordered_quizzes
 
+def init_individual_consent(this_user):
+    n_in_group = this_user.profile.n_students_in_group
+    for i in range(1, n_in_group + 1):
+        if not ConsentPupil.objects.filter(profile=this_user.profile).filter(n=i).exists():
+            c = ConsentPupil(
+                profile=this_user.profile,
+                n=i
+            )
+            c.save()
+    return ConsentPupil.objects.filter(profile=this_user.profile).order_by('n')
+
 @login_required
 def consent_form(request):
     this_user = request.user
-    return render(request, 'main/consent_form.html', { 'init_auth_group': this_user.profile.auth_group, 'init_auth_tutor': this_user.profile.auth_tutor })
+    individual_consents = init_individual_consent(this_user)
+    return render(request, 'main/consent_form.html', { 'init_auth_group': this_user.profile.auth_group, 'init_auth_tutor': this_user.profile.auth_tutor, 'individual_consents': individual_consents })
 
 @login_required
 def group_menu(request):

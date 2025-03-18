@@ -70,6 +70,14 @@ $(document).ready(function() {
         });
     }
 
+    $(document).on('change', '.dynamic_yes_no', function() {
+        const consent_class = 0;
+        const value = $(this).val() == 0 ? false : true;
+        //authorize(consent_class,value);
+        console.log( $(this).val() );
+        console.log( $(this).data('n') );
+    });
+
     $("input[name='yesnoradios']").change(function(evt){
         //authorize(quizrun_id, $(this).val());
         const consent_class = 0;
