@@ -49,13 +49,13 @@
         <br>
         {% for consent in individual_consents %}
         <b>{% trans 'Alumne' %} {{ consent.n }}</b>
-        <div class="form-check">
+        <div class="form-check alert-danger">
           <input class="form-check-input dynamic_yes_no" type="radio" data-n="{{consent.n}}" name="yesnoradios_{{consent.n}}" id="auth_{{consent.n}}_no" value="0">
           <label class="form-check-label" for="auth_{{consent.n}}_no">
             {% trans "NO, no ho autoritzo" %}
           </label>
         </div>
-        <div class="form-check">
+        <div class="form-check alert-success">
           <input class="form-check-input dynamic_yes_no" type="radio" data-n="{{consent.n}}" name="yesnoradios_{{consent.n}}" id="auth_{{consent.n}}_si" value="1">
           <label class="form-check-label" for="auth_{{consent.n}}_si">
             {% trans "SÍ, ho autoritzo" %}

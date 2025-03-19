@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-16 11:00+0000\n"
+"POT-Creation-Date: 2025-03-19 10:19+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -123,7 +123,7 @@ msgstr ""
 #: main/templates/main/test_result.html:54
 #: main/templates/main/test_results_detail_view.html:10
 #: main/templates/main/upload_admin_board.html:41
-#: main/templates/main/upload_file_solutions.html:33 main/views.py:2757
+#: main/templates/main/upload_file_solutions.html:33 main/views.py:2801
 msgid "Grup"
 msgstr ""
 
@@ -257,7 +257,7 @@ msgstr ""
 msgid "No trobat"
 msgstr ""
 
-#: main/templates/main/admin_menu.html:4 main/templates/main/base.html:123
+#: main/templates/main/admin_menu.html:4 main/templates/main/base.html:124
 #: main/templates/main/index.html:40
 msgid "Espai administradors"
 msgstr ""
@@ -266,7 +266,7 @@ msgstr ""
 msgid "Menú principal administrador"
 msgstr ""
 
-#: main/templates/main/admin_menu.html:16 main/views.py:2757
+#: main/templates/main/admin_menu.html:16 main/views.py:2801
 msgid "Campaigns"
 msgstr ""
 
@@ -274,7 +274,7 @@ msgstr ""
 msgid "Entrar i gestionar campanyes"
 msgstr ""
 
-#: main/templates/main/admin_menu.html:27 main/views.py:2757
+#: main/templates/main/admin_menu.html:27 main/views.py:2801
 msgid "Centres"
 msgstr ""
 
@@ -489,91 +489,91 @@ msgstr ""
 msgid "Creant nou usuari per alumne"
 msgstr ""
 
-#: main/templates/main/base.html:90 main/templates/main/map.html:47
+#: main/templates/main/base.html:91 main/templates/main/map.html:47
 #: main/templates/main/map_bak.html:47
 msgid "Aula"
 msgstr ""
 
-#: main/templates/main/base.html:103
+#: main/templates/main/base.html:104
 msgid "Inici"
 msgstr ""
 
-#: main/templates/main/base.html:107
+#: main/templates/main/base.html:108
 msgid "Menú principal"
 msgstr ""
 
-#: main/templates/main/base.html:112 main/templates/main/consent_form.html:6
+#: main/templates/main/base.html:113 main/templates/main/consent_form.html:6
 #: main/templates/main/consent_form.html:8
 msgid "Formulari de consentiment"
 msgstr ""
 
-#: main/templates/main/base.html:116 main/templates/main/credits.html:4
+#: main/templates/main/base.html:117 main/templates/main/credits.html:4
 msgid "Sobre"
 msgstr ""
 
-#: main/templates/main/base.html:120 main/templates/main/index.html:27
+#: main/templates/main/base.html:121 main/templates/main/index.html:27
 msgid "Espai professorat"
 msgstr ""
 
-#: main/templates/main/base.html:196
+#: main/templates/main/base.html:197
 msgid "Tancar sessió"
 msgstr ""
 
-#: main/templates/main/base.html:201
+#: main/templates/main/base.html:202
 msgid "Iniciar sessió"
 msgstr ""
 
-#: main/templates/main/base.html:210 main/templates/main/index.html:6
+#: main/templates/main/base.html:211 main/templates/main/index.html:6
 msgid "Benvingut a Aula"
 msgstr ""
 
-#: main/templates/main/base.html:211 main/templates/main/index.html:7
+#: main/templates/main/base.html:212 main/templates/main/index.html:7
 msgid ""
 "Aquesta és la web per a un projecte d&#39;educació en el context d&#39;una "
 "beca FECYT"
 msgstr ""
 
-#: main/templates/main/base.html:232
+#: main/templates/main/base.html:233
 msgid "sLengthMenu"
 msgstr "Mostra _MENU_ registres"
 
-#: main/templates/main/base.html:233
+#: main/templates/main/base.html:234
 msgid "sZeroRecords"
 msgstr "No s'han trobat registres."
 
-#: main/templates/main/base.html:234
+#: main/templates/main/base.html:235
 msgid "sInfo"
 msgstr "Mostrant de _START_ a _END_ de _TOTAL_ registres"
 
-#: main/templates/main/base.html:235
+#: main/templates/main/base.html:236
 msgid "sInfoEmpty"
 msgstr "Mostrant 0 a 0 de 0 registres"
 
-#: main/templates/main/base.html:236
+#: main/templates/main/base.html:237
 msgid "sInfoFiltered"
 msgstr "(filtrat de _MAX_ total registres)"
 
-#: main/templates/main/base.html:237
+#: main/templates/main/base.html:238
 msgid "loadingRecords"
 msgstr "Carregant..."
 
-#: main/templates/main/base.html:239
+#: main/templates/main/base.html:240
 msgid "Filtrar"
 msgstr "Filtrar"
 
-#: main/templates/main/base.html:242
+#: main/templates/main/base.html:243
 msgid "Primer"
 msgstr "Primer"
 
-#: main/templates/main/base.html:243
+#: main/templates/main/base.html:244
 msgid "Anterior"
 msgstr "Anterior"
 
-#: main/templates/main/base.html:244
+#: main/templates/main/base.html:245
 msgid "Següent"
 msgstr "Següent"
 
-#: main/templates/main/base.html:245
+#: main/templates/main/base.html:246
 msgid "Últim"
 msgstr "Últim"
 
@@ -670,17 +670,6 @@ msgid ""
 "legal."
 msgstr ""
 
-#: main/templates/main/consent_form.html:33
-msgid "TOTS ELS ALUMNES DEL GRUP"
-msgstr ""
-
-#: main/templates/main/consent_form.html:33
-#: main/templates/main/consent_form.html:48
-msgid "auhorizes_string"
-msgstr ""
-" autoritza que el materials produïts pel grup s'usin en publicacions o mapes "
-"públics"
-
 #: main/templates/main/consent_form.html:37
 msgid "NO, no ho autoritzem"
 msgstr ""
@@ -689,27 +678,44 @@ msgstr ""
 msgid "SÍ, ho autoritzem"
 msgstr ""
 
-#: main/templates/main/consent_form.html:48
-msgid "EL RESPONSABLE LEGAL O TUTOR DEL GRUP"
+#: main/templates/main/consent_form.html:47
+msgid "TOTS ELS ALUMNES DEL GRUP"
 msgstr ""
 
-#: main/templates/main/consent_form.html:52
+#: main/templates/main/consent_form.html:47
+#: main/templates/main/consent_form.html:68
+msgid "auhorizes_string"
+msgstr ""
+" autoritza que el materials produïts pel grup s'usin en publicacions o mapes "
+"públics"
+
+#: main/templates/main/consent_form.html:51
+msgid "Alumne"
+msgstr ""
+
+#: main/templates/main/consent_form.html:55
+#: main/templates/main/consent_form.html:72
 msgid "NO, no ho autoritzo"
 msgstr ""
 
-#: main/templates/main/consent_form.html:58
+#: main/templates/main/consent_form.html:61
+#: main/templates/main/consent_form.html:78
 msgid "SÍ, ho autoritzo"
 msgstr ""
 
-#: main/templates/main/consent_form.html:65
+#: main/templates/main/consent_form.html:68
+msgid "EL RESPONSABLE LEGAL O TUTOR DEL GRUP"
+msgstr ""
+
+#: main/templates/main/consent_form.html:85
 msgid "Tenim el teu consentiment!"
 msgstr ""
 
-#: main/templates/main/consent_form.html:71
+#: main/templates/main/consent_form.html:91
 msgid "No tenim el teu consentiment"
 msgstr ""
 
-#: main/templates/main/consent_form.html:78
+#: main/templates/main/consent_form.html:98
 msgid "Ok, vull anar al meu espai"
 msgstr ""
 
@@ -954,7 +960,7 @@ msgstr ""
 #: main/templates/main/reports/n_pupils_distribution_center.html:24
 #: main/templates/main/test_result.html:55
 #: main/templates/main/upload_admin_board.html:42
-#: main/templates/main/upload_file_solutions.html:34 main/views.py:2757
+#: main/templates/main/upload_file_solutions.html:34 main/views.py:2801
 msgid "Classe"
 msgstr ""
 
@@ -1992,107 +1998,107 @@ msgstr ""
 msgid "password"
 msgstr ""
 
-#: main/views.py:221 main/views.py:231 main/views.py:279 main/views.py:413
-#: main/views.py:999 main/views.py:1035 main/views.py:1069 main/views.py:1235
-#: main/views.py:1285 main/views.py:1427 main/views.py:1438 main/views.py:1463
-#: main/views.py:1505 main/views.py:1543 main/views.py:1587 main/views.py:1601
-#: main/views.py:2713 main/views.py:2811 main/views.py:2945 main/views.py:3371
-#: main/views.py:3382 main/views.py:3433
+#: main/views.py:222 main/views.py:232 main/views.py:280 main/views.py:428
+#: main/views.py:1014 main/views.py:1050 main/views.py:1084 main/views.py:1250
+#: main/views.py:1300 main/views.py:1442 main/views.py:1453 main/views.py:1478
+#: main/views.py:1520 main/views.py:1558 main/views.py:1602 main/views.py:1616
+#: main/views.py:2757 main/views.py:2855 main/views.py:2989 main/views.py:3415
+#: main/views.py:3426 main/views.py:3477
 msgid "Estàs intentant accedir a una pàgina a la que no tens permís."
 msgstr ""
 
-#: main/views.py:516
+#: main/views.py:531
 msgid "Sembla que aquesta prova no existeix."
 msgstr ""
 
-#: main/views.py:520
+#: main/views.py:535
 msgid "Sembla que aquesta prova no està completada."
 msgstr ""
 
-#: main/views.py:540 main/views.py:557 main/views.py:586 main/views.py:603
-#: main/views.py:2554 main/views.py:2584 main/views.py:2604 main/views.py:2633
-#: main/views.py:2960
+#: main/views.py:555 main/views.py:572 main/views.py:601 main/views.py:618
+#: main/views.py:2598 main/views.py:2628 main/views.py:2648 main/views.py:2677
+#: main/views.py:3004
 msgid "No existeix aquesta prova."
 msgstr ""
 
-#: main/views.py:544 main/views.py:561 main/views.py:590 main/views.py:2558
-#: main/views.py:2588 main/views.py:2608 main/views.py:2637 main/views.py:2965
+#: main/views.py:559 main/views.py:576 main/views.py:605 main/views.py:2602
+#: main/views.py:2632 main/views.py:2652 main/views.py:2681 main/views.py:3009
 msgid ""
 "El test seleccionat no l'ha realitzat cap grup i encara no té resultats."
 msgstr ""
 
-#: main/views.py:609
+#: main/views.py:624
 msgid "No tens assignada aquesta prova, de manera que no la pots visualitzar."
 msgstr ""
 
-#: main/views.py:776 main/views.py:823 main/views.py:861
+#: main/views.py:791 main/views.py:838 main/views.py:876
 msgid ""
 "Estàs intentant accedir a una prova creada per un professor que no és el teu "
 "tutor."
 msgstr ""
 
-#: main/views.py:780
+#: main/views.py:795
 msgid ""
 "No es permet la pujada de materials a professors. Si vols pujar els "
 "materials d'un si us plau grup fes servir l'usuari del grup corresponent."
 msgstr ""
 
-#: main/views.py:784 main/views.py:827
+#: main/views.py:799 main/views.py:842
 msgid "Aquesta prova no existeix!"
 msgstr ""
 
-#: main/views.py:794 main/views.py:834
+#: main/views.py:809 main/views.py:849
 msgid ""
 "Ho sentim, però les proves de pujada de fitxer només es poden fer una vegada."
 msgstr ""
 
-#: main/views.py:883
+#: main/views.py:898
 msgid ""
 "Aquesta prova està marcada com a finalitzada, o sigui que no la pots "
 "modificar. Si vols, la pots repetir."
 msgstr ""
 
-#: main/views.py:922
+#: main/views.py:937
 msgid "Aquesta prova no està publicada, no la pots començar."
 msgstr ""
 
-#: main/views.py:929
+#: main/views.py:944
 msgid ""
 "Les proves de materials, pujada de fitxers i enquestes només es fan una "
 "vegada. Les pots repassar totes però des del menú de grup "
 msgstr ""
 
-#: main/views.py:935
+#: main/views.py:950
 msgid ""
 "La enquesta s'ha repetit tants cops com membres té el grup, no es permeten "
 "més repeticions."
 msgstr ""
 
-#: main/views.py:941
+#: main/views.py:956
 msgid "Aquesta prova té un requisit que no s'ha completat: "
 msgstr ""
 
-#: main/views.py:947
+#: main/views.py:962
 msgid ""
 "Estàs intentant començar una prova creada per un professor que no és el teu "
 "tutor."
 msgstr ""
 
-#: main/views.py:951
+#: main/views.py:966
 msgid ""
 "La prova que estàs intentant començar forma part d'una campanya anterior, o "
 "sigui que no la pots fer. Si us plau, pregunta al teu professor."
 msgstr ""
 
-#: main/views.py:975
+#: main/views.py:990
 msgid "Estàs intentant editar una prova que no existeix."
 msgstr ""
 
-#: main/views.py:1368 main/views.py:1393
+#: main/views.py:1383 main/views.py:1408
 msgid "Llistat de credencials"
 msgstr ""
 
-#: main/views.py:2700 main/views.py:2869 main/views.py:2933
+#: main/views.py:2744 main/views.py:2913 main/views.py:2977
 msgid "Anònim"
 msgstr ""
 

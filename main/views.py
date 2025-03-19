@@ -360,7 +360,9 @@ def init_individual_consent(this_user):
 def consent_form(request):
     this_user = request.user
     individual_consents = init_individual_consent(this_user)
-    return render(request, 'main/consent_form.html', { 'init_auth_group': this_user.profile.auth_group, 'init_auth_tutor': this_user.profile.auth_tutor, 'individual_consents': individual_consents })
+    init_consent_group = this_user.profile.full_auth_granted
+
+    return render(request, 'main/consent_form.html', { 'init_auth_group': init_consent_group, 'init_auth_tutor': this_user.profile.auth_tutor, 'individual_consents': individual_consents })
 
 @login_required
 def group_menu(request):
@@ -2009,16 +2011,23 @@ def input_consent(request):
         elif consent_class == '1':
             user.profile.auth_tutor = False if value == 'false' else True
             user.profile.save()
-        auth_group = None
-        consents_group = ConsentPupil.objects.filter(profile=user.profile)
-        if consents_group.count() == 0:
-            auth_group = False
-        else:
-            for ind_consent in consents_group:
-                if auth_group is None:
-                    auth_group = ind_consent.consent
-                else:
-                    auth_group = auth_group and ind_consent.consent
+
+        auth_group = user.profile.full_auth_granted
+        # consent_user = ConsentPupil.objects.filter(profile=user.profile)
+        # if consent_user.exists():
+        #     one_consent = consent_user.first()
+        #     auth_group = one_consent.group_has_given_full_consent()
+        # else:
+        #     auth_group = False
+        # consents_group = ConsentPupil.objects.filter(profile=user.profile)
+        # if consents_group.count() == 0:
+        #     auth_group = False
+        # else:
+        #     for ind_consent in consents_group:
+        #         if auth_group is None:
+        #             auth_group = ind_consent.consent
+        #         else:
+        #             auth_group = auth_group and ind_consent.consent
         return Response({'success': True, 'auth_group': auth_group, 'auth_tutor': user.profile.auth_tutor}, status=status.HTTP_200_OK)
 
 @api_view(['POST'])
