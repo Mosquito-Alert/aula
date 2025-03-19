@@ -594,22 +594,38 @@ class Profile(models.Model):
             return self.group_teacher.profile.teacher_belongs_to.name
         return ''
 
+    # @property
+    # def full_auth_granted(self):
+    #     this_auth_group = None
+    #     consents_group = ConsentPupil.objects.filter(profile=self)
+    #     if consents_group.count() == 0 or not consents_group.exists():
+    #         this_auth_group = False
+    #     else:
+    #         if consents_group.count() != self.n_students_in_group:
+    #             this_auth_group = False
+    #         else:
+    #             for ind_consent in consents_group:
+    #                 if this_auth_group is None:
+    #                     this_auth_group = ind_consent.consent
+    #                 else:
+    #                     this_auth_group = this_auth_group and ind_consent.consent
+    #     return self.auth_tutor and this_auth_group
+
     @property
     def full_auth_granted(self):
-        this_auth_group = None
-        consents_group = ConsentPupil.objects.filter(profile=self)
-        if consents_group.count() == 0 or not consents_group.exists():
-            this_auth_group = False
-        else:
-            if consents_group.count() != self.n_students_in_group:
-                this_auth_group = False
-            else:
-                for ind_consent in consents_group:
-                    if this_auth_group is None:
-                        this_auth_group = ind_consent.consent
-                    else:
-                        this_auth_group = this_auth_group and ind_consent.consent
-        return self.auth_tutor and this_auth_group
+        """
+        Check if all students in the group have given consent.
+        Returns True if all students have consented, False otherwise.
+        """
+        # Get all ConsentPupil objects for this profile
+        consent_pupils = self.group_consent.all()
+
+        # If there are no consent pupils, return False
+        if not consent_pupils.exists() or consent_pupils.count() != self.n_students_in_group:
+            return False
+
+        # Check if all consent values are True
+        return all(pupil.consent for pupil in consent_pupils)
 
     @property
     def groups_list(self):
