@@ -97,7 +97,7 @@ var table = $('#teacher_list').DataTable( {
             'sortable': false,
             'render': function(value){
                 if(admin_edit){
-                    return '<button title="' + gettext('Editar') + '" class="edit_button btn btn-info"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>';
+                    return '<button title="' + gettext('Editar') + '" class="edit_button btn btn-info"><i class="fa-solid fa-pencil" aria-hidden="true"></i></button>';
                 }else{
                     return '';
                 }

@@ -30,7 +30,7 @@
     <div class="col-xs-12"></div>
     <p>{% trans "Ens agradaria publicar el teu material al mapa de resultats de final de semestre, però només ho farem si tenim el teu permís i el del teu tutor legal." %}</p>
     <p>
-        <b>{% trans "TOTS ELS ALUMNES DEL GRUP" %}</b>{% trans "auhorizes_string" %}
+        <!--
         <div class="form-check">
           <input class="form-check-input" type="radio" name="yesnoradios" id="auth_no" value="0">
           <label class="form-check-label" for="auth_no">
@@ -43,6 +43,26 @@
             {% trans "SÍ, ho autoritzem" %}
           </label>
         </div>
+        -->
+        <b>{% trans "TOTS ELS ALUMNES DEL GRUP" %}</b>{% trans "auhorizes_string" %}
+        <br>
+        <br>
+        {% for consent in individual_consents %}
+        <b>{% trans 'Alumne' %} {{ consent.n }}</b>
+        <div class="form-check alert-danger">
+          <input class="form-check-input dynamic_yes_no" type="radio" data-n="{{consent.n}}" name="yesnoradios_{{consent.n}}" id="auth_{{consent.n}}_no" value="0">
+          <label class="form-check-label" for="auth_{{consent.n}}_no">
+            {% trans "NO, no ho autoritzo" %}
+          </label>
+        </div>
+        <div class="form-check alert-success">
+          <input class="form-check-input dynamic_yes_no" type="radio" data-n="{{consent.n}}" name="yesnoradios_{{consent.n}}" id="auth_{{consent.n}}_si" value="1">
+          <label class="form-check-label" for="auth_{{consent.n}}_si">
+            {% trans "SÍ, ho autoritzo" %}
+          </label>
+        </div>
+        <br>
+        {% endfor %}
     </p>
     <p>
         <b>{% trans "EL RESPONSABLE LEGAL O TUTOR DEL GRUP" %}</b>{% trans "auhorizes_string" %}
@@ -86,6 +106,11 @@
     var _post_consent = '{% url 'input_consent' %}';
     const init_auth_group = {{ init_auth_group|yesno:"true,false" }};
     const init_auth_tutor = {{ init_auth_tutor|yesno:"true,false" }};
+    const consent_pupils = [];
+    const n_in_group = {{ individual_consents|length }};
+    {% for c in individual_consents %}
+    consent_pupils.push( {{ c.consent|yesno:"true,false" }} );
+    {% endfor %}
 </script>
 <script src="{% static 'main/csrf_utils.js' %}"></script>
 <script src="{% static 'main/cookies.js' %}"></script>

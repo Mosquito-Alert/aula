@@ -576,7 +576,6 @@ class Profile(models.Model):
     teacher_password = models.CharField(max_length=128, null=True)
     consent_form_visited = models.BooleanField(default=False)
     auth_tutor = models.BooleanField(default=False)
-    auth_group = models.BooleanField(default=False)
     
     def __str__(self):
         if self.is_group:
@@ -597,7 +596,20 @@ class Profile(models.Model):
 
     @property
     def full_auth_granted(self):
-        return self.auth_tutor and self.auth_group
+        this_auth_group = None
+        consents_group = ConsentPupil.objects.filter(profile=self)
+        if consents_group.count() == 0 or not consents_group.exists():
+            this_auth_group = False
+        else:
+            if consents_group.count() != self.n_students_in_group:
+                this_auth_group = False
+            else:
+                for ind_consent in consents_group:
+                    if this_auth_group is None:
+                        this_auth_group = ind_consent.consent
+                    else:
+                        this_auth_group = this_auth_group and ind_consent.consent
+        return self.auth_tutor and this_auth_group
 
     @property
     def groups_list(self):
@@ -698,6 +710,12 @@ def save_user_profile(sender, instance, created, **kwargs):
                 elif higher_index != -1:
                     instance.profile.group_hashtag = education_center.hashtag + "_" + str(higher_index + 1)
     instance.profile.save()
+
+
+class ConsentPupil(models.Model):
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="group_consent")
+    n = models.IntegerField()
+    consent = models.BooleanField(default=False)
 
 
 class BreedingSites(models.Model):

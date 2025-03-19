@@ -5,7 +5,8 @@ from main.forms import QuizForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from aula import settings
-from main.models import EducationCenter, Word, Quiz, Answer, Question, QuizRun, QuizRunAnswers, Profile, get_string_from_groups, Campaign, QuizCorrection, CenterMapData, InternalNotification
+from main.models import EducationCenter, Word, Quiz, Answer, Question, QuizRun, QuizRunAnswers, Profile, \
+    get_string_from_groups, Campaign, QuizCorrection, CenterMapData, InternalNotification, ConsentPupil
 from main.forms import TeacherForm, SimplifiedTeacherForm, EducationCenterForm, TeacherUpdateForm, ChangePasswordForm, \
     SimplifiedAlumForm, SimplifiedGroupForm, AlumUpdateForm, QuestionForm, QuestionLinkForm, SimplifiedAlumFormForTeacher, \
     SimplifiedAlumFormForAdmin, AlumUpdateFormAdmin, QuizAdminForm, QuestionPollForm, QuizNewForm, QuestionUploadForm, CampaignForm, \
@@ -344,10 +345,24 @@ def get_ordered_quiz_sequence(this_user):
                     ordered_quizzes.append({'quiz': quiz, 'status': 'done', 'repeatable': quiz_is_repeatable_for_user(quiz,this_user), 'done_n_times_by': done_n_times_by})
     return ordered_quizzes
 
+def init_individual_consent(this_user):
+    n_in_group = this_user.profile.n_students_in_group
+    for i in range(1, n_in_group + 1):
+        if not ConsentPupil.objects.filter(profile=this_user.profile).filter(n=i).exists():
+            c = ConsentPupil(
+                profile=this_user.profile,
+                n=i
+            )
+            c.save()
+    return ConsentPupil.objects.filter(profile=this_user.profile).order_by('n')
+
 @login_required
 def consent_form(request):
     this_user = request.user
-    return render(request, 'main/consent_form.html', { 'init_auth_group': this_user.profile.auth_group, 'init_auth_tutor': this_user.profile.auth_tutor })
+    individual_consents = init_individual_consent(this_user)
+    init_consent_group = this_user.profile.full_auth_granted
+
+    return render(request, 'main/consent_form.html', { 'init_auth_group': init_consent_group, 'init_auth_tutor': this_user.profile.auth_tutor, 'individual_consents': individual_consents })
 
 @login_required
 def group_menu(request):
@@ -1980,11 +1995,40 @@ def input_consent(request):
             )
         value = request.data.get('value', 'false')
         if consent_class == '0':
-            user.profile.auth_group = False if value == 'false' else True
+            n = request.data.get('n', -1)
+            if n == -1:
+                return Response(
+                    {"error": "n param is mandatory for consent_class 0."},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            else:
+                c = ConsentPupil.objects.filter(n=n).filter(profile=user.profile)
+                if c.exists():
+                    pupil_consent = c.first()
+                    pupil_consent.consent = False if value == 'false' else True
+                    pupil_consent.save()
+            #user.profile.auth_group = False if value == 'false' else True
         elif consent_class == '1':
             user.profile.auth_tutor = False if value == 'false' else True
-        user.profile.save()
-        return Response({'success': True, 'auth_group': user.profile.auth_group, 'auth_tutor': user.profile.auth_tutor}, status=status.HTTP_200_OK)
+            user.profile.save()
+
+        auth_group = user.profile.full_auth_granted
+        # consent_user = ConsentPupil.objects.filter(profile=user.profile)
+        # if consent_user.exists():
+        #     one_consent = consent_user.first()
+        #     auth_group = one_consent.group_has_given_full_consent()
+        # else:
+        #     auth_group = False
+        # consents_group = ConsentPupil.objects.filter(profile=user.profile)
+        # if consents_group.count() == 0:
+        #     auth_group = False
+        # else:
+        #     for ind_consent in consents_group:
+        #         if auth_group is None:
+        #             auth_group = ind_consent.consent
+        #         else:
+        #             auth_group = auth_group and ind_consent.consent
+        return Response({'success': True, 'auth_group': auth_group, 'auth_tutor': user.profile.auth_tutor}, status=status.HTTP_200_OK)
 
 @api_view(['POST'])
 def visited_consent(request):

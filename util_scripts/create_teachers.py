@@ -15,9 +15,9 @@ from django.db import transaction
 
 
 #USERS_FILE = app_config.proj_path + '/util_scripts/docents_2022.csv'
-USERS_FILE = app_config.proj_path + '/util_scripts/docents_2025_2.csv'
+USERS_FILE = app_config.proj_path + '/util_scripts/docents_2025_4.csv'
 #USERS_FILE = app_config.proj_path + '/util_scripts/test_profe.csv'
-OUT_FILE = app_config.proj_path + '/util_scripts/docents_2025_2_out.csv'
+OUT_FILE = app_config.proj_path + '/util_scripts/docents_2025_4_out.csv'
 
 ALIAS_HASHES = {
     'Colegio Eskibel': {
