@@ -1993,11 +1993,33 @@ def input_consent(request):
             )
         value = request.data.get('value', 'false')
         if consent_class == '0':
-            user.profile.auth_group = False if value == 'false' else True
+            n = request.data.get('n', -1)
+            if n == -1:
+                return Response(
+                    {"error": "n param is mandatory for consent_class 0."},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            else:
+                c = ConsentPupil.objects.filter(n=n).filter(profile=user.profile)
+                if c.exists():
+                    pupil_consent = c.first()
+                    pupil_consent.consent = False if value == 'false' else True
+                    pupil_consent.save()
+            #user.profile.auth_group = False if value == 'false' else True
         elif consent_class == '1':
             user.profile.auth_tutor = False if value == 'false' else True
-        user.profile.save()
-        return Response({'success': True, 'auth_group': user.profile.auth_group, 'auth_tutor': user.profile.auth_tutor}, status=status.HTTP_200_OK)
+            user.profile.save()
+        auth_group = None
+        consents_group = ConsentPupil.objects.filter(profile=user.profile)
+        if consents_group.count() == 0:
+            auth_group = False
+        else:
+            for ind_consent in consents_group:
+                if auth_group is None:
+                    auth_group = ind_consent.consent
+                else:
+                    auth_group = auth_group and ind_consent.consent
+        return Response({'success': True, 'auth_group': auth_group, 'auth_tutor': user.profile.auth_tutor}, status=status.HTTP_200_OK)
 
 @api_view(['POST'])
 def visited_consent(request):

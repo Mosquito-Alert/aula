@@ -103,9 +103,9 @@ var table = $('#center_list').DataTable( {
             'render': function(value){
                 if(admin_edit){
                     if(value==true){
-                        return '<button class="edit_button btn btn-info"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>';
+                        return '<button class="edit_button btn btn-info"><i class="fa-solid fa-pencil" aria-hidden="true"></i></button>';
                     }else{
-                        return '<button class="edit_button btn btn-info disabled"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>';
+                        return '<button class="edit_button btn btn-info disabled"><i class="fa-solid fa-pencil" aria-hidden="true"></i></button>';
                     }
                 }else{
                     return '';

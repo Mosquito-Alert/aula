@@ -119,7 +119,7 @@ var table = $('#alum_list').DataTable( {
             'data': 'is_active',
             'sortable': false,
             'render': function(value){
-                return '<button title="' + gettext('Editar') + '" class="edit_button btn btn-info"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>';
+                return '<button title="' + gettext('Editar') + '" class="edit_button btn btn-info"><i class="fa-solid fa-pencil" aria-hidden="true"></i></button>';
             }
         },
         {

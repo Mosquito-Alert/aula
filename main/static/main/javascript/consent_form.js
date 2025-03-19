@@ -9,29 +9,52 @@ $(document).ready(function() {
         $('.yes_consent_message').show();
     }
 
-    var init_interface = function(){
-        if( init_auth_group === true ){
-             $("input[name='yesnoradios'][value=1]").attr('checked', true);
+    var check_all_pupils = function(){
+        if(consent_pupils.length == 0){
+            return false;
         }else{
-            $("input[name='yesnoradios'][value=0]").attr('checked', true);
+            return consent_pupils.reduce( (acc, current) => acc && current );
         }
+    }
+
+    var init_interface = function(){
+        for(var i=0; i < consent_pupils.length; i++){
+            const consent_i = consent_pupils[i];
+            const n = i + 1;
+            if(consent_i == true){
+                $("input[name='yesnoradios_" + n + "'][value=1]").attr('checked', true);
+            }else{
+                $("input[name='yesnoradios_" + n + "'][value=0]").attr('checked', true);
+            }
+        }
+//        if( init_auth_group === true ){
+//             $("input[name='yesnoradios'][value=1]").attr('checked', true);
+//        }else{
+//            $("input[name='yesnoradios'][value=0]").attr('checked', true);
+//        }
         if( init_auth_tutor === true ){
             $("input[name='yesnoradios_tutor'][value=1]").attr('checked', true);
         }else{
             $("input[name='yesnoradios_tutor'][value=0]").attr('checked', true);
         }
-        if( init_auth_group && init_auth_tutor ){
+        if( check_all_pupils() && init_auth_tutor ){
             setSuccess();
         }else{
             setFail();
         }
     }
 
-    var authorize = function(consent_class, value){
+    var authorize = function(consent_class, value, n){
+        var _data;
+        if(n==null){
+            _data = { 'consent_class': consent_class, 'value': value };
+        }else{
+            _data = { 'consent_class': consent_class, 'value': value, 'n': n };
+        }
         $.ajax({
             url: _post_consent,
             method: 'POST',
-            data: { 'consent_class': consent_class, 'value': value },
+            data: _data,
             beforeSend: function(xhr, settings) {
                 if (!csrfSafeMethod(settings.type)) {
                     var csrftoken = getCookie('csrftoken');
@@ -73,25 +96,14 @@ $(document).ready(function() {
     $(document).on('change', '.dynamic_yes_no', function() {
         const consent_class = 0;
         const value = $(this).val() == 0 ? false : true;
-        //authorize(consent_class,value);
-        console.log( $(this).val() );
-        console.log( $(this).data('n') );
-    });
-
-    $("input[name='yesnoradios']").change(function(evt){
-        //authorize(quizrun_id, $(this).val());
-        const consent_class = 0;
-        const value = $(this).val() == 0 ? false : true;
-        authorize(consent_class,value);
-        //console.log( $(this).val() );
+        const n = $(this).data('n');
+        authorize(consent_class,value,n);
     });
 
     $("input[name='yesnoradios_tutor']").change(function(evt){
-        //authorize(quizrun_id, $(this).val());
         const consent_class = 1;
         const value = $(this).val() == 0 ? false : true;
         authorize(consent_class,value);
-        //console.log( $(this).val() );
     });
 
     mark_form_as_visited();
