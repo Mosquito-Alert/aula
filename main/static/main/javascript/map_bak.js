@@ -253,7 +253,7 @@ $(document).ready(function() {
 
     L.control.watermark({ position: 'bottomleft', url: '/static/main/icons/one_health_pact.jpg', img_width: '100px' }).addTo(map)
     L.control.watermark({ position: 'bottomleft', url: '/static/main/icons/logo_ASPB.svg', img_width: '150px' }).addTo(map)
-    L.control.watermark({ position: 'bottomleft', url: '/static/main/icons/mcin-fecyt-web.png', img_width: '420px' }).addTo(map)
+    L.control.watermark({ position: 'bottomleft', url: '/static/main/icons/mcin-fecyt-web_v2.png', img_width: '420px' }).addTo(map)
 
     adjust_ui();
 });
