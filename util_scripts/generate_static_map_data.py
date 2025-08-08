@@ -12,14 +12,14 @@ import csv
 import datetime
 from django.db import transaction
 
-OUT_FILE_CENTERS = app_config.proj_path + '/util_scripts/static_center_map_data_2024.csv'
-OUT_FILE_AWARDS = app_config.proj_path + '/util_scripts/static_award_map_data_2024.csv'
+OUT_FILE_CENTERS = app_config.proj_path + '/util_scripts/static_center_map_data_2025.csv'
+OUT_FILE_AWARDS = app_config.proj_path + '/util_scripts/static_award_map_data_2025.csv'
 
 def dump_center_data():
     with open(OUT_FILE_CENTERS, 'w') as csvfile:
         writer = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL)
         writer.writerow(['education_center', 'lat', 'lon', 'year', 'participation_years', 'hashtag','n_pupils','n_groups','n_bs_total','n_storm_drain_water','n_storm_drain_dry','n_other_bs', 'has_awards'])
-        for year in [2021,2022,2023,2024]:
+        for year in [2025]:
             campaigns_year = Campaign.objects.filter(end_date__year=year)
             centers = EducationCenter.objects.filter(campaign__in=campaigns_year).exclude(location__isnull=True)
             count_data = get_center_bs_sites_count()

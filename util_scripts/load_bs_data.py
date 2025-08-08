@@ -4,6 +4,8 @@ from main.models import BreedingSites, Campaign
 import csv
 import sys
 from csv import reader
+from datetime import datetime
+from django.utils.timezone import make_aware
 
 WORKING_DIR = app_config.proj_path + '/util_scripts/'
 
@@ -93,9 +95,12 @@ hashtags = {}
 
 
 def row_formatter(row):
+    date_str = row[2]
+    dt = datetime.strptime(date_str, "%Y-%m-%d %H:%M:%S.%f %z")
+
     b = BreedingSites(
         version_uuid= row[1],
-        observation_date= row[2],
+        observation_date= dt,
         lon= row[3],
         lat= row[4],
         private_webmap_layer= row[23],
@@ -124,7 +129,7 @@ def load_campaign(id, pre_delete=False, hashtags=None):
 def load_hashtags_from_file(file):
     data = {}
     with open(file, 'r') as read_obj:
-        csv_reader = reader(read_obj)
+        csv_reader = reader(read_obj, delimiter=';')
         for row in csv_reader:
             campaign_id = row[0]
             hashtag = row[1]
@@ -139,15 +144,13 @@ def main():
     args = sys.argv[1:]
     filename = args[0]
     hashtags = load_hashtags_from_file(filename)
-    load_campaign(5, pre_delete=True, hashtags=hashtags)
-    load_campaign(6, pre_delete=True, hashtags=hashtags)
-    load_campaign(7, pre_delete=True, hashtags=hashtags)
-    load_campaign(8, pre_delete=True, hashtags=hashtags)
-    load_campaign(9, pre_delete=True, hashtags=hashtags)
-    # load_campaign(1, pre_delete=True)
-    # load_campaign(2, pre_delete=True)
-    # load_campaign(3, pre_delete=True)
-    # load_campaign(30, pre_delete=True)
+    for id in [10,11,12,13,15]:
+        load_campaign(id, pre_delete=True, hashtags=hashtags)
+    # load_campaign(6, pre_delete=True, hashtags=hashtags)
+    # load_campaign(7, pre_delete=True, hashtags=hashtags)
+    # load_campaign(8, pre_delete=True, hashtags=hashtags)
+    # load_campaign(9, pre_delete=True, hashtags=hashtags)
+
 
 
 if __name__ == '__main__':

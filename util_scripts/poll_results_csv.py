@@ -55,5 +55,18 @@ if __name__ == '__main__':
     # print_results_center(121, 136)
     # print_results_center(133, 136)
     # Valldemossa
-    print_results_center(74, 134)
-    print_results_center(100, 134)
+    # print_results_center(74, 134)
+    # print_results_center(100, 134)
+
+    #quiz_ids = [331,334,340,343]
+    #center_ids = [497,498,520,525,526,532]
+
+    quiz_ids = [358, 371, 359, 370]
+    center_ids = [518, 519, 530]
+
+    for quiz in quiz_ids:
+        for center in center_ids:
+            print_results_center(quiz, center)
+
+
+

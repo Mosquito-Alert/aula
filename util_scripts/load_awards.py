@@ -1,6 +1,6 @@
 import app_config
 
-from main.models import Awards, EducationCenter
+from main.models import Awards, EducationCenter, Profile
 from django.contrib.auth.models import User
 import csv
 
@@ -15,8 +15,10 @@ def load_awards_data(overwrite=False):
         csv_reader = csv.reader(csv_file, delimiter=',', quotechar='"')
         next(csv_reader)
         for row in csv_reader:
-            if(row[4] != ''):
-                user = User.objects.get(pk=row[4])
+            if(row[5] != ''):
+                profile = Profile.objects.get(group_hashtag=row[5])
+                user = profile.user
+                #user = User.objects.get(pk=row[5])
                 center_string = user.profile.center_string
                 campaign = user.profile.campaign
                 ec = EducationCenter.objects.filter(name=center_string).filter(campaign=campaign).first()
