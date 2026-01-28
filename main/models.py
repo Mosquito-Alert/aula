@@ -618,14 +618,25 @@ class Profile(models.Model):
         Returns True if all students have consented, False otherwise.
         """
         # Get all ConsentPupil objects for this profile
-        consent_pupils = self.group_consent.all()
-
-        # If there are no consent pupils, return False
+        # consent_pupils = self.group_consent.all()
+        #
+        # # If there are no consent pupils, return False
+        # if not consent_pupils.exists() or consent_pupils.count() != self.n_students_in_group:
+        #     return False
+        #
+        # # Check if all consent values are True
+        # return all(pupil.consent for pupil in consent_pupils)
+        consent_pupils = self.group_fullconsent.all()
         if not consent_pupils.exists() or consent_pupils.count() != self.n_students_in_group:
             return False
+        pupil_datause = all(pupil.consent_datause for pupil in consent_pupils)
+        pupil_datashare = all(pupil.consent_datashare for pupil in consent_pupils)
+        tutor_datause = all(pupil.consent_datause_tutor for pupil in consent_pupils)
+        tutor_datashare = all(pupil.consent_datashare_tutor for pupil in consent_pupils)
 
-        # Check if all consent values are True
-        return all(pupil.consent for pupil in consent_pupils)
+        return pupil_datause and pupil_datashare and tutor_datause and tutor_datashare
+
+
 
     @property
     def groups_list(self):
@@ -732,6 +743,14 @@ class ConsentPupil(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="group_consent")
     n = models.IntegerField()
     consent = models.BooleanField(default=False)
+
+class FullConsent(models.Model):
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="group_fullconsent")
+    n = models.IntegerField()
+    consent_datause = models.BooleanField(default=False)
+    consent_datause_tutor = models.BooleanField(default=False)
+    consent_datashare = models.BooleanField(default=False)
+    consent_datashare_tutor = models.BooleanField(default=False)
 
 
 class BreedingSites(models.Model):

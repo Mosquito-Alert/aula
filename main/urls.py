@@ -22,6 +22,7 @@ urlpatterns = [
     #path('alum_menu', views.alum_menu, name='alum_menu'),
     path('group_menu', views.group_menu, name='group_menu'),
     path('consent_form', views.consent_form, name='consent_form'),
+    path('consent_new', views.consent_new, name='consent_new'),
     path('quiz/browse/<int:quiz_id>/', views.quiz_browse, name='quiz_browse'),
     path('quiz/browse/', views.quiz_browse, name='quiz_browse_no_id'),
     path('quiz/poll_result/<int:quiz_id>/', views.poll_result, name='poll_result'),
@@ -165,4 +166,5 @@ urlpatterns = [
     path('api/center_bs/<str:hash>/', views.center_bs, name='center_bs' ),
     path('api/visited_consent/', views.visited_consent, name='visited_consent' ),
     path('api/input_consent/', views.input_consent, name='input_consent' ),
+    path('api/input_full_consent/', views.input_full_consent, name='input_full_consent' ),
 ]

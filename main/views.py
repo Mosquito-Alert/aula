@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from aula import settings
 from main.models import EducationCenter, Word, Quiz, Answer, Question, QuizRun, QuizRunAnswers, Profile, \
-    get_string_from_groups, Campaign, QuizCorrection, CenterMapData, InternalNotification, ConsentPupil
+    get_string_from_groups, Campaign, QuizCorrection, CenterMapData, InternalNotification, ConsentPupil, FullConsent
 from main.forms import TeacherForm, SimplifiedTeacherForm, EducationCenterForm, TeacherUpdateForm, ChangePasswordForm, \
     SimplifiedAlumForm, SimplifiedGroupForm, AlumUpdateForm, QuestionForm, QuestionLinkForm, SimplifiedAlumFormForTeacher, \
     SimplifiedAlumFormForAdmin, AlumUpdateFormAdmin, QuizAdminForm, QuestionPollForm, QuizNewForm, QuestionUploadForm, CampaignForm, \
@@ -355,6 +355,27 @@ def init_individual_consent(this_user):
             )
             c.save()
     return ConsentPupil.objects.filter(profile=this_user.profile).order_by('n')
+
+def init_fullindividual_consent(this_user):
+    n_in_group = this_user.profile.n_students_in_group
+    for i in range(1, n_in_group + 1):
+        if not FullConsent.objects.filter(profile=this_user.profile).filter(n=i).exists():
+            c = FullConsent(
+                profile=this_user.profile,
+                n=i
+            )
+            c.save()
+    return FullConsent.objects.filter(profile=this_user.profile).order_by('n')
+
+
+@login_required
+def consent_new(request):
+    this_user = request.user
+    individual_consents = init_fullindividual_consent(this_user)
+    init_consent_group = this_user.profile.full_auth_granted
+
+    # TODO eliminar this_user.profile.auth_tutor
+    return render(request, 'main/consent_new.html', { 'init_auth_group': init_consent_group, 'individual_consents': individual_consents })
 
 @login_required
 def consent_form(request):
@@ -1976,6 +1997,52 @@ def center_info(request, pk=None):
         except EducationCenter.DoesNotExist:
             raise ParseError(detail='Center Not found')
 
+def check_parameter(parameter, parameter_name, allowed_values):
+    if parameter is None:
+        return Response(
+            {"error": f"The {parameter_name} parameter is required."},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+    if allowed_values is not None:
+        if parameter not in allowed_values:
+            return Response(
+                {"error": f"Invalid value for {parameter_name}."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+    return None
+
+
+@api_view(['POST'])
+def input_full_consent(request):
+    if request.method == 'POST':
+        user = request.user
+        pupil_or_tutor = request.data.get('pupil_or_tutor')
+        use_or_share = request.data.get('use_or_share')
+        value = request.data.get('value', False)
+        n = request.data.get('n', -1)
+        response = check_parameter(pupil_or_tutor,'pupil_or_tutor',['pupil','tutor'])
+        if response is not None:
+            return response
+        response = check_parameter(use_or_share, 'use_or_share', ['use', 'share'])
+        if response is not None:
+            return response
+        if n == -1:
+            return Response(
+                {"error": "n param is mandatory."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        c = FullConsent.objects.filter(n=n).filter(profile=user.profile)
+        if c.exists():
+            if pupil_or_tutor == 'pupil':
+                field_name = f"consent_data{use_or_share}"
+            else:
+                field_name = f"consent_data{use_or_share}_tutor"
+            fullconsent = c.first()
+            setattr(fullconsent,field_name,False if value == 'false' else True)
+            fullconsent.save()
+
+        return Response({'success': True, 'full_consent': user.profile.full_auth_granted},
+                        status=status.HTTP_200_OK)
 
 @api_view(['POST'])
 def input_consent(request):

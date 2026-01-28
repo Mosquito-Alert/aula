@@ -1,0 +1,147 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block title %}{% trans 'Formulari de consentiment' %}{% endblock %}
+
+{% block main_jumbo %}{% trans 'Formulari de consentiment' %}{% endblock %}
+{% block sub_jumbo %}{% endblock %}
+
+{% block extra_css %}
+<style>
+    .icon_fail{
+        background-image: url({% static 'main/icons/fail.svg' %});
+        background-repeat: no-repeat;
+        width: 50px;
+        height: 50px;
+    }
+    .icon_success{
+        background-image: url({% static 'main/icons/success.svg' %});
+        background-repeat: no-repeat;
+        width: 50px;
+        height: 50px;
+    }
+</style>
+{% endblock %}
+
+{% block main %}
+<div class="container">
+    <p>
+        {% trans 'consent_header' %}
+        <!--En esta página, <b>cada alumno del grupo</b> deberá marcar las casillas de consentimiento correspondientes a su número de alumno asignado (Alumno 1, Alumno 2 o Alumno 3), <b>junto con sus padres, madres o tutores legales</b>, tras haber leído la información indicada.-->
+    </p>
+    <ol>
+        <li>
+            {% trans 'consent_datause' %}
+            <!--<b>Uso de datos con fines científicos y de evaluación</b>: Los datos recogidos a través de la plataforma se
+            tratarán de forma anonimizada y podrán utilizarse con fines científicos y de evaluación del proyecto, de
+            acuerdo con el <b>RGPD (UE 2016/679)</b> y la <b>LOPDGDD (Ley Orgánica 3/2018)</b>.-->
+        </li>
+        </br>
+        <table class="table table-striped">
+            <thead class="thead-dark">
+            <tr>
+                <th>{% trans 'Codi alumne' %} </th>
+                <th>{% trans 'Consentiment alumnat' %} </th>
+                <th>{% trans 'Consentiment de pares i tutors' %} </th>
+            </tr>
+            </thead>
+            {% for consent in individual_consents %}
+            <tr>
+                <td>
+                    {% trans 'Alumne' %}  {{ consent.n }}
+                </td>
+                <td>
+                    <input class="dynamic_control" data-n="{{ consent.n }}" data-usertype="pupil" data-datatype="use" type="checkbox" id="datause_pupil_{{ consent.n }}" value="" />
+                    <label for="datause_pupil_{{ consent.n }}">{% trans 'consent_datause_pupil' %}</label>
+                    <!--<label for="datause_pupil_{{ consent.n }}">He leído la información y consiento el tratamiento de los datos que genere en la plataforma en el marco del proyecto.</label>-->
+                </td>
+                <td>
+                    <input class="dynamic_control" data-n="{{ consent.n }}" data-usertype="tutor" data-datatype="use" type="checkbox" id="datause_tutor_{{ consent.n }}" value="" />
+                    <label for="datause_tutor_{{ consent.n }}">{% trans 'consent_datause_tutor' %}</label>
+                    <!--<label for="datause_tutor_{{ consent.n }}">He leído la información y consiento, como representante legal, el tratamiento de los datos generados por el menor en la plataforma en el marco del proyecto.</label>-->
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        <li>
+            {% trans 'consent_datashare' %}
+            <!--<b>Uso y difusión de materiales y datos personales</b>: La participación en el proyecto puede realizarse de forma
+            anónima. La inclusión voluntaria de datos personales o materiales identificativos implica la autorización
+            para su uso y difusión en plataformas digitales del proyecto, con fines educativos, conforme al
+            <b>RGPD (UE 2016/679)</b> y la <b>LOPDGDD (Ley Orgánica 3/2018)</b>. Este consentimiento podrá ser revocado en cualquier
+            momento mediante solicitud al equipo responsable del proyecto.-->
+        </li>
+        </br>
+        <table class="table table-striped">
+            <thead class="thead-dark">
+            <tr>
+                <th>{% trans 'Codi alumne' %} </th>
+                <th>{% trans 'Consentiment alumnat' %} </th>
+                <th>{% trans 'Consentiment de pares i tutors' %} </th>
+            </tr>
+            </thead>
+            {% for consent in individual_consents %}
+            <tr>
+                <td>
+                    {% trans 'Alumne' %} {{ consent.n }}
+                </td>
+                <td>
+                    <input class="dynamic_control" data-n="{{ consent.n }}" data-usertype="pupil" data-datatype="share" type="checkbox" id="datashare_pupil_{{ consent.n }}" value="" />
+                    <!--<label for="datashare_pupil_{{ consent.n }}">Acepto el uso y la difusión de los materiales que incluya voluntariamente en el proyecto.</label>-->
+                    <label for="datashare_pupil_{{ consent.n }}">{% trans 'consent_datashare_pupil' %}</label>
+                </td>
+                <td>
+                    <input class="dynamic_control" data-n="{{ consent.n }}" data-usertype="tutor" data-datatype="share" type="checkbox" id="datashare_tutor_{{ consent.n }}" value="" />
+                    <!--<label for="datashare_tutor_{{ consent.n }}">Autorizo el tratamiento y la difusión de los datos personales y/o materiales identificativos del menor en el marco del proyecto educativo.</label>-->
+                    <label for="datashare_tutor_{{ consent.n }}">{% trans 'consent_datashare_tutor' %}</label>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </ol>
+
+<div class="container yes_consent_message" style="display:none;">
+    <div class="row">
+        <div class="col-xs-6 alert alert-success"><span class="align-middle">{% trans "Tenim el teu consentiment!" %}</span></div>
+        <div class="col-xs-6 icon_success"></div>
+    </div>
+</div>
+<div class="container no_consent_message">
+    <div class="row">
+        <div class="col-xs-6 alert alert-danger"><span class="align-middle">{% trans "No tenim el teu consentiment" %}</span></div>
+        <div class="col-xs-6 icon_fail"></div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <a class="btn btn-success mt-2" href="{% url 'my_hub' %}">{% trans "Ok, vull anar al meu espai" %}</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+    var _post_visited_consent = '{% url 'visited_consent' %}';
+    var _post_consent = '{% url 'input_full_consent' %}';
+    const init_auth_group = {{ init_auth_group|yesno:"true,false" }};
+    const consent_pupils = [];
+    const n_in_group = {{ individual_consents|length }};
+    {% for c in individual_consents %}
+    consent_pupils.push(
+        {
+            n:{{ c.n }},
+            datause_pupil:{{ c.consent_datause|yesno:"true,false" }},
+            datause_tutor:{{ c.consent_datause_tutor|yesno:"true,false" }},
+            datashare_pupil:{{ c.consent_datashare|yesno:"true,false" }},
+            datashare_tutor:{{ c.consent_datashare_tutor|yesno:"true,false" }}
+        }
+    );
+    {% endfor %}
+</script>
+<script src="{% static 'main/csrf_utils.js' %}"></script>
+<script src="{% static 'main/cookies.js' %}"></script>
+<script src="{% static 'main/javascript/consent_new.js' %}"></script>
+{% endblock %}
