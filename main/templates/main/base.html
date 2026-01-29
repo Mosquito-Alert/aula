@@ -131,7 +131,7 @@
         </ul>
         <ul class="navbar-nav mr-5">
             <li class="nav-item">
-                <a class="nav-link campanya" href="{% url 'notifications' %}">Notificacions {%if unread_notifications > 0 %}<span class="badge badge-danger">{{ unread_notifications }}</span>{% endif %}</a>
+                <a class="nav-link campanya" href="{% url 'notifications' %}">{% trans 'Notificacions' %} {%if unread_notifications > 0 %}<span class="badge badge-danger">{{ unread_notifications }}</span>{% endif %}</a>
             </li>
         </ul>
         {% else %}

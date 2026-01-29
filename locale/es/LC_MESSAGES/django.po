@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-29 09:23+0000\n"
+"POT-Creation-Date: 2026-01-29 09:31+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -531,6 +531,11 @@ msgstr "Sobre"
 msgid "Espai professorat"
 msgstr "Espacio profesorado"
 
+#: main/templates/main/base.html:134 main/templates/main/notifications.html:13
+#: main/templates/main/notifications.html:15
+msgid "Notificacions"
+msgstr "Notificaciones"
+
 #: main/templates/main/base.html:197
 msgid "Tancar sessió"
 msgstr "Cerrar sesión"
@@ -970,11 +975,6 @@ msgstr "segundos, o si no puedes hacer click"
 #: main/templates/main/invalid_operation.html:17
 msgid "aquí"
 msgstr "aquí"
-
-#: main/templates/main/notifications.html:13
-#: main/templates/main/notifications.html:15
-msgid "Notificacions"
-msgstr "Notificaciones"
 
 #: main/templates/main/oac_new.html:5
 msgid "Corregir prova de resposta oberta"
@@ -2067,8 +2067,7 @@ msgstr "Tanto el grupo como el tutor autorizan USAR de los materiales"
 
 #: main/templates/main/upload_admin_board.html:56
 msgid "O bé el grup o el tutor NO dónen permís per USAR els materials"
-msgstr ""
-"O bien el grupo o el tutor NO dan su permiso para USAR los materiales"
+msgstr "O bien el grupo o el tutor NO dan su permiso para USAR los materiales"
 
 #: main/templates/main/upload_admin_board.html:57
 msgid "Tant el grup com el tutor dónen permís per COMPARTIR els materials"

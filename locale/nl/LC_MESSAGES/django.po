@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-29 09:23+0000\n"
+"POT-Creation-Date: 2026-01-29 09:31+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -511,6 +511,11 @@ msgstr ""
 msgid "Espai professorat"
 msgstr ""
 
+#: main/templates/main/base.html:134 main/templates/main/notifications.html:13
+#: main/templates/main/notifications.html:15
+msgid "Notificacions"
+msgstr ""
+
 #: main/templates/main/base.html:197
 msgid "Tancar sessió"
 msgstr ""
@@ -915,11 +920,6 @@ msgstr ""
 
 #: main/templates/main/invalid_operation.html:17
 msgid "aquí"
-msgstr ""
-
-#: main/templates/main/notifications.html:13
-#: main/templates/main/notifications.html:15
-msgid "Notificacions"
 msgstr ""
 
 #: main/templates/main/oac_new.html:5
