@@ -109,8 +109,8 @@
             </li>
             {% endif %}
             {% if user.profile.is_group %}
-            <li class="nav-item {% if request.resolver_match.url_name == 'consent_form'%}active{% endif %}">
-                <a class="nav-link" href="{% url 'consent_form' %}">{% trans 'Formulari de consentiment' %} <span class="sr-only">(current)</span></a>
+            <li class="nav-item {% if request.resolver_match.url_name == 'consent_new'%}active{% endif %}">
+                <a class="nav-link" href="{% url 'consent_new' %}">{% trans 'Formulari de consentiment' %} <span class="sr-only">(current)</span></a>
             </li>
             {% endif %}
             <li class="nav-item {% if request.resolver_match.url_name == 'credits' %}active{% endif %}">
@@ -131,7 +131,7 @@
         </ul>
         <ul class="navbar-nav mr-5">
             <li class="nav-item">
-                <a class="nav-link campanya" href="{% url 'notifications' %}">Notificacions {%if unread_notifications > 0 %}<span class="badge badge-danger">{{ unread_notifications }}</span>{% endif %}</a>
+                <a class="nav-link campanya" href="{% url 'notifications' %}">{% trans 'Notificacions' %} {%if unread_notifications > 0 %}<span class="badge badge-danger">{{ unread_notifications }}</span>{% endif %}</a>
             </li>
         </ul>
         {% else %}

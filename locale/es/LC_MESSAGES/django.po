@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-19 10:19+0000\n"
+"POT-Creation-Date: 2026-01-29 09:31+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -129,7 +129,7 @@ msgstr "Profesor"
 #: main/templates/main/test_result.html:54
 #: main/templates/main/test_results_detail_view.html:10
 #: main/templates/main/upload_admin_board.html:41
-#: main/templates/main/upload_file_solutions.html:33 main/views.py:2801
+#: main/templates/main/upload_file_solutions.html:33 main/views.py:2869
 msgid "Grup"
 msgstr "Grupo"
 
@@ -274,7 +274,7 @@ msgstr "Espacio de administradores"
 msgid "Menú principal administrador"
 msgstr "Menú principal administrador"
 
-#: main/templates/main/admin_menu.html:16 main/views.py:2801
+#: main/templates/main/admin_menu.html:16 main/views.py:2869
 msgid "Campaigns"
 msgstr "Campañas"
 
@@ -282,7 +282,7 @@ msgstr "Campañas"
 msgid "Entrar i gestionar campanyes"
 msgstr "Añadir y gestionar campañas"
 
-#: main/templates/main/admin_menu.html:27 main/views.py:2801
+#: main/templates/main/admin_menu.html:27 main/views.py:2869
 msgid "Centres"
 msgstr "Centros"
 
@@ -518,6 +518,8 @@ msgstr "Menú principal"
 
 #: main/templates/main/base.html:113 main/templates/main/consent_form.html:6
 #: main/templates/main/consent_form.html:8
+#: main/templates/main/consent_new.html:6
+#: main/templates/main/consent_new.html:8
 msgid "Formulari de consentiment"
 msgstr "Formulario de consentimiento"
 
@@ -528,6 +530,11 @@ msgstr "Sobre"
 #: main/templates/main/base.html:121 main/templates/main/index.html:27
 msgid "Espai professorat"
 msgstr "Espacio profesorado"
+
+#: main/templates/main/base.html:134 main/templates/main/notifications.html:13
+#: main/templates/main/notifications.html:15
+msgid "Notificacions"
+msgstr "Notificaciones"
 
 #: main/templates/main/base.html:197
 msgid "Tancar sessió"
@@ -707,6 +714,8 @@ msgstr ""
 "publicaciones o mapas públicos"
 
 #: main/templates/main/consent_form.html:51
+#: main/templates/main/consent_new.html:53
+#: main/templates/main/consent_new.html:88
 msgid "Alumne"
 msgstr "Alumno"
 
@@ -725,16 +734,87 @@ msgid "EL RESPONSABLE LEGAL O TUTOR DEL GRUP"
 msgstr ""
 
 #: main/templates/main/consent_form.html:85
+#: main/templates/main/consent_new.html:107
 msgid "Tenim el teu consentiment!"
 msgstr "¡Tenemos tu consentimiento!"
 
 #: main/templates/main/consent_form.html:91
+#: main/templates/main/consent_new.html:113
 msgid "No tenim el teu consentiment"
 msgstr "No tenemos tu consentimiento"
 
 #: main/templates/main/consent_form.html:98
+#: main/templates/main/consent_new.html:120
 msgid "Ok, vull anar al meu espai"
 msgstr "Ok, llévame a mi menú principal"
+
+#: main/templates/main/consent_new.html:31
+msgid "consent_header"
+msgstr ""
+"En esta página, <b>cada alumno del grupo</b> deberá marcar las casillas de "
+"consentimiento correspondientes a su número de alumno asignado (Alumno 1, "
+"Alumno 2 o Alumno 3), <b>junto con sus padres, madres o tutores legales</b>, "
+"tras haber leído la información indicada."
+
+#: main/templates/main/consent_new.html:36
+msgid "consent_datause"
+msgstr ""
+"<b>Uso de datos con fines científicos y de evaluación</b>: Los datos "
+"recogidos a través de la plataforma se tratarán de forma anonimizada y "
+"podrán utilizarse con fines científicos y de evaluación del proyecto, de "
+"acuerdo con el <b>RGPD (UE 2016/679)</b> y la <b>LOPDGDD (Ley Orgánica "
+"3/2018)</b>."
+
+#: main/templates/main/consent_new.html:45
+#: main/templates/main/consent_new.html:80
+msgid "Codi alumne"
+msgstr "Código alumno"
+
+#: main/templates/main/consent_new.html:46
+#: main/templates/main/consent_new.html:81
+msgid "Consentiment alumnat"
+msgstr "Consentimiento alumnado"
+
+#: main/templates/main/consent_new.html:47
+#: main/templates/main/consent_new.html:82
+msgid "Consentiment de pares i tutors"
+msgstr "Consentimiento de padres y tutores"
+
+#: main/templates/main/consent_new.html:57
+msgid "consent_datause_pupil"
+msgstr ""
+"He leído la información y consiento el tratamiento de los datos que genere "
+"en la plataforma en el marco del proyecto."
+
+#: main/templates/main/consent_new.html:62
+msgid "consent_datause_tutor"
+msgstr ""
+"He leído la información y consiento, como representante legal, el "
+"tratamiento de los datos generados por el menor en la plataforma en el marco "
+"del proyecto."
+
+#: main/templates/main/consent_new.html:69
+msgid "consent_datashare"
+msgstr ""
+"<b>Uso y difusión de materiales y datos personales</b>: La participación en "
+"el proyecto puede realizarse de forma anónima. La inclusión voluntaria de "
+"datos personales o materiales identificativos implica la autorización para "
+"su uso y difusión en plataformas digitales del proyecto, con fines "
+"educativos, conforme al <b>RGPD (UE 2016/679)</b> y la <b>LOPDGDD (Ley "
+"Orgánica 3/2018)</b>. Este consentimiento podrá ser revocado en cualquier "
+"momento mediante solicitud al equipo responsable del proyecto."
+
+#: main/templates/main/consent_new.html:93
+msgid "consent_datashare_pupil"
+msgstr ""
+"Acepto el uso y la difusión de los materiales que incluya voluntariamente en "
+"el proyecto."
+
+#: main/templates/main/consent_new.html:98
+msgid "consent_datashare_tutor"
+msgstr ""
+"Autorizo el tratamiento y la difusión de los datos personales y/o materiales "
+"identificativos del menor en el marco del proyecto educativo."
 
 #: main/templates/main/credits.html:29
 msgid "Sobre l&#39;aplicatiu"
@@ -896,11 +976,6 @@ msgstr "segundos, o si no puedes hacer click"
 msgid "aquí"
 msgstr "aquí"
 
-#: main/templates/main/notifications.html:13
-#: main/templates/main/notifications.html:15
-msgid "Notificacions"
-msgstr "Notificaciones"
-
 #: main/templates/main/oac_new.html:5
 msgid "Corregir prova de resposta oberta"
 msgstr "Corregir prueba de respuesta abierta"
@@ -981,7 +1056,7 @@ msgstr "Sin filtro"
 #: main/templates/main/reports/n_pupils_distribution_center.html:24
 #: main/templates/main/test_result.html:55
 #: main/templates/main/upload_admin_board.html:42
-#: main/templates/main/upload_file_solutions.html:34 main/views.py:2801
+#: main/templates/main/upload_file_solutions.html:34 main/views.py:2869
 msgid "Classe"
 msgstr "Clase"
 
@@ -1966,17 +2041,42 @@ msgid "Filtre per centre"
 msgstr "Filtro por centro"
 
 #: main/templates/main/upload_admin_board.html:43
-msgid "Permís"
-msgstr "Permiso"
+msgid "Permís total"
+msgstr "Permiso total"
 
-#: main/templates/main/upload_admin_board.html:53
+#: main/templates/main/upload_admin_board.html:44
+msgid "Permís ús"
+msgstr "Permiso uso"
+
+#: main/templates/main/upload_admin_board.html:45
+msgid "Permís compartir"
+msgstr "Permiso compartir"
+
+#: main/templates/main/upload_admin_board.html:55
 msgid "Tant el grup com el tutor dónen permís per compartir els materials"
 msgstr "Tanto el grupo como el tutor autorizan compartir los materiales"
 
-#: main/templates/main/upload_admin_board.html:53
+#: main/templates/main/upload_admin_board.html:55
 msgid "O bé el grup o el tutor NO dónen permís per compartir els materials"
 msgstr ""
 "O bien el grupo o el tutor NO dan su permiso para compartir los materiales"
+
+#: main/templates/main/upload_admin_board.html:56
+msgid "Tant el grup com el tutor dónen permís per USAR els materials"
+msgstr "Tanto el grupo como el tutor autorizan USAR de los materiales"
+
+#: main/templates/main/upload_admin_board.html:56
+msgid "O bé el grup o el tutor NO dónen permís per USAR els materials"
+msgstr "O bien el grupo o el tutor NO dan su permiso para USAR los materiales"
+
+#: main/templates/main/upload_admin_board.html:57
+msgid "Tant el grup com el tutor dónen permís per COMPARTIR els materials"
+msgstr "Tanto el grupo como el tutor autorizan COMARTIR los materiales"
+
+#: main/templates/main/upload_admin_board.html:57
+msgid "O bé el grup o el tutor NO dónen permís per COMPARTIR els materials"
+msgstr ""
+"O bien el grupo o el tutor NO dan su permiso para COMPARTIR los materiales"
 
 #: main/templates/main/upload_file_solutions.html:5
 #: main/templates/main/upload_file_solutions.html:7
@@ -2047,42 +2147,42 @@ msgstr "Nombre de usuario"
 msgid "password"
 msgstr "Password"
 
-#: main/views.py:222 main/views.py:232 main/views.py:280 main/views.py:428
-#: main/views.py:1014 main/views.py:1050 main/views.py:1084 main/views.py:1250
-#: main/views.py:1300 main/views.py:1442 main/views.py:1453 main/views.py:1478
-#: main/views.py:1520 main/views.py:1558 main/views.py:1602 main/views.py:1616
-#: main/views.py:2757 main/views.py:2855 main/views.py:2989 main/views.py:3415
-#: main/views.py:3426 main/views.py:3477
+#: main/views.py:223 main/views.py:233 main/views.py:281 main/views.py:450
+#: main/views.py:1036 main/views.py:1072 main/views.py:1106 main/views.py:1272
+#: main/views.py:1322 main/views.py:1464 main/views.py:1475 main/views.py:1500
+#: main/views.py:1542 main/views.py:1580 main/views.py:1624 main/views.py:1638
+#: main/views.py:2825 main/views.py:2923 main/views.py:3057 main/views.py:3483
+#: main/views.py:3494 main/views.py:3545
 msgid "Estàs intentant accedir a una pàgina a la que no tens permís."
 msgstr "Estás intentando acceder a una página para la que no tienes permiso."
 
-#: main/views.py:531
+#: main/views.py:553
 msgid "Sembla que aquesta prova no existeix."
 msgstr "Parece que esta prueba no existe."
 
-#: main/views.py:535
+#: main/views.py:557
 msgid "Sembla que aquesta prova no està completada."
 msgstr "Parece que esta prueba no está completada."
 
-#: main/views.py:555 main/views.py:572 main/views.py:601 main/views.py:618
-#: main/views.py:2598 main/views.py:2628 main/views.py:2648 main/views.py:2677
-#: main/views.py:3004
+#: main/views.py:577 main/views.py:594 main/views.py:623 main/views.py:640
+#: main/views.py:2666 main/views.py:2696 main/views.py:2716 main/views.py:2745
+#: main/views.py:3072
 msgid "No existeix aquesta prova."
 msgstr "No existe esta prueba."
 
-#: main/views.py:559 main/views.py:576 main/views.py:605 main/views.py:2602
-#: main/views.py:2632 main/views.py:2652 main/views.py:2681 main/views.py:3009
+#: main/views.py:581 main/views.py:598 main/views.py:627 main/views.py:2670
+#: main/views.py:2700 main/views.py:2720 main/views.py:2749 main/views.py:3077
 msgid ""
 "El test seleccionat no l'ha realitzat cap grup i encara no té resultats."
 msgstr ""
 "El test seleccionado no lo ha completado ningún grupo y todavía no tiene "
 "resultados."
 
-#: main/views.py:624
+#: main/views.py:646
 msgid "No tens assignada aquesta prova, de manera que no la pots visualitzar."
 msgstr "No tienes asignada esta prueba, de manera que no puedes visualizarla."
 
-#: main/views.py:791 main/views.py:838 main/views.py:876
+#: main/views.py:813 main/views.py:860 main/views.py:898
 msgid ""
 "Estàs intentant accedir a una prova creada per un professor que no és el teu "
 "tutor."
@@ -2090,7 +2190,7 @@ msgstr ""
 "Estás intentando acceder a una prueba creada por un profesor que no es tu "
 "tutor."
 
-#: main/views.py:795
+#: main/views.py:817
 msgid ""
 "No es permet la pujada de materials a professors. Si vols pujar els "
 "materials d'un si us plau grup fes servir l'usuari del grup corresponent."
@@ -2098,18 +2198,18 @@ msgstr ""
 "No se permite la subida de materiales a profesores. Si quieres subir los "
 "materiales de un grupo, por favor usa el usuario del grupo correspondiente."
 
-#: main/views.py:799 main/views.py:842
+#: main/views.py:821 main/views.py:864
 msgid "Aquesta prova no existeix!"
 msgstr "¡Esta prueba no existe!"
 
-#: main/views.py:809 main/views.py:849
+#: main/views.py:831 main/views.py:871
 msgid ""
 "Ho sentim, però les proves de pujada de fitxer només es poden fer una vegada."
 msgstr ""
 "Lo sentimos, pero las pruebas de subida de fichero sólo pueden hacerse una "
 "vez."
 
-#: main/views.py:898
+#: main/views.py:920
 msgid ""
 "Aquesta prova està marcada com a finalitzada, o sigui que no la pots "
 "modificar. Si vols, la pots repetir."
@@ -2117,11 +2217,11 @@ msgstr ""
 "Esta prueba está marcada como finalizada, o sea que no puedes modificarla. "
 "Si quieres, puedes repetirla."
 
-#: main/views.py:937
+#: main/views.py:959
 msgid "Aquesta prova no està publicada, no la pots començar."
 msgstr "Esta prueba no está publicada, no puedes empezarla."
 
-#: main/views.py:944
+#: main/views.py:966
 msgid ""
 "Les proves de materials, pujada de fitxers i enquestes només es fan una "
 "vegada. Les pots repassar totes però des del menú de grup "
@@ -2129,7 +2229,7 @@ msgstr ""
 "Las pruebas de materiales, subida de ficheros y encuestas se hacen unasola "
 "vez. Puedes repasarlas todas desde el menú de grupo"
 
-#: main/views.py:950
+#: main/views.py:972
 msgid ""
 "La enquesta s'ha repetit tants cops com membres té el grup, no es permeten "
 "més repeticions."
@@ -2137,11 +2237,11 @@ msgstr ""
 "La encuesta se ha repetido tantas veces como miembros tiene el grupo, no se "
 "permiten más repeticiones."
 
-#: main/views.py:956
+#: main/views.py:978
 msgid "Aquesta prova té un requisit que no s'ha completat: "
 msgstr "Esta prueba tiene un requisito que no se ha completado: "
 
-#: main/views.py:962
+#: main/views.py:984
 msgid ""
 "Estàs intentant començar una prova creada per un professor que no és el teu "
 "tutor."
@@ -2149,7 +2249,7 @@ msgstr ""
 "Estás intentando empezar una prueba creada por un profesor que no es tu "
 "tutor."
 
-#: main/views.py:966
+#: main/views.py:988
 msgid ""
 "La prova que estàs intentant començar forma part d'una campanya anterior, o "
 "sigui que no la pots fer. Si us plau, pregunta al teu professor."
@@ -2157,15 +2257,15 @@ msgstr ""
 "La prueba que estás intentando empezar forma parte de una campaña anterior, "
 "osea que no deberías hacerla. Por favor, pregunta a tu profesor."
 
-#: main/views.py:990
+#: main/views.py:1012
 msgid "Estàs intentant editar una prova que no existeix."
 msgstr "Estás intentando acceder a una prueba que no existe."
 
-#: main/views.py:1383 main/views.py:1408
+#: main/views.py:1405 main/views.py:1430
 msgid "Llistat de credencials"
 msgstr "Lista de credenciales"
 
-#: main/views.py:2744 main/views.py:2913 main/views.py:2977
+#: main/views.py:2812 main/views.py:2981 main/views.py:3045
 msgid "Anònim"
 msgstr "Anónimo"
 
