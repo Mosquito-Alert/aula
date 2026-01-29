@@ -209,7 +209,8 @@ def my_hub(request):
         return response
     if is_group_test(this_user):
         if not this_user.profile.consent_form_visited:
-            response = redirect('/consent_form')
+            #response = redirect('/consent_form')
+            response = redirect('/consent_new')
         else:
             response = redirect('/group_menu')
         return response

@@ -611,6 +611,19 @@ class Profile(models.Model):
     #                     this_auth_group = this_auth_group and ind_consent.consent
     #     return self.auth_tutor and this_auth_group
 
+
+    @property
+    def full_auth_granted_struct(self):
+        consent_pupils = self.group_fullconsent.all()
+        if not consent_pupils.exists() or consent_pupils.count() != self.n_students_in_group:
+            return { 'full_granted_datause': False, 'full_granted_datashare': False }
+        pupil_datause = all(pupil.consent_datause for pupil in consent_pupils)
+        pupil_datashare = all(pupil.consent_datashare for pupil in consent_pupils)
+        tutor_datause = all(pupil.consent_datause_tutor for pupil in consent_pupils)
+        tutor_datashare = all(pupil.consent_datashare_tutor for pupil in consent_pupils)
+
+        return { 'full_granted_datause': pupil_datause and tutor_datause, 'full_granted_datashare': pupil_datashare and tutor_datashare }
+
     @property
     def full_auth_granted(self):
         """
@@ -626,17 +639,20 @@ class Profile(models.Model):
         #
         # # Check if all consent values are True
         # return all(pupil.consent for pupil in consent_pupils)
-        consent_pupils = self.group_fullconsent.all()
-        if not consent_pupils.exists() or consent_pupils.count() != self.n_students_in_group:
-            return False
-        pupil_datause = all(pupil.consent_datause for pupil in consent_pupils)
-        pupil_datashare = all(pupil.consent_datashare for pupil in consent_pupils)
-        tutor_datause = all(pupil.consent_datause_tutor for pupil in consent_pupils)
-        tutor_datashare = all(pupil.consent_datashare_tutor for pupil in consent_pupils)
 
-        return pupil_datause and pupil_datashare and tutor_datause and tutor_datashare
+        grant_info = self.full_auth_granted_struct
 
+        return grant_info['full_granted_datause'] and grant_info['full_granted_datashare']
 
+        # consent_pupils = self.group_fullconsent.all()
+        # if not consent_pupils.exists() or consent_pupils.count() != self.n_students_in_group:
+        #     return False
+        # pupil_datause = all(pupil.consent_datause for pupil in consent_pupils)
+        # pupil_datashare = all(pupil.consent_datashare for pupil in consent_pupils)
+        # tutor_datause = all(pupil.consent_datause_tutor for pupil in consent_pupils)
+        # tutor_datashare = all(pupil.consent_datashare_tutor for pupil in consent_pupils)
+        #
+        # return pupil_datause and pupil_datashare and tutor_datause and tutor_datashare
 
     @property
     def groups_list(self):
