@@ -753,7 +753,7 @@ msgid "consent_header"
 msgstr ""
 "En esta página, <b>cada alumno del grupo</b> deberá marcar las casillas de "
 "consentimiento correspondientes a su número de alumno asignado (Alumno 1, "
-"Alumno 2 o Alumno 3), <b>junto con sus padres, madres o tutores legales</b>, "
+"Alumno 2 o Alumno 3), <b>junto con sus padres, madres o representantes legales</b>, "
 "tras haber leído la información indicada."
 
 #: main/templates/main/consent_new.html:36
@@ -778,7 +778,7 @@ msgstr "Consentimiento alumnado"
 #: main/templates/main/consent_new.html:47
 #: main/templates/main/consent_new.html:82
 msgid "Consentiment de pares i tutors"
-msgstr "Consentimiento de padres y tutores"
+msgstr "Consentimiento de padres y representantes legales"
 
 #: main/templates/main/consent_new.html:57
 msgid "consent_datause_pupil"

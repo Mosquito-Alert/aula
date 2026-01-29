@@ -736,7 +736,7 @@ msgid "consent_header"
 msgstr ""
 "A aquesta pàgina, <b>cada alumne del grup</b> haurà de marcar les caselles "
 "de consentiment corresponents al seu número d&#39;alumne assignat (Alumne 1, "
-"Alumne 2 ò Alumne 3), <b>junt amb els seus pares, mares o tutors legals</b>, "
+"Alumne 2 ò Alumne 3), <b>junt amb els seus pares, mares o representants legals</b>, "
 "havent llegit prèviament la informació indicada."
 
 #: main/templates/main/consent_new.html:36
@@ -761,7 +761,7 @@ msgstr ""
 #: main/templates/main/consent_new.html:47
 #: main/templates/main/consent_new.html:82
 msgid "Consentiment de pares i tutors"
-msgstr ""
+msgstr "Consentiment de pares i representants legals"
 
 #: main/templates/main/consent_new.html:57
 msgid "consent_datause_pupil"
@@ -2005,27 +2005,27 @@ msgid "Permís compartir"
 msgstr ""
 
 #: main/templates/main/upload_admin_board.html:55
-msgid "Tant el grup com el tutor dónen permís per compartir els materials"
+msgid "Tant el grup com el representant legal dónen permís per compartir els materials"
 msgstr ""
 
 #: main/templates/main/upload_admin_board.html:55
-msgid "O bé el grup o el tutor NO dónen permís per compartir els materials"
+msgid "O bé el grup o el representant legal NO dónen permís per compartir els materials"
 msgstr ""
 
 #: main/templates/main/upload_admin_board.html:56
-msgid "Tant el grup com el tutor dónen permís per USAR els materials"
+msgid "Tant el grup com el representant legal dónen permís per USAR els materials"
 msgstr ""
 
 #: main/templates/main/upload_admin_board.html:56
-msgid "O bé el grup o el tutor NO dónen permís per USAR els materials"
+msgid "O bé el grup o el representant legal NO dónen permís per USAR els materials"
 msgstr ""
 
 #: main/templates/main/upload_admin_board.html:57
-msgid "Tant el grup com el tutor dónen permís per COMPARTIR els materials"
+msgid "Tant el grup com el representant legal dónen permís per COMPARTIR els materials"
 msgstr ""
 
 #: main/templates/main/upload_admin_board.html:57
-msgid "O bé el grup o el tutor NO dónen permís per COMPARTIR els materials"
+msgid "O bé el grup o el representant legal NO dónen permís per COMPARTIR els materials"
 msgstr ""
 
 #: main/templates/main/upload_file_solutions.html:5
