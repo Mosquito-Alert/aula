@@ -29,14 +29,12 @@
 <div class="container">
     <p>
         {% trans 'consent_header' %}
-        <!--En esta página, <b>cada alumno del grupo</b> deberá marcar las casillas de consentimiento correspondientes a su número de alumno asignado (Alumno 1, Alumno 2 o Alumno 3), <b>junto con sus padres, madres o tutores legales</b>, tras haber leído la información indicada.-->
     </p>
     <ol>
         <li>
             {% trans 'consent_datause' %}
-            <!--<b>Uso de datos con fines científicos y de evaluación</b>: Los datos recogidos a través de la plataforma se
-            tratarán de forma anonimizada y podrán utilizarse con fines científicos y de evaluación del proyecto, de
-            acuerdo con el <b>RGPD (UE 2016/679)</b> y la <b>LOPDGDD (Ley Orgánica 3/2018)</b>.-->
+            <h3><a style="color:red;" target="_blank" href="{% trans 'link_informacio_consentiment' %}">👉 {% trans 'full_informacio_consentiment' %}</a></h3>
+            <!--<h3><a style="color:red;" target="_blank" href="https://drive.google.com/file/d/1r2XAKxH7JVybgfiTiGHurZw7UTZEcvMk/view?usp=drive_lin">👉 {% trans 'full_informacio_consentiment' %}</a></h3>-->
         </li>
         </br>
         <table class="table table-striped">

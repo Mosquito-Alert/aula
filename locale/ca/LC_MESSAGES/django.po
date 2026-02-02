@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-29 09:31+0000\n"
+"POT-Creation-Date: 2026-02-02 11:47+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -697,8 +697,8 @@ msgstr ""
 "públics"
 
 #: main/templates/main/consent_form.html:51
-#: main/templates/main/consent_new.html:53
-#: main/templates/main/consent_new.html:88
+#: main/templates/main/consent_new.html:51
+#: main/templates/main/consent_new.html:86
 msgid "Alumne"
 msgstr ""
 
@@ -717,17 +717,17 @@ msgid "EL RESPONSABLE LEGAL O TUTOR DEL GRUP"
 msgstr ""
 
 #: main/templates/main/consent_form.html:85
-#: main/templates/main/consent_new.html:107
+#: main/templates/main/consent_new.html:105
 msgid "Tenim el teu consentiment!"
 msgstr ""
 
 #: main/templates/main/consent_form.html:91
-#: main/templates/main/consent_new.html:113
+#: main/templates/main/consent_new.html:111
 msgid "No tenim el teu consentiment"
 msgstr ""
 
 #: main/templates/main/consent_form.html:98
-#: main/templates/main/consent_new.html:120
+#: main/templates/main/consent_new.html:118
 msgid "Ok, vull anar al meu espai"
 msgstr ""
 
@@ -736,10 +736,10 @@ msgid "consent_header"
 msgstr ""
 "A aquesta pàgina, <b>cada alumne del grup</b> haurà de marcar les caselles "
 "de consentiment corresponents al seu número d&#39;alumne assignat (Alumne 1, "
-"Alumne 2 ò Alumne 3), <b>junt amb els seus pares, mares o representants legals</b>, "
-"havent llegit prèviament la informació indicada."
+"Alumne 2 ò Alumne 3), <b>junt amb els seus pares, mares o representants "
+"legals</b>, havent llegit prèviament la informació indicada."
 
-#: main/templates/main/consent_new.html:36
+#: main/templates/main/consent_new.html:35
 msgid "consent_datause"
 msgstr ""
 "<b>Ús de dades amb finalitats científiques i d&#39;avaluació</b>: Les dades "
@@ -748,35 +748,44 @@ msgstr ""
 "d&#39;acord amb la <b>RGPD (UE 2016/679)</b> i la <b>LOPDGDD (Llei Orgànica "
 "3/2018)</b>."
 
-#: main/templates/main/consent_new.html:45
-#: main/templates/main/consent_new.html:80
+#: main/templates/main/consent_new.html:36
+msgid "link_informacio_consentiment"
+msgstr "https://drive.google.com/file/d/1r2XAKxH7JVybgfiTiGHurZw7UTZEcvMk/view?usp=drive_lin"
+
+#: main/templates/main/consent_new.html:36
+#: main/templates/main/consent_new.html:37
+msgid "full_informacio_consentiment"
+msgstr "Full d&#39;informació i consentiment"
+
+#: main/templates/main/consent_new.html:43
+#: main/templates/main/consent_new.html:78
 msgid "Codi alumne"
 msgstr ""
 
-#: main/templates/main/consent_new.html:46
-#: main/templates/main/consent_new.html:81
+#: main/templates/main/consent_new.html:44
+#: main/templates/main/consent_new.html:79
 msgid "Consentiment alumnat"
 msgstr ""
 
-#: main/templates/main/consent_new.html:47
-#: main/templates/main/consent_new.html:82
+#: main/templates/main/consent_new.html:45
+#: main/templates/main/consent_new.html:80
 msgid "Consentiment de pares i tutors"
 msgstr "Consentiment de pares i representants legals"
 
-#: main/templates/main/consent_new.html:57
+#: main/templates/main/consent_new.html:55
 msgid "consent_datause_pupil"
 msgstr ""
 "He llegit la informació i dóno el meu consentiment amb el tractament de les "
 "dades que generi a la plataforma en el marc del projecte."
 
-#: main/templates/main/consent_new.html:62
+#: main/templates/main/consent_new.html:60
 msgid "consent_datause_tutor"
 msgstr ""
 "He llegit la informació i dóno el consentiment, com a representant legal, "
 "del tractament de les dades generades pel menor a la plataforma en l&#39;"
 "àmbit del projecte."
 
-#: main/templates/main/consent_new.html:69
+#: main/templates/main/consent_new.html:67
 msgid "consent_datashare"
 msgstr ""
 "<b>Ús i difusió de materials i dades personals</b>: La participació en el "
@@ -787,13 +796,13 @@ msgstr ""
 "Orgànica 3/2018)</b>. Aquest consentiment podrà ser revocat en qualsevol "
 "moment mitjançant solicitud al equip responsable del projecte."
 
-#: main/templates/main/consent_new.html:93
+#: main/templates/main/consent_new.html:91
 msgid "consent_datashare_pupil"
 msgstr ""
 "Accepto l&#39;ús i la difusió dels materials que inclogui voluntàriament al "
 "projecte."
 
-#: main/templates/main/consent_new.html:98
+#: main/templates/main/consent_new.html:96
 msgid "consent_datashare_tutor"
 msgstr ""
 "Autoritzo el tractament i la difusió de les dades personals i/o materials "
@@ -2005,27 +2014,27 @@ msgid "Permís compartir"
 msgstr ""
 
 #: main/templates/main/upload_admin_board.html:55
-msgid "Tant el grup com el representant legal dónen permís per compartir els materials"
+msgid "Tant el grup com el tutor dónen permís per compartir els materials"
 msgstr ""
 
 #: main/templates/main/upload_admin_board.html:55
-msgid "O bé el grup o el representant legal NO dónen permís per compartir els materials"
+msgid "O bé el grup o el tutor NO dónen permís per compartir els materials"
 msgstr ""
 
 #: main/templates/main/upload_admin_board.html:56
-msgid "Tant el grup com el representant legal dónen permís per USAR els materials"
+msgid "Tant el grup com el tutor dónen permís per USAR els materials"
 msgstr ""
 
 #: main/templates/main/upload_admin_board.html:56
-msgid "O bé el grup o el representant legal NO dónen permís per USAR els materials"
+msgid "O bé el grup o el tutor NO dónen permís per USAR els materials"
 msgstr ""
 
 #: main/templates/main/upload_admin_board.html:57
-msgid "Tant el grup com el representant legal dónen permís per COMPARTIR els materials"
+msgid "Tant el grup com el tutor dónen permís per COMPARTIR els materials"
 msgstr ""
 
 #: main/templates/main/upload_admin_board.html:57
-msgid "O bé el grup o el representant legal NO dónen permís per COMPARTIR els materials"
+msgid "O bé el grup o el tutor NO dónen permís per COMPARTIR els materials"
 msgstr ""
 
 #: main/templates/main/upload_file_solutions.html:5

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-29 09:31+0000\n"
+"POT-Creation-Date: 2026-02-02 11:47+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -689,8 +689,8 @@ msgid "auhorizes_string"
 msgstr ""
 
 #: main/templates/main/consent_form.html:51
-#: main/templates/main/consent_new.html:53
-#: main/templates/main/consent_new.html:88
+#: main/templates/main/consent_new.html:51
+#: main/templates/main/consent_new.html:86
 msgid "Alumne"
 msgstr ""
 
@@ -709,17 +709,17 @@ msgid "EL RESPONSABLE LEGAL O TUTOR DEL GRUP"
 msgstr ""
 
 #: main/templates/main/consent_form.html:85
-#: main/templates/main/consent_new.html:107
+#: main/templates/main/consent_new.html:105
 msgid "Tenim el teu consentiment!"
 msgstr ""
 
 #: main/templates/main/consent_form.html:91
-#: main/templates/main/consent_new.html:113
+#: main/templates/main/consent_new.html:111
 msgid "No tenim el teu consentiment"
 msgstr ""
 
 #: main/templates/main/consent_form.html:98
-#: main/templates/main/consent_new.html:120
+#: main/templates/main/consent_new.html:118
 msgid "Ok, vull anar al meu espai"
 msgstr ""
 
@@ -727,42 +727,51 @@ msgstr ""
 msgid "consent_header"
 msgstr ""
 
-#: main/templates/main/consent_new.html:36
+#: main/templates/main/consent_new.html:35
 msgid "consent_datause"
+msgstr ""
+
+#: main/templates/main/consent_new.html:36
+msgid "link_informacio_consentiment"
+msgstr ""
+
+#: main/templates/main/consent_new.html:36
+#: main/templates/main/consent_new.html:37
+msgid "full_informacio_consentiment"
+msgstr ""
+
+#: main/templates/main/consent_new.html:43
+#: main/templates/main/consent_new.html:78
+msgid "Codi alumne"
+msgstr ""
+
+#: main/templates/main/consent_new.html:44
+#: main/templates/main/consent_new.html:79
+msgid "Consentiment alumnat"
 msgstr ""
 
 #: main/templates/main/consent_new.html:45
 #: main/templates/main/consent_new.html:80
-msgid "Codi alumne"
-msgstr ""
-
-#: main/templates/main/consent_new.html:46
-#: main/templates/main/consent_new.html:81
-msgid "Consentiment alumnat"
-msgstr ""
-
-#: main/templates/main/consent_new.html:47
-#: main/templates/main/consent_new.html:82
 msgid "Consentiment de pares i tutors"
 msgstr ""
 
-#: main/templates/main/consent_new.html:57
+#: main/templates/main/consent_new.html:55
 msgid "consent_datause_pupil"
 msgstr ""
 
-#: main/templates/main/consent_new.html:62
+#: main/templates/main/consent_new.html:60
 msgid "consent_datause_tutor"
 msgstr ""
 
-#: main/templates/main/consent_new.html:69
+#: main/templates/main/consent_new.html:67
 msgid "consent_datashare"
 msgstr ""
 
-#: main/templates/main/consent_new.html:93
+#: main/templates/main/consent_new.html:91
 msgid "consent_datashare_pupil"
 msgstr ""
 
-#: main/templates/main/consent_new.html:98
+#: main/templates/main/consent_new.html:96
 msgid "consent_datashare_tutor"
 msgstr ""
 
