@@ -741,9 +741,10 @@ def save_user_profile(sender, instance, created, **kwargs):
                     if group_hashtag is not None:
                         no_one_has_hashtag = False
                         if "_" in group_hashtag:
-                            s = group_hashtag.split("_")
+                            #s = group_hashtag.split("_")
+                            left, sep, right = group_hashtag.rpartition('_')
                             try:
-                                value = int(s[1])
+                                value = int(right)
                                 if value > higher_index:
                                     higher_index = value
                             except ValueError:
