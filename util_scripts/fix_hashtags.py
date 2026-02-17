@@ -1,9 +1,8 @@
 import app_config
 
 from main.models import Quiz, QuizRun, Campaign, QuizRunAnswers, Profile, EducationCenter
-from slugify import slugify
 import os
-from urllib.request import urlopen
+
 
 def reset_hashtags():
     Profile.objects.filter(is_group=True).update(group_hashtag=None)
@@ -18,6 +17,7 @@ def reset_hashtags():
 
 def main():
     reset_hashtags()
+
 
 if __name__ == '__main__':
     main()
